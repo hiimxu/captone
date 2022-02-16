@@ -103,19 +103,19 @@ export default function Register() {
     }
     if (!validPassword.test(password)) {
       setPwdErr(true);
-      return
+      
     }
     if (confirmPwd !== password) {
       setConfirmPwdError(true);
-      return
+      
     }
     if (!validEmail.test(email)) {
       setEmailErr(true);
-      return
+      
     }
     if (!validPhone.test(phone)) {
       setPhoneErr(true);
-      return
+      
     }
     if (!error && !pwdErr && !emailErr && !phoneErr && !confirmPwdError) {
       setSubmitted(true);
