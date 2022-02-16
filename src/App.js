@@ -1,9 +1,10 @@
 import './App.css';
+import Register from './components/Register';
 
 function App() {
   return (
     <div className="App">
-      <h1>House of gentlemen</h1>
+      <Register/>
     </div>
   );
 }
