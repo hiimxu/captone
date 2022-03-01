@@ -64,13 +64,13 @@ export default function Footer() {
                 <h6 className="text-uppercase fw-bold mb-4">We're social</h6>
                 <p>
                   <Link to="/" className="text-reset">
-                    <i class="fa-brands fa-facebook-square"></i>
+                    <i className="fa-brands fa-facebook-square"></i>
                   </Link>
                   <Link to="/" className="text-reset col-xl-2">
-                    <i class="fa-brands fa-instagram-square"></i>
+                    <i className="fa-brands fa-instagram-square"></i>
                   </Link>
                   <Link to="/" className="text-reset">
-                    <i class="fa-brands fa-github-square"></i>
+                    <i className="fa-brands fa-github-square"></i>
                   </Link>
                 </p>
               </div>

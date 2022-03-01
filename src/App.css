@@ -2,16 +2,13 @@ h1{
     font-family: "Cormorant Garamond", serif;
 }
 
-img{
-    width: 100%;
-    height: 5rem;
-}
+
 
 a{
     color: white;
     font-weight: lighter;
 }
 .component{    
-    background-image: url('./assets/introbg-1.jpg');
+    background-image: url('./assets/paperbg.jpg');
     background-size: cover;
 }
