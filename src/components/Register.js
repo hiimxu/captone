@@ -1,16 +1,17 @@
 import { React, useState } from "react";
+import {Link} from 'react-router-dom'
 import { validPassword, validEmail, validPhone } from "../validations/regex";
 
 export default function Register() {
   //create useState
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPwd, setConfirmPwd] = useState("");
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
+  const [confirmPwd, setConfirmPwd] = useState("");  
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [dob, setDob] = useState("");
+  const [firstname, setFirstName] = useState("");
 
   const [account, setAccount] = useState({});
 
@@ -23,6 +24,10 @@ export default function Register() {
   const [phoneErr, setPhoneErr] = useState(false);
 
   //style
+  const root = {
+    textAlign:"center"
+    
+  }
   const formContent = {
     padding: "5%",
     marginBottom: "2%",
@@ -55,8 +60,8 @@ export default function Register() {
     setFirstName(e.target.value);
     setSubmitted(false);
   };
-  const handleLastname = (e) => {
-    setLastName(e.target.value);
+  const handleName = (e) => {
+    setName(e.target.value);
     setSubmitted(false);
   };
   const handleEmail = (e) => {
@@ -83,7 +88,7 @@ export default function Register() {
       username: username,
       password: password,
       firtname: firstname,
-      lastname: lastname,
+      lastname: name,
       email: email,
       phone: phone,
       dob: dob.split("-").join("/"),
@@ -94,7 +99,7 @@ export default function Register() {
       email === "" ||
       password === "" ||
       firstname === "" ||
-      lastname === "" ||
+      name === "" ||
       phone === "" ||
       dob === ""
     ) {
@@ -118,6 +123,7 @@ export default function Register() {
       setAccount(() => {
         return newAccount;
       });
+      
     }
   };
 
@@ -130,7 +136,7 @@ export default function Register() {
         }}
       >
         <p className="text-success">
-          User {firstname} {lastname} successfully registered!!
+          User {name} successfully registered!!
         </p>
       </div>
     );
@@ -150,7 +156,7 @@ export default function Register() {
 
   //render screen
   return (
-    <div>
+    <div style={root}>
       <div>
         <h1>User Registration</h1>
       </div>
@@ -214,21 +220,14 @@ export default function Register() {
 
               <div className="col-md-6">
                 <div className="form-group">
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={firstname}
-                    onChange={handleFirstname}
-                    placeholder="First name"
-                  />
-                </div>
+                  
                 <div className="form-group">
                   <input
                     className="form-control"
                     type="text"
-                    value={lastname}
-                    onChange={handleLastname}
-                    placeholder="Last name"
+                    value={name}
+                    onChange={handleName}
+                    placeholder="Enter your name"
                   />
                 </div>
                 <div className="form-group">
@@ -252,12 +251,19 @@ export default function Register() {
                     placeholder="Date of birth"
                   />
                 </div>
+                <input
+                    className="form-control"
+                    type="text"
+                    value={firstname}
+                    onChange={handleFirstname}
+                    placeholder="Enter your address"
+                  />
+                </div>
               </div>
             </div>
             <button style={btnSubmit} type="submit" onClick={handleSubmit}>
               Submit
             </button>
-
             {console.log(account)}
           </form>
         </div>
