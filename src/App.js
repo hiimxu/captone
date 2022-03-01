@@ -8,6 +8,7 @@ import Register from "./components/Register";
 import Login from './components/Login';
 import Service from './components/Service';
 import About from './components/About';
+import History from './components/History';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Route path='/location' element={<Location/>}/>
       <Route path='/favorite' element={<Favorite/>}/>
       <Route path='/about' element={<About/>}/>
+      <Route path='/history' element={<History/>}/>
       <Route path='/register' element={<Register/>}/>      
       <Route path='/login' element={<Login/>}/>
       <Route path='/services' element={<Service/>}/>
