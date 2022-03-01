@@ -7,6 +7,7 @@ import Location from './components/Location';
 import Register from "./components/Register";
 import Login from './components/Login';
 import Service from './components/Service';
+import About from './components/About';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route path='/' element={<HomePage/>}/>
       <Route path='/location' element={<Location/>}/>
       <Route path='/favorite' element={<Favorite/>}/>
+      <Route path='/about' element={<About/>}/>
       <Route path='/register' element={<Register/>}/>      
       <Route path='/login' element={<Login/>}/>
       <Route path='/services' element={<Service/>}/>
