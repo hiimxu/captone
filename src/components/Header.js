@@ -68,7 +68,7 @@ export default function Header() {
                 <Link to="/history">History</Link>
               </li>
               <li className="nav-item p-4">
-                <Link to="/profile">Location</Link>
+                <Link to="/location">Location</Link>
               </li>
               
 
