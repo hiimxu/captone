@@ -25,7 +25,9 @@ export default function Register() {
 
   //style
   const root = {
-    textAlign:"center"
+    textAlign:"center",
+    paddingTop:"2rem",
+    paddingBottom:"5rem"
     
   }
   const formContent = {
@@ -37,6 +39,7 @@ export default function Register() {
     border: "none",
     borderRadius: "0.5rem",
     padding: "1%",
+    marginTop:"2rem",
     width: "20%",
     cursor: "pointer",
     background: "#0062cc",

@@ -6,7 +6,7 @@ import Background from "../assets/headerhome.jpg";
 
 export default function Header() {
   const root = {
-    paddingBottom: "2rem",
+    
   };
   const masthead = {
     backgroundImage: `url(${Background})`,
@@ -40,6 +40,7 @@ export default function Header() {
     paddingLeft:"25%"
   };
   const sign ={
+    color: "white",
       positon:"right",
       paddingLeft:"20%"
   }
@@ -54,10 +55,10 @@ export default function Header() {
           <div className="justify-content-center navbar-collapse text">
             <ul className="menu navbar-nav ml-5" style={menu}>
               <li className="nav-item p-4">
-                <Link to="/">Home</Link>
+                <Link className="text-reset" to="/">Home</Link>
               </li>
-              <li className="nav-item p-4">
-                <Link to="/favorite">Favorite</Link>
+              <li className="nav-item p-4 ">
+                <Link className="text-reset" to="/favorite">Favorite</Link>
               </li>
               <li className="nav-item">
                 <Link to="/about">
@@ -65,23 +66,23 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item p-4">
-                <Link to="/history">History</Link>
+                <Link className="text-reset" to="/history">History</Link>
               </li>
-              <li className="nav-item p-4">
-                <Link to="/location">Location</Link>
+              <li className="text-reset" className="nav-item p-4">
+                <Link className="text-reset" to="/location">Location</Link>
               </li>
               
 
             </ul>
             <ul className="menu navbar-nav fixed-right" style={sign}>
               <li className="nav-item p-1">
-                <Link to="/login">Sign in</Link>
+                <Link className="text-reset" to="/login">Sign in</Link>
               </li>
               <li className="nav-item p-1">
                 <p className="text-white">|</p>
               </li>
               <li className="nav-item p-1">
-                <Link to="/register">Sign up</Link>
+                <Link className="text-reset" to="/register">Sign up</Link>
               </li>
             </ul>
           </div>

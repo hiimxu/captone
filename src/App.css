@@ -11,3 +11,7 @@ a{
     color: white;
     font-weight: lighter;
 }
+.component{    
+    background-image: url('./assets/introbg-1.jpg');
+    background-size: cover;
+}
