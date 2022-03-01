@@ -7,7 +7,7 @@ export default function Navigation() {
   const [menu, setMenu] = useState({
     fontSize: "1.2rem",
     color: "white",
-    paddingLeft: "25%",
+    paddingLeft: "26%",
   });
   const [sign, setSign] = useState({
     color: "white",
@@ -34,7 +34,7 @@ export default function Navigation() {
         setMenu({
           fontSize: "1rem",
           color: "white",
-          paddingLeft: "25%",
+          paddingLeft: "26%",
         })
         setSign({
           color: "#ffd933",
@@ -55,7 +55,7 @@ export default function Navigation() {
         setMenu({
           fontSize: "1.2rem",
           color: "white",
-          paddingLeft: "25%",
+          paddingLeft: "26%",
         })
         setSign({
           color: "white",
@@ -106,7 +106,7 @@ export default function Navigation() {
           <ul className="menu navbar-nav fixed-right" style={sign}>
             <li className="nav-item p-1">
               <Link className="text-reset" to="/login">
-                Sign in
+                <button className="border-0 rounded">Sign in</button>
               </Link>
             </li>
             <li className="nav-item p-1">

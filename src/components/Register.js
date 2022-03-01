@@ -1,17 +1,22 @@
 import { React, useState } from "react";
-import {Link} from 'react-router-dom'
-import { validPassword, validEmail, validPhone } from "../validations/regex";
+import { Link } from "react-router-dom";
+import {
+  validPassword,
+  validEmail,
+  validPhone,
+  limit,
+} from "../validations/regex";
 
 export default function Register() {
   //create useState
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPwd, setConfirmPwd] = useState("");  
+  const [confirmPwd, setConfirmPwd] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [dob, setDob] = useState("");
-  const [firstname, setFirstName] = useState("");
+  const [address, setAddress] = useState("");
 
   const [account, setAccount] = useState({});
 
@@ -22,14 +27,14 @@ export default function Register() {
   const [pwdErr, setPwdErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [phoneErr, setPhoneErr] = useState(false);
+  const [limitErr, setLimitErr] = useState(false);
 
   //style
   const root = {
-    textAlign:"center",
-    paddingTop:"2rem",
-    paddingBottom:"5rem"
-    
-  }
+    textAlign: "center",
+    paddingTop: "7rem",
+    paddingBottom: "7rem",
+  };
   const formContent = {
     padding: "5%",
     marginBottom: "2%",
@@ -39,7 +44,7 @@ export default function Register() {
     border: "none",
     borderRadius: "0.5rem",
     padding: "1%",
-    marginTop:"2rem",
+    marginTop: "2rem",
     width: "20%",
     cursor: "pointer",
     background: "#0062cc",
@@ -60,7 +65,7 @@ export default function Register() {
     setSubmitted(false);
   };
   const handleFirstname = (e) => {
-    setFirstName(e.target.value);
+    setAddress(e.target.value);
     setSubmitted(false);
   };
   const handleName = (e) => {
@@ -90,8 +95,8 @@ export default function Register() {
     const newAccount = {
       username: username,
       password: password,
-      firtname: firstname,
-      lastname: name,
+      address: address,
+      name: name,
       email: email,
       phone: phone,
       dob: dob.split("-").join("/"),
@@ -101,13 +106,22 @@ export default function Register() {
       username === "" ||
       email === "" ||
       password === "" ||
-      firstname === "" ||
+      address === "" ||
       name === "" ||
       phone === "" ||
       dob === ""
     ) {
       setError(true);
       return;
+    }
+    if (!limit.test(username)) {
+      setLimitErr(true);
+    }
+    if (!limit.test(name)) {
+      setLimitErr(true);
+    }
+    if (!limit.test(address)) {
+      setLimitErr(true);
     }
     if (!validPassword.test(password)) {
       setPwdErr(true);
@@ -121,12 +135,18 @@ export default function Register() {
     if (!validPhone.test(phone)) {
       setPhoneErr(true);
     }
-    if (!error && !pwdErr && !emailErr && !phoneErr && !confirmPwdError) {
+    if (
+      !error &&
+      !limitErr &&
+      !pwdErr &&
+      !emailErr &&
+      !phoneErr &&
+      !confirmPwdError
+    ) {
       setSubmitted(true);
       setAccount(() => {
         return newAccount;
       });
-      
     }
   };
 
@@ -138,9 +158,7 @@ export default function Register() {
           display: submitted ? "" : "none",
         }}
       >
-        <p className="text-success">
-          User {name} successfully registered!!
-        </p>
+        <p className="text-success">User {name} successfully registered!!</p>
       </div>
     );
   };
@@ -159,13 +177,20 @@ export default function Register() {
 
   //render screen
   return (
-    <div style={root}>
+    <div className="card bg-transparent" style={root}>
       <div>
-        <h1>User Registration</h1>
+        <h2 className="fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>
+          User Registration
+        </h2>
       </div>
       <div className="messages">
         {errorMessage()}
         {successMessage()}
+        {limitErr && (
+          <p className="text-danger">
+            Your input must be less than 40 characters
+          </p>
+        )}
       </div>
       <div className="container register-form">
         <div className="form">
@@ -223,41 +248,40 @@ export default function Register() {
 
               <div className="col-md-6">
                 <div className="form-group">
-                  
-                <div className="form-group">
+                  <div className="form-group">
+                    <input
+                      className="form-control"
+                      type="text"
+                      value={name}
+                      onChange={handleName}
+                      placeholder="Enter your name"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <input
+                      className="form-control"
+                      type="text"
+                      value={phone}
+                      onChange={handlePhone}
+                      placeholder="Phone number"
+                    />
+                    {phoneErr && (
+                      <p className="text-danger">Your phone is invalid!</p>
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <input
+                      className="form-control"
+                      type="date"
+                      value={dob}
+                      onChange={handleDob}
+                      placeholder="Date of birth"
+                    />
+                  </div>
                   <input
                     className="form-control"
                     type="text"
-                    value={name}
-                    onChange={handleName}
-                    placeholder="Enter your name"
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    className="form-control"
-                    type="text"
-                    value={phone}
-                    onChange={handlePhone}
-                    placeholder="Phone number"
-                  />
-                  {phoneErr && (
-                    <p className="text-danger">Your phone is invalid!</p>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    className="form-control"
-                    type="date"
-                    value={dob}
-                    onChange={handleDob}
-                    placeholder="Date of birth"
-                  />
-                </div>
-                <input
-                    className="form-control"
-                    type="text"
-                    value={firstname}
+                    value={address}
                     onChange={handleFirstname}
                     placeholder="Enter your address"
                   />

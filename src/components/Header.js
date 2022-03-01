@@ -10,8 +10,8 @@ export default function Header() {
   const masthead = {
     backgroundImage: `url(${Background})`,
     backgroundColor: "black",
-    paddingTop: "12rem",
-    paddingBottom: "9rem",
+    paddingTop: "10rem",
+    paddingBottom: "8rem",
     textAlign: "center",
     backgroundRepeat: "no-repeat",
     background_attchment: "scroll",
