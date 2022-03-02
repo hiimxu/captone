@@ -6,6 +6,7 @@ import HomePage from "./components/HomePage";
 import Favorite from "./components/Favorite";
 import Location from "./components/Location";
 import Register from "./components/Register";
+import RegisterSalon from "./components/salonOwners/RegisterSalon";
 import Login from "./components/Login";
 import Service from "./components/Service";
 import About from "./components/About";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/history" element={<History />} />
           <Route path="/register" element={<Register />} />
+          <Route path="register_salon" element={<RegisterSalon/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/services" element={<Service />} />
         </Routes>

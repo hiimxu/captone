@@ -288,6 +288,14 @@ export default function Register() {
                 </div>
               </div>
             </div>
+            <div>
+              <p className="mt-4">
+                Become a partner of our salon program:{" "}
+                <Link to="/register_salon" className="text-primary pl-2">
+                  Register here
+                </Link>
+              </p>
+            </div>
             <button style={btnSubmit} type="submit" onClick={handleSubmit}>
               Submit
             </button>
