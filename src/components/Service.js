@@ -3,11 +3,11 @@ import {api} from '../api/api.js'
 
 
 export default function Service() {  
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState({});
   
 
   useEffect(() => {
-    fetch(`${api}/customer/get/AllSalon`)
+    fetch(`${api}api/account/`)
       .then((res) => res.json())
       .then((posts) => {
         setPosts(posts)
@@ -17,11 +17,11 @@ export default function Service() {
 
   return (
     <div>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.salonId}>{post.nameSalon}</li>
+      {/* <ul>
+        {posts.data.map((post) => (
+          <li key={post.account_id}>{post.account_name}</li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
