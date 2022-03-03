@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logoImg from "../assets/logo.png";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/actions/creators/auth";
 
 export default function Navigation() {
   const [navbar, setNavbar] = useState({});
@@ -15,6 +17,11 @@ export default function Navigation() {
     paddingLeft: "20%",
   });
   const [logo, setLogo] = useState({ width: "100%", height: "5rem" });
+  const { account } = useSelector((state) => state.loginAccount);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout("token"));
+  };
   useEffect(() => {
     const handleScroll = () => {
       //console.log(window.scrollY);
@@ -27,50 +34,46 @@ export default function Navigation() {
           height: "4rem",
         });
         setLogo({
-          width:"100%",
-          height:"4rem",
-          paddingTop:"0.7rem"
+          width: "100%",
+          height: "4rem",
+          paddingTop: "0.7rem",
         });
         setMenu({
           fontSize: "1rem",
           color: "white",
           paddingLeft: "26%",
-        })
+        });
         setSign({
           color: "#ffd933",
           positon: "right",
           paddingLeft: "20%",
-          paddingTop:"1rem"
-        }
-
-        )
+          paddingTop: "1rem",
+        });
       } else {
         setNavbar({
           backgroundColor: "rgb(28, 23, 1, 0.1)",
         });
         setLogo({
-          width:"100%",
-          height:"5rem"
+          width: "100%",
+          height: "5rem",
         });
         setMenu({
           fontSize: "1.2rem",
           color: "white",
           paddingLeft: "26%",
-        })
+        });
         setSign({
           color: "white",
           positon: "right",
           paddingLeft: "20%",
-        }
-
-        )
+        });
       }
     };
     window.addEventListener("scroll", handleScroll);
   }, []);
-  
+
   return (
-    <div>      
+    <div>
       <nav
         className="navbar navbar-expand-lg navbar-dark fixed-top font-weight-bold"
         style={navbar}
@@ -103,21 +106,33 @@ export default function Navigation() {
               </Link>
             </li>
           </ul>
-          <ul className="menu navbar-nav fixed-right" style={sign}>
-            <li className="nav-item p-1">
-              <Link className="text-reset" to="/login">
-                <button className="border-0 rounded">Sign in</button>
-              </Link>
-            </li>
-            <li className="nav-item p-1">
-              <p className="text-white">|</p>
-            </li>
-            <li className="nav-item p-1">
-              <Link className="text-reset" to="/register">
-                Sign up
-              </Link>
-            </li>
-          </ul>
+          {account ? (
+            <ul className="menu navbar-nav fixed-right" style={sign}>
+              <li className="nav-item p-1">
+                <Link className="text-reset" to="/">
+                  <button className="border-0 rounded" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </Link>
+              </li>
+            </ul>
+          ) : (
+            <ul className="menu navbar-nav fixed-right" style={sign}>
+              <li className="nav-item p-1">
+                <Link className="text-reset" to="/login">
+                  <button className="border-0 rounded">Sign in</button>
+                </Link>
+              </li>
+              <li className="nav-item p-1">
+                <p className="text-white">|</p>
+              </li>
+              <li className="nav-item p-1">
+                <Link className="text-reset" to="/register">
+                  Sign up
+                </Link>
+              </li>
+            </ul>
+          )}
         </div>
       </nav>
     </div>

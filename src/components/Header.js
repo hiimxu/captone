@@ -2,11 +2,10 @@ import React from "react";
 
 import titlebig from "../assets/titlebig.svg";
 import Background from "../assets/headerhome.jpg";
+import { useSelector } from "react-redux";
 
 export default function Header() {
-  const root = {
-    
-  };
+  const root = {};
   const masthead = {
     backgroundImage: `url(${Background})`,
     backgroundColor: "black",
@@ -30,11 +29,16 @@ export default function Header() {
     height: "6rem",
     transform: "rotate(180deg)",
   };
-  
+
+  const { account } = useSelector((state) => state.loginAccount);
+
+  React.useEffect(() => {
+    console.log(account);
+  }, [account]);
 
   return (
     <div style={root}>
-      <div>        
+      <div>
         <header style={masthead}>
           <div className="container">
             <div>

@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import bgImgCard from "../assets/videobg.jpg";
-import bgImg from "../assets/introbg-1.jpg"
+import bgImg from "../assets/introbg-1.jpg";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/actions/creators/auth";
 
 export default function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const root ={
+  const dispatch = useDispatch();
+
+  const root = {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-  }
-  const login = {
-    backgroundColor:"rgba(0,0,0,0)",
-    border:"none"
+  };
+  const loginStyle = {
+    backgroundColor: "rgba(0,0,0,0)",
+    border: "none",
   };
 
   return (
@@ -23,7 +27,7 @@ export default function Login() {
         <div className="container py-5">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col col-xl-10">
-              <div className="card" style={login}>
+              <div className="card" style={loginStyle}>
                 <div className="row g-0">
                   <div className="col-md-6 col-lg-5 d-none d-md-block"></div>
                   <div className="col-md-6 col-lg-7 d-flex align-items-center">
@@ -58,6 +62,9 @@ export default function Login() {
                           <button
                             className="btn btn-primary btn-lg btn-block"
                             type="button"
+                            onClick={() => {
+                              dispatch(login({ username: userName, password }));
+                            }}
                           >
                             Login
                           </button>
@@ -68,7 +75,7 @@ export default function Login() {
                         </Link>
                         <p className="mb-5 pb-lg-2">
                           Don't have an account?{" "}
-                          <Link to="/register"className="text-primary pl-2">
+                          <Link to="/register" className="text-primary pl-2">
                             Register here
                           </Link>
                         </p>
