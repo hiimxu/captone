@@ -1,4 +1,5 @@
 import * as AuthActionTypes from "../../types/auth";
+import { api } from "../../../../api/api";
 
 export const login = (loginDetails) => (dispatch) => {
   const fakeAccount = {
@@ -10,7 +11,23 @@ export const login = (loginDetails) => (dispatch) => {
     role: 2,
     enabled: 0,
   };
-  dispatch(loginSuccessfully(fakeAccount)); // mock login, will update later
+
+  const data = JSON.stringify({
+    account: loginDetails.username,
+    password: loginDetails.password,
+  });
+
+  return fetch(`${api}api/account/login`, {
+    method: "POST",
+    body: data,
+  })
+    .then((response) => {
+      console.log(response);
+      dispatch(loginSuccessfully(fakeAccount)); // mock login, will update later
+    })
+    .catch((error) => {
+      console.log("Login error: ", error.message);
+    });
 };
 
 const loginSuccessfully = (account) => {

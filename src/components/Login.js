@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/actions/creators/auth";
 
 export default function Login() {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("customer");
+  const [password, setPassword] = useState("123");
 
   const dispatch = useDispatch();
 
