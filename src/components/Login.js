@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import bgImgCard from "../assets/videobg.jpg";
 import bgImg from "../assets/introbg-1.jpg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/creators/auth";
 
 export default function Login() {
-  const [userName, setUserName] = useState("customer");
-  const [password, setPassword] = useState("123");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { errMess } = useSelector((state) => state.loginAccount);
 
   const dispatch = useDispatch();
 
@@ -43,6 +45,10 @@ export default function Login() {
                         <div className="form-outline mb-4">
                           <input
                             type="text"
+                            value={username}
+                            onChange={(event) => {
+                              setUsername(event.target.value);
+                            }}
                             id="form2Example17"
                             className="form-control form-control-lg"
                             placeholder="Username"
@@ -55,15 +61,25 @@ export default function Login() {
                             id="form2Example27"
                             className="form-control form-control-lg"
                             placeholder="Password"
+                            value={password}
+                            onChange={(event) => {
+                              setPassword(event.target.value);
+                            }}
                           />
                         </div>
+
+                        {errMess && (
+                          <div className="form-outline mb-4">
+                            <span style={{ color: "red" }}>{errMess}</span>
+                          </div>
+                        )}
 
                         <div className="pt-1 mb-4">
                           <button
                             className="btn btn-primary btn-lg btn-block"
                             type="button"
                             onClick={() => {
-                              dispatch(login({ username: userName, password }));
+                              dispatch(login({ username, password }));
                             }}
                           >
                             Login

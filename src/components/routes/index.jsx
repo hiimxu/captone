@@ -11,11 +11,7 @@ import History from "../History";
 import Navigation from "../Navigation";
 import Header from "../Header";
 import Footer from "../Footer";
-
-const AccountRoles = {
-  Admin: 1,
-  Customer: 2,
-};
+import { AccountRoles } from "../../constants";
 
 const SwitchRoutes = () => {
   const { account } = useSelector((state) => state.loginAccount);
