@@ -11,6 +11,7 @@ import History from "../History";
 import Navigation from "../Navigation";
 import Header from "../Header";
 import Footer from "../Footer";
+import SalonDashboard from "../salonOwners/SalonDashboard";
 import { AccountRoles } from "../../constants";
 
 const SwitchRoutes = () => {
@@ -40,7 +41,7 @@ const SwitchRoutes = () => {
       <>
         <div className="component">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<SalonDashboard />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
@@ -54,6 +55,8 @@ const SwitchRoutes = () => {
         <Header />
         <div className="component">
           <Routes>
+            <Route path="/salonDashboard" element={<SalonDashboard/>}/>
+
             <Route path="/" element={<HomePage />} />
             <Route path="/location" element={<Location />} />
             <Route path="/favorite" element={<Favorite />} />

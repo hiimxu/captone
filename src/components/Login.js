@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import bgImgCard from "../assets/videobg.jpg";
 import bgImg from "../assets/introbg-1.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/creators/auth";
