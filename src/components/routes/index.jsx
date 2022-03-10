@@ -11,14 +11,16 @@ import History from "../History";
 import Navigation from "../Navigation";
 import Header from "../Header";
 import Footer from "../Footer";
+import RegisterSalon from "../salonOwners/RegisterSalon";
 import SalonDashboard from "../salonOwners/SalonDashboard";
+import AddService from "../salonOwners/AddService";
 import { AccountRoles } from "../../constants";
 
 const SwitchRoutes = () => {
   const { account } = useSelector((state) => state.loginAccount);
 
   if (account) {
-    if (account.role === AccountRoles.Customer) {
+    if (account.accountData.role === AccountRoles.Customer) {
       return (
         <>
           <Navigation />
@@ -55,7 +57,9 @@ const SwitchRoutes = () => {
         <Header />
         <div className="component">
           <Routes>
+            {/* test */}
             <Route path="/salonDashboard" element={<SalonDashboard/>}/>
+            <Route path="/add_service" element={<AddService/>}/>
 
             <Route path="/" element={<HomePage />} />
             <Route path="/location" element={<Location />} />
@@ -63,6 +67,7 @@ const SwitchRoutes = () => {
             <Route path="/about" element={<About />} />
             <Route path="/history" element={<History />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/register_salon" element={<RegisterSalon />} />
             <Route path="/login" element={<Login />} />
             <Route path="/services" element={<Service />} />
             <Route path="*" element={<Navigate to="/" />} />

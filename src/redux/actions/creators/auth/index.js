@@ -63,9 +63,9 @@ export const logout = () => (dispatch) => {
   dispatch(logoutSuccessfully()); // mock logout, will update later
 };
 
-const logoutSuccessfully = () => {
+const logoutSuccessfully = (message) => {
   return {
     type: AuthActionTypes.LOGOUT_SUCCESSFULLY,
-    // payload: message,
+    payload: message,
   };
 };

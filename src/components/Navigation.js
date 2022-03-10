@@ -100,7 +100,7 @@ export default function Navigation() {
                 History
               </Link>
             </li>
-            <li className="text-reset" className="nav-item p-4">
+            <li className="text-reset nav-item p-4" >
               <Link className="text-reset" to="/location">
                 Location
               </Link>
