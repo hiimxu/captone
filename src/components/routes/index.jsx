@@ -20,7 +20,7 @@ const SwitchRoutes = () => {
   const { account } = useSelector((state) => state.loginAccount);
 
   if (account) {
-    if (account.accountData.role === AccountRoles.Customer) {
+    if (account.role === AccountRoles.Customer) {
       return (
         <>
           <Navigation />
