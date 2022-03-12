@@ -113,16 +113,8 @@ export default function Register() {
     ) {
       setError(true);
       return;
-    }
-    if (!limit.test(username)) {
-      setLimitErr(true);
-    }
-    if (!limit.test(name)) {
-      setLimitErr(true);
-    }
-    if (!limit.test(address)) {
-      setLimitErr(true);
-    }
+    }    
+    
     if (!validPassword.test(password)) {
       setPwdErr(true);
     }
@@ -136,8 +128,7 @@ export default function Register() {
       setPhoneErr(true);
     }
     if (
-      !error &&
-      !limitErr &&
+      !error &&      
       !pwdErr &&
       !emailErr &&
       !phoneErr &&
