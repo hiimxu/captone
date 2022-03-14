@@ -22,7 +22,7 @@ export default function HomePage() {
         {allSalon.data?.map((salon) => (
           <div className="card m-2 rounded" style={{ width: "18rem" }}>
             <div className="" key={salon.salonId}>
-              <img className="card-img-top rounded-top mb-2 border-0" src={salon.image} alt="Salon image" style={{width:"100%",height:"20rem",objectFit: 'cover', objectPosition:"top"}} />
+              <img className="card-img-top rounded-top mb-2 border-0" src={salon.image} alt="Title" style={{width:"100%",height:"20rem",objectFit: 'cover', objectPosition:"top"}} />
               <div className="card-body">
               <h5 className="card-title">{salon.nameSalon}</h5>
               <p className="card-text">Phone: {salon.phone}</p>
