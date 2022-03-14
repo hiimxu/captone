@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { api } from "../api/api.js";
 import { Link } from "react-router-dom";
 
+import bgImg from "../assets/barbershopbg.jpg";
+
 export default function Service() {
   const [posts, setPosts] = useState({});
 
@@ -13,11 +15,16 @@ export default function Service() {
         console.log(posts);
       });
   }, []);
+  const root ={
+    backgroundImage: `url(${bgImg})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  }
 
   return (
-    <div>      
-      <div className=" p-5 row">
-        <div className="col-sm-6">
+    <div style={root}>      
+      <div className="w-50 p-5 container">
+        <div className="">
           {posts.data?.map((service) => (
             <div className="card">
               <div className="card-body" key={service.serviceId}>

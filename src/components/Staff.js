@@ -16,9 +16,10 @@ export default function Staff() {
     <div className="p-5 ">
       <div className="card-group">
         {staff.data?.map((staff) => (
-          <div className="card m-2 rounded" style={{ width: "18rem" }}>
+          <div className="card m-2 rounded text-center" style={{ width: "15rem" }}>
             <div className="" key={staff.staffId}>
               {/* <img className="card-img-top rounded-top mb-2 border-0" src={salon.image} alt="Salon image" style={{width:"100%",height:"20rem",objectFit: 'cover', objectPosition:"top"}} /> */}
+              <i className="fa-solid fa-user-tie pt-3 mb-3"style={{width:"100%",height:"15rem",fontSize:"15rem"}}></i>
               <div className="card-body">
               <h5 className="card-title">{staff.name}</h5>
               <p className="card-text">Phone: {staff.phone}</p>              

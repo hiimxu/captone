@@ -33,8 +33,10 @@ export const login = (loginDetails) => (dispatch) => {
       }
     )
     .then((response) => {
-      if (response.data?.length) {
-        const account = response.data[0];
+      if (response.accountData?.length && response.customerData?.length) {
+        const accountData = response.accountData[0]
+        const customerData = response.customerData[0]
+        const account = {...accountData,...customerData};
         dispatch(loginSuccessfully(account)); // mock login, will update later
       } else {
         dispatch(loginFailed(response.message));
