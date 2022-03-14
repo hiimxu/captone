@@ -23,7 +23,7 @@ export default function Staff() {
               <div className="card-body">
               <h5 className="card-title">{staff.name}</h5>
               <p className="card-text">Phone: {staff.phone}</p>              
-              <Link to="/services" className="btn btn-primary">Book now</Link>
+              <Link to="/" className="btn btn-primary">Book now</Link>
               </div>
             </div>
           </div>

@@ -34,6 +34,7 @@ const SwitchRoutes = () => {
               <Route path="/about" element={<About />} />
               <Route path="/history" element={<History />} />
               <Route path="/services" element={<Service />} />
+              <Route path="/staff" element={<Staff />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
@@ -60,19 +61,15 @@ const SwitchRoutes = () => {
           <Routes>
             {/* test */}
             <Route path="/salonDashboard" element={<SalonDashboard/>}/>
-            <Route path="/add_service" element={<AddService/>}/>
+            <Route path="/add_service" element={<AddService/>}/>\
 
-            <Route path="/" element={<HomePage />} />
-            <Route path="/location" element={<Location />} />
-            <Route path="/favorite" element={<Favorite />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/history" element={<History />} />
+            <Route path="/" element={<HomePage />} />            
+            <Route path="/about" element={<About />} />            
             <Route path="/register" element={<Register />} />
             <Route path="/register_salon" element={<RegisterSalon />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/services" element={<Service />} />
-            <Route path="/staff" element={<Staff />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/login" element={<Login />} />            
+            
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
         <Footer />
