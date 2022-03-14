@@ -4,7 +4,7 @@ import {
   validPassword,
   validEmail,
   validPhone,
-  limit,
+  
 } from "../validations/regex";
 
 export default function Register() {
@@ -27,7 +27,7 @@ export default function Register() {
   const [pwdErr, setPwdErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [phoneErr, setPhoneErr] = useState(false);
-  const [limitErr, setLimitErr] = useState(false);
+  
 
   //style
   const root = {
@@ -177,11 +177,7 @@ export default function Register() {
       <div className="messages">
         {errorMessage()}
         {successMessage()}
-        {limitErr && (
-          <p className="text-danger">
-            Your input must be less than 40 characters
-          </p>
-        )}
+        
       </div>
       <div className="container register-form">
         <div className="form">

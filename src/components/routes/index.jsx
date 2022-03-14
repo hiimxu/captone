@@ -14,6 +14,7 @@ import Footer from "../Footer";
 import RegisterSalon from "../salonOwners/RegisterSalon";
 import SalonDashboard from "../salonOwners/SalonDashboard";
 import AddService from "../salonOwners/AddService";
+import Staff from "../Staff";
 import { AccountRoles } from "../../constants";
 
 const SwitchRoutes = () => {
@@ -70,6 +71,7 @@ const SwitchRoutes = () => {
             <Route path="/register_salon" element={<RegisterSalon />} />
             <Route path="/login" element={<Login />} />
             <Route path="/services" element={<Service />} />
+            <Route path="/staff" element={<Staff />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
