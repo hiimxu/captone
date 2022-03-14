@@ -22,13 +22,13 @@ export const login = (loginDetails) => (dispatch) => {
           var error = new Error(
             "Error " + response.status + ": " + response.statusText
           );
-          const errMess = (await response.json()).errors[0].msg;
+          const errMess = (await response.json()).message;
           dispatch(loginFailed(errMess));
           throw error;
         }
       },
       (error) => {
-        var errMess = new Error(error.message);
+        var errMess = new Error(error);
         throw errMess;
       }
     )
@@ -43,7 +43,7 @@ export const login = (loginDetails) => (dispatch) => {
       }
     })
     .catch((error) => {
-      console.log("Login error: ", error.message);
+      console.log("Login error: ", error);
     });
 };
 
