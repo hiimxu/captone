@@ -33,8 +33,8 @@ const SwitchRoutes = () => {
               <Route path="/favorite" element={<Favorite />} />
               <Route path="/about" element={<About />} />
               <Route path="/history" element={<History />} />
-              <Route path="/services" element={<Service />} />
-              <Route path="/staff" element={<Staff />} />
+              <Route path="/services/:salonId" element={<Service />} />
+              <Route path="/staff/:serviceId" element={<Staff />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
@@ -43,9 +43,9 @@ const SwitchRoutes = () => {
       );
     } else {
       <>
-      <Route path="/" element={<SalonDashboard />} />
+        <Route path="/" element={<SalonDashboard />} />
         <div className="component">
-          <Routes>            
+          <Routes>
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
