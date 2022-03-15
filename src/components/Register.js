@@ -1,11 +1,8 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  validPassword,
-  validEmail,
-  validPhone,
-  
-} from "../validations/regex";
+import { validPassword, validEmail, validPhone } from "../validations/regex";
+import { useSelector, useDispatch } from "react-redux";
+import { register } from "../redux/actions/creators/auth";
 
 export default function Register() {
   //create useState
@@ -17,17 +14,18 @@ export default function Register() {
   const [phone, setPhone] = useState("");
   const [dob, setDob] = useState("");
   const [address, setAddress] = useState("");
-
-  const [account, setAccount] = useState({});
-
-  const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
   const [confirmPwdError, setConfirmPwdError] = useState(false);
   //validate
   const [pwdErr, setPwdErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [phoneErr, setPhoneErr] = useState(false);
-  
+
+  const { registeredAccount, errMess, successMessage } = useSelector(
+    (state) => state.registerAccount
+  );
+
+  const dispatch = useDispatch();
 
   //style
   const root = {
@@ -54,35 +52,38 @@ export default function Register() {
   //function
   const handleUsername = (e) => {
     setUsername(e.target.value);
-    setSubmitted(false);
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    setSubmitted(false);
   };
   const handleCPassword = (e) => {
     setConfirmPwd(e.target.value);
-    setSubmitted(false);
   };
   const handleFirstname = (e) => {
     setAddress(e.target.value);
-    setSubmitted(false);
   };
   const handleName = (e) => {
     setName(e.target.value);
-    setSubmitted(false);
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    setSubmitted(false);
   };
   const handlePhone = (e) => {
     setPhone(e.target.value);
-    setSubmitted(false);
   };
   const handleDob = (e) => {
     setDob(e.target.value);
-    setSubmitted(false);
+  };
+
+  const resetForm = () => {
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    setConfirmPwd("");
+    setAddress("");
+    setName("");
+    setPhone("");
+    setDob("");
   };
 
   const handleSubmit = (e) => {
@@ -93,15 +94,16 @@ export default function Register() {
     setConfirmPwdError(false);
     setError(false);
     const newAccount = {
-      username: username,
+      account_name: username,
       password: password,
       address: address,
-      name: name,
+      nameCustomer: name,
       email: email,
       phone: phone,
-      dob: dob.split("-").join("/"),
+      birthday: dob,
+      role: "customer",
     };
-
+    let pass = true;
     if (
       username === "" ||
       email === "" ||
@@ -112,59 +114,36 @@ export default function Register() {
       dob === ""
     ) {
       setError(true);
+      pass = false;
       return;
-    }    
-    
+    }
+
     if (!validPassword.test(password)) {
       setPwdErr(true);
+      pass = false;
     }
     if (confirmPwd !== password) {
       setConfirmPwdError(true);
+      pass = false;
     }
     if (!validEmail.test(email)) {
       setEmailErr(true);
+      pass = false;
     }
     if (!validPhone.test(phone)) {
       setPhoneErr(true);
+      pass = false;
     }
-    if (
-      !error &&      
-      !pwdErr &&
-      !emailErr &&
-      !phoneErr &&
-      !confirmPwdError
-    ) {
-      setSubmitted(true);
-      setAccount(() => {
-        return newAccount;
-      });
+    if (pass) {
+      dispatch(register(newAccount));
     }
   };
 
-  const successMessage = () => {
-    return (
-      <div
-        className="success"
-        style={{
-          display: submitted ? "" : "none",
-        }}
-      >
-        <p className="text-success">User {name} successfully registered!!</p>
-      </div>
-    );
-  };
-  const errorMessage = () => {
-    return (
-      <div
-        className="error"
-        style={{
-          display: error ? "" : "none",
-        }}
-      >
-        <p className="text-danger">Please enter all the fields</p>
-      </div>
-    );
-  };
+  useEffect(() => {
+    if (successMessage) {
+      resetForm();
+    }
+  }, [successMessage]);
 
   //render screen
   return (
@@ -175,9 +154,23 @@ export default function Register() {
         </h2>
       </div>
       <div className="messages">
-        {errorMessage()}
-        {successMessage()}
-        
+        {error && (
+          <div className="error">
+            <p className="text-danger">Please enter all the fields</p>
+          </div>
+        )}
+        {errMess && (
+          <div className="error">
+            <p className="text-danger">{errMess}</p>
+          </div>
+        )}
+        {successMessage && (
+          <div className="success">
+            <p className="text-success">
+              {successMessage}: {registeredAccount?.account_name}
+            </p>
+          </div>
+        )}
       </div>
       <div className="container register-form">
         <div className="form">
@@ -200,9 +193,13 @@ export default function Register() {
                     value={password}
                     onChange={handlePassword}
                     placeholder="Password"
+                    maxLength={40}
                   />
                   {pwdErr && (
-                    <p className="text-danger">Your password is invalid!</p>
+                    <p className="text-danger">
+                      Your password must be 8-40 characters long and contain
+                      numbers, lowercase and uppercase letters.
+                    </p>
                   )}
                 </div>
                 <div className="form-group">
@@ -212,6 +209,7 @@ export default function Register() {
                     value={confirmPwd}
                     onChange={handleCPassword}
                     placeholder="Confirm your password"
+                    maxLength={40}
                   />
                   {confirmPwdError && (
                     <p className="text-danger">
@@ -283,10 +281,9 @@ export default function Register() {
                 </Link>
               </p>
             </div>
-            <button style={btnSubmit} type="submit" onClick={handleSubmit}>
+            <button style={btnSubmit} onClick={handleSubmit}>
               Submit
             </button>
-            {console.log(account)}
           </form>
         </div>
       </div>
