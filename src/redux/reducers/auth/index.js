@@ -9,7 +9,7 @@ export const LoginAccount = (
 ) => {
   switch (action.type) {
     case AuthActionTypes.LOGIN_FAILED:
-      return { ...state, errMess: action.payload };
+      return { ...state, account: null, errMess: action.payload };
 
     case AuthActionTypes.LOGIN_SUCCESSFULLY:
       return { ...state, account: action.payload, errMess: null };

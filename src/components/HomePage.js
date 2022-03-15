@@ -1,37 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "../api/api.js";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getSalonList,
+  resetSalonList,
+  updateSelectedSalonId,
+} from "../redux/actions/creators/booking";
+import imageUnavailable from "../assets/image-unavailable.png";
 
 export default function HomePage() {
-  const [allSalon, setAllSalon] = useState([]);
-  
+  const dispatch = useDispatch();
+  const { salonList } = useSelector((state) => state.salon);
 
   useEffect(() => {
-    fetch(`${api}api/customer/get/AllSalon`)
-      .then((res) => res.json())
-      .then((allSalon) => {
-        setAllSalon(allSalon);
-        //console.log(allSalon);
-      });
-  }, []);
- 
+    dispatch(getSalonList());
+
+    return () => {
+      dispatch(resetSalonList());
+    };
+  }, [dispatch]);
 
   return (
-    <div className="p-5 ">
+    <div className="p-5">
       <div className="card-group">
-        {allSalon.data?.map((salon) => (
-          <div className="card m-2 rounded" style={{ width: "18rem" }}>
-            <div className="" key={salon.salonId}>
-              <img className="card-img-top rounded-top mb-2 border-0" src={salon.image} alt="Title" style={{width:"100%",height:"20rem",objectFit: 'cover', objectPosition:"top"}} />
+        {salonList?.map((salon) => (
+          <div
+            className="card m-2 rounded"
+            style={{ width: "18rem" }}
+            key={salon.salonId}
+          >
+            <div className="">
+              <img
+                className="card-img-top rounded-top mb-2 border-0"
+                src={salon.image ? salon.image : imageUnavailable}
+                alt="Title"
+                style={{
+                  width: "100%",
+                  height: "20rem",
+                  objectFit: "cover",
+                  objectPosition: "top",
+                }}
+              />
               <div className="card-body">
-              <h5 className="card-title">{salon.nameSalon}</h5>
-              <p className="card-text"><span className="font-weight-bold">Phone:</span> {salon.phone}</p>
-              <p className="card-text"><span className="font-weight-bold">Address:</span> {salon.detailAddress}</p>
-              <Link to="/services" className="btn btn-primary">Book now</Link>
+                <h5 className="card-title">{salon.nameSalon}</h5>
+                <p className="card-text">
+                  <span className="font-weight-bold">Phone:</span> {salon.phone}
+                </p>
+                <p className="card-text">
+                  <span className="font-weight-bold">Address:</span>{" "}
+                  {salon.detailAddress}
+                </p>
+                <Link
+                  to={`/services/${salon.salonId}`}
+                  className="btn btn-primary"
+                  onClick={() => dispatch(updateSelectedSalonId(salon.salonId))}
+                >
+                  Book now
+                </Link>
               </div>
             </div>
           </div>
-          
         ))}
       </div>
     </div>
