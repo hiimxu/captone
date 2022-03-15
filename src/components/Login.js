@@ -88,9 +88,18 @@ export default function Login() {
                         <Link className="small text-primary" to="/">
                           Forgot password?
                         </Link>
-                        <p className="mb-5 pb-lg-2">
+                        <p className="pt-2">
                           Don't have an account?{" "}
                           <Link to="/register" className="text-primary pl-2">
+                            Register here
+                          </Link>
+                        </p>
+                        <p className="pb-3">
+                          Become a partner of our salon program:{" "}
+                          <Link
+                            to="/register_salon"
+                            className="text-primary pl-2"
+                          >
                             Register here
                           </Link>
                         </p>

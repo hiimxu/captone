@@ -41,7 +41,7 @@ export default function Navigation() {
         setMenu({
           fontSize: "1rem",
           color: "white",
-          paddingLeft: "26%",
+          paddingLeft: "22%",
         });
         setSign({
           color: "#ffd933",
@@ -60,7 +60,7 @@ export default function Navigation() {
         setMenu({
           fontSize: "1.2rem",
           color: "white",
-          paddingLeft: "26%",
+          paddingLeft: "22%",
         });
         setSign({
           color: "white",
@@ -92,7 +92,7 @@ export default function Navigation() {
             </li>
             <li className="nav-item">
               <Link to="/about">
-                <img src={logoImg} style={logo} />
+                <img src={logoImg} alt="logo" style={logo} />
               </Link>
             </li>
             <li className="nav-item p-4">

@@ -9,7 +9,7 @@ export default function Staff() {
           .then((res) => res.json())
           .then((staff) => {
             setStaff(staff);
-            console.log(staff);
+            //console.log(staff);
           });
       }, []);
   return (

@@ -11,7 +11,7 @@ export default function HomePage() {
       .then((res) => res.json())
       .then((allSalon) => {
         setAllSalon(allSalon);
-        console.log(allSalon);
+        //console.log(allSalon);
       });
   }, []);
  
@@ -25,8 +25,8 @@ export default function HomePage() {
               <img className="card-img-top rounded-top mb-2 border-0" src={salon.image} alt="Title" style={{width:"100%",height:"20rem",objectFit: 'cover', objectPosition:"top"}} />
               <div className="card-body">
               <h5 className="card-title">{salon.nameSalon}</h5>
-              <p className="card-text">Phone: {salon.phone}</p>
-              <p className="card-text">Address: {salon.detailAddress}</p>
+              <p className="card-text"><span className="font-weight-bold">Phone:</span> {salon.phone}</p>
+              <p className="card-text"><span className="font-weight-bold">Address:</span> {salon.detailAddress}</p>
               <Link to="/services" className="btn btn-primary">Book now</Link>
               </div>
             </div>
