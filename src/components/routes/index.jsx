@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import HomePage from "../HomePage";
 import Favorite from "../Favorite";
-import Location from "../Location";
+import Profile from "../Profile";
 import Register from "../Register";
 import Login from "../Login";
 import Service from "../Service";
@@ -29,7 +29,7 @@ const SwitchRoutes = () => {
           <div className="component">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/location" element={<Location />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/favorite" element={<Favorite />} />
               <Route path="/about" element={<About />} />
               <Route path="/history" element={<History />} />
