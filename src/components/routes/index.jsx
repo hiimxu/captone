@@ -41,15 +41,23 @@ const SwitchRoutes = () => {
           <Footer />
         </>
       );
-    } else {
-      <>
-        <Route path="/" element={<SalonDashboard />} />
-        <div className="component">
-          <Routes>
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </div>
-        <Footer />
+    }
+    if (account.role === AccountRoles.Salon) {
+      return (
+        <>
+          <SalonDashboard />
+          <div className="component">
+            <Routes>
+              <Route path="/" element={<AddService />} />
+            </Routes>
+          </div>
+          <Footer />
+        </>
+      );
+    }
+
+    if (account.role === AccountRoles.Admin) {
+      return <>
       </>;
     }
   } else {
