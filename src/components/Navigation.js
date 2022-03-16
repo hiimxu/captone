@@ -100,9 +100,9 @@ export default function Navigation() {
                 History
               </Link>
             </li>
-            <li className="text-reset nav-item p-4" >
-              <Link className="text-reset" to="/location">
-                Location
+            <li className="text-reset nav-item p-4">
+              <Link className="text-reset" to="/profile">
+                Profile
               </Link>
             </li>
           </ul>
