@@ -132,3 +132,61 @@ const registerFailed = (errMess) => {
     payload: errMess,
   };
 };
+
+export const registerSalon = (account) => (dispatch) => {
+  const data = new URLSearchParams({
+    ...account,
+  });
+  return fetch(`${api}api/account/add/salon`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+  })
+    .then(
+      async (res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          var error = new Error("Error" + res.status + ":" + res.statusText);
+          const errMess = ((await res.json())).message;
+          dispatch(registerSalonFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((res) => {
+      if (res.data_account && res.message) {
+        dispatch(
+          registerSalonSuccessfully({
+            account: res.data_account,
+            successMessage: res.message,
+          })
+        );
+      } else {
+        dispatch(registerSalonFailed(res.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Registered salon error", error);
+    });
+};
+
+const registerSalonSuccessfully = (payload) => {
+  return {
+    type: AuthActionTypes.SIGN_UP_SUCCESSFULLY,
+    payload,
+  };
+};
+
+const registerSalonFailed = (errMess) => {
+  return {
+    type: AuthActionTypes.SIGN_UP_FAILED,
+    payload: errMess,
+  };
+};

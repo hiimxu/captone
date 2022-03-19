@@ -46,3 +46,26 @@ export const RegisterAccount = (
       return state;
   }
 };
+
+export const RegisterSalon = (
+  state = {
+    registeredSalon: null,
+    errMess: null,
+    successMessage: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case AuthActionTypes.SIGN_UP_FAILED:
+      return { ...state, errMess: action.payload, successMessage: null };
+    case AuthActionTypes.SIGN_UP_SUCCESSFULLY:
+      return {
+        ...state,
+        registeredSalon: action.payload.account,
+        errMess: null,
+        successMessage: action.payload.successMessage,
+      };
+    default:
+      return state;
+  }
+};
