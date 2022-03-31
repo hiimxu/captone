@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import ReservationTable from "./tables/ReservationTable";
 
 const PageWrapper = styled(Grid)({
   backgroundColor: "#cfc787",
@@ -108,6 +109,39 @@ const TextInput = styled(TextField)({
   width: 300,
 });
 
+const reservationMockData = [
+  {
+    id: 1,
+    serviceName: "Undercut",
+    price: 120000,
+    timeUse: "30-40 minutes",
+    timeRegister: "2022-03-05T14:48:00.000Z",
+    status: "Booked",
+    staffName: "Nguyen Van A",
+  },
+];
+
+const historyMockData = [
+  {
+    id: 1,
+    serviceName: "Undercut",
+    price: 120000,
+    timeUse: "30-40 minutes",
+    timeRegister: "2022-03-25T14:48:00.000Z",
+    status: "Finish",
+    staffName: "Nguyen Van A",
+  },
+  {
+    id: 2,
+    serviceName: "Undercut",
+    price: 120000,
+    timeUse: "30-40 minutes",
+    timeRegister: "2022-03-15T14:48:00.000Z",
+    status: "Finish",
+    staffName: "Nguyen Van A",
+  },
+];
+
 export default function Profile() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -159,6 +193,12 @@ export default function Profile() {
                 </Tab>
               </Grid>
             </Tabs>
+            {selectedTab === 0 && (
+              <ReservationTable data={reservationMockData} />
+            )}
+            {selectedTab === 1 && (
+              <ReservationTable historyTable data={historyMockData} />
+            )}
           </ReservationHistory>
         </Grid>
       </PageWrapper>
