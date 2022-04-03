@@ -190,3 +190,61 @@ const registerSalonFailed = (errMess) => {
     payload: errMess,
   };
 };
+
+export const forgotPassword = account => dispatch =>{
+  const data = new URLSearchParams({
+    ...account,
+  });
+  return fetch(`${api}api/account/forgotPassword`, {
+    method: "PUT",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+  }).then(
+    async (res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        var error = new Error("Error" + res.status + ":" + res.statusText);
+        const errMess = ((await res.json())).message;
+        dispatch(forgotPasswordFailed(errMess));
+        throw error;
+      }
+    },
+    (error) => {
+      var errMess = new Error(error);
+      throw errMess;
+    }
+  ).then((res) => {
+    if (res.info && res.message) {
+      dispatch(
+        forgotPasswordSuccessfully({
+          account: res.info,
+          successMessage: res.message,
+        })
+      );
+    } else {
+      dispatch(registerSalonFailed(res.message));
+    }
+  })
+  .catch((error) => {
+    console.log("Recovered salon error", error);
+  }
+
+  )
+  
+}
+
+const forgotPasswordSuccessfully = payload =>{
+  return{
+    type:AuthActionTypes.RECOVER_PASSWORD_SUCCESSFULLY,
+    payload
+  }
+}
+const forgotPasswordFailed = errMess =>{
+  return{
+    type: AuthActionTypes.RECOVER_PASSWORD_FAILED,
+    payload:errMess,
+  }
+}

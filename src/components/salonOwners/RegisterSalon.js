@@ -29,8 +29,8 @@ export default function RegisterSalon() {
   const [phoneErr, setPhoneErr] = useState(false);
 
   //registerSalon
-  const { registeredAccount, errMess, successMessage } = useSelector(
-    (state) => state.registerAccount
+  const { registeredSalon, errMess, successMessage } = useSelector(
+    (state) => state.registerSalon
   );
   const dispatch = useDispatch();
 
@@ -206,7 +206,7 @@ export default function RegisterSalon() {
                           <div className="success">
                             <p className="text-success">
                               {successMessage}:{" "}
-                              {registeredAccount?.account_name}
+                              {registeredSalon?.account_name}
                             </p>
                           </div>
                         )}

@@ -69,3 +69,25 @@ export const RegisterSalon = (
       return state;
   }
 };
+export const ForgotPassword = (
+  state = {
+    recoveredAccount: null,
+    errMess: null,
+    successMessage: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case AuthActionTypes.RECOVER_PASSWORD_FAILED:
+      return { ...state, errMess: action.payload, successMessage: null };
+    case AuthActionTypes.RECOVER_PASSWORD_SUCCESSFULLY:
+      return {
+        ...state,
+        recoveredAccount: action.payload.account,
+        errMess: null,
+        successMessage: action.payload.successMessage,
+      };
+    default:
+      return state;
+  }
+};

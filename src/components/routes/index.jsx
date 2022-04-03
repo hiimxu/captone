@@ -5,6 +5,7 @@ import Favorite from "../Favorite";
 import Profile from "../Profile";
 import Register from "../Register";
 import Login from "../Login";
+import ForgotPassword from "../ForgotPassword";
 import Service from "../Service";
 import About from "../About";
 import History from "../History";
@@ -14,6 +15,7 @@ import Footer from "../Footer";
 import RegisterSalon from "../salonOwners/RegisterSalon";
 import SalonDashboard from "../salonOwners/SalonDashboard";
 import SalonHeader from "../salonOwners/SalonHeader";
+import ManageService from "../salonOwners/ManageService";
 import AddService from "../salonOwners/AddService";
 import Staff from "../Staff";
 import { AccountRoles } from "../../constants";
@@ -51,6 +53,7 @@ const SwitchRoutes = () => {
           <SalonHeader/>           
             <Routes>
               <Route path="/" element={<AddService />} />
+              <Route path="/manage_service" element={<ManageService/>} />
             </Routes>
           </div>
           <Footer />
@@ -68,16 +71,14 @@ const SwitchRoutes = () => {
         <Navigation />
         <Header />
         <div className="component">
-          <Routes>
-            {/* test */}
-            <Route path="/salonDashboard" element={<SalonDashboard />} />
-            <Route path="/add_service" element={<AddService />} />
+          <Routes>            
 
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register_salon" element={<RegisterSalon />} />
             <Route path="/login" element={<Login />} />
+            <Route path="forgot_password" element={<ForgotPassword/>} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>

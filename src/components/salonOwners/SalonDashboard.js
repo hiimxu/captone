@@ -22,7 +22,7 @@ const link ={
   return (
     <div style={root} className="salon-dashboard navbar-dark bg-dark">
       <Link to="/" style={link}>Booking</Link>
-      <Link to="/" style={link}>Service</Link>
+      <Link to="/manage_service" style={link}>Service</Link>
       <Link to="/" style={link}>Staff</Link>
     </div>
   );
