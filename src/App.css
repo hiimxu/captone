@@ -12,3 +12,8 @@ a{
     background-image: url('./assets/paperbg.jpg');
     background-size: cover;
 }
+
+.salon-page{
+    margin-left: 13%;
+}
+

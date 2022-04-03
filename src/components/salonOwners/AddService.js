@@ -1,7 +1,6 @@
-import { height, margin, textAlign } from "@mui/system";
+
 import React, { useEffect, useState } from "react";
-import bgImg from "../../assets/introbg-1.jpg";
-import borderIMG from "../../assets/patterbg.svg";
+
 
 export default function AddService() {
   const [name, setName] = useState("");
@@ -9,13 +8,11 @@ export default function AddService() {
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [promotion, setPromotion] = useState("");
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(15);
 
   const root = {
     textAlign: "center",
-    // backgroundImage: `url(${bgImg})`,
-    // backgroundRepeat: "no-repeat",
-    // backgroundSize: "cover",
+    
   };
   const btnAdd = {
     border: "none",
@@ -29,8 +26,7 @@ export default function AddService() {
     color: "#fff",
     fontSize: "1.3rem",
   };
-  const card = {
-    //backgroundImage: `url(${borderIMG})`,
+  const card = {    
     border: "1px solid",
     borderRadius: "15px",
   };
@@ -48,10 +44,10 @@ export default function AddService() {
   };
 
   const minusTime = () => {
-    if (time >= 15) {
+    if (time >= 30) {
       setTime(time - 15);
     } else {
-      setTime(0);
+      setTime(15);
     }
   };
 
@@ -81,12 +77,7 @@ export default function AddService() {
                           />
                         </div>
 
-                        <div className="input-group form-outline mb-4">
-                          <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-addon1">
-                              Minute
-                            </span>
-                          </div>
+                        <div className="input-group form-outline mb-4">                          
                           <input
                             type="text"
                             className="form-control form-control-lg"
@@ -96,6 +87,11 @@ export default function AddService() {
                             }}
                             placeholder="Service's time"
                           />
+                          <div className="input-group-append">
+                            <span className="input-group-text rounded-right" id="basic-addon1">
+                              Minute
+                            </span>
+                          </div>
                           <div className="mt-1">
                             <button
                               className="btn btn-outline-secondary bg-dark text-white mr-1 ml-1"
@@ -116,12 +112,7 @@ export default function AddService() {
                           </div>
                         </div>
 
-                        <div className="input-group form-outline mb-4">
-                          <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-addon1">
-                              VND
-                            </span>
-                          </div>
+                        <div className="input-group form-outline mb-4">                          
                           <input
                             type="text"
                             className="form-control form-control-lg"
@@ -131,6 +122,11 @@ export default function AddService() {
                             }}
                             placeholder="Price*"
                           />
+                          <div className="input-group-append">
+                            <span className="input-group-text" id="basic-addon1">
+                              VND
+                            </span>
+                          </div>
                         </div>
                         <div className="form-outline mb-4">
                           <input

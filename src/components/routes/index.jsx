@@ -13,6 +13,7 @@ import Header from "../Header";
 import Footer from "../Footer";
 import RegisterSalon from "../salonOwners/RegisterSalon";
 import SalonDashboard from "../salonOwners/SalonDashboard";
+import SalonHeader from "../salonOwners/SalonHeader";
 import AddService from "../salonOwners/AddService";
 import Staff from "../Staff";
 import { AccountRoles } from "../../constants";
@@ -44,9 +45,10 @@ const SwitchRoutes = () => {
     }
     if (account.role === AccountRoles.Salon) {
       return (
-        <>
-          <SalonDashboard />
-          <div className="component">
+        <>      
+        <SalonDashboard />                    
+          <div className="component salon-page">          
+          <SalonHeader/>           
             <Routes>
               <Route path="/" element={<AddService />} />
             </Routes>

@@ -9,7 +9,7 @@ export default function Navigation() {
   const [menu, setMenu] = useState({
     fontSize: "1.2rem",
     color: "white",
-    paddingLeft: "26%",
+    paddingLeft: "22%",
   });
   const [sign, setSign] = useState({
     color: "white",
