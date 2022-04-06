@@ -1,1 +1,1 @@
-export const api = "http://localhost:8080/";
+export const api = "https://ce25-171-224-218-242.ngrok.io/";

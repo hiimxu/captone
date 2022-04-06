@@ -19,7 +19,6 @@ export default function RegisterSalon() {
   const [dedtailAddress, setDetailAddress] = useState("");
   const [timeOpen, setTimeOpen] = useState("");
   const [timeClose, setTimeClose] = useState("");
-  const [thumnail, setThumnail] = useState("");
 
   //error
   const [error, setError] = useState(false);
@@ -91,9 +90,6 @@ export default function RegisterSalon() {
   const handlePhone = (e) => {
     setPhone(e.target.value);
   };
-  const handleThumnail = (e) => {
-    setThumnail(e.target.value);
-  };
 
   const resetForm = () => {
     setUserName("");
@@ -108,7 +104,6 @@ export default function RegisterSalon() {
     setDetailAddress("");
     setTimeOpen("");
     setTimeClose("");
-    setThumnail("");
   };
 
   const handleSubmit = (e) => {
@@ -131,7 +126,6 @@ export default function RegisterSalon() {
       taxCode: taxCode,
       timeOpen: timeOpen,
       timeClose: timeClose,
-      image: thumnail,
       role: "salon",
     };
     let pass = true;
@@ -146,8 +140,7 @@ export default function RegisterSalon() {
       district === "" ||
       city === "" ||
       timeOpen === "" ||
-      timeClose === "" ||
-      thumnail === ""
+      timeClose === ""
     ) {
       setError(true);
       pass = false;
@@ -212,7 +205,8 @@ export default function RegisterSalon() {
                         {successMessage && (
                           <div className="success">
                             <p className="text-success">
-                              {successMessage}: {registeredSalon?.account_name}
+                              {successMessage}:{" "}
+                              {registeredSalon?.account_name}
                             </p>
                           </div>
                         )}
@@ -461,22 +455,6 @@ export default function RegisterSalon() {
                                 </option>
                               ))}
                             </select>
-                          </div>
-                        </div>
-                        <div className="form-outline mb-4">
-                          <div className="input-group">
-                            <div className="input-group-prepend">
-                              <span className="input-group-text" id="">
-                                Thumbnail
-                              </span>
-                            </div>
-                            <input
-                              value={thumnail}
-                              type="text"
-                              className="form-control"
-                              maxLength={2000}
-                              onChange={handleThumnail}
-                            />
                           </div>
                         </div>
 
