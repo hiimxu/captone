@@ -100,8 +100,8 @@ export const getServiceList = (salonId) => (dispatch) => {
       }
     )
     .then((response) => {
-      if (response.data?.length) {
-        dispatch(getServiceListSuccessfully(response.data));
+      if (response.data?.length && response.dataSalon?.length) {
+        dispatch(getServiceListSuccessfully(response));
       } else {
         dispatch(getServiceListFailed(response.message));
       }

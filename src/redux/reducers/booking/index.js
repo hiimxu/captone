@@ -49,7 +49,7 @@ export const Salon = (
 };
 
 export const Service = (
-  state = {
+  state = {    
     serviceList: null,
     errMess: null,
   },

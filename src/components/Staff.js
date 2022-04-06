@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { api } from "../api/api.js";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {

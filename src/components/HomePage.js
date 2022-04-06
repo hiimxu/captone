@@ -22,11 +22,11 @@ export default function HomePage() {
 
   return (
     <div className="p-5">
-      <div className="card-group">
+      <div className="card-columns">
         {salonList?.map((salon) => (
           <div
             className="card m-2 rounded"
-            style={{ width: "18rem" }}
+            style={{ width: "33rem",height:"40rem" }}
             key={salon.salonId}
           >
             <div className="">
@@ -36,7 +36,7 @@ export default function HomePage() {
                 alt="Title"
                 style={{
                   width: "100%",
-                  height: "20rem",
+                  height: "25rem",
                   objectFit: "cover",
                   objectPosition: "top",
                 }}
