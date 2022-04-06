@@ -7,6 +7,8 @@ import {
   updateSelectedServiceId,
 } from "../redux/actions/creators/booking";
 
+import imageUnavailable from "../assets/image-unavailable.png";
+
 import bgImg from "../assets/barbershopbg.jpg";
 
 export default function Service() {
@@ -24,8 +26,8 @@ export default function Service() {
   }, [dispatch, salonId]);
   const root = {
     backgroundImage: `url(${bgImg})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
+    backgroundRepeat: "repeat-y",
+    backgroundSize: "100%",
   };
 
   return (
@@ -33,15 +35,34 @@ export default function Service() {
       <div className="p-5 container">
         <div className="row">
           {serviceList?.map((service) => (
-            <div className="col-sm-6 mb-4" key={service.serviceId}>
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">Service: {service.name}</h5>
-                  <p className="card-text">{service.description}</p>
-                  <p className="card-text">{service.service_time} minutes</p>
-                  <p className="card-text">Price: {service.price} đồng</p>
+            <div
+              className="card mb-3"
+              style={{ width: "80rem", backgroundColor: "#FBE8CA" }}
+            >
+              <div className="row g-0">
+                <div className="col-md-5 border-0">
+                  <img
+                    src={service.image ? service.image : imageUnavailable}
+                    className="img-thumbnail rounded-start border-0"
+                    alt="..."
+                    style={{ maxHeight: "15rem" }}
+                  />
+                </div>
+                <div className="col-md-5">
+                  <div className="card-body">
+                    <h4 className="card-title text-info">{service.name}</h4>
+                    <p className="card-text text-danger font-weight-bold">
+                      <span className="text-dark font-weight-normal">
+                        {service.service_time} minutes .{" "}
+                      </span>
+                      {service.price}VND
+                    </p>
+                    <p className="card-text">{service.description}</p>
+                  </div>
+                </div>
+                <div className="col-md-2 mt-5">
                   <Link
-                    to={`/staff/${service.serviceId}`}
+                    to={`/staff/${service.salonId}`}
                     className="btn btn-primary"
                     onClick={() =>
                       dispatch(updateSelectedServiceId(service.serviceId))
