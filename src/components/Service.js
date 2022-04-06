@@ -6,8 +6,7 @@ import {
   resetServiceList,
   updateSelectedServiceId,
 } from "../redux/actions/creators/booking";
-import {
-  convertISOStringToLocaleDateString,
+import {  
   currencyFormatter,
 } from "../utils";
 

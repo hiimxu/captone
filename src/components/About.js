@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { useState } from "react";
 
 export default function About() {
-  return (
-    <div>About</div>
-  )
+  return <div></div>;
 }
