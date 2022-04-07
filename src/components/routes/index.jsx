@@ -19,6 +19,7 @@ import SalonHeader from "../salonOwners/SalonHeader";
 import ManageService from "../salonOwners/ManageService";
 import AddService from "../salonOwners/AddService";
 import Staff from "../Staff";
+import FinishBooking from "../FinishBooking";
 import { AccountRoles } from "../../constants";
 
 const SwitchRoutes = () => {
@@ -39,6 +40,7 @@ const SwitchRoutes = () => {
               <Route path="/history" element={<History />} />
               <Route path="/services/:salonId" element={<Service />} />
               <Route path="/staff/:serviceId" element={<Staff />} />
+              <Route path="/finish_booking" element={<FinishBooking/>}></Route>
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
@@ -48,13 +50,13 @@ const SwitchRoutes = () => {
     }
     if (account.role === AccountRoles.Salon) {
       return (
-        <>      
-        <SalonDashboard />                    
-          <div className="component salon-page">          
-          <SalonHeader/>           
+        <>
+          <SalonDashboard />
+          <div className="component salon-page">
+            <SalonHeader />
             <Routes>
               <Route path="/" element={<AddService />} />
-              <Route path="/manage_service" element={<ManageService/>} />
+              <Route path="/manage_service" element={<ManageService />} />
             </Routes>
           </div>
           <Footer />
@@ -63,8 +65,7 @@ const SwitchRoutes = () => {
     }
 
     if (account.role === AccountRoles.Admin) {
-      return <>
-      </>;
+      return <></>;
     }
   } else {
     return (
@@ -72,14 +73,13 @@ const SwitchRoutes = () => {
         <Navigation />
         <Header />
         <div className="component">
-          <Routes>            
-
+          <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register_salon" element={<RegisterSalon />} />
             <Route path="/login" element={<Login />} />
-            <Route path="forgot_password" element={<ForgotPassword/>} />
+            <Route path="forgot_password" element={<ForgotPassword />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
