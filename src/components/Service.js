@@ -43,6 +43,7 @@ export default function Service() {
             <div
               className="rounded-bottom"
               style={{ backgroundColor: "#C3AF91" }}
+              key={salon.salonId}
             >
               <div
                 style={{
@@ -72,7 +73,7 @@ export default function Service() {
                   </span>
                 </p>
                 <p>
-                  <i class="fa-solid fa-location-dot text-secondary"></i>{" "}
+                  <i className="fa-solid fa-location-dot text-secondary"></i>{" "}
                   <span
                     className="font-weight-bold"
                     style={{ color: "#134068" }}
@@ -88,6 +89,7 @@ export default function Service() {
           <div
             className="card mb-3"
             style={{ backgroundColor: "#E0DAA4", maxHeight: "20rem" }}
+            key={service.serviceId}
           >
             <div className="row g-0">
               <div className="col-md-5">

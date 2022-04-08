@@ -91,3 +91,25 @@ export const Staff = (
       return state;
   }
 };
+
+export const StaffCalendar = (
+  state = {
+    calendar: null,
+    errMess: null,
+  },
+  action
+)=> {
+  switch (action.type) {
+    case BookingActionTypes.GET_STAFF_CALENDAR_FAILED:
+      return { ...state, calendar: null, errMess: action.payload };
+
+    case BookingActionTypes.GET_STAFF_CALENDAR_SUCCESSFULLY:
+      return { ...state, calendar: action.payload, errMess: null };
+
+    case BookingActionTypes.RESET_STAFF_CALENDAR:
+      return { ...state, calendar: null, errMess: null };
+
+    default:
+      return state;
+  }
+};
