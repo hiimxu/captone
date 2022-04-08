@@ -75,7 +75,7 @@ export default function Navigation() {
   return (
     <div>
       <nav
-        className="navbar navbar-expand-lg navbar-dark fixed-top font-weight-bold"
+        className="navbar navbar-expand-lg is-fixed-top fixed-top font-weight-bold"
         style={navbar}
       >
         <div className="justify-content-center navbar-collapse text">
@@ -119,16 +119,24 @@ export default function Navigation() {
           ) : (
             <ul className="menu navbar-nav fixed-right" style={sign}>
               <li className="nav-item p-1">
-                <Link className="text-reset" to="/login">
-                  <button className="border-0 rounded">Sign in</button>
+                <Link className="text-reset" to="/register">
+                  <button className="button is-dark">Sign up</button>
                 </Link>
               </li>
               <li className="nav-item p-1">
-                <p className="text-white">|</p>
+                <div
+                  class="vl"
+                  style={{
+                    borderLeft: 2 + "px solid white",
+                    height: 40 + "px",
+                  }}
+                ></div>
               </li>
               <li className="nav-item p-1">
-                <Link className="text-reset" to="/register">
-                  Sign up
+                <Link className="text-reset" to="/login">
+                  <button className="button is-dark is-outlined is-inverted">
+                    Log in
+                  </button>
                 </Link>
               </li>
             </ul>

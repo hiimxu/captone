@@ -22,6 +22,10 @@ import Staff from "../Staff";
 import FinishBooking from "../FinishBooking";
 import { AccountRoles } from "../../constants";
 
+import HomepageMockup from "../mockUp/Homepage";
+import ServiceMockup from "../mockUp/Service";
+import FinishBookingMockup from "../mockUp/FinishBooking";
+
 const SwitchRoutes = () => {
   const { account } = useSelector((state) => state.loginAccount);
 
@@ -40,7 +44,7 @@ const SwitchRoutes = () => {
               <Route path="/history" element={<History />} />
               <Route path="/services/:salonId" element={<Service />} />
               <Route path="/staff/:serviceId" element={<Staff />} />
-              <Route path="/finish_booking" element={<FinishBooking/>}></Route>
+              <Route path="/finish_booking" element={<FinishBooking />}></Route>
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
@@ -75,7 +79,11 @@ const SwitchRoutes = () => {
         <div className="component">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/HomepageMockup" element={<HomepageMockup />} />
+            <Route path="/servicesMockup/:salonId" element={<ServiceMockup />} />
+            <Route path="/FinishBookingMockup" element={<FinishBookingMockup />} />
             <Route path="/about" element={<About />} />
+            <Route path="/favorite" element={<Favorite />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register_salon" element={<RegisterSalon />} />
             <Route path="/login" element={<Login />} />
