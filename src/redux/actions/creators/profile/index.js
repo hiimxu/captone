@@ -6,7 +6,7 @@ export const getCustomerProfile = (token) => (dispatch) => {
     method: "GET",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      Authorization: `Bearer ${token}`,
+      'x-access-token': `${token}`,
     },
   })
     .then(
