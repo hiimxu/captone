@@ -17,7 +17,7 @@ export default function SalonDashboard() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    backgroundColor:"#1E6296"
+    backgroundColor:"#134068"
   };
   const link = {
     padding: "6px 8px 6px 16px",
