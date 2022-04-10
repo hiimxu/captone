@@ -15,11 +15,11 @@ import Header from "../Header";
 import Footer from "../Footer";
 import RegisterSalon from "../salonOwners/RegisterSalon";
 import SalonDashboard from "../salonOwners/SalonDashboard";
-import SalonHeader from "../salonOwners/SalonHeader";
 import ManageService from "../salonOwners/ManageService";
 import AddService from "../salonOwners/AddService";
 import Staff from "../Staff";
 import FinishBooking from "../FinishBooking";
+import ManageBooking from "../salonOwners/ManageBooking"
 import { AccountRoles } from "../../constants";
 
 const SwitchRoutes = () => {
@@ -52,10 +52,10 @@ const SwitchRoutes = () => {
       return (
         <>
           <SalonDashboard />
-          <div className="component salon-page">
-            <SalonHeader />
+          <div className="component salon-page">            
             <Routes>
-              <Route path="/" element={<AddService />} />
+              <Route path="/" element={<ManageBooking/>}></Route>
+              <Route path="/addService" element={<AddService />} />
               <Route path="/manage_service" element={<ManageService />} />
             </Routes>
           </div>
