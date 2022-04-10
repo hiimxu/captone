@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import {
   Box,
-  Button,
+  Button as MuiButton,
   Dialog,
   Grid,
   TextField,
   Typography,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import DatePicker from "react-datepicker";
 import ReservationTable from "./tables/ReservationTable";
+import { getCustomerProfile } from "../redux/actions/creators/profile";
 
 const PageWrapper = styled(Grid)({
   backgroundColor: "#cfc787",
@@ -44,15 +47,19 @@ const ButtonWrapper = styled(Box)({
   marginTop: 20,
 });
 
-const ActionButton = styled(Button)(({ width }) => ({
-  backgroundColor: "#1e6296",
+const Button = styled(MuiButton)(({ width }) => ({
   textTransform: "capitalize",
-  fontSize: 20,
+  fontSize: 16,
   borderRadius: 12,
   lineHeight: "40px",
   width,
   height: 40,
 }));
+
+const ActionButton = styled(Button)({
+  fontSize: 20,
+  backgroundColor: "#1e6296",
+});
 
 const SecondaryActionButton = styled(ActionButton)({
   backgroundColor: "#ff6060",
@@ -86,6 +93,10 @@ const FormWrapper = styled(Box)({
   minWidth: 800,
   backgroundColor: "#f8e0be",
   padding: 30,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
 });
 
 const FieldWrapper = styled(Grid)({
@@ -146,6 +157,14 @@ export default function Profile() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
 
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.loginAccount.account);
+  const { info } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    dispatch(getCustomerProfile(token));
+  }, [dispatch, token]);
+
   const handleClose = () => {
     setDialogOpen(false);
   };
@@ -160,7 +179,6 @@ export default function Profile() {
             <UserInfoText>Gender: male</UserInfoText>
             <UserInfoText>Birthday: 01/01/1999</UserInfoText>
             <UserInfoText>Phone number: 0987654321</UserInfoText>
-            <UserInfoText>Email: email@gmail.com</UserInfoText>
             <UserInfoText>Location: Nam Tu Liem, Hanoi</UserInfoText>
             <ButtonWrapper>
               <ActionButton
@@ -170,6 +188,15 @@ export default function Profile() {
               >
                 Edit
               </ActionButton>
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <Button
+                width={180}
+                variant="outlined"
+                // onClick={() => setDialogOpen(true)}
+              >
+                Change password
+              </Button>
             </ButtonWrapper>
           </UserInfo>
         </Grid>
@@ -203,44 +230,36 @@ export default function Profile() {
         </Grid>
       </PageWrapper>
       <Dialog onClose={handleClose} open={dialogOpen} maxWidth="lg">
-        <FormWrapper>
+        <FormWrapper style={{ minHeight: "50vh" }}>
           <FieldWrapper container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <FieldLabel>Name</FieldLabel>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={8}>
               <TextInput variant="standard" margin="dense" size="small" />
             </Grid>
           </FieldWrapper>
           <FieldWrapper container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <FieldLabel>Birthday</FieldLabel>
             </Grid>
-            <Grid item xs={6}>
-              <TextInput variant="standard" margin="dense" size="small" />
+            <Grid item xs={8}>
+              <DatePicker selected={new Date("2015-03-25T12:00:00-06:30")} />
             </Grid>
           </FieldWrapper>
           <FieldWrapper container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <FieldLabel>Phone number</FieldLabel>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={8}>
               <TextInput variant="standard" margin="dense" size="small" />
             </Grid>
           </FieldWrapper>
           <FieldWrapper container spacing={2}>
-            <Grid item xs={6}>
-              <FieldLabel>Email</FieldLabel>
+            <Grid item xs={4}>
+              <FieldLabel>Address</FieldLabel>
             </Grid>
-            <Grid item xs={6}>
-              <TextInput variant="standard" margin="dense" size="small" />
-            </Grid>
-          </FieldWrapper>
-          <FieldWrapper container spacing={2}>
-            <Grid item xs={6}>
-              <FieldLabel>Location</FieldLabel>
-            </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={8}>
               <TextInput variant="standard" margin="dense" size="small" />
             </Grid>
           </FieldWrapper>
