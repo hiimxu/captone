@@ -13,7 +13,7 @@ import {
   convertISOStringToLocaleDateString,
   currencyFormatter,
 } from "../../utils";
-import { Box } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 
 const TableRow = styled(MuiTableRow)({
   "& td:last-child, & th:last-child": { borderRight: 0 },
@@ -28,6 +28,10 @@ const PrimaryText = styled("span")({
   fontFamily: "Segoe UI",
   color: "#1e6296",
   fontSize: 24,
+});
+
+const HeaderText = styled(PrimaryText)({
+  fontSize: 28,
 });
 
 const ServicePriceText = styled("span")({
@@ -45,7 +49,7 @@ const TimeUseText = styled("span")({
 
 const StatusText = styled("span")({
   fontFamily: "Segoe UI",
-  fontSize: 20,
+  fontSize: 24,
 });
 
 const ReservationTable = ({ data, historyTable }) => {
@@ -55,22 +59,22 @@ const ReservationTable = ({ data, historyTable }) => {
         <TableHead>
           <TableRow>
             <TableCell align="right">
-              <PrimaryText>#</PrimaryText>
+              <HeaderText>#</HeaderText>
             </TableCell>
-            <TableCell sx={{ width: "50%" }}>
-              <PrimaryText>Service</PrimaryText>
-            </TableCell>
-            <TableCell>
-              <PrimaryText>Time</PrimaryText>
+            <TableCell sx={{ width: "40%" }}>
+              <HeaderText>Service</HeaderText>
             </TableCell>
             <TableCell>
-              <PrimaryText>Status</PrimaryText>
+              <HeaderText>Time</HeaderText>
             </TableCell>
             <TableCell>
-              <PrimaryText>Stylist</PrimaryText>
+              <HeaderText>Status</HeaderText>
             </TableCell>
             <TableCell>
-              <PrimaryText>Action</PrimaryText>
+              <HeaderText>Stylist</HeaderText>
+            </TableCell>
+            <TableCell>
+              <HeaderText>Action</HeaderText>
             </TableCell>
           </TableRow>
         </TableHead>
@@ -97,7 +101,9 @@ const ReservationTable = ({ data, historyTable }) => {
                 </Box>
               </TableCell>
               <TableCell>
-                {convertISOStringToLocaleDateString(row.timeRegister)}
+                <PrimaryText>
+                  {convertISOStringToLocaleDateString(row.timeRegister)}
+                </PrimaryText>
               </TableCell>
               <TableCell>
                 <StatusText
@@ -111,17 +117,23 @@ const ReservationTable = ({ data, historyTable }) => {
                   {row.status}
                 </StatusText>
               </TableCell>
-              <TableCell>{row.staffName}</TableCell>
+              <TableCell>
+                <PrimaryText>{row.staffName}</PrimaryText>
+              </TableCell>
               <TableCell>
                 <Box display="flex" justifyContent="center">
                   {historyTable ? (
-                    <IconButton size="large">
-                      <ReplayCircleFilledIcon />
-                    </IconButton>
+                    <Tooltip title="Make another reservation">
+                      <IconButton size="large">
+                        <ReplayCircleFilledIcon fontSize="large" />
+                      </IconButton>
+                    </Tooltip>
                   ) : (
-                    <IconButton size="large">
-                      <CancelIcon />
-                    </IconButton>
+                    <Tooltip title="Cancel reservation">
+                      <IconButton size="large">
+                        <CancelIcon fontSize="large" />
+                      </IconButton>
+                    </Tooltip>
                   )}
                 </Box>
               </TableCell>

@@ -1,8 +1,20 @@
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { applyMiddleware, combineReducers, createStore } from "redux";
-import { LoginAccount, RegisterAccount,RegisterSalon,ForgotPassword } from "../reducers/auth";
-import { Booking, Salon, Service, Staff,StaffCalendar } from "../reducers/booking";
+import {
+  LoginAccount,
+  RegisterAccount,
+  RegisterSalon,
+  ForgotPassword,
+} from "../reducers/auth";
+import {
+  Booking,
+  Salon,
+  Service,
+  Staff,
+  StaffCalendar,
+} from "../reducers/booking";
+import { Profile } from "../reducers/profile";
 import { persistStore, persistReducer } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
 
@@ -16,12 +28,13 @@ const rootReducer = combineReducers({
   loginAccount: persistReducer(loginConfig, LoginAccount),
   registerAccount: RegisterAccount,
   registerSalon: RegisterSalon,
-  recoverAccount:ForgotPassword,
+  recoverAccount: ForgotPassword,
   salon: Salon,
   service: Service,
   staff: Staff,
-  staffCalendar:StaffCalendar,
+  staffCalendar: StaffCalendar,
   booking: Booking,
+  profile: Profile,
 });
 
 export const ConfigureStore = () => {
