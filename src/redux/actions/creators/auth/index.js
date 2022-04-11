@@ -37,7 +37,7 @@ export const login = (loginDetails) => (dispatch) => {
         const accountData = response.accountData[0];
         const userData = response.userData[0];
         const account = { ...accountData, ...userData };
-        dispatch(loginSuccessfully(account)); // mock login, will update later
+        dispatch(loginSuccessfully(account));
       } else {
         dispatch(loginFailed(response.message));
       }
@@ -150,7 +150,7 @@ export const registerSalon = (account) => (dispatch) => {
           return res.json();
         } else {
           var error = new Error("Error" + res.status + ":" + res.statusText);
-          const errMess = ((await res.json())).message;
+          const errMess = (await res.json()).message;
           dispatch(registerSalonFailed(errMess));
           throw error;
         }
@@ -191,7 +191,7 @@ const registerSalonFailed = (errMess) => {
   };
 };
 
-export const forgotPassword = account => dispatch =>{
+export const forgotPassword = (account) => (dispatch) => {
   const data = new URLSearchParams({
     ...account,
   });
@@ -201,50 +201,49 @@ export const forgotPassword = account => dispatch =>{
     headers: {
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
     },
-  }).then(
-    async (res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        var error = new Error("Error" + res.status + ":" + res.statusText);
-        const errMess = ((await res.json())).message;
-        dispatch(forgotPasswordFailed(errMess));
-        throw error;
-      }
-    },
-    (error) => {
-      var errMess = new Error(error);
-      throw errMess;
-    }
-  ).then((res) => {
-    if (res.info && res.message) {
-      dispatch(
-        forgotPasswordSuccessfully({
-          account: res.info,
-          successMessage: res.message,
-        })
-      );
-    } else {
-      dispatch(registerSalonFailed(res.message));
-    }
   })
-  .catch((error) => {
-    console.log("Recovered salon error", error);
-  }
+    .then(
+      async (res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          var error = new Error("Error" + res.status + ":" + res.statusText);
+          const errMess = (await res.json()).message;
+          dispatch(forgotPasswordFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((res) => {
+      if (res.info && res.message) {
+        dispatch(
+          forgotPasswordSuccessfully({
+            account: res.info,
+            successMessage: res.message,
+          })
+        );
+      } else {
+        dispatch(registerSalonFailed(res.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Recovered salon error", error);
+    });
+};
 
-  )
-  
-}
-
-const forgotPasswordSuccessfully = payload =>{
-  return{
-    type:AuthActionTypes.RECOVER_PASSWORD_SUCCESSFULLY,
-    payload
-  }
-}
-const forgotPasswordFailed = errMess =>{
-  return{
+const forgotPasswordSuccessfully = (payload) => {
+  return {
+    type: AuthActionTypes.RECOVER_PASSWORD_SUCCESSFULLY,
+    payload,
+  };
+};
+const forgotPasswordFailed = (errMess) => {
+  return {
     type: AuthActionTypes.RECOVER_PASSWORD_FAILED,
-    payload:errMess,
-  }
-}
+    payload: errMess,
+  };
+};

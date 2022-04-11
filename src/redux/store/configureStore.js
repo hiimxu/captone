@@ -13,6 +13,7 @@ import {
   Service,
   Staff,
   StaffCalendar,
+  HistoryBooking,
 } from "../reducers/booking";
 import { Profile } from "../reducers/profile";
 import { persistStore, persistReducer } from "redux-persist";
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   staff: Staff,
   staffCalendar: StaffCalendar,
   booking: Booking,
+  historyBooking: HistoryBooking,
   profile: Profile,
 });
 

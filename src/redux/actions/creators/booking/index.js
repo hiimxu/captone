@@ -247,3 +247,55 @@ const getStaffCalendarFail = (errMess) => {
 export const resetStaffCalender = () => (dispatch) => {
   dispatch({ type: BookingActionTypes.RESET_STAFF_CALENDAR });
 };
+
+export const getHistoryBooking = (token) => (dispatch) => {
+  return fetch(`${api}api/customer/get/historyBooking`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(getHistoryBookingFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length) {
+        dispatch(getHistoryBookingSuccessfully(response.data));
+      } else {
+        dispatch(getHistoryBookingFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get profile error: ", error);
+    });
+};
+
+const getHistoryBookingSuccessfully = (historyList) => {
+  return {
+    type: BookingActionTypes.GET_HISTORY_BOOKING_SUCCESSFULLY,
+    payload: historyList,
+  };
+};
+
+const getHistoryBookingFailed = (errMess) => {
+  return {
+    type: BookingActionTypes.GET_HISTORY_BOOKING_FAILED,
+    payload: errMess,
+  };
+};

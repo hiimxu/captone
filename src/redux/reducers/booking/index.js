@@ -49,7 +49,7 @@ export const Salon = (
 };
 
 export const Service = (
-  state = {    
+  state = {
     serviceList: null,
     errMess: null,
   },
@@ -98,7 +98,7 @@ export const StaffCalendar = (
     errMess: null,
   },
   action
-)=> {
+) => {
   switch (action.type) {
     case BookingActionTypes.GET_STAFF_CALENDAR_FAILED:
       return { ...state, calendar: null, errMess: action.payload };
@@ -108,6 +108,24 @@ export const StaffCalendar = (
 
     case BookingActionTypes.RESET_STAFF_CALENDAR:
       return { ...state, calendar: null, errMess: null };
+
+    default:
+      return state;
+  }
+};
+
+export const HistoryBooking = (
+  state = {
+    historyList: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case BookingActionTypes.GET_HISTORY_BOOKING_SUCCESSFULLY:
+      return { ...state, historyList: action.payload, errMess: null };
+
+    case BookingActionTypes.GET_HISTORY_BOOKING_FAILED:
+      return { ...state, errMess: action.payload, historyList: null };
 
     default:
       return state;
