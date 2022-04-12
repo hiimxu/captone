@@ -25,6 +25,12 @@ const loginConfig = {
   blacklist: ["errMess"],
 };
 
+const bookingConfig = {
+  key: "booking",
+  storage: storageSession,
+  blacklist: ["errMess"],
+};
+
 const rootReducer = combineReducers({
   loginAccount: persistReducer(loginConfig, LoginAccount),
   registerAccount: RegisterAccount,
@@ -34,7 +40,7 @@ const rootReducer = combineReducers({
   service: Service,
   staff: Staff,
   staffCalendar: StaffCalendar,
-  booking: Booking,
+  booking: persistReducer(bookingConfig, Booking),
   historyBooking: HistoryBooking,
   profile: Profile,
 });
