@@ -15,6 +15,6 @@ a{
 
 .salon-page{
     margin-left: 10%;
-    height: 50rem;
+    min-height: 50rem;
 }
 

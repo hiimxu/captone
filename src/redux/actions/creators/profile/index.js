@@ -6,11 +6,7 @@ export const getCustomerProfile = (token) => (dispatch) => {
     method: "GET",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-<<<<<<< HEAD
       "x-access-token": `${token}`,
-=======
-      "x-access-token": token,
->>>>>>> change config connect API
     },
   })
     .then(

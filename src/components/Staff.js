@@ -13,7 +13,7 @@ import {
 } from "../redux/actions/creators/booking";
 import moment from "moment";
 
-const slots = [3, 4, 5, 7, 8, 12, 13, 14, 18, 19, 22, 23, 24, 25, 26, 27, 30];
+
 
 export default function Staff() {
   const minDate = new Date(moment().add(4, "hours").add(15, "minutes").startOf("day")); // If the current time is after 7:45pm, the min date will be the next day

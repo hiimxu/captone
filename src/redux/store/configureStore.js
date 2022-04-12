@@ -15,6 +15,7 @@ import {
   StaffCalendar,
   HistoryBooking,
 } from "../reducers/booking";
+import {SheduleCurent, SalonHistory} from "../reducers/salon";
 import { Profile } from "../reducers/profile";
 import { persistStore, persistReducer } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
@@ -43,6 +44,8 @@ const rootReducer = combineReducers({
   booking: persistReducer(bookingConfig, Booking),
   historyBooking: HistoryBooking,
   profile: Profile,
+  scheduleCurent: SheduleCurent,
+  salonHistory:SalonHistory
 });
 
 export const ConfigureStore = () => {

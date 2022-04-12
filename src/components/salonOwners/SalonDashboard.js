@@ -31,19 +31,22 @@ export default function SalonDashboard() {
   return (
     <div style={root} className="salon-dashboard navbar-dark ">
       <Link className="text-white" to="/" style={link}>
-        <i class="fa-solid fa-calendar-days"></i> Booking
+        <i className="fa-solid fa-calendar-days"></i> Schedule
+      </Link>
+      <Link className="text-white" to="/history" style={link}>
+        <i className="fa-solid fa-calendar-days"></i> History
       </Link>
       <Link className="text-white" to="/manage_service" style={link}>
-        <i class="fa-solid fa-list"></i> Service
+        <i className="fa-solid fa-list"></i> Service
       </Link>
-      <Link  className="text-white"to="/" style={link}>
-        <i class="fa-solid fa-user-tie"></i> Staff
+      <Link  className="text-white"to="/staff" style={link}>
+        <i className="fa-solid fa-user-tie"></i> Staff
       </Link>
-      <Link  className="text-white"to="/" style={link}>
-        <i class="fa-solid fa-address-card"></i> Infomation
+      <Link  className="text-white"to="/infomation" style={link}>
+        <i className="fa-solid fa-address-card"></i> Infomation
       </Link>
       <Link  className="text-white"style={link} to="/" onClick={handleLogout}>
-        <i class="fa-solid fa-right-from-bracket"></i> Logout
+        <i className="fa-solid fa-right-from-bracket"></i> Logout
       </Link>
     </div>
   );
