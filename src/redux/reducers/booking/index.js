@@ -5,8 +5,10 @@ export const Booking = (
     selectedSalonId: null,
     selectedServiceId: null,
     selectedStaffId: null,
-    selectedDate: null,
-    customerInfo: null,
+    priceOriginal: null,
+    serviceTime: null,
+    bookingDetails: null,
+    successMessage: null,
     errMess: null,
   },
   action
@@ -15,11 +17,36 @@ export const Booking = (
     case BookingActionTypes.UPDATE_SELECTED_SALON_ID:
       return { ...state, selectedSalonId: action.payload, errMess: null };
 
-    case BookingActionTypes.UPDATE_SELECTED_SERVICE_ID:
-      return { ...state, selectedServiceId: action.payload, errMess: null };
+    case BookingActionTypes.UPDATE_SELECTED_SERVICE:
+      return {
+        ...state,
+        selectedServiceId: action.payload.serviceId,
+        serviceTime: action.payload.service_time,
+        priceOriginal: action.payload.price,
+        errMess: null,
+      };
 
     case BookingActionTypes.UPDATE_SELECTED_STAFF_ID:
       return { ...state, selectedStaffId: action.payload, errMess: null };
+
+    case BookingActionTypes.BOOK_SERVICE_SUCCESSFULLY:
+      return { ...state, bookingDetails: action.payload.bookingDetails, successMessage: action.payload.successMessage, errMess: null };
+
+    case BookingActionTypes.BOOK_SERVICE_FAILED:
+      return { ...state, bookingDetails: null, successMessage: null, errMess: action.payload };
+
+    case BookingActionTypes.RESET_BOOKING_DETAILS:
+      return {
+        ...state,
+        selectedSalonId: null,
+        selectedServiceId: null,
+        selectedStaffId: null,
+        priceOriginal: null,
+        serviceTime: null,
+        bookingDetails: null,
+        successMessage: null,
+        errMess: null,
+      };
 
     default:
       return state;
