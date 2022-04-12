@@ -24,9 +24,7 @@ export const getSalonList = () => (dispatch) => {
         if (response.ok) {
           return response.json();
         } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
+          var error = new Error("Error " + response.status + ": " + response.statusText);
           const errMess = (await response.json()).message;
           dispatch(getSalonListFailed(errMess));
           throw error;
@@ -67,10 +65,10 @@ export const resetServiceList = () => (dispatch) => {
   dispatch({ type: BookingActionTypes.RESET_SERVICE_LIST });
 };
 
-export const updateSelectedServiceId = (serviceId) => (dispatch) => {
+export const updateSelectedService = (service) => (dispatch) => {
   dispatch({
-    type: BookingActionTypes.UPDATE_SELECTED_SERVICE_ID,
-    payload: serviceId,
+    type: BookingActionTypes.UPDATE_SELECTED_SERVICE,
+    payload: service,
   });
 };
 
@@ -86,9 +84,7 @@ export const getServiceList = (salonId) => (dispatch) => {
         if (response.ok) {
           return response.json();
         } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
+          var error = new Error("Error " + response.status + ": " + response.statusText);
           const errMess = (await response.json()).message;
           dispatch(getServiceListFailed(errMess));
           throw error;
@@ -148,9 +144,7 @@ export const getStaffList = (serviceId) => (dispatch) => {
         if (response.ok) {
           return response.json();
         } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
+          var error = new Error("Error " + response.status + ": " + response.statusText);
           const errMess = (await response.json()).message;
           dispatch(getStaffListFailed(errMess));
           throw error;
@@ -185,4 +179,176 @@ const getStaffListFailed = (errMess) => {
     type: BookingActionTypes.GET_STAFF_LIST_FAILED,
     payload: errMess,
   };
+};
+
+export const getStaffCalendar = (staffInfo) => (dispatch) => {
+  const data = new URLSearchParams({ ...staffInfo });
+  return fetch(`${api}api/customer/staffCanledar`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error("Error " + response.status + ": " + response.statusText);
+          const errMess = (await response.json()).message;
+          dispatch(getStaffCalendarFail(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length && response.message) {
+        dispatch(
+          getStaffCalendarSuccessfully({
+            calendar: response.data,
+            successMessage: response.message,
+          })
+        );
+      } else {
+        dispatch(getStaffCalendarFail(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get staff calendar free failed", error);
+    });
+};
+
+const getStaffCalendarSuccessfully = (payload) => {
+  return {
+    type: BookingActionTypes.GET_STAFF_CALENDAR_SUCCESSFULLY,
+    payload,
+  };
+};
+const getStaffCalendarFail = (errMess) => {
+  return {
+    type: BookingActionTypes.GET_STAFF_CALENDAR_FAILED,
+    payload: errMess,
+  };
+};
+
+export const resetStaffCalender = () => (dispatch) => {
+  dispatch({ type: BookingActionTypes.RESET_STAFF_CALENDAR });
+};
+
+export const getHistoryBooking = (token) => (dispatch) => {
+  return fetch(`${api}api/customer/get/historyBooking`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error("Error " + response.status + ": " + response.statusText);
+          const errMess = (await response.json()).message;
+          dispatch(getHistoryBookingFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length) {
+        dispatch(getHistoryBookingSuccessfully(response.data));
+      } else {
+        dispatch(getHistoryBookingFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get profile error: ", error);
+    });
+};
+
+const getHistoryBookingSuccessfully = (historyList) => {
+  return {
+    type: BookingActionTypes.GET_HISTORY_BOOKING_SUCCESSFULLY,
+    payload: historyList,
+  };
+};
+
+const getHistoryBookingFailed = (errMess) => {
+  return {
+    type: BookingActionTypes.GET_HISTORY_BOOKING_FAILED,
+    payload: errMess,
+  };
+};
+
+export const bookService = (bookingInfo, token, callback) => (dispatch) => {
+  const data = new URLSearchParams({ ...bookingInfo });
+  return fetch(`${api}api/customer/create/registerService`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error("Error " + response.status + ": " + response.statusText);
+          const errMess = (await response.json()).message;
+          dispatch(bookServiceFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length && response.message) {
+        dispatch(
+          bookServiceSuccessfully({
+            bookingDetails: response.data[0],
+            successMessage: response.message,
+          })
+        );
+        if (callback) {
+          callback();
+        }
+      } else {
+        dispatch(bookServiceFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Book service failed: ", error);
+    });
+};
+
+const bookServiceSuccessfully = (payload) => {
+  return {
+    type: BookingActionTypes.BOOK_SERVICE_SUCCESSFULLY,
+    payload,
+  };
+};
+const bookServiceFailed = (errMess) => {
+  return {
+    type: BookingActionTypes.BOOK_SERVICE_FAILED,
+    payload: errMess,
+  };
+};
+
+export const resetBookingDetails = () => (dispatch) => {
+  dispatch({ type: BookingActionTypes.RESET_BOOKING_DETAILS });
 };

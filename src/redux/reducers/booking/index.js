@@ -5,8 +5,10 @@ export const Booking = (
     selectedSalonId: null,
     selectedServiceId: null,
     selectedStaffId: null,
-    selectedDate: null,
-    customerInfo: null,
+    priceOriginal: null,
+    serviceTime: null,
+    bookingDetails: null,
+    successMessage: null,
     errMess: null,
   },
   action
@@ -15,11 +17,36 @@ export const Booking = (
     case BookingActionTypes.UPDATE_SELECTED_SALON_ID:
       return { ...state, selectedSalonId: action.payload, errMess: null };
 
-    case BookingActionTypes.UPDATE_SELECTED_SERVICE_ID:
-      return { ...state, selectedServiceId: action.payload, errMess: null };
+    case BookingActionTypes.UPDATE_SELECTED_SERVICE:
+      return {
+        ...state,
+        selectedServiceId: action.payload.serviceId,
+        serviceTime: action.payload.service_time,
+        priceOriginal: action.payload.price,
+        errMess: null,
+      };
 
     case BookingActionTypes.UPDATE_SELECTED_STAFF_ID:
       return { ...state, selectedStaffId: action.payload, errMess: null };
+
+    case BookingActionTypes.BOOK_SERVICE_SUCCESSFULLY:
+      return { ...state, bookingDetails: action.payload.bookingDetails, successMessage: action.payload.successMessage, errMess: null };
+
+    case BookingActionTypes.BOOK_SERVICE_FAILED:
+      return { ...state, bookingDetails: null, successMessage: null, errMess: action.payload };
+
+    case BookingActionTypes.RESET_BOOKING_DETAILS:
+      return {
+        ...state,
+        selectedSalonId: null,
+        selectedServiceId: null,
+        selectedStaffId: null,
+        priceOriginal: null,
+        serviceTime: null,
+        bookingDetails: null,
+        successMessage: null,
+        errMess: null,
+      };
 
     default:
       return state;
@@ -49,7 +76,7 @@ export const Salon = (
 };
 
 export const Service = (
-  state = {    
+  state = {
     serviceList: null,
     errMess: null,
   },
@@ -86,6 +113,46 @@ export const Staff = (
 
     case BookingActionTypes.RESET_STAFF_LIST:
       return { ...state, staffList: null, errMess: null };
+
+    default:
+      return state;
+  }
+};
+
+export const StaffCalendar = (
+  state = {
+    calendar: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case BookingActionTypes.GET_STAFF_CALENDAR_FAILED:
+      return { ...state, calendar: null, errMess: action.payload };
+
+    case BookingActionTypes.GET_STAFF_CALENDAR_SUCCESSFULLY:
+      return { ...state, calendar: action.payload, errMess: null };
+
+    case BookingActionTypes.RESET_STAFF_CALENDAR:
+      return { ...state, calendar: null, errMess: null };
+
+    default:
+      return state;
+  }
+};
+
+export const HistoryBooking = (
+  state = {
+    historyList: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case BookingActionTypes.GET_HISTORY_BOOKING_SUCCESSFULLY:
+      return { ...state, historyList: action.payload, errMess: null };
+
+    case BookingActionTypes.GET_HISTORY_BOOKING_FAILED:
+      return { ...state, errMess: action.payload, historyList: null };
 
     default:
       return state;

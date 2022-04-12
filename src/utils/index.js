@@ -3,6 +3,11 @@ export const convertISOStringToLocaleDateString = (dateStr) => {
   return date.toLocaleDateString("en-GB"); // dd/mm/yyyy
 };
 
+export const convertISOStringToLocaleTimeString = (dateStr)=>{
+  const date = new Date(dateStr)
+  return date.toLocaleTimeString("it-IT")
+}
+
 export const currencyFormatter = new Intl.NumberFormat("vi-VN", {
   style: "currency",
   currency: "VND",

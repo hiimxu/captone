@@ -15,11 +15,13 @@ import Header from "../Header";
 import Footer from "../Footer";
 import RegisterSalon from "../salonOwners/RegisterSalon";
 import SalonDashboard from "../salonOwners/SalonDashboard";
-import SalonHeader from "../salonOwners/SalonHeader";
 import ManageService from "../salonOwners/ManageService";
 import AddService from "../salonOwners/AddService";
 import Staff from "../Staff";
 import FinishBooking from "../FinishBooking";
+import ManageBooking from "../salonOwners/ManageBooking"
+import SalonHstory from "../salonOwners/SalonHstory";
+import Schedule from "../salonOwners/Schedule";
 import { AccountRoles } from "../../constants";
 
 import HomepageMockup from "../mockUp/Homepage";
@@ -60,11 +62,12 @@ const SwitchRoutes = () => {
       return (
         <>
           <SalonDashboard />
-          <div className="component salon-page">
-            <SalonHeader />
+          <div className="salon-page" style={{backgroundColor:"#cfc787"}}>            
             <Routes>
-              <Route path="/" element={<AddService />} />
+              <Route path="/" element={<Schedule/>}></Route>
+              <Route path="/addService" element={<AddService />} />
               <Route path="/manage_service" element={<ManageService />} />
+              <Route path="/history" element={<SalonHstory/>} />
             </Routes>
           </div>
           <Footer />
