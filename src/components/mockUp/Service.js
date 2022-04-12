@@ -35,8 +35,8 @@ export default function Service() {
   return (
     <div style={root}>
       <div className="columns">
-        <div className="column is-3"></div>
-        <div className="column is-6">
+        <div className="column is-2"></div>
+        <div className="column is-8">
           <div
             className="pl-3 pb-3 pr-3 container"
             style={{
@@ -53,6 +53,7 @@ export default function Service() {
                   style={{
                     background:
                       "url(https://cdn.shopify.com/s/files/1/0123/6218/6809/products/9057-a.jpg?v=1624991103)",
+                    border: 1 + "px solid black",
                   }}
                 >
                   <div
@@ -106,17 +107,24 @@ export default function Service() {
             {serviceList?.data?.map((service) => (
               <div
                 className="columns mt-5 mb-5"
-                style={{ background: "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxa8IOyjyaad_1eWoDAeU2nx9VUUS4jgzgy7LA7ZNErOnYkl9_3nQAjmIGxf6vt7Z15Fs&usqp=CAU)",marginLeft: 10 + "px",marginRight: 10 + "px" }}
+                style={{
+                  background:
+                    "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxa8IOyjyaad_1eWoDAeU2nx9VUUS4jgzgy7LA7ZNErOnYkl9_3nQAjmIGxf6vt7Z15Fs&usqp=CAU)",
+                  border: " 1px solid #949494",
+                  marginLeft: 10 + "px",
+                  borderRadius : "15px",
+                  marginRight: 10 + "px",
+                }}
               >
                 <div className="column is-4">
-                  <img src={service.image}></img>
+                  <img src={service.image} style={{ height: "100%", width: "100%  " }}></img>
                 </div>
                 <div className="column is-5">
                   <h1>
                     <span className="has-text-weight-semibold is-size-3 has-text-link-dark">
                       {service.name}
                     </span>
-                    <span className="is-size-4">{" "}-{" "}{service.description}</span>
+                    <span className="is-size-4"> - {service.description}</span>
                   </h1>
                   <p className="is-size-5">
                     {service.service_time} minutes -{" "}
@@ -132,16 +140,17 @@ export default function Service() {
                     onClick={() =>
                       dispatch(updateSelectedServiceId(service.serviceId))
                     }
+                    style={{borderRadius : "15px"}}
                     className="button w-100 is-info"
                   >
-                   <span className="has-text-weight-semibold">Book now</span> 
+                    <span className="has-text-weight-semibold">Book now</span>
                   </Link>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="column is-3"></div>
+        <div className="column is-2"></div>
       </div>
     </div>
   );

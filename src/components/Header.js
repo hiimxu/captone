@@ -22,7 +22,7 @@ export default function Header() {
   };
   const mastheadSubheading = {
     with: "50rem",
-    height: "6rem",
+    height: "6rem", 
   };
   const mastheadSubheadingBottom = {
     with: "50rem",

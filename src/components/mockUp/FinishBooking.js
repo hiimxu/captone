@@ -5,6 +5,7 @@ import {
   convertISOStringToLocaleDateString,
 } from "../../utils";
 import bgImg from "../../assets/barbershopbg.jpg";
+import introbg from "../../assets/introbg-1.jpg";
 import { height } from "@mui/system";
 
 const dataBooking = {
@@ -31,6 +32,7 @@ export default function FinishBooking() {
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
   };
+  const rightReceipt = { height: 400 + "px", background: `url(${introbg})` ,border:"1px solid grey",borderRadius : "0 25px 25px 0"};
   const info = {
     marginLeft: "20%",
   };
@@ -43,6 +45,8 @@ export default function FinishBooking() {
           className="column is-3  mt-5 mb-5"
           style={{
             minHeight: 400 + "px",
+            border:"1px solid grey",
+            borderRadius : "25px 0 0 25px",
             background:
               "url(https://media.istockphoto.com/photos/brown-recycled-paper-crumpled-texture-background-cream-old-vintage-picture-id1278709873?k=20&m=1278709873&s=612x612&w=0&h=1vFDb3aFhBeBOSHjgGHGDQVHIgnJFPqIjXcwp4AShGw=)",
           }}
@@ -129,15 +133,7 @@ export default function FinishBooking() {
           </p>
           <p className="is-size-5">Cash</p>
         </div>
-        <div
-          className="column is-5 mt-5 mb-5"
-          style={{
-            height: 400 + "px",
-            borderLeft: "none",
-            background:
-              "url(https://i.pinimg.com/564x/bd/22/43/bd2243cbf6c18b25246ad1e783212c89.jpg  ",
-          }}
-        >
+        <div className="column is-5 mt-5 mb-5" style={rightReceipt}>
           <div className="card-body text-center">
             <h1 className="text-success display-2">
               <i class="fa-solid fa-circle-check"></i>

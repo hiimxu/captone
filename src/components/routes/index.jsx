@@ -25,6 +25,10 @@ import { AccountRoles } from "../../constants";
 import HomepageMockup from "../mockUp/Homepage";
 import ServiceMockup from "../mockUp/Service";
 import FinishBookingMockup from "../mockUp/FinishBooking";
+import ProfileMockup from "../mockUp/Profile";
+import SalonStaff from "../salonOwners/SalonStaff";
+
+
 
 const SwitchRoutes = () => {
   const { account } = useSelector((state) => state.loginAccount);
@@ -79,15 +83,32 @@ const SwitchRoutes = () => {
         <div className="component">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            {/* Mockup */}
             <Route path="/HomepageMockup" element={<HomepageMockup />} />
-            <Route path="/servicesMockup/:salonId" element={<ServiceMockup />} />
-            <Route path="/FinishBookingMockup" element={<FinishBookingMockup />} />
+            <Route
+              path="/servicesMockup/:salonId"
+              element={<ServiceMockup />}
+            />
+            <Route
+              path="/FinishBookingMockup"
+              element={<FinishBookingMockup />}
+            />
+            <Route path="/ProfileMockUp" element={<ProfileMockup />} />
+
+            {/*  */}
             <Route path="/about" element={<About />} />
             <Route path="/favorite" element={<Favorite />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register_salon" element={<RegisterSalon />} />
             <Route path="/login" element={<Login />} />
             <Route path="forgot_password" element={<ForgotPassword />} />
+            <Route path="SalonDashboard" element={<SalonDashboard />} />
+            <Route path="ManageService" element={<ManageService />} />
+            <Route path="AddService" element={<AddService />} />
+            <Route path="SalonStaff" element={<SalonStaff />} />
+            <Route path="History" element={<History />} />
+            <Route path="Profile" element={<Profile />} />
+            <Route path="/services/:salonId" element={<Service />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>

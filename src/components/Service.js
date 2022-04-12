@@ -12,12 +12,14 @@ import {
 
 import bgImg from "../assets/barbershopbg.jpg";
 import imageUnavailable from "../assets/image-unavailable.png";
+import serviceLists from "../components/mockUp/serviceData.json";
+
 
 export default function Service() {
   const { salonId } = useParams();
-
+  const serviceList = serviceLists;
   const dispatch = useDispatch();
-  const { serviceList } = useSelector((state) => state.service);
+  // const { serviceList } = useSelector((state) => state.service);
 
   useEffect(() => {
     dispatch(getServiceList(salonId));
