@@ -4,7 +4,7 @@ import {
   getScheduleCurrent,
   resetScheduleCurentList,
 } from "../../redux/actions/creators/salon";
-import { convertISOStringToLocaleDateString } from "../../utils";
+import { convertISOStringToLocaleTimeString } from "../../utils";
 
 const mockData = [
   {
@@ -128,7 +128,10 @@ export default function Schedule() {
                 <td>{data.nameService}</td>
                 <td>{data.nameCustomer}</td>
                 {/* <td>{data.timeUse.split(" ")[1].slice(0, -3)}</td> */}
-                <td>{convertISOStringToLocaleDateString(data.timeUse)}</td>
+                <td>{convertISOStringToLocaleTimeString(data.timeUse).slice(
+                      0,
+                      -3
+                    )}</td>
                 <td>{data.nameStaff}</td>
                 <td className="font-weight-bold" style={{color:"#ebae46", fontSize:"1.15rem"}}>{data.nameStatus}</td>
                 <td>
