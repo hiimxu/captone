@@ -144,15 +144,7 @@ export default function Staff() {
                   {staff.name}
                 </option>
 
-                // <Link
-                //       to="/"
-                //       className="btn btn-primary"
-                //       onClick={() => {
-                //         dispatch(updateSelectedStaffId(staff.staffId));
-                //       }}
-                //     >
-                //       Book now
-                //     </Link>
+              
               ))}
             </select>
             <div className="form-check pl-0 mt-3 ml-1">
