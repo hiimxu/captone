@@ -144,15 +144,27 @@ export const StaffCalendar = (
 export const HistoryBooking = (
   state = {
     historyList: null,
+    reservationList: null,
+    historyErrMess: null,
+    reservationErrMess: null,
   },
   action
 ) => {
   switch (action.type) {
     case BookingActionTypes.GET_HISTORY_BOOKING_SUCCESSFULLY:
-      return { ...state, historyList: action.payload, errMess: null };
+      return { ...state, historyList: action.payload, historyErrMess: null };
 
     case BookingActionTypes.GET_HISTORY_BOOKING_FAILED:
-      return { ...state, errMess: action.payload, historyList: null };
+      return { ...state, historyErrMess: action.payload, historyList: null };
+
+    case BookingActionTypes.GET_RESERVATION_SUCCESSFULLY:
+      return { ...state, reservationList: action.payload, reservationErrMess: null };
+
+    case BookingActionTypes.GET_RESERVATION_FAILED:
+      return { ...state, reservationErrMess: action.payload, reservationList: null };
+
+    case BookingActionTypes.RESET_RESERVATION_LIST:
+      return { ...state, reservationErrMess: null, reservationList: null };
 
     default:
       return state;
