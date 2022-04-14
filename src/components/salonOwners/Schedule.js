@@ -5,61 +5,16 @@ import {
   resetScheduleCurentList,
 } from "../../redux/actions/creators/salon";
 import { convertISOStringToLocaleTimeString } from "../../utils";
+import moment from "moment";
 
-const mockData = [
-  {
-    registerServiceID: 94,
-    serviceID: 1,
-    salonID: 1,
-    timeUse: "2022-04-04 12:00:00",
-    price_original: "100",
-    nameStatus: "booked",
-    nameStaff: "staff",
-    staffId: 1,
-    nameSalon: "duy salon",
-    nameService: "combo1",
-    image: "",
-    service_time: "45",
-    nameCustomer: "duy",
-    phone: "0912345678",
-  },
-  {
-    registerServiceID: 92,
-    serviceID: 1,
-    salonID: 1,
-    timeUse: "2022-04-04 12:00:00",
-    price_original: "100",
-    nameStatus: "booked",
-    nameStaff: "staff",
-    staffId: 1,
-    nameSalon: "duy salon",
-    nameService: "combo1",
-    image: "",
-    service_time: "45",
-    nameCustomer: "duy",
-    phone: "0912345678",
-  },
-  {
-    registerServiceID: 99,
-    serviceID: 1,
-    salonID: 1,
-    timeUse: "2022-04-04 12:00:00",
-    price_original: "100",
-    nameStatus: "booked",
-    nameStaff: "staff",
-    staffId: 1,
-    nameSalon: "duy salon",
-    nameService: "combo1",
-    image: "",
-    service_time: "45",
-    nameCustomer: "duy",
-    phone: "0912345678",
-  },
-];
+
 
 export default function Schedule() {
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
-  const [dateFormated, setDateFormated] = useState({ day: convertDate(date) });
+  const [data, setData] = useState({ day: convertDate(date) ,nameStaff:"sta"});
+  
+
+  const [staff,setStaff]=useState("");
 
   const dispatch = useDispatch();
   const { currentSchedule, errMess } = useSelector(
@@ -70,11 +25,11 @@ export default function Schedule() {
   );
 
   useEffect(() => {
-    dispatch(getScheduleCurrent(token, dateFormated));
+    dispatch(getScheduleCurrent(token, data));
     return () => {
       dispatch(resetScheduleCurentList());
     };
-  }, [dispatch, token, dateFormated]);
+  }, [dispatch, token, data]);
 
   const handleFinish = (e) => {
     e.preventDefault();
@@ -88,8 +43,8 @@ export default function Schedule() {
 
   const handleSelectDate = (e) => {
     setDate(e.target.value);
-    setDateFormated({ day: convertDate(e.target.value) });
-    console.log(date);
+    setData({ day: convertDate(e.target.value) ,nameStaff:staff});
+    console.log(data);
   };
   function convertDate(date) {
     var newdate = new Date(date),
@@ -97,6 +52,13 @@ export default function Schedule() {
       day = ("0" + newdate.getDate()).slice(-2);
     return [newdate.getFullYear(), mnth, day].join("-");
   }
+
+  const confirmDialog = orderId=> (
+    <div>
+      
+    </div>
+  )
+
   return (
     <div className="m-0 p-5" style={{ backgroundColor: "#CFC787" }}>
       <div className="mb-3">
@@ -105,17 +67,18 @@ export default function Schedule() {
           type="date"
           value={date}
           onChange={handleSelectDate}
+          
         ></input>
       </div>
       <div className="bg-white rounded">
-        <table className="table">
-          <thead>
+        <table className="table table-striped">
+          <thead className="thead-dark">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Service</th>
               <th scope="col">Customer</th>
-              <th scope="col">Time</th>
               <th scope="col">Stylist</th>
+              <th scope="col">Time</th>
+              <th scope="col">Service</th>
               <th scope="col">Status</th>
               <th scope="col">Finish</th>
               <th scope="col">Cancel</th>
@@ -125,18 +88,29 @@ export default function Schedule() {
             {currentSchedule?.map((data) => (
               <tr key={data.registerServiceID}>
                 <th scope="row">{currentSchedule.indexOf(data) + 1}</th>
-                <td>{data.nameService}</td>
-                <td>{data.nameCustomer}</td>
-                {/* <td>{data.timeUse.split(" ")[1].slice(0, -3)}</td> */}
+                <td>
+                  <tr className="font-weight-bold bg-transparent" style={{ fontSize: "1.2rem", color: "#1E6296" }}>{data.nameCustomer}</tr>
+                  {data.phone ? data.phone : "Salon booked"}
+                </td>
+                <td>{data.nameStaff}</td>
                 <td>{convertISOStringToLocaleTimeString(data.timeUse).slice(
                       0,
                       -3
                     )}</td>
-                <td>{data.nameStaff}</td>
+                <td>
+                  <tr
+                    className="font-weight-bold bg-transparent"
+                    style={{ fontSize: "1.2rem", color: "#1E6296" }}
+                  >
+                    {data.nameService}
+                  </tr>
+                  <tr>{data.service_time} minutes</tr>
+                </td>
+                {/* <td>{data.timeUse.split(" ")[1].slice(0, -3)}</td> */}
                 <td className="font-weight-bold" style={{color:"#ebae46", fontSize:"1.15rem"}}>{data.nameStatus}</td>
                 <td>
                   <button
-                    className="border-0 bg-white"
+                    className="border-0 bg-transparent"
                     onClick={handleFinish}
                     style={{ fontSize: "1.25rem" }}
                   >
@@ -145,7 +119,7 @@ export default function Schedule() {
                 </td>
                 <td>
                   <button
-                    className="border-0 bg-white"
+                    className="border-0 bg-transparent"
                     onClick={handleCancel}
                     style={{ fontSize: "1.25rem" }}
                   >

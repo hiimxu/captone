@@ -37,3 +37,21 @@ export const  SalonHistory= (
       return state;
   }
 };
+
+export const ManageStaff=(
+  state={
+    listStaff:null,
+    errMess:null,
+  },action
+)=>{
+  switch (action.type) {
+    case SalonActionTypes.GET_STAFF_LIST_FOR_SALON_FAILED:
+      return { ...state, listStaff: null, errMess: action.payload };
+    case SalonActionTypes.GET_STAFF_LIST_FOR_SALON_SUCCESSFULLY:
+      return { ...state, listStaff: action.payload.listStaff, errMess: null };
+    case SalonActionTypes.RESET_STAFF_LIST_OF_SALON:
+      return { ...state, listStaff: null, errMess: null };
+    default:
+      return state;
+  }
+};

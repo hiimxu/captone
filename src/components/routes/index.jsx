@@ -60,6 +60,7 @@ const SwitchRoutes = () => {
               <Route path="/addService" element={<AddService />} />
               <Route path="/manage_service" element={<ManageService />} />
               <Route path="/history" element={<SalonHstory/>} />
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
           <Footer />

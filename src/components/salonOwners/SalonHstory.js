@@ -28,8 +28,8 @@ export default function SalonHstory() {
   return (
     <div className="m-0 p-5" style={{ backgroundColor: "#CFC787" }}>
       <div className="bg-white rounded">
-        <table className="table">
-          <thead>
+        <table className="table table-striped">
+          <thead className="thead-dark">
             <tr>
               <th scope="col">#</th>
               <th scope="col">Customer</th>
@@ -45,12 +45,12 @@ export default function SalonHstory() {
               <tr key={data.registerServiceID}>
                 <th scope="row">{historyBooking?.indexOf(data) + 1}</th>
                 <td>
-                  <tr className="font-weight-bold" style={{ fontSize: "1.2rem", color: "#1E6296" }}>{data.nameCustomer}</tr>
+                  <tr className="font-weight-bold bg-transparent" style={{ fontSize: "1.2rem", color: "#1E6296" }}>{data.nameCustomer}</tr>
                   {data.phone ? data.phone : "Salon booked"}
                 </td>
                 <td>
                   <tr
-                    className="font-weight-bold"
+                    className="font-weight-bold bg-transparent"
                     style={{ fontSize: "1.2rem", color: "#1E6296" }}
                   >
                     {data.nameService}
@@ -60,7 +60,7 @@ export default function SalonHstory() {
                 <td className="text-danger font-weight-bold">{currencyFormatter.format(data.price_original)}</td>
                 <td>{data.nameStaff}</td>
                 <td>
-                  <tr><span className="font-weight-bold">Date: </span>{convertISOStringToLocaleDateString(data.timeUse)}</tr>
+                  <tr className="bg-transparent"><span className="font-weight-bold">Date: </span>{convertISOStringToLocaleDateString(data.timeUse)}</tr>
                   <tr>
                   <span className="font-weight-bold">Time: </span>{convertISOStringToLocaleTimeString(data.timeUse).slice(
                       0,

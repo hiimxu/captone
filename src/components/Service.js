@@ -30,12 +30,7 @@ export default function Service() {
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
   };
-  const btnType = {
-    width: "100%",
-    height: "3rem",
-    border: "none",
-    backgroundColor: "#DFC8A5",
-  };
+  
 
   return (
     <div style={root}>

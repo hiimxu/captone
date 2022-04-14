@@ -1,8 +1,8 @@
 import * as SalonActionTypes from "../../types/salon";
 import { api } from "../../../../api/api";
 
-export const getScheduleCurrent = (token, date) => (dispatch) => {
-  const data = new URLSearchParams({ ...date });
+export const getScheduleCurrent = (token, info) => (dispatch) => {
+  const data = new URLSearchParams({ ...info });
   return fetch(`${api}api/salonowner/current`, {
     method: "POST",
     body: data,
@@ -42,7 +42,7 @@ export const getScheduleCurrent = (token, date) => (dispatch) => {
       }
     })
     .catch((error) => {
-      console.log("Get staff calendar free failed", error);
+      console.log("Get schedule failed", error);
     });
 };
 
@@ -128,3 +128,5 @@ export const resetSalonBookingHistoryList= () => (dispatch) => {
     type: SalonActionTypes.RESET_HISTORY_BOOKING_LIST,
   });
 };
+
+
