@@ -86,10 +86,10 @@ export default function Schedule() {
           </thead>
           <tbody>
             {currentSchedule?.map((data) => (
-              <tr key={data.registerServiceID}>
+              <tr key={data.registerServiceId}>
                 <th scope="row">{currentSchedule.indexOf(data) + 1}</th>
                 <td>
-                  <tr className="font-weight-bold bg-transparent" style={{ fontSize: "1.2rem", color: "#1E6296" }}>{data.nameCustomer}</tr>
+                  <p className="font-weight-bold bg-transparent" style={{ fontSize: "1.2rem", color: "#1E6296" }}>{data.nameCustomer}</p>
                   {data.phone ? data.phone : "Salon booked"}
                 </td>
                 <td>{data.nameStaff}</td>
@@ -98,13 +98,13 @@ export default function Schedule() {
                       -3
                     )}</td>
                 <td>
-                  <tr
+                  <p
                     className="font-weight-bold bg-transparent"
                     style={{ fontSize: "1.2rem", color: "#1E6296" }}
                   >
                     {data.nameService}
-                  </tr>
-                  <tr>{data.service_time} minutes</tr>
+                  </p>
+                  <p>{data.service_time} minutes</p>
                 </td>
                 {/* <td>{data.timeUse.split(" ")[1].slice(0, -3)}</td> */}
                 <td className="font-weight-bold" style={{color:"#ebae46", fontSize:"1.15rem"}}>{data.nameStatus}</td>
