@@ -59,12 +59,13 @@ const mockData = [
 
 export default function Schedule() {
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
-  const [dateFormated, setDateFormated] = useState({ day: convertDate(date) });
+  const [dateFormated, setDateFormated] = useState({ day: convertDate(date), nameStaff: "" });
 
   const dispatch = useDispatch();
   const { currentSchedule, errMess } = useSelector(
     (state) => state.scheduleCurent
   );
+  console.log("SCHEDULE " + currentSchedule)
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
@@ -88,7 +89,7 @@ export default function Schedule() {
 
   const handleSelectDate = (e) => {
     setDate(e.target.value);
-    setDateFormated({ day: convertDate(e.target.value) });
+    setDateFormated({ day: convertDate(e.target.value), nameStaff: "" });
     console.log(date);
   };
   function convertDate(date) {
@@ -128,12 +129,19 @@ export default function Schedule() {
                 <td>{data.nameService}</td>
                 <td>{data.nameCustomer}</td>
                 {/* <td>{data.timeUse.split(" ")[1].slice(0, -3)}</td> */}
-                <td>{convertISOStringToLocaleTimeString(data.timeUse).slice(
-                      0,
-                      -3
-                    )}</td>
+                <td>
+                  {convertISOStringToLocaleTimeString(data.timeUse).slice(
+                    0,
+                    -3
+                  )}
+                </td>
                 <td>{data.nameStaff}</td>
-                <td className="font-weight-bold" style={{color:"#ebae46", fontSize:"1.15rem"}}>{data.nameStatus}</td>
+                <td
+                  className="font-weight-bold"
+                  style={{ color: "#ebae46", fontSize: "1.15rem" }}
+                >
+                  {data.nameStatus}
+                </td>
                 <td>
                   <button
                     className="border-0 bg-white"

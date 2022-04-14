@@ -13,24 +13,27 @@ import History from "../History";
 import Navigation from "../Navigation";
 import Header from "../Header";
 import Footer from "../Footer";
+import Staff from "../Staff";
+import { AccountRoles } from "../../constants";
+import FinishBooking from "../FinishBooking";
+
 import RegisterSalon from "../salonOwners/RegisterSalon";
 import SalonDashboard from "../salonOwners/SalonDashboard";
+import SalonDashboardMockup from "../mockUp/SalonDashboardMockup";
 import ManageService from "../salonOwners/ManageService";
 import AddService from "../salonOwners/AddService";
-import Staff from "../Staff";
-import FinishBooking from "../FinishBooking";
-import ManageBooking from "../salonOwners/ManageBooking"
+import ManageBooking from "../salonOwners/ManageBooking";
 import SalonHstory from "../salonOwners/SalonHstory";
 import Schedule from "../salonOwners/Schedule";
-import { AccountRoles } from "../../constants";
+import SalonStaff from "../salonOwners/SalonStaff";
+import SalonBusinessInfo from "../salonOwners/SalonBusinessInfo";
+import HeaderSalon from "../salonOwners/Header";
+
 
 import HomepageMockup from "../mockUp/Homepage";
 import ServiceMockup from "../mockUp/Service";
 import FinishBookingMockup from "../mockUp/FinishBooking";
 import ProfileMockup from "../mockUp/Profile";
-import SalonStaff from "../salonOwners/SalonStaff";
-
-
 
 const SwitchRoutes = () => {
   const { account } = useSelector((state) => state.loginAccount);
@@ -61,15 +64,17 @@ const SwitchRoutes = () => {
     if (account.role === AccountRoles.Salon) {
       return (
         <>
-          <SalonDashboard />
-          <div className="salon-page" style={{backgroundColor:"#cfc787"}}>            
+        <HeaderSalon/>
             <Routes>
-              <Route path="/" element={<Schedule/>}></Route>
+              <Route path="/" element={<Schedule />}></Route>
               <Route path="/addService" element={<AddService />} />
               <Route path="/manage_service" element={<ManageService />} />
-              <Route path="/history" element={<SalonHstory/>} />
+              <Route path="/history" element={<SalonHstory />} />
+              <Route path="SalonDashboard" element={<SalonDashboard />} />{" "}
+              <Route path="SalonStaff" element={<SalonStaff />} />
+              <Route path="SalonBusinessInfo" element={<SalonBusinessInfo />} />
             </Routes>
-          </div>
+          {/* </div> */}
           <Footer />
         </>
       );
@@ -97,22 +102,31 @@ const SwitchRoutes = () => {
               element={<FinishBookingMockup />}
             />
             <Route path="/ProfileMockUp" element={<ProfileMockup />} />
-
-            {/*  */}
+            {/* User */}
             <Route path="/about" element={<About />} />
             <Route path="/favorite" element={<Favorite />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/register_salon" element={<RegisterSalon />} />
             <Route path="/login" element={<Login />} />
             <Route path="forgot_password" element={<ForgotPassword />} />
-            <Route path="SalonDashboard" element={<SalonDashboard />} />
-            <Route path="ManageService" element={<ManageService />} />
-            <Route path="AddService" element={<AddService />} />
-            <Route path="SalonStaff" element={<SalonStaff />} />
             <Route path="History" element={<History />} />
             <Route path="Profile" element={<Profile />} />
             <Route path="/services/:salonId" element={<Service />} />
             <Route path="*" element={<Navigate to="/login" />} />
+            {/* Salon */}
+            <Route path="/register_salon" element={<RegisterSalon />} />
+            <Route path="SalonDashboard" element={<SalonDashboard />} />{" "}
+            <Route
+              path="SalonDashboardMockup"
+              element={<SalonDashboardMockup />}
+            />
+            <Route path="SalonStaff" element={<SalonStaff />} />
+            <Route path="SalonHstory" element={<SalonHstory />} />
+            <Route path="Schedule" element={<Schedule />} />
+            <Route path="ManageService" element={<ManageService />} />
+            <Route path="ManageBooking" element={<ManageBooking />} />
+            <Route path="AddService" element={<AddService />} />
+            <Route path="SalonBusinessInfo" element={<SalonBusinessInfo />} />
+            {/*  */}
           </Routes>
         </div>
         <Footer />

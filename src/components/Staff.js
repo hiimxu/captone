@@ -37,9 +37,9 @@ export default function Staff() {
   useEffect(() => {
     if (staff && dateFormated) {
       setTime(undefined);
-      setStaffInfo({ staffId: staff, day: dateFormated });
+      setStaffInfo({ staffId: staff, day: dateFormated, service_time: serviceTime });
     }
-  }, [staff, dateFormated]);
+  }, [staff, dateFormated, serviceTime]);
 
   useEffect(() => {
     dispatch(getServiceList(serviceId));

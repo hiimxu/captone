@@ -66,9 +66,11 @@ export const resetScheduleCurentList = () => (dispatch) => {
   });
 };
 
-export const getSalonBookingHistory = (token) => (dispatch) => {
+export const getSalonBookingHistory = (token,date) => (dispatch) => {
+  const data = new URLSearchParams({...date})
   return fetch(`${api}api/salonowner/ordersHistory`, {
-    method: "GET",
+    method: "POST",
+    body: data,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       "x-access-token": `${token}`,

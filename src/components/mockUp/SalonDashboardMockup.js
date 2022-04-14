@@ -3,41 +3,14 @@ import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import salonFixedData from "../salonOwners/DashboardData.json";
 
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getSalonBookingHistory,
-  resetSalonBookingHistoryList,
-  getScheduleCurrent,
-  resetScheduleCurentList,
-} from "../../redux/actions/creators/salon";
-import {
-  convertISOStringToLocaleDateString,
-  convertISOStringToLocaleTimeString,
-  currencyFormatter,
-} from "../../utils";
-
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
-import { setDay } from "date-fns";
 
 export default function SalonDashboard() {
-  const link = {
-    fontSize: "20px",
-    color: "white",
-  };
-  const root = {
-    backgroundImage: `url(${bgImg})`,
-    backgroundRepeat: "repeat-y",
-    backgroundSize: "100%",
-    marginTop:"106px"
-  };
-  const fakeDashboardData = salonFixedData;
-  const dispatch = useDispatch();
-
   const menuStyle = {
     height: "100%",
     backgroundColor: "rgb(0, 82, 189, 95%)",
@@ -46,11 +19,41 @@ export default function SalonDashboard() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    marginTop:"106px"
+    marginTop: "96px",
   };
-  const { token, account_name: username } = useSelector(
-    (state) => state.loginAccount.account
-  );
+  // -- SCROLL SIDE MENU STYLE CHANGE --
+  // const [sideMenu, setMenu] = useState({});
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     //console.log(window.scrollY);
+
+  //     if (window.scrollY >= 80) {
+  //       setMenu({
+  //         height: "100%",
+  //         backgroundColor: "rgb(0, 82, 189, 95%)",
+  //         width: "3%",
+  //         position: "fixed",
+  //         top: 0,
+  //         left: 0,
+  //         overflowX: "hidden",
+  //         marginTop: "64px",
+  //       });
+  //     } else {
+  //       setMenu({
+  //         height: "100%",
+  //         backgroundColor: "rgb(0, 82, 189, 95%)",
+  //         width: "3%",
+  //         position: "fixed",
+  //         top: 0,
+  //         left: 0,
+  //         overflowX: "hidden",
+  //         marginTop: "96px",
+  //       });
+  //     }
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  // }, []);
+
   // -- SIDE MENU HOVER --
   const changeMouseOver = (e) => {
     e.target.style.color = "rgb(0, 82, 189)";
@@ -59,62 +62,22 @@ export default function SalonDashboard() {
     e.target.style.color = "white";
   };
 
+  const link = {
+    fontSize: "20px",
+    color: "white",
+  };
+  const root = {
+    backgroundImage: `url(${bgImg})`,
+    backgroundRepeat: "repeat-y",
+    backgroundSize: "100%",
+  };
+  const fakeDashboardData = salonFixedData;
+
   // -- TABS --
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  // -- GET HISTORY DATA --
-  const { historyBooking } = useSelector((state) => state.salonHistory);
-  const [day, setDay] = useState(new Date().toISOString().substring(0, 10));
-  const [dayFormated, setDayFormated] = useState({
-    day: convertDate(day)
-  });
-  const handleSelectDateHistory = (e) => {
-    setDay(e.target.value);
-    setDayFormated({ day: convertDate(e.target.value)});
-  };
-  useEffect(() => {
-    dispatch(getSalonBookingHistory(token,dayFormated));
-    return () => {
-      dispatch(resetSalonBookingHistoryList());
-    };
-  }, [dispatch, token, dayFormated]);
-
-  //-- GET CURRENT DATA --
-  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
-  const [dateFormated, setDateFormated] = useState({
-    day: convertDate(date),
-    nameStaff: "",
-  });
-  const { currentSchedule } = useSelector((state) => state.scheduleCurent);
-  console.log("CURRENT SCHEDULE" + currentSchedule);
-  useEffect(() => {
-    dispatch(getScheduleCurrent(token, dateFormated));
-    return () => {
-      dispatch(resetScheduleCurentList());
-    };
-  }, [dispatch, token, dateFormated]);
-  const handleFinish = (e) => {
-    e.preventDefault();
-    console.log("finish");
-  };
-  const handleCancel = (e) => {
-    e.preventDefault();
-    console.log("cancel");
-  };
-  const handleSelectDate = (e) => {
-    setDate(e.target.value);
-    setDateFormated({ day: convertDate(e.target.value), nameStaff: "" });
-    console.log(date);
-  };
-  function convertDate(date) {
-    var newdate = new Date(date),
-      mnth = ("0" + (newdate.getMonth() + 1)).slice(-2),
-      day = ("0" + newdate.getDate()).slice(-2);
-    return [newdate.getFullYear(), mnth, day].join("-");
-  }
 
   return (
     <div>
@@ -191,6 +154,28 @@ export default function SalonDashboard() {
         </aside>
       </div>
       <div style={root}>
+        {/* logo */}
+        {/* <div>
+          <nav
+            className="navbar navbar-expand-lg is-fixed-top fixed-top font-weight-bold"
+            style={{ backgroundColor: "rgb(0,0,0,90%)" }}
+          >
+            <div className="justify-content-center navbar-collapse text">
+              <ul className="menu navbar-nav ml-5">
+                <li className="nav-item">
+                  <Link to="/about">
+                    <img
+                      src={logoImg}
+                      alt="logo"
+                      style={{ width: "100%", height: "5rem" }}
+                    />
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div> */}
+
         <div
           className="columns"
           style={{
@@ -233,8 +218,6 @@ export default function SalonDashboard() {
                     className="input is-normal"
                     placeholder="Normal input"
                     type="date"
-                    value={date}
-                    onChange={handleSelectDate}
                   ></input>
                 </div>
                 <table className="table">
@@ -264,31 +247,16 @@ export default function SalonDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentSchedule?.map((element) => (
+                    {fakeDashboardData[0]?.map((element) => (
                       <tr>
-                        <th>{currentSchedule.indexOf(element) + 1}</th>
-                        <td>{element.nameService}</td>
-                        <td>{element.nameCustomer}</td>
-                        <td>
-                          {" "}
-                          {convertISOStringToLocaleTimeString(
-                            element.timeUse
-                          ).slice(0, -3)}
-                        </td>
-                        <td>{element.nameStaff}</td>
-                        <td className="has-text-link has-text-weight-bold">{element.nameStatus}</td>
-
-                        <td className="has-text-centered has-text-white">
-                          <button
-                            className="button is-rounded is-success mr-2"
-                            onClick={handleFinish}
-                          >
-                            <i className="fa-solid fa-circle-check"></i>
-                          </button>
-                          <button
-                            className="button is-rounded is-danger mr-2"
-                            onClick={handleCancel}
-                          >
+                        <th>{element.stt}</th>
+                        <td>{element.order}</td>
+                        <td>{element.customerName}</td>
+                        <td>{element.time}</td>
+                        <td>{element.stylist}</td>
+                        <td className="has-text-link">{element.status}</td>
+                        <td className="has-text-centered">
+                          <button className="button is-rounded is-danger">
                             <i className="fa-solid fa-trash-can"></i>
                           </button>
                         </td>
@@ -303,7 +271,6 @@ export default function SalonDashboard() {
                     style={{ width: "400px" }}
                     className="input is-normal"
                     placeholder="Normal input"
-                    onChange={handleSelectDateHistory}
                     type="date"
                   ></input>
                 </div>
@@ -320,19 +287,10 @@ export default function SalonDashboard() {
                         <p title="CustomerName">Customer's name</p>
                       </th>
                       <th>
-                        <p title="CustomerPhone">Customer's phone</p>
-                      </th>
-                      <th>
                         <p title="Time">Time</p>
                       </th>
                       <th>
                         <p title="Stylist">Stylist</p>
-                      </th>
-                      <th>
-                        <p title="Stylist">Date</p>
-                      </th>
-                      <th>
-                        <p title="Stylist">Time</p>
                       </th>
                       <th>
                         <p title="Status">Status</p>
@@ -340,36 +298,19 @@ export default function SalonDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {historyBooking?.map((element) => (
+                    {fakeDashboardData[1]?.map((element) => (
                       <tr>
-                        <th>{historyBooking?.indexOf(element) + 1}</th>
-                        <td>{element.nameService}</td>
-                        <td>{element.nameCustomer}</td>
-                        <td>
-                          {element.phone ? element.phone : "Salon booked"}
-                        </td>
-                        <td>{element.service_time} minutes</td>
-                        <td>
-                          {" "}
-                          {convertISOStringToLocaleDateString(element.timeUse)}
-                        </td>
-                        <td>
-                          {" "}
-                          {convertISOStringToLocaleTimeString(
-                            element.timeUse
-                          ).slice(0, -3)}
-                        </td>
-                        <td>{element.nameStaff}</td>
-                        <td
-                          className="font-weight-bold"
-                          style={
-                            element.nameStatus === "finished"
-                              ? { color: "green" }
-                              : { color: "red" }
-                          }
-                        >
-                          {element.nameStatus}
-                        </td>
+                        <th>{element.stt}</th>
+                        <td>{element.order}</td>
+                        <td>{element.customerName}</td>
+                        <td>{element.time}</td>
+                        <td>{element.stylist}</td>
+                        {element.status === "Finished" && (
+                          <td className="has-text-success">{element.status}</td>
+                        )}
+                        {element.status === "Cancelled" && (
+                          <td className="has-text-danger">{element.status}</td>
+                        )}
                       </tr>
                     ))}
                   </tbody>

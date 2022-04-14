@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
-import salonFixedData from "./DashboardData.json";
-
+import imageUnavailable from "../../assets/image-unavailable.png";
 import { useState } from "react";
-import { Modal, Box, Typography } from "@mui/material";
+import { Modal, Box } from "@mui/material";
 
 export default function SalonDashboard() {
   const changeMouseOver = (e) => {
@@ -33,7 +32,18 @@ export default function SalonDashboard() {
     backgroundSize: "100%",
     marginTop:"106px"
   };
-  const fakeDashboardData = salonFixedData;
+  const fakeData = {
+    salonId: "1",
+    salonName: "Golden Scissor",
+    taxCode:"6234vs02hf82",
+    phone: "092 312 5123",
+    timeOpen: "07:30:00",
+    timeClose: "20:00:00",
+    address: "Ba Đình, Hà Nội",
+    email: "salon.goldenscissor@gmail.com",
+    image:
+      "https://camnanghaiphong.vn/wp-content/uploads/2022/02/Top-10-tiem-salon-toc-chat-luong-Hai-Phong.jpg",
+  };
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -143,7 +153,7 @@ export default function SalonDashboard() {
         >
           <div className="column is-2"></div>
           <div
-            className="column is-8"
+            className="column is-8  has-text-centered "
             style={{
               background: "url(" + paperbg + ")",
               padding: 0,
@@ -151,66 +161,43 @@ export default function SalonDashboard() {
               marginBottom: "30px",
             }}
           >
-            <h1 className="is-size-1 has-text-centered mt-5 mb-5">
-              Employee table
-            </h1>
-            <div className="has-text-right mb-5 mr-5">
+            <h1 className="is-size-1 mt-5 mb-5">Salon Business Information</h1>
+            <div className="columns">
+              <div className="column is-6 has-text-right">
+                <p className="is-size-4">Salon Id : </p>
+                <p className="is-size-4">Salon name : </p>
+                <p className="is-size-4">Tax code : </p>
+                <p className="is-size-4">Phone number : </p>
+                <p className="is-size-4">Time open : </p>
+                <p className="is-size-4">Time close : </p>
+                <p className="is-size-4">Address : </p>
+                <p className="is-size-4">Email : </p>
+                <p className="is-size-4">Salon image : </p>
+              </div>
+              <div className="column is-6 has-text-left">
+                <p className="is-size-4">{fakeData.salonId}</p>
+                <p className="is-size-4">{fakeData.salonName}</p>
+                <p className="is-size-4 has-text-primary has-text-weight-bold">{fakeData.taxCode}</p>
+                <p className="is-size-4">{fakeData.phone}</p>
+                <p className="is-size-4 has-text-danger">{fakeData.timeOpen}</p>
+                <p className="is-size-4 has-text-danger">{fakeData.timeClose}</p>
+                <p className="is-size-4">{fakeData.address}</p>
+                <p className="is-size-4 is-underlined">{fakeData.email}</p>
+                <img style={{maxHeight:"300px", maxWidth:"500px", marginTop: "10px"}}
+                  src={fakeData.image ? fakeData.image : imageUnavailable}
+                ></img>
+              </div>
+            </div>
+
+            <div className="has-text-centered mb-5 mr-5">
               <button
-                className="button is-info is-rounded is-outlined"
+                className="button is-info is-rounded"
+                style={{ width: "200px" }}
                 onClick={handleOpen}
               >
-                {" "}
-                Add Employee
+                Edit
               </button>
             </div>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>
-                    <p title="stt">#</p>
-                  </th>
-                  <th>
-                    <p title="EmployeeName">Employee's Name</p>
-                  </th>
-                  <th>
-                    <p title="EmployeeTitle">Employee's Title</p>
-                  </th>
-                  <th>
-                    <p title="Phone">Phone</p>
-                  </th>
-                  <th>
-                    <p title="Status">Status</p>
-                  </th>
-                  <th className="has-text-centered">
-                    <p title="Actions">Actions</p>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {fakeDashboardData[2]?.map((element) => (
-                  <tr>
-                    <th>{element.stt}</th>
-                    <td>{element.employeeName}</td>
-                    <td>{element.employeeTitle}</td>
-                    <td>{element.phone}</td>
-                    {element.status === "Idle" && (
-                      <td className="has-text-link-dark">{element.status}</td>
-                    )}
-                    {element.status === "Occupied" && (
-                      <td className="has-text-danger-dark">{element.status}</td>
-                    )}
-                    <td className="has-text-centered">
-                      <button className="button is-rounded is-primary mr-5">
-                        <i className="fa-solid fa-pen-to-square"></i>
-                      </button>
-                      <button className="button is-rounded is-danger">
-                        <i className="fa-solid fa-trash-can"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
           <div className="column is-2"></div>
         </div>
@@ -240,44 +227,62 @@ export default function SalonDashboard() {
             <form action="" method="post" className="addEmployee">
               <fieldset>
                 <div className="has-text-right" style={{marginRight: "100px"}}>
-                  <label for="Name">Employee's name:</label>
+                  <label for="Name">Salon's name:</label>
                   <input
-                    id="Student"
+                    id="name"
                     className="input w-50 ml-5"
                     style={{ height: "30px" }}
                     type="text"
                     placeholder="Text input"
                   />
                   <br></br>
-                  <label className="mt-5" for="Title">Employee's title:</label>
+                  <label className=" mt-5" for="taxcode">Tax code:</label>
                   <input
-                    id="Title"
-                    className="input mt-5 w-50 ml-5"
-                    style={{ height: "30px" }}
-                    type="text"
-                    placeholder="Text input"
-                  />{" "}
-                  <br></br>
-                  <label className="mt-5" for="Phone">Employee's phone:</label>
-                  <input
-                    id="Phone"
+                    id="taxcode"
                     className="input w-50 mt-5 ml-5"
                     style={{ height: "30px" }}
                     type="text"
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="Address">Employee's address:</label>
+                  <label className=" mt-5" for="timeOpen">Time open:</label>
                   <input
-                    id="Address"
+                    id="timeOpen"
                     className="input w-50 mt-5 ml-5"
                     style={{ height: "30px" }}
                     type="text"
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="License">Employee's license:</label>
-                  <input id="License" className="mt-5 ml-5" type="file" />
+                  <label className=" mt-5" for="timeClose">Time close:</label>
+                  <input
+                    id="timeClose"
+                    className="input w-50 mt-5 ml-5"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Text input"
+                  />{" "}
+                  <br></br>
+                  <label className=" mt-5" for="address">Address:</label>
+                  <input
+                    id="address"
+                    className="input w-50 mt-5 ml-5"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Text input"
+                  />{" "}
+                  <br></br>
+                  <label className=" mt-5" for="email">Email:</label>
+                  <input
+                    id="email"
+                    className="input w-50 mt-5 ml-5"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Text input"
+                  />{" "}
+                  <br></br>
+                  <label className=" mt-5" for="image">Salon's image:</label>
+                  <input id="imgae" className=" ml-5 mt-5" type="file"  accept="image/png, image/gif, image/jpeg" />
                 </div>{" "}
                 <br></br>
                 <div className="has-text-right">
@@ -288,7 +293,7 @@ export default function SalonDashboard() {
                   <input
                     className="button is-rounded is-info ml-5"
                     type="submit"
-                    value="Add"
+                    value="Confirm"
                   ></input>
                 </div>
               </fieldset>

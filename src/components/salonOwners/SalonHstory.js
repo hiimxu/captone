@@ -45,7 +45,12 @@ export default function SalonHstory() {
               <tr key={data.registerServiceID}>
                 <th scope="row">{historyBooking?.indexOf(data) + 1}</th>
                 <td>
-                  <tr className="font-weight-bold" style={{ fontSize: "1.2rem", color: "#1E6296" }}>{data.nameCustomer}</tr>
+                  <tr
+                    className="font-weight-bold"
+                    style={{ fontSize: "1.2rem", color: "#1E6296" }}
+                  >
+                    {data.nameCustomer}
+                  </tr>
                   {data.phone ? data.phone : "Salon booked"}
                 </td>
                 <td>
@@ -57,20 +62,25 @@ export default function SalonHstory() {
                   </tr>
                   <tr>{data.service_time} minutes</tr>
                 </td>
-                <td className="text-danger font-weight-bold">{currencyFormatter.format(data.price_original)}</td>
+                <td className="text-danger font-weight-bold">
+                  {currencyFormatter.format(data.price_original)}
+                </td>
                 <td>{data.nameStaff}</td>
                 <td>
-                  <tr><span className="font-weight-bold">Date: </span>{convertISOStringToLocaleDateString(data.timeUse)}</tr>
                   <tr>
-                  <span className="font-weight-bold">Time: </span>{convertISOStringToLocaleTimeString(data.timeUse).slice(
+                    <span className="font-weight-bold">Date: </span>
+                    {convertISOStringToLocaleDateString(data.timeUse)}
+                  </tr>
+                  <tr>
+                    <span className="font-weight-bold">Time: </span>
+                    {convertISOStringToLocaleTimeString(data.timeUse).slice(
                       0,
                       -3
                     )}
                   </tr>
                 </td>
                 {/* <td>{data.timeUse.split(" ")[1].slice(0, -3)}</td> */}
-                
-                
+
                 <td
                   className="font-weight-bold"
                   style={

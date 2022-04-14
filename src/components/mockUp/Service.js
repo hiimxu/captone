@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getServiceList,
   resetServiceList,
-  updateSelectedServiceId,
+  updateSelectedService,
 } from "../../redux/actions/creators/booking";
 import { currencyFormatter } from "../../utils";
 
@@ -35,8 +35,8 @@ export default function Service() {
   return (
     <div style={root}>
       <div className="columns">
-        <div className="column is-2"></div>
-        <div className="column is-8">
+        <div className="column is-3"></div>
+        <div className="column is-6">
           <div
             className="pl-3 pb-3 pr-3 container"
             style={{
@@ -138,7 +138,7 @@ export default function Service() {
                   <Link
                     to={`/staff/${service.salonId}`}
                     onClick={() =>
-                      dispatch(updateSelectedServiceId(service.serviceId))
+                      dispatch(updateSelectedService(service.serviceId))
                     }
                     style={{borderRadius : "15px"}}
                     className="button w-100 is-info"
@@ -150,7 +150,7 @@ export default function Service() {
             ))}
           </div>
         </div>
-        <div className="column is-2"></div>
+        <div className="column is-3"></div>
       </div>
     </div>
   );
