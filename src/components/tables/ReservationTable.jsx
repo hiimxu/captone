@@ -14,11 +14,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ReplayCircleFilledIcon from "@mui/icons-material/ReplayCircleFilled";
-import { convertISOStringToLocaleDateString, currencyFormatter } from "../../utils";
+import { currencyFormatter } from "../../utils";
 import { Box, Tooltip, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { cancelReservation, getReservation, resetReservationList, updateSelectedService, updateSelectedSalonId } from "../../redux/actions/creators/booking";
 import { useNavigate } from "react-router";
+import moment from "moment";
 
 const TableRow = styled(MuiTableRow)({
   "& td:last-child, & th:last-child": { borderRight: 0 },
@@ -128,6 +129,9 @@ const ReservationTable = ({ data, historyTable }) => {
                 <TableCell>
                   <Box>
                     <Box display="flex" flexDirection="row">
+                      <PrimaryText>{row.nameSalon}</PrimaryText>
+                    </Box>
+                    <Box display="flex" flexDirection="row">
                       <PrimaryText>{row.nameService}</PrimaryText>
                       <ServicePriceText>{currencyFormatter.format(row.price_original)}</ServicePriceText>
                     </Box>
@@ -137,7 +141,7 @@ const ReservationTable = ({ data, historyTable }) => {
                   </Box>
                 </TableCell>
                 <TableCell>
-                  <PrimaryText>{convertISOStringToLocaleDateString(row.timeUse)}</PrimaryText>
+                  <PrimaryText>{moment(row.timeUse).format("DD/MM/YYYY HH:mm")}</PrimaryText>
                 </TableCell>
                 <TableCell>
                   <StatusText
