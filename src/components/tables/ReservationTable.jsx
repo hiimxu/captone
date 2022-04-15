@@ -91,7 +91,7 @@ const ReservationTable = ({ data, historyTable }) => {
     const { salonId, serviceId, service_time, price_original: price } = item;
     dispatch(updateSelectedSalonId(salonId));
     dispatch(updateSelectedService({ serviceId, service_time, price }));
-    navigate(`/staff/${serviceId}`);
+    navigate(`/staff/${salonId}`);
   };
 
   return (

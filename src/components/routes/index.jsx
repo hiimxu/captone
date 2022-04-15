@@ -27,12 +27,13 @@ import SalonHstory from "../salonOwners/oldComponents/SalonHstory";
 import Schedule from "../salonOwners/oldComponents/Schedule";
 import SalonStaff from "../salonOwners/SalonStaff";
 import SalonBusinessInfo from "../salonOwners/SalonBusinessInfo";
-import HeaderSalon from "../salonOwners/Header";
+// import HeaderSalon from "../salonOwners/Header";
 
 import HomepageMockup from "../mockUp/Homepage";
 import ServiceMockup from "../mockUp/Service";
 import FinishBookingMockup from "../mockUp/FinishBooking";
 import ProfileMockup from "../mockUp/Profile";
+import ManageStaff from "../salonOwners/ManageStaff";
 
 const SwitchRoutes = () => {
   const { account } = useSelector((state) => state.loginAccount);
@@ -63,7 +64,7 @@ const SwitchRoutes = () => {
     if (account.role === AccountRoles.Salon) {
       return (
         <>
-          <HeaderSalon />
+          {/* <HeaderSalon /> */}
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/addService" element={<AddService />} />
@@ -71,10 +72,9 @@ const SwitchRoutes = () => {
             <Route path="/" element={<SalonDashboard />} />{" "}
             <Route path="/SalonStaff" element={<SalonStaff />} />
             <Route path="/SalonBusinessInfo" element={<SalonBusinessInfo />} />
-
+            <Route path="/manage_staff" element={<ManageStaff />} />
             <Route path="/Schedule" element={<Schedule />} />
             <Route path="/SalonHstory" element={<SalonHstory />} />
-
           </Routes>
           {/* </div> */}
           <Footer />

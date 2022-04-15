@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
-import salonFixedData from "../salonOwners/DashboardData.json";
+import { logout } from "../../redux/actions/creators/auth";
+// import salonFixedData from "../salonOwners/DashboardData.json";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -37,7 +38,7 @@ export default function SalonDashboard() {
     backgroundSize: "100%",
     marginTop: "106px",
   };
-  const fakeDashboardData = salonFixedData;
+  // const fakeDashboardData = salonFixedData;
   const dispatch = useDispatch();
 
   const menuStyle = {
@@ -53,6 +54,10 @@ export default function SalonDashboard() {
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
+  const { account } = useSelector((state) => state.loginAccount);
+  const handleLogout = () => {
+    dispatch(logout("token"));
+  };
 
   // -- MODAL --
   const style = {
@@ -208,6 +213,16 @@ export default function SalonDashboard() {
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
+            <li>
+              <Link
+                className="text-white"
+                style={link}
+                to="/"
+                onClick={handleLogout}
+              >
+                <i className="fa-solid fa-right-from-bracket"></i> Logout
+              </Link>
+            </li>
           </ul>
         </aside>
       </div>
