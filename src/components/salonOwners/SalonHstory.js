@@ -69,39 +69,39 @@ export default function SalonHstory() {
               <tr key={data.registerServiceID}>
                 <th scope="row">{historyBooking?.indexOf(data) + 1}</th>
                 <td>
-                  <tr
+                  <p
                     className="font-weight-bold bg-transparent"
                     style={{ fontSize: "1.2rem", color: "#1E6296" }}
                   >
                     {data.nameCustomer}
-                  </tr>
+                  </p>
                   {data.phone ? data.phone : "Salon booked"}
                 </td>
                 <td>
-                  <tr
+                  <p
                     className="font-weight-bold bg-transparent"
                     style={{ fontSize: "1.2rem", color: "#1E6296" }}
                   >
                     {data.nameService}
-                  </tr>
-                  <tr>{data.service_time} minutes</tr>
+                  </p>
+                  <p>{data.service_time} minutes</p>
                 </td>
                 <td className="text-danger font-weight-bold">
                   {currencyFormatter.format(data.price_original)}
                 </td>
                 <td>{data.nameStaff}</td>
                 <td>
-                  <tr className="bg-transparent">
+                  <p className="bg-transparent">
                     <span className="font-weight-bold">Date: </span>
                     {convertISOStringToLocaleDateString(data.timeUse)}
-                  </tr>
-                  <tr>
+                  </p>
+                  <p>
                     <span className="font-weight-bold">Time: </span>
                     {convertISOStringToLocaleTimeString(data.timeUse).slice(
                       0,
                       -3
                     )}
-                  </tr>
+                  </p>
                 </td>
                 {/* <td>{data.timeUse.split(" ")[1].slice(0, -3)}</td> */}
 

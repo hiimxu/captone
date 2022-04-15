@@ -39,7 +39,7 @@ export default function SalonDashboard() {
       <Link className="text-white" to="/manage_service" style={link}>
         <i className="fa-solid fa-list"></i> Service
       </Link>
-      <Link  className="text-white"to="/staff" style={link}>
+      <Link  className="text-white"to="/manage_staff" style={link}>
         <i className="fa-solid fa-user-tie"></i> Staff
       </Link>
       <Link  className="text-white"to="/infomation" style={link}>

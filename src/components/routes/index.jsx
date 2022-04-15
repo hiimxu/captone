@@ -20,6 +20,7 @@ import AddService from "../salonOwners/AddService";
 import Staff from "../Staff";
 import FinishBooking from "../FinishBooking";
 import ManageBooking from "../salonOwners/ManageBooking"
+import ManageStaff from "../salonOwners/ManageStaff";
 import SalonHstory from "../salonOwners/SalonHstory";
 import Schedule from "../salonOwners/Schedule";
 import { AccountRoles } from "../../constants";
@@ -60,6 +61,7 @@ const SwitchRoutes = () => {
               <Route path="/addService" element={<AddService />} />
               <Route path="/manage_service" element={<ManageService />} />
               <Route path="/history" element={<SalonHstory/>} />
+              <Route path="/manage_staff" element={<ManageStaff/>} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
