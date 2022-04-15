@@ -4,6 +4,8 @@ import bgImg from "../../assets/barbershopbg.jpg";
 import imageUnavailable from "../../assets/image-unavailable.png";
 import { useState } from "react";
 import { Modal, Box } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/actions/creators/auth";
 
 export default function SalonDashboard() {
   const changeMouseOver = (e) => {
@@ -20,7 +22,6 @@ export default function SalonDashboard() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    marginTop: "106px",
   };
   const link = {
     fontSize: "20px",
@@ -30,12 +31,11 @@ export default function SalonDashboard() {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
-    marginTop:"106px"
   };
   const fakeData = {
     salonId: "1",
     salonName: "Golden Scissor",
-    taxCode:"6234vs02hf82",
+    taxCode: "6234vs02hf82",
     phone: "092 312 5123",
     timeOpen: "07:30:00",
     timeClose: "20:00:00",
@@ -44,9 +44,18 @@ export default function SalonDashboard() {
     image:
       "https://camnanghaiphong.vn/wp-content/uploads/2022/02/Top-10-tiem-salon-toc-chat-luong-Hai-Phong.jpg",
   };
+
+  // -- MODAL --
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // -- LOG OUT --
+  const dispatch = useDispatch();
+  const { account } = useSelector((state) => state.loginAccount);
+  const handleLogout = () => {
+    dispatch(logout("token"));
+  };
   return (
     <div>
       <div style={sideMenu}>
@@ -118,6 +127,20 @@ export default function SalonDashboard() {
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
+            <li>
+              <Link
+                className="text-white"
+                style={{
+                  fontSize: "20px",
+                  paddingLeft: "18px",
+                  color: "white",
+                }}
+                to="/"
+                onClick={handleLogout}
+              >
+                <i className="fa-solid fa-right-from-bracket"></i>
+              </Link>
+            </li>
           </ul>
         </aside>
       </div>
@@ -177,13 +200,22 @@ export default function SalonDashboard() {
               <div className="column is-6 has-text-left">
                 <p className="is-size-4">{fakeData.salonId}</p>
                 <p className="is-size-4">{fakeData.salonName}</p>
-                <p className="is-size-4 has-text-primary has-text-weight-bold">{fakeData.taxCode}</p>
+                <p className="is-size-4 has-text-primary has-text-weight-bold">
+                  {fakeData.taxCode}
+                </p>
                 <p className="is-size-4">{fakeData.phone}</p>
                 <p className="is-size-4 has-text-danger">{fakeData.timeOpen}</p>
-                <p className="is-size-4 has-text-danger">{fakeData.timeClose}</p>
+                <p className="is-size-4 has-text-danger">
+                  {fakeData.timeClose}
+                </p>
                 <p className="is-size-4">{fakeData.address}</p>
                 <p className="is-size-4 is-underlined">{fakeData.email}</p>
-                <img style={{maxHeight:"300px", maxWidth:"500px", marginTop: "10px"}}
+                <img
+                  style={{
+                    maxHeight: "300px",
+                    maxWidth: "500px",
+                    marginTop: "10px",
+                  }}
                   src={fakeData.image ? fakeData.image : imageUnavailable}
                 ></img>
               </div>
@@ -226,7 +258,10 @@ export default function SalonDashboard() {
           <div>
             <form action="" method="post" className="addEmployee">
               <fieldset>
-                <div className="has-text-right" style={{marginRight: "100px"}}>
+                <div
+                  className="has-text-right"
+                  style={{ marginRight: "100px" }}
+                >
                   <label for="Name">Salon's name:</label>
                   <input
                     id="name"
@@ -236,7 +271,9 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />
                   <br></br>
-                  <label className=" mt-5" for="taxcode">Tax code:</label>
+                  <label className=" mt-5" for="taxcode">
+                    Tax code:
+                  </label>
                   <input
                     id="taxcode"
                     className="input w-50 mt-5 ml-5"
@@ -245,7 +282,9 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className=" mt-5" for="timeOpen">Time open:</label>
+                  <label className=" mt-5" for="timeOpen">
+                    Time open:
+                  </label>
                   <input
                     id="timeOpen"
                     className="input w-50 mt-5 ml-5"
@@ -254,7 +293,9 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className=" mt-5" for="timeClose">Time close:</label>
+                  <label className=" mt-5" for="timeClose">
+                    Time close:
+                  </label>
                   <input
                     id="timeClose"
                     className="input w-50 mt-5 ml-5"
@@ -263,7 +304,9 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className=" mt-5" for="address">Address:</label>
+                  <label className=" mt-5" for="address">
+                    Address:
+                  </label>
                   <input
                     id="address"
                     className="input w-50 mt-5 ml-5"
@@ -272,7 +315,9 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className=" mt-5" for="email">Email:</label>
+                  <label className=" mt-5" for="email">
+                    Email:
+                  </label>
                   <input
                     id="email"
                     className="input w-50 mt-5 ml-5"
@@ -281,12 +326,22 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className=" mt-5" for="image">Salon's image:</label>
-                  <input id="imgae" className=" ml-5 mt-5" type="file"  accept="image/png, image/gif, image/jpeg" />
+                  <label className=" mt-5" for="image">
+                    Salon's image:
+                  </label>
+                  <input
+                    id="imgae"
+                    className=" ml-5 mt-5"
+                    type="file"
+                    accept="image/png, image/gif, image/jpeg"
+                  />
                 </div>{" "}
                 <br></br>
                 <div className="has-text-right">
-                  <button className="button is-rounded is-danger" onClick={handleClose}>
+                  <button
+                    className="button is-rounded is-danger"
+                    onClick={handleClose}
+                  >
                     {" "}
                     Cancel
                   </button>

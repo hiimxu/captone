@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import salonFixedData from "./DashboardData.json";
+import { logout } from "../../redux/actions/creators/auth";
 
 import { useState } from "react";
 import { Modal, Box, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function SalonDashboard() {
   const changeMouseOver = (e) => {
@@ -21,7 +23,6 @@ export default function SalonDashboard() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    marginTop: "106px",
   };
   const link = {
     fontSize: "20px",
@@ -31,12 +32,18 @@ export default function SalonDashboard() {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
-    marginTop:"106px"
   };
   const fakeDashboardData = salonFixedData;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // -- LOG OUT --
+  const dispatch = useDispatch();
+  const { account } = useSelector((state) => state.loginAccount);
+  const handleLogout = () => {
+    dispatch(logout("token"));
+  };
   return (
     <div>
       <div style={sideMenu}>
@@ -108,6 +115,20 @@ export default function SalonDashboard() {
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
+            <li>
+              <Link
+                className="text-white"
+                style={{
+                  fontSize: "20px",
+                  paddingLeft: "18px",
+                  color: "white",
+                }}
+                to="/"
+                onClick={handleLogout}
+              >
+                <i className="fa-solid fa-right-from-bracket"></i>
+              </Link>
+            </li>
           </ul>
         </aside>
       </div>

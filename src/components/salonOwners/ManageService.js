@@ -7,6 +7,8 @@ import bgImg from "../../assets/barbershopbg.jpg";
 import { currencyFormatter } from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/actions/creators/auth";
 
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -25,7 +27,6 @@ export default function ManageService() {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
-    marginTop: "106px",
   };
   const menuStyle = {
     height: "100%",
@@ -35,7 +36,6 @@ export default function ManageService() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    marginTop: "106px",
   }; // -- SIDE MENU HOVER --
   const changeMouseOver = (e) => {
     e.target.style.color = "rgb(0, 82, 189)";
@@ -48,7 +48,12 @@ export default function ManageService() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  // -- LOG OUT --
+  const dispatch = useDispatch();
+  const { account } = useSelector((state) => state.loginAccount);
+  const handleLogout = () => {
+    dispatch(logout("token"));
+  };
   return (
     <div>
       {" "}
@@ -119,6 +124,20 @@ export default function ManageService() {
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
+            <li>
+              <Link
+                className="text-white"
+                style={{
+                  fontSize: "20px",
+                  paddingLeft: "18px",
+                  color: "white",
+                }}
+                to="/"
+                onClick={handleLogout}
+              >
+                <i className="fa-solid fa-right-from-bracket"></i>
+              </Link>
+            </li>
           </ul>
         </aside>
       </div>{" "}

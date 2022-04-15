@@ -55,7 +55,7 @@ export default function Service() {
   return (
     <div style={root}>
       {/* -- TABS STYLE -- */}
-      {serviceList?.dataSalon?.map((salon) => (
+      {/* {serviceList?.dataSalon?.map((salon) => (
         <div className="columns" style={{ height: "800px" }}>
           <div className="column is-1 "></div>
           <div
@@ -237,11 +237,11 @@ export default function Service() {
           </div>
           <div className="column is-1"></div>
         </div>
-      ))}
+      ))} */}
 
       {/* -- VERTICAL STYLE -- */}
 
-      {/* <div className="columns">
+      <div className="columns">
         <div className="column is-3"></div>
         <div className="column is-6">
           <div className="p-0 container" style={{ backgroundColor: "#FBE8CA" }}>
@@ -411,7 +411,7 @@ export default function Service() {
           </div>
         </div>
         <div className="column is-3"></div>
-      </div> */}
+      </div>
     </div>
   );
 }

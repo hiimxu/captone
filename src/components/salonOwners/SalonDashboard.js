@@ -36,10 +36,8 @@ export default function SalonDashboard() {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
-    marginTop: "106px",
   };
   // const fakeDashboardData = salonFixedData;
-  const dispatch = useDispatch();
 
   const menuStyle = {
     height: "100%",
@@ -49,11 +47,13 @@ export default function SalonDashboard() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    marginTop: "106px",
   };
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
+
+  // -- LOG OUT --
+  const dispatch = useDispatch();
   const { account } = useSelector((state) => state.loginAccount);
   const handleLogout = () => {
     dispatch(logout("token"));
@@ -216,11 +216,15 @@ export default function SalonDashboard() {
             <li>
               <Link
                 className="text-white"
-                style={link}
+                style={{
+                  fontSize: "20px",
+                  paddingLeft: "18px",
+                  color: "white",
+                }}
                 to="/"
                 onClick={handleLogout}
               >
-                <i className="fa-solid fa-right-from-bracket"></i> Logout
+                <i className="fa-solid fa-right-from-bracket"></i>
               </Link>
             </li>
           </ul>
