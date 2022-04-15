@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getListStaffForSalon,
   resetListStaffOfSalon,
-} from "../../redux/actions/creators/salon";
+} from "../../../redux/actions/creators/salon";
 
 export default function ManageStaff() {
   const dispatch = useDispatch();

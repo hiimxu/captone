@@ -3,9 +3,13 @@ import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import salonFixedData from "./DashboardData.json";
 import { logout } from "../../redux/actions/creators/auth";
+import {
+  getListStaffForSalon,
+  resetListStaffOfSalon,
+} from "../../redux/actions/creators/salon";
 
-import { useState } from "react";
-import { Modal, Box, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Modal, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SalonDashboard() {
@@ -34,12 +38,26 @@ export default function SalonDashboard() {
     backgroundSize: "100%",
   };
   const fakeDashboardData = salonFixedData;
+
+  // -- GET DATA --
+  const dispatch = useDispatch();
+  const { token, account_name: username } = useSelector(
+    (state) => state.loginAccount.account
+  );
+  const { listStaff } = useSelector((state) => state.listStaffSalon);
+  useEffect(() => {
+    dispatch(getListStaffForSalon(token));
+    return () => {
+      dispatch(resetListStaffOfSalon());
+    };
+  }, [dispatch, token]);
+
+  // -- MODAL --
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   // -- LOG OUT --
-  const dispatch = useDispatch();
   const { account } = useSelector((state) => state.loginAccount);
   const handleLogout = () => {
     dispatch(logout("token"));
@@ -199,27 +217,19 @@ export default function SalonDashboard() {
                   <th>
                     <p title="Phone">Phone</p>
                   </th>
-                  <th>
-                    <p title="Status">Status</p>
-                  </th>
                   <th className="has-text-centered">
                     <p title="Actions">Actions</p>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {fakeDashboardData[2]?.map((element) => (
-                  <tr>
-                    <th>{element.stt}</th>
-                    <td>{element.employeeName}</td>
-                    <td>{element.employeeTitle}</td>
+                {listStaff?.map((element) => (
+                  <tr key={element.staffId}>
+                    <th scope="row">{listStaff.indexOf(element) + 1}</th>
+                    <td>{element.name}</td>
+                    <td>{element.title}</td>
                     <td>{element.phone}</td>
-                    {element.status === "Idle" && (
-                      <td className="has-text-link-dark">{element.status}</td>
-                    )}
-                    {element.status === "Occupied" && (
-                      <td className="has-text-danger-dark">{element.status}</td>
-                    )}
+
                     <td className="has-text-centered">
                       <button className="button is-rounded is-primary mr-5">
                         <i className="fa-solid fa-pen-to-square"></i>
@@ -260,7 +270,10 @@ export default function SalonDashboard() {
           <div>
             <form action="" method="post" className="addEmployee">
               <fieldset>
-                <div className="has-text-right" style={{marginRight: "100px"}}>
+                <div
+                  className="has-text-right"
+                  style={{ marginRight: "100px" }}
+                >
                   <label for="Name">Employee's name:</label>
                   <input
                     id="Student"
@@ -270,7 +283,9 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />
                   <br></br>
-                  <label className="mt-5" for="Title">Employee's title:</label>
+                  <label className="mt-5" for="Title">
+                    Employee's title:
+                  </label>
                   <input
                     id="Title"
                     className="input mt-5 w-50 ml-5"
@@ -279,7 +294,9 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="Phone">Employee's phone:</label>
+                  <label className="mt-5" for="Phone">
+                    Employee's phone:
+                  </label>
                   <input
                     id="Phone"
                     className="input w-50 mt-5 ml-5"
@@ -288,7 +305,9 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="Address">Employee's address:</label>
+                  <label className="mt-5" for="Address">
+                    Employee's address:
+                  </label>
                   <input
                     id="Address"
                     className="input w-50 mt-5 ml-5"
@@ -297,12 +316,17 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="License">Employee's license:</label>
+                  <label className="mt-5" for="License">
+                    Employee's license:
+                  </label>
                   <input id="License" className="mt-5 ml-5" type="file" />
                 </div>{" "}
                 <br></br>
                 <div className="has-text-right">
-                  <button className="button is-rounded is-danger" onClick={handleClose}>
+                  <button
+                    className="button is-rounded is-danger"
+                    onClick={handleClose}
+                  >
                     {" "}
                     Cancel
                   </button>

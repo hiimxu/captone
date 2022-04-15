@@ -33,7 +33,7 @@ import HomepageMockup from "../mockUp/Homepage";
 import ServiceMockup from "../mockUp/Service";
 import FinishBookingMockup from "../mockUp/FinishBooking";
 import ProfileMockup from "../mockUp/Profile";
-import ManageStaff from "../salonOwners/ManageStaff";
+import ManageStaff from "../salonOwners/oldComponents/ManageStaff";
 
 const SwitchRoutes = () => {
   const { account } = useSelector((state) => state.loginAccount);
