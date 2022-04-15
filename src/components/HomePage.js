@@ -7,11 +7,16 @@ import {
   updateSelectedSalonId,
 } from "../redux/actions/creators/booking";
 import imageUnavailable from "../assets/image-unavailable.png";
+import bgImg from "../assets/barbershopbg.jpg";
 
 export default function HomePage() {
   const dispatch = useDispatch();
   const { salonList } = useSelector((state) => state.salon);
-
+  const root = {
+    backgroundImage: `url(${bgImg})`,
+    backgroundRepeat: "repeat-y",
+    backgroundSize: "100%",
+  };
   useEffect(() => {
     dispatch(getSalonList());
 
@@ -21,47 +26,86 @@ export default function HomePage() {
   }, [dispatch]);
 
   return (
-    <div className="p-5">
-      <div className="card-columns">
-        {salonList?.map((salon) => (
-          <div
-            className="card m-2 rounded"
-            style={{ width: "33rem",height:"40rem" }}
-            key={salon.salonId}
-          >
-            <div className="">
-              <img
-                className="card-img-top rounded-top mb-2 border-0"
-                src={salon.image ? salon.image : imageUnavailable}
-                alt="Title"
+    <div style={root}>
+      <div className="columns">
+        <div className="column is-2"></div>
+        <div className="column is-8">
+          <div className="card-columns">
+            {salonList?.map((salon) => (
+              <div
+                class="card"
                 style={{
-                  width: "100%",
-                  height: "25rem",
-                  objectFit: "cover",
-                  objectPosition: "top",
+                  boxShadow:
+                    "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                 }}
-              />
-              <div className="card-body">
-                <h5 className="card-title">{salon.nameSalon}</h5>
-                <p className="card-text">
-                  <span className="font-weight-bold">Phone:</span> {salon.phone}
-                </p>
-                <p className="card-text">
-                  <span className="font-weight-bold">Address:</span>{" "}
-                  {salon.detailAddress}
-                </p>
-                <Link
-                  to={`/services/${salon.salonId}`}
-                  className="btn btn-primary"
-                  onClick={() => dispatch(updateSelectedSalonId(salon.salonId))}
-                >
-                  Book now
-                </Link>
+              >
+                <div class="card-image">
+                  <figure class="image is-5by4">
+                    <img
+                      src={salon.image ? salon.image : imageUnavailable}
+                      alt="Placeholder image"
+                    />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-48x48">
+                        <img
+                          className="is-rounded"
+                          src={salon.image ? salon.image : imageUnavailable}
+                          alt="Placeholder image"
+                        />
+                      </figure>
+                    </div>
+                    <div class="media-content" style={{ marginBottom: 0 }}>
+                      <p class="title is-4">{salon.nameSalon}</p>
+                      <p class="subtitle is-6">
+                        <i class="fa-solid fa-location-dot"></i>{" "}
+                        {salon.detailAddress}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="content">
+                    <i class="fa-solid fa-phone"></i>{" "}
+                    <span className="is-underlined is-size-4"> {salon.phone}</span>
+                    <br />
+                    <i class="fa-solid fa-calendar-check"></i>{" "}
+                    <span className="has-text-danger-dark has-text-weight-bold">
+                      Mon - Fri <br></br> {" "}
+                      {salon.timeOpen} - {salon.timeClose}
+                      <br />
+                    </span>
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  {/* <a
+                    href="#"
+                    class="card-footer-item has-text-weight-semibold has-text-danger"
+                  >
+                    <p>
+                      {" "}
+                      <i class="fa-solid fa-heart"></i> Favorite
+                    </p>
+                  </a> */}
+                  <Link
+                    to={`/services/${salon.salonId}`}
+                    class="card-footer-item has-text-weight-bold has-text-link"
+                    onClick={() =>
+                      dispatch(updateSelectedSalonId(salon.salonId))
+                    }
+                  >
+                    <p>
+                      Visit <i class="fa-solid fa-right-to-bracket"></i>{" "}
+                    </p>
+                  </Link>
+                </footer>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
+        </div>{" "}
       </div>
+      <div className="column is-2"></div>
     </div>
   );
 }

@@ -23,12 +23,11 @@ import SalonDashboardMockup from "../mockUp/SalonDashboardMockup";
 import ManageService from "../salonOwners/ManageService";
 import AddService from "../salonOwners/AddService";
 import ManageBooking from "../salonOwners/ManageBooking";
-import SalonHstory from "../salonOwners/SalonHstory";
-import Schedule from "../salonOwners/Schedule";
+// import SalonHstory from "../salonOwners/SalonHstory";
+// import Schedule from "../salonOwners/Schedule";
 import SalonStaff from "../salonOwners/SalonStaff";
 import SalonBusinessInfo from "../salonOwners/SalonBusinessInfo";
 import HeaderSalon from "../salonOwners/Header";
-
 
 import HomepageMockup from "../mockUp/Homepage";
 import ServiceMockup from "../mockUp/Service";
@@ -64,16 +63,15 @@ const SwitchRoutes = () => {
     if (account.role === AccountRoles.Salon) {
       return (
         <>
-        <HeaderSalon/>
-            <Routes>
-              <Route path="/" element={<Schedule />}></Route>
-              <Route path="/addService" element={<AddService />} />
-              <Route path="/manage_service" element={<ManageService />} />
-              <Route path="/history" element={<SalonHstory />} />
-              <Route path="SalonDashboard" element={<SalonDashboard />} />{" "}
-              <Route path="SalonStaff" element={<SalonStaff />} />
-              <Route path="SalonBusinessInfo" element={<SalonBusinessInfo />} />
-            </Routes>
+          <HeaderSalon />
+          <Routes>
+            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/addService" element={<AddService />} />
+            <Route path="/manage_service" element={<ManageService />} />
+            <Route path="/" element={<SalonDashboard />} />{" "}
+            <Route path="SalonStaff" element={<SalonStaff />} />
+            <Route path="SalonBusinessInfo" element={<SalonBusinessInfo />} />
+          </Routes>
           {/* </div> */}
           <Footer />
         </>
@@ -120,8 +118,6 @@ const SwitchRoutes = () => {
               element={<SalonDashboardMockup />}
             />
             <Route path="SalonStaff" element={<SalonStaff />} />
-            <Route path="SalonHstory" element={<SalonHstory />} />
-            <Route path="Schedule" element={<Schedule />} />
             <Route path="ManageService" element={<ManageService />} />
             <Route path="ManageBooking" element={<ManageBooking />} />
             <Route path="AddService" element={<AddService />} />

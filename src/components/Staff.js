@@ -12,7 +12,7 @@ import {
   bookService,
 } from "../redux/actions/creators/booking";
 import moment from "moment";
-
+import bgImg from "../assets/barbershopbg.jpg";
 
 
 export default function Staff() {

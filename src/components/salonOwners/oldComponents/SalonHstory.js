@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getSalonBookingHistory,
   resetSalonBookingHistoryList,
-} from "../../redux/actions/creators/salon";
+} from "../../../redux/actions/creators/salon";
 import {
   convertISOStringToLocaleDateString,
   convertISOStringToLocaleTimeString,
   currencyFormatter,
-} from "../../utils";
+} from "../../../utils";
 
 export default function SalonHstory() {
   const dispatch = useDispatch();

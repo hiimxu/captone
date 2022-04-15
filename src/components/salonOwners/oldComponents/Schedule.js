@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getScheduleCurrent,
   resetScheduleCurentList,
-} from "../../redux/actions/creators/salon";
-import { convertISOStringToLocaleTimeString } from "../../utils";
+} from "../../../redux/actions/creators/salon";
+import { convertISOStringToLocaleTimeString } from "../../../utils";
 
 const mockData = [
   {

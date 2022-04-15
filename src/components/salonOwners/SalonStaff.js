@@ -46,7 +46,7 @@ export default function SalonDashboard() {
               <Link
                 onMouseOver={changeMouseOver}
                 onMouseOut={changeMouseOut}
-                to="/SalonDashboard"
+                to="/"
                 style={{
                   fontSize: "20px",
                   paddingLeft: "20px",

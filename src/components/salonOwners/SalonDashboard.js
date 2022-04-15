@@ -4,6 +4,7 @@ import bgImg from "../../assets/barbershopbg.jpg";
 import salonFixedData from "../salonOwners/DashboardData.json";
 
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   getSalonBookingHistory,
   resetSalonBookingHistoryList,
@@ -33,7 +34,7 @@ export default function SalonDashboard() {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
-    marginTop:"106px"
+    marginTop: "106px",
   };
   const fakeDashboardData = salonFixedData;
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export default function SalonDashboard() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    marginTop:"106px"
+    marginTop: "106px",
   };
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
@@ -69,14 +70,14 @@ export default function SalonDashboard() {
   const { historyBooking } = useSelector((state) => state.salonHistory);
   const [day, setDay] = useState(new Date().toISOString().substring(0, 10));
   const [dayFormated, setDayFormated] = useState({
-    day: convertDate(day)
+    day: convertDate(day),
   });
   const handleSelectDateHistory = (e) => {
     setDay(e.target.value);
-    setDayFormated({ day: convertDate(e.target.value)});
+    setDayFormated({ day: convertDate(e.target.value) });
   };
   useEffect(() => {
-    dispatch(getSalonBookingHistory(token,dayFormated));
+    dispatch(getSalonBookingHistory(token, dayFormated));
     return () => {
       dispatch(resetSalonBookingHistoryList());
     };
@@ -125,7 +126,7 @@ export default function SalonDashboard() {
               <Link
                 onMouseOver={changeMouseOver}
                 onMouseOut={changeMouseOut}
-                to="/SalonDashboard"
+                to="/"
                 style={{
                   fontSize: "20px",
                   paddingLeft: "20px",
@@ -153,7 +154,6 @@ export default function SalonDashboard() {
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
-
             <li>
               <Link
                 onMouseOver={changeMouseOver}
@@ -168,7 +168,6 @@ export default function SalonDashboard() {
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
-
             <li>
               <Link
                 onMouseOver={changeMouseOver}
@@ -182,7 +181,10 @@ export default function SalonDashboard() {
               >
                 <i className="fa-solid fa-gear"></i>
               </Link>
-            </li>
+            </li>{" "}
+           
+               
+              
             <div
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
@@ -276,7 +278,9 @@ export default function SalonDashboard() {
                           ).slice(0, -3)}
                         </td>
                         <td>{element.nameStaff}</td>
-                        <td className="has-text-link has-text-weight-bold">{element.nameStatus}</td>
+                        <td className="has-text-link has-text-weight-bold">
+                          {element.nameStatus}
+                        </td>
 
                         <td className="has-text-centered has-text-white">
                           <button
@@ -323,16 +327,16 @@ export default function SalonDashboard() {
                         <p title="CustomerPhone">Customer's phone</p>
                       </th>
                       <th>
+                        <p title="TimeService">Service time</p>
+                      </th>
+                      <th>
+                        <p title="Date">Date</p>
+                      </th>
+                      <th>
                         <p title="Time">Time</p>
                       </th>
                       <th>
                         <p title="Stylist">Stylist</p>
-                      </th>
-                      <th>
-                        <p title="Stylist">Date</p>
-                      </th>
-                      <th>
-                        <p title="Stylist">Time</p>
                       </th>
                       <th>
                         <p title="Status">Status</p>
