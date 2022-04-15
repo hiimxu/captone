@@ -455,7 +455,7 @@ export default function RegisterSalon() {
                               value={timeClose}
                               onChange={handleTimeClose}
                             >
-                              <option defaultValue={""}>Choose...</option>
+                              <option value={""}>Choose...</option>
                               {times.map((time) => (
                                 <option key={time.toString()} value={time}>
                                   {time}
