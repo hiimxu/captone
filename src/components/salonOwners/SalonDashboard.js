@@ -23,6 +23,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
+import Modal from "@mui/material/Modal";
 import { setDay } from "date-fns";
 
 export default function SalonDashboard() {
@@ -52,6 +53,27 @@ export default function SalonDashboard() {
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
+
+  // -- MODAL --
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    borderRadius: "25px",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+  const [openFinish, setOpenFinish] = React.useState(false);
+  const handleOpenFinish = () => setOpenFinish(true);
+  const handleCloseFinish = () => setOpenFinish(false);
+  const [openCancel, setOpenCancel] = React.useState(false);
+  const handleOpenCancel = () => setOpenCancel(true);
+  const handleCloseCancel = () => setOpenCancel(false);
+
   // -- SIDE MENU HOVER --
   const changeMouseOver = (e) => {
     e.target.style.color = "rgb(0, 82, 189)";
@@ -182,9 +204,6 @@ export default function SalonDashboard() {
                 <i className="fa-solid fa-gear"></i>
               </Link>
             </li>{" "}
-           
-               
-              
             <div
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
@@ -244,12 +263,12 @@ export default function SalonDashboard() {
                     <tr>
                       <th>
                         <p title="stt">#</p>
+                      </th>{" "}
+                      <th>
+                        <p title="CustomerName">Customer</p>
                       </th>
                       <th>
                         <p title="Order">Order</p>
-                      </th>
-                      <th>
-                        <p title="CustomerName">Customer's name</p>
                       </th>
                       <th>
                         <p title="Time">Time</p>
@@ -269,8 +288,20 @@ export default function SalonDashboard() {
                     {currentSchedule?.map((element) => (
                       <tr>
                         <th>{currentSchedule.indexOf(element) + 1}</th>
-                        <td>{element.nameService}</td>
-                        <td>{element.nameCustomer}</td>
+
+                        <td>
+                          {" "}
+                          <span className="is-size-5 has-text-weight-semibold has-text-info-dark">
+                            {element.nameCustomer}
+                          </span>
+                          <p>
+                            {" "}
+                            {element.phone ? element.phone : "Salon booked"}
+                          </p>
+                        </td>
+                        <td className="has-text-weight-bold">
+                          {element.nameService}
+                        </td>
                         <td>
                           {" "}
                           {convertISOStringToLocaleTimeString(
@@ -285,13 +316,13 @@ export default function SalonDashboard() {
                         <td className="has-text-centered has-text-white">
                           <button
                             className="button is-rounded is-success mr-2"
-                            onClick={handleFinish}
+                            onClick={handleOpenFinish}
                           >
                             <i className="fa-solid fa-circle-check"></i>
                           </button>
                           <button
                             className="button is-rounded is-danger mr-2"
-                            onClick={handleCancel}
+                            onClick={handleOpenCancel}
                           >
                             <i className="fa-solid fa-trash-can"></i>
                           </button>
@@ -300,6 +331,68 @@ export default function SalonDashboard() {
                     ))}
                   </tbody>
                 </table>
+                <Modal
+                  open={openFinish}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <div className="has-text-centered">
+                      <h1 className="is-size-4 has-text-weight-semibold">
+                        {" "}
+                        Do you want to{" "}
+                        <span className="has-text-info">finish</span> this order
+                        ?
+                      </h1>
+                      <br></br>
+                      <button
+                        onClick={handleFinish}
+                        className="button is-rounded is-info mr-5"
+                        style={{ width: "150px" }}
+                      >
+                        Finish order
+                      </button>
+                      <button
+                        onClick={handleCloseFinish}
+                        className="button is-rounded is-danger ml-5"
+                        style={{ width: "150px" }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </Box>
+                </Modal>
+                <Modal
+                  open={openCancel}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <div className="has-text-centered">
+                      <h1 className="is-size-4 has-text-weight-semibold">
+                        {" "}
+                        Do you want to{" "}
+                        <span className="has-text-danger">cancel</span> this
+                        order ?
+                      </h1>
+                      <br></br>
+                      <button
+                        onClick={handleCancel}
+                        className="button is-rounded is-info mr-5"
+                        style={{ width: "150px" }}
+                      >
+                        Cancel order
+                      </button>
+                      <button
+                        onClick={handleCloseCancel}
+                        className="button is-rounded is-danger ml-5"
+                        style={{ width: "150px" }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </Box>
+                </Modal>
               </TabPanel>
               <TabPanel value="2">
                 <div className="mb-5">
@@ -318,28 +411,25 @@ export default function SalonDashboard() {
                         <p title="stt">#</p>
                       </th>
                       <th>
+                        <p title="CustomerName">Customer</p>
+                      </th>
+                      <th>
                         <p title="Order">Order</p>
                       </th>
                       <th>
-                        <p title="CustomerName">Customer's name</p>
-                      </th>
-                      <th>
-                        <p title="CustomerPhone">Customer's phone</p>
-                      </th>
-                      <th>
-                        <p title="TimeService">Service time</p>
+                        <p title="Order">Price</p>
                       </th>
                       <th>
                         <p title="Date">Date</p>
                       </th>
                       <th>
-                        <p title="Time">Time</p>
-                      </th>
-                      <th>
                         <p title="Stylist">Stylist</p>
                       </th>
-                      <th>
+                      <th className=" has-text-centered">
                         <p title="Status">Status</p>
+                      </th>
+                      <th>
+                        <p title="Note">Note</p>
                       </th>
                     </tr>
                   </thead>
@@ -347,33 +437,52 @@ export default function SalonDashboard() {
                     {historyBooking?.map((element) => (
                       <tr>
                         <th>{historyBooking?.indexOf(element) + 1}</th>
-                        <td>{element.nameService}</td>
-                        <td>{element.nameCustomer}</td>
                         <td>
-                          {element.phone ? element.phone : "Salon booked"}
+                          <span className="is-size-5 has-text-weight-semibold has-text-info-dark">
+                            {element.nameCustomer}
+                          </span>
+                          <p>
+                            {" "}
+                            {element.phone ? element.phone : "Salon booked"}
+                          </p>
+                        </td>{" "}
+                        <td>
+                          <span className="has-text-weight-bold">
+                            {" "}
+                            {element.nameService}
+                          </span>
+                          <p>{element.service_time} minutes</p>
+                        </td>{" "}
+                        <td>
+                          <span className="has-text-danger">
+                            {" "}
+                            {currencyFormatter.format(element.price_original)}
+                          </span>
                         </td>
-                        <td>{element.service_time} minutes</td>
                         <td>
                           {" "}
+                          <span className="has-text-weight-bold">
+                            Date:
+                          </span>{" "}
                           {convertISOStringToLocaleDateString(element.timeUse)}
-                        </td>
-                        <td>
-                          {" "}
-                          {convertISOStringToLocaleTimeString(
-                            element.timeUse
-                          ).slice(0, -3)}
+                          <p>
+                            <span className="has-text-weight-bold">Time:</span>{" "}
+                            {convertISOStringToLocaleTimeString(
+                              element.timeUse
+                            ).slice(0, -3)}
+                          </p>
                         </td>
                         <td>{element.nameStaff}</td>
-                        <td
-                          className="font-weight-bold"
-                          style={
-                            element.nameStatus === "finished"
-                              ? { color: "green" }
-                              : { color: "red" }
-                          }
-                        >
-                          {element.nameStatus}
-                        </td>
+                        {element.nameStatus === "finished" && (
+                          <td className="has-text-success is-size-4 has-text-weight-bold has-text-centered">
+                            <i className="fa-solid fa-check"></i>
+                          </td>
+                        )}{" "}
+                        {element.nameStatus === "cancelled" && (
+                          <td className="has-text-danger is-size-4 has-text-weight-bold has-text-centered">
+                            <i class="fa-solid fa-xmark"></i>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>

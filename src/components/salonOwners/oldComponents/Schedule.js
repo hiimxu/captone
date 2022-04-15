@@ -7,8 +7,8 @@ import {
   resetListStaffOfSalon,
   finishOrder,
   cancelOrder,
-} from "../../redux/actions/creators/salon";
-import { convertISOStringToLocaleTimeString } from "../../utils";
+} from "../../../redux/actions/creators/salon";
+import { convertISOStringToLocaleTimeString } from "../../../utils";
 import moment from "moment";
 
 export default function Schedule() {

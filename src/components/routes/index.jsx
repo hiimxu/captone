@@ -23,8 +23,8 @@ import SalonDashboardMockup from "../mockUp/SalonDashboardMockup";
 import ManageService from "../salonOwners/ManageService";
 import AddService from "../salonOwners/AddService";
 import ManageBooking from "../salonOwners/ManageBooking";
-// import SalonHstory from "../salonOwners/SalonHstory";
-// import Schedule from "../salonOwners/Schedule";
+import SalonHstory from "../salonOwners/oldComponents/SalonHstory";
+import Schedule from "../salonOwners/oldComponents/Schedule";
 import SalonStaff from "../salonOwners/SalonStaff";
 import SalonBusinessInfo from "../salonOwners/SalonBusinessInfo";
 import HeaderSalon from "../salonOwners/Header";
@@ -69,8 +69,12 @@ const SwitchRoutes = () => {
             <Route path="/addService" element={<AddService />} />
             <Route path="/manage_service" element={<ManageService />} />
             <Route path="/" element={<SalonDashboard />} />{" "}
-            <Route path="SalonStaff" element={<SalonStaff />} />
-            <Route path="SalonBusinessInfo" element={<SalonBusinessInfo />} />
+            <Route path="/SalonStaff" element={<SalonStaff />} />
+            <Route path="/SalonBusinessInfo" element={<SalonBusinessInfo />} />
+
+            <Route path="/Schedule" element={<Schedule />} />
+            <Route path="/SalonHstory" element={<SalonHstory />} />
+
           </Routes>
           {/* </div> */}
           <Footer />
