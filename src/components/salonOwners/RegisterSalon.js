@@ -19,6 +19,7 @@ export default function RegisterSalon() {
   const [dedtailAddress, setDetailAddress] = useState("");
   const [timeOpen, setTimeOpen] = useState("");
   const [timeClose, setTimeClose] = useState("");
+  const [salonImage,setSalonImage]=useState("");
 
   //error
   const [error, setError] = useState(false);
@@ -90,6 +91,9 @@ export default function RegisterSalon() {
   const handlePhone = (e) => {
     setPhone(e.target.value);
   };
+  const handleSalonImage =e=>{
+    setSalonImage(e.target.value)
+  }
 
   const resetForm = () => {
     setUserName("");
@@ -104,6 +108,7 @@ export default function RegisterSalon() {
     setDetailAddress("");
     setTimeOpen("");
     setTimeClose("");
+    setSalonImage("")
   };
 
   const handleSubmit = (e) => {
@@ -127,6 +132,7 @@ export default function RegisterSalon() {
       timeOpen: timeOpen,
       timeClose: timeClose,
       role: "salon",
+      image: salonImage
     };
     let pass = true;
     if (
@@ -140,7 +146,8 @@ export default function RegisterSalon() {
       district === "" ||
       city === "" ||
       timeOpen === "" ||
-      timeClose === ""
+      timeClose === ""||
+      salonImage===""
     ) {
       setError(true);
       pass = false;
@@ -448,13 +455,29 @@ export default function RegisterSalon() {
                               value={timeClose}
                               onChange={handleTimeClose}
                             >
-                              <option defaultValue={""}>Choose...</option>
+                              <option value={""}>Choose...</option>
                               {times.map((time) => (
                                 <option key={time.toString()} value={time}>
                                   {time}
                                 </option>
                               ))}
                             </select>
+                          </div>
+                        </div>
+                        <div className="form-outline mb-4">
+                          <div className="input-group">
+                            <div className="input-group-prepend">
+                              <span className="input-group-text" id="">
+                                Salon's image
+                              </span>
+                            </div>
+                            <input
+                              value={salonImage}
+                              type="text"
+                              className="form-control"
+                              maxLength={2000}
+                              onChange={handleSalonImage}
+                            />
                           </div>
                         </div>
 

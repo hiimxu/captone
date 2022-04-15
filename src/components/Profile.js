@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import CircularProgress from "@mui/material/CircularProgress";
-import {
-  Box,
-  Button as MuiButton,
-  Dialog,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button as MuiButton, Dialog, Grid, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import ReservationTable from "./tables/ReservationTable";
-import {
-  getCustomerProfile,
-  updateCustomerProfile,
-} from "../redux/actions/creators/profile";
-import { getHistoryBooking } from "../redux/actions/creators/booking";
+import { getCustomerProfile, updateCustomerProfile } from "../redux/actions/creators/profile";
+import { getHistoryBooking, getReservation, resetReservationList } from "../redux/actions/creators/booking";
 import { convertISOStringToLocaleDateString } from "../utils";
 import { validPhone } from "../validations/regex";
 
@@ -141,38 +131,17 @@ const TextInput = styled(TextField)({
   width: 300,
 });
 
-const reservationMockData = [
-  {
-    id: 1,
-    serviceName: "Undercut",
-    price: 120000,
-    timeUse: "30-40 minutes",
-    timeRegister: "2022-03-05T14:48:00.000Z",
-    status: "Booked",
-    staffName: "Nguyen Van A",
-  },
-];
-
-const historyMockData = [
-  {
-    id: 1,
-    serviceName: "Undercut",
-    price: 120000,
-    timeUse: "30-40 minutes",
-    timeRegister: "2022-03-25T14:48:00.000Z",
-    status: "Finish",
-    staffName: "Nguyen Van A",
-  },
-  {
-    id: 2,
-    serviceName: "Undercut",
-    price: 120000,
-    timeUse: "30-40 minutes",
-    timeRegister: "2022-03-15T14:48:00.000Z",
-    status: "Finish",
-    staffName: "Nguyen Van A",
-  },
-];
+const Loading = () => (
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
 
 export default function Profile() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -181,17 +150,18 @@ export default function Profile() {
   const [validationErr, setValidationErr] = useState(null);
 
   const dispatch = useDispatch();
-  const { token, account_name: username } = useSelector(
-    (state) => state.loginAccount.account
-  );
+  const { token, account_name: username } = useSelector((state) => state.loginAccount.account);
   const { info, errMess, successMess } = useSelector((state) => state.profile);
+  const { historyList, reservationList, reservationErrMess, historyErrMess } = useSelector((state) => state.historyBooking);
 
   useEffect(() => {
     dispatch(getCustomerProfile(token));
   }, [dispatch, token, dialogOpen]);
 
   useEffect(() => {
+    dispatch(resetReservationList());
     dispatch(getHistoryBooking(token));
+    dispatch(getReservation(token));
   }, [dispatch, token]);
 
   useEffect(() => {
@@ -216,8 +186,7 @@ export default function Profile() {
                   <b>Name:</b> {info?.nameCustomer}
                 </UserInfoText>
                 <UserInfoText>
-                  <b>Birthday:</b>{" "}
-                  {convertISOStringToLocaleDateString(info?.birthday)}
+                  <b>Birthday:</b> {convertISOStringToLocaleDateString(info?.birthday)}
                 </UserInfoText>
                 <UserInfoText>
                   <b>Phone number:</b> {info?.phone}
@@ -226,11 +195,7 @@ export default function Profile() {
                   <b>Address:</b> {info?.address}
                 </UserInfoText>
                 <ButtonWrapper>
-                  <ActionButton
-                    width={180}
-                    variant="contained"
-                    onClick={() => setDialogOpen(true)}
-                  >
+                  <ActionButton width={180} variant="contained" onClick={() => setDialogOpen(true)}>
                     Edit
                   </ActionButton>
                 </ButtonWrapper>
@@ -245,15 +210,7 @@ export default function Profile() {
                 </ButtonWrapper>
               </>
             ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CircularProgress />
-              </Box>
+              <Loading />
             )}
           </UserInfo>
         </Grid>
@@ -261,28 +218,34 @@ export default function Profile() {
           <ReservationHistory>
             <Tabs container>
               <Grid item xs={6}>
-                <Tab
-                  selected={selectedTab === 0}
-                  onClick={() => setSelectedTab(0)}
-                >
+                <Tab selected={selectedTab === 0} onClick={() => setSelectedTab(0)}>
                   Reservation
                 </Tab>
               </Grid>
               <Grid item xs={6}>
-                <Tab
-                  selected={selectedTab === 1}
-                  onClick={() => setSelectedTab(1)}
-                >
+                <Tab selected={selectedTab === 1} onClick={() => setSelectedTab(1)}>
                   History
                 </Tab>
               </Grid>
             </Tabs>
-            {selectedTab === 0 && (
-              <ReservationTable data={reservationMockData} />
-            )}
-            {selectedTab === 1 && (
-              <ReservationTable historyTable data={historyMockData} />
-            )}
+            {selectedTab === 0 &&
+              (reservationList?.length > 0 ? (
+                <>
+                  <ReservationTable data={reservationList} />
+                  {reservationErrMess && <ErrorText>{reservationErrMess}</ErrorText>}
+                </>
+              ) : (
+                <Loading />
+              ))}
+            {selectedTab === 1 &&
+              (historyList?.length > 0 ? (
+                <>
+                  <ReservationTable historyTable data={historyList} />
+                  {historyErrMess && <ErrorText>{historyErrMess}</ErrorText>}
+                </>
+              ) : (
+                <Loading />
+              ))}
           </ReservationHistory>
         </Grid>
       </PageWrapper>

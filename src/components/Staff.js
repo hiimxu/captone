@@ -96,11 +96,11 @@ export default function Staff() {
   };
 
   return (
-    <div style={{ backgroundColor: "#CFC787" }}>
+    <div className="" style={{ backgroundColor: "#CFC787" }}>
       <div className="container pl-0 pr-0 pb-4" style={{ marginLeft: "20%", backgroundColor: "#FBE8CA" }}>
         <div className="">
           {serviceList?.dataSalon?.map((salon) => (
-            <div className="mb-4 pt-3 text-center" style={{ backgroundColor: "#C3AF91" }} key={salon.salonId}>
+            <div className="mb-4 pt-5 pb-4 text-center" style={{ backgroundColor: "#C3AF91" }} key={salon.salonId}>
               <div className="pl-3 pb-2 mb-3">
                 <h2 style={{ color: "#134068" }}>{salon.nameSalon}</h2>
                 <p className="font-weight-bold">

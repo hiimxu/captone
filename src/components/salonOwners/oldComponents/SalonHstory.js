@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getSalonBookingHistory,
@@ -11,25 +11,43 @@ import {
 } from "../../../utils";
 
 export default function SalonHstory() {
+  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
+
   const dispatch = useDispatch();
-  const { historyBooking, errMess } = useSelector(
-    (state) => state.salonHistory
-  );
+  const { historyBooking } = useSelector((state) => state.salonHistory);
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
 
   useEffect(() => {
-    dispatch(getSalonBookingHistory(token));
+    dispatch(getSalonBookingHistory(token, { day: date }));
     return () => {
       dispatch(resetSalonBookingHistoryList());
     };
-  }, [dispatch, token]);
+  }, [dispatch, token, date]);
+
+  const handleSelectDate = (e) => {
+    setDate(convertDate(e.target.value));
+  };
+  function convertDate(date) {
+    var newdate = new Date(date),
+      mnth = ("0" + (newdate.getMonth() + 1)).slice(-2),
+      day = ("0" + newdate.getDate()).slice(-2);
+    return [newdate.getFullYear(), mnth, day].join("-");
+  }
   return (
     <div className="m-0 p-5" style={{ backgroundColor: "#CFC787" }}>
+      <div className="mb-4">
+        <input
+          className="rounded border-0"
+          type="date"
+          value={date}
+          onChange={handleSelectDate}
+        />
+      </div>
       <div className="bg-white rounded">
-        <table className="table">
-          <thead>
+        <table className="table table-striped">
+          <thead className="thead-dark">
             <tr>
               <th scope="col">#</th>
               <th scope="col">Customer</th>
@@ -38,6 +56,7 @@ export default function SalonHstory() {
               <th scope="col">Stylist</th>
               <th scope="col">Date</th>
               <th scope="col">Status</th>
+              <th scope="col">Note</th>
             </tr>
           </thead>
           <tbody>
@@ -46,7 +65,7 @@ export default function SalonHstory() {
                 <th scope="row">{historyBooking?.indexOf(data) + 1}</th>
                 <td>
                   <tr
-                    className="font-weight-bold"
+                    className="font-weight-bold bg-transparent"
                     style={{ fontSize: "1.2rem", color: "#1E6296" }}
                   >
                     {data.nameCustomer}
@@ -55,7 +74,7 @@ export default function SalonHstory() {
                 </td>
                 <td>
                   <tr
-                    className="font-weight-bold"
+                    className="font-weight-bold bg-transparent"
                     style={{ fontSize: "1.2rem", color: "#1E6296" }}
                   >
                     {data.nameService}
@@ -67,7 +86,7 @@ export default function SalonHstory() {
                 </td>
                 <td>{data.nameStaff}</td>
                 <td>
-                  <tr>
+                  <tr className="bg-transparent">
                     <span className="font-weight-bold">Date: </span>
                     {convertISOStringToLocaleDateString(data.timeUse)}
                   </tr>
@@ -91,6 +110,7 @@ export default function SalonHstory() {
                 >
                   {data.nameStatus}
                 </td>
+                <td>{data.note}</td>
               </tr>
             ))}
           </tbody>

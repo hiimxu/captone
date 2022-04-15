@@ -272,7 +272,7 @@ export const getHistoryBooking = (token) => (dispatch) => {
       }
     })
     .catch((error) => {
-      console.log("Get profile error: ", error);
+      console.log("Get history booking error: ", error);
     });
 };
 
@@ -288,6 +288,105 @@ const getHistoryBookingFailed = (errMess) => {
     type: BookingActionTypes.GET_HISTORY_BOOKING_FAILED,
     payload: errMess,
   };
+};
+
+export const getReservation = (token) => (dispatch) => {
+  return fetch(`${api}api/customer/get/reservation`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error("Error " + response.status + ": " + response.statusText);
+          const errMess = (await response.json()).message;
+          dispatch(getReservationFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length) {
+        dispatch(getReservationSuccessfully(response.data));
+      } else {
+        dispatch(getReservationFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get reservation list error: ", error);
+    });
+};
+
+const getReservationSuccessfully = (historyList) => {
+  return {
+    type: BookingActionTypes.GET_RESERVATION_SUCCESSFULLY,
+    payload: historyList,
+  };
+};
+
+const getReservationFailed = (errMess) => {
+  return {
+    type: BookingActionTypes.GET_RESERVATION_FAILED,
+    payload: errMess,
+  };
+};
+
+export const cancelReservation = (serviceDetails, token, successCallback) => (dispatch) => {
+  const data = new URLSearchParams(serviceDetails);
+  return fetch(`${api}api/customer/cancel/registerservice`, {
+    method: "PUT",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error("Error " + response.status + ": " + response.statusText);
+          const errMess = (await response.json()).message;
+          dispatch(cancelReservationFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data) {
+        successCallback();
+      } else {
+        dispatch(cancelReservationFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get reservation list error: ", error);
+    });
+};
+
+const cancelReservationFailed = (errMess) => {
+  return {
+    type: BookingActionTypes.CANCEL_RESERVATION_FAILED,
+    payload: errMess,
+  };
+};
+
+export const resetReservationList = () => (dispatch) => {
+  dispatch({ type: BookingActionTypes.RESET_RESERVATION_LIST });
 };
 
 export const bookService = (bookingInfo, token, callback) => (dispatch) => {
