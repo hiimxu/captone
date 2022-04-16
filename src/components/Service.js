@@ -10,6 +10,7 @@ import { currencyFormatter } from "../utils";
 
 import bgImg from "../assets/barbershopbg.jpg";
 import videobg from "../assets/videobg.jpg";
+import patterbg from "../assets/patterbg.svg";
 import imageUnavailable from "../assets/image-unavailable.png";
 import serviceLists from "../components/mockUp/serviceData.json";
 import fakeReviews from "../components/mockUp/review.json";
@@ -22,7 +23,7 @@ import Box from "@mui/material/Box";
 
 export default function Service() {
   // FAKE DATA
-  const fakeServiceList = serviceLists;
+  // const fakeServiceList = serviceLists;
   const fakeReview = fakeReviews;
 
   // API DATA
@@ -30,7 +31,6 @@ export default function Service() {
   console.log(type);
   const { serviceList } = useSelector((state) => state.service);
   const { salonId } = useParams();
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getServiceList(salonId));
@@ -243,57 +243,72 @@ export default function Service() {
 
       <div className="columns">
         <div className="column is-3"></div>
-        <div className="column is-6">
-          <div className="p-0 container" style={{ backgroundColor: "#FBE8CA" }}>
+        <div
+          className="column is-6 mt-3 p-0"
+          style={{
+            boxShadow:
+              "1px 1px 20px black"
+          }}
+        >
+          <div className="p-0" style={{ backgroundColor: "#FBE8CA" }}>
             <div>
-              {fakeServiceList?.dataSalon?.map((salon) => (
+              {serviceList?.dataSalon?.map((salon) => (
                 <div
                   className=""
-                  style={{ backgroundColor: "#C3AF91" }}
+                  style={{ background: "url(" + patterbg + ")" }}
                   key={salon.salonId}
                 >
-                  <div
-                    style={{
-                      height: "15rem",
-                    }}
-                    className="mb-3"
-                  >
-                    <img
-                      style={{ maxHeight: "15rem" }}
-                      src={salon.image}
-                      alt="..."
-                    />
-                  </div>
-                  <div className="pl-3 pb-2 mb-3">
-                    <h2 style={{ color: "#134068" }}>{salon.nameSalon}</h2>
-                    <p className="font-weight-bold">
-                      Open:{" "}
-                      <span className="text-danger">
-                        Mon-Sun {salon.timeOpen.slice(0, -3)} -{" "}
-                        {salon.timeClose.slice(0, -3)}
-                      </span>
-                    </p>
-                    <p>
-                      <span className="font-weight-bold">Phone number: </span>
-                      <span className="text" style={{ color: "#134068" }}>
-                        {salon.phone}
-                      </span>
-                    </p>
-                    <p>
-                      <i className="fa-solid fa-location-dot text-secondary"></i>{" "}
-                      <span
-                        className="font-weight-bold"
-                        style={{ color: "#134068" }}
-                      >
-                        {salon.detailAddress}
-                      </span>
-                    </p>
+                  <div className="columns mt-0 pt-0">
+                    <div className="column is-6" style={{ paddingTop: "0px" }}>
+                      <img
+                        style={{ height: "100%", width: "auto" }}
+                        src={salon.image}
+                        alt="..."
+                      />
+                    </div>
+                    <div className="column is-6 pt-5">
+                      <div className="pb-2 mb-3">
+                        <h2
+                          style={{ color: "#134068" }}
+                          className="is-size-2 has-text-weight-semibold"
+                        >
+                          {salon.nameSalon}
+                        </h2>
+                        <p className="is-size-5 font-weight-bold">
+                          Open:{" "}
+                          <span className="text-danger">
+                            Mon-Sun {salon.timeOpen.slice(0, -3)} -{" "}
+                            {salon.timeClose.slice(0, -3)}
+                          </span>
+                        </p>
+                        <p>
+                          <span className="is-size-5 font-weight-bold">
+                            Phone number:{" "}
+                          </span>
+                          <span
+                            className="is-size-5 text"
+                            style={{ color: "#134068" }}
+                          >
+                            {salon.phone}
+                          </span>
+                        </p>
+                        <p>
+                          <i className="fa-solid fa-location-dot text-secondary"></i>{" "}
+                          <span
+                            className="is-size-5 font-weight-bold"
+                            style={{ color: "#134068" }}
+                          >
+                            {salon.detailAddress}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="p-3" style={{ backgroundColor: "#FFDCA6" }}>
+            <div className="p-3" style={{ background: "url(" + videobg + ")" }}>
               <TabContext value={value}>
                 <Box
                   sx={{
@@ -313,7 +328,7 @@ export default function Service() {
                 </Box>
                 <TabPanel value="1">
                   <div>
-                    {fakeServiceList?.data?.map((service) => (
+                    {serviceList?.data?.map((service) => (
                       <div
                         className="card mb-3"
                         style={{
@@ -360,9 +375,9 @@ export default function Service() {
                               to={`/staff/${service.salonId}`}
                               style={{ width: "100px" }}
                               className="button mr-3 is-info is-rounded"
-                              // onClick={() =>
-                              //   dispatch(updateSelectedService(service))
-                              // }
+                              onClick={() =>
+                                dispatch(updateSelectedService(service))
+                              }
                             >
                               Book
                             </Link>

@@ -17,11 +17,12 @@ export default function SalonDashboard() {
   const sideMenu = {
     height: "100%",
     backgroundColor: "rgb(0, 82, 189, 95%)",
-    width: "3%",
+    width: "9%",
     position: "fixed",
     top: 0,
     left: 0,
     overflowX: "hidden",
+    fontWeight: "bold",
   };
   const link = {
     fontSize: "20px",
@@ -72,7 +73,10 @@ export default function SalonDashboard() {
                   color: "white",
                 }}
               >
-                <i className="fa-solid fa-clipboard-list"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-clipboard-list"></i> Orders
+                </p>
               </Link>
             </li>
             <div
@@ -86,7 +90,10 @@ export default function SalonDashboard() {
                 to="/manage_service"
                 style={link}
               >
-                <i className="fa-solid fa-shop"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-shop"></i> Salon
+                </p>
               </Link>
             </li>
             <div
@@ -101,7 +108,10 @@ export default function SalonDashboard() {
                 to="/SalonStaff"
                 style={link}
               >
-                <i className="fa-solid fa-users"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-users"></i> Staffs{" "}
+                </p>
               </Link>
             </li>
             <div
@@ -120,7 +130,10 @@ export default function SalonDashboard() {
                   color: "white",
                 }}
               >
-                <i className="fa-solid fa-gear"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-gear"></i> Information
+                </p>
               </Link>
             </li>
             <div
@@ -129,6 +142,8 @@ export default function SalonDashboard() {
             ></div>
             <li>
               <Link
+                onMouseOver={changeMouseOver}
+                onMouseOut={changeMouseOut}
                 className="text-white"
                 style={{
                   fontSize: "20px",
@@ -138,7 +153,10 @@ export default function SalonDashboard() {
                 to="/"
                 onClick={handleLogout}
               >
-                <i className="fa-solid fa-right-from-bracket"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-right-from-bracket"></i> Log out{" "}
+                </p>
               </Link>
             </li>
           </ul>

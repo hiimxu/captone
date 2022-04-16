@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Calendar from "react-calendar";
 import {
@@ -10,12 +10,12 @@ import {
   getStaffCalendar,
   resetStaffCalender,
   bookService,
-} from "../redux/actions/creators/booking";
+} from "../../redux/actions/creators/booking";
 import moment from "moment";
-import introbg from "../assets/introbg-1.jpg";
-import bgImg from "../assets/barbershopbg.jpg";
-import videobg from "../assets/videobg.jpg";
-import patterbg from "../assets/patterbg.svg";
+import introbg from "../../assets/introbg-1.jpg";
+import bgImg from "../../assets/barbershopbg.jpg";
+import videobg from "../../assets/videobg.jpg";
+import patterbg from "../../assets/patterbg.svg";
 
 export default function Staff() {
   const minDate = new Date(
@@ -108,13 +108,12 @@ export default function Staff() {
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
   };
-  const cancelBook = `/services/${selectedSalonId}`;
 
   return (
     <div style={root}>
       <div className="columns">
-        <div className="column is-2"></div>
-        <div className="column is-8">
+        <div className="column is-3"></div>
+        <div className="column is-6">
           <div
             className="mt-5 mb-5"
             style={{
@@ -145,9 +144,7 @@ export default function Staff() {
                         Phone number:{" "}
                         <span className="has-text-weight-thin">
                           {" "}
-                          <span className="has-text-info is-underlined">
-                            {salon.phone}
-                          </span>
+                          <span className="has-text-info ">{salon.phone}</span>
                         </span>
                       </span>
                     </p>
@@ -161,86 +158,60 @@ export default function Staff() {
                 </div>
               ))}
             </div>
-            <div class="steps" id="stepsDemo">
-              <div class="step-item is-completed is-link">
-                <div class="step-marker">1</div>
-                <div class="step-details">
-                  <p class="step-title">Choose date</p>
-                  <br></br>
-                  <Calendar
-                    className="rounded"
-                    onChange={handleInputDate}
-                    value={date}
-                    minDate={minDate}
-                  />
-                  {/* { console.log(staffInfo)}
-                   {console.log(staff,dateFormated)}
-                   {console.log(calendar)}  */}
+            <div className=" row g-0 p-5">
+              <div className="col-md-6">
+                <select
+                  className="form-select form-select-lg mb-3 "
+                  value={staff}
+                  onChange={(e) => setStaff(e.target.value)}
+                  style={{
+                    width: "95%",
+                    height: "2.5rem",
+                    borderRadius: "5px",
+                    backgroundColor: "white",
+                  }}
+                >
+                  <option defaultValue={""}>Choose a staff...</option>
+                  {staffList?.map((staff) => (
+                    <option key={staff.staffId} value={staff.staffId}>
+                      {staff.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="form-check pl-0 mt-3 ml-1">
+                  {calendar?.calendar.map((slot) => (
+                    <div
+                      className="form-check form-check-inline mr-4"
+                      key={slot.toString()}
+                      value={time}
+                      onChange={(e) => setTime(e.target.value)}
+                    >
+                      <input
+                        type="radio"
+                        name="inlineRadioOptions"
+                        value={slot}
+                        className="rounded mr-1 mb-2 bg-white"
+                      ></input>
+                      <label>{slot}</label>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div class="step-item  is-completed is-link">
-                <div class="step-marker">2</div>
-                <div class="step-details">
-                  <p class="step-title">Choose staff</p>
-                  <br></br>
-                  <select
-                    className="form-select form-select-lg mb-3 "
-                    value={staff}
-                    onChange={(e) => setStaff(e.target.value)}
-                    style={{
-                      width: "95%",
-                      height: "2.5rem",
-                      borderRadius: "5px",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    <option defaultValue={""}>Choose a staff...</option>
-                    {staffList?.map((staff) => (
-                      <option key={staff.staffId} value={staff.staffId}>
-                        {staff.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div class="step-item is-completed is-link">
-                <div class="step-marker">3</div>
-                <div class="step-details">
-                  <p class="step-title">Choose slot</p>
-                  <br></br>
-                  <div className="form-check">
-                    {calendar?.calendar.map((slot) => (
-                      <div
-                        className="form-check form-check-inline mr-4"
-                        key={slot.toString()}
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                      >
-                        <input
-                          type="radio"
-                          name="inlineRadioOptions"
-                          value={slot}
-                          className="rounded mr-1 mb-2 bg-white"
-                        ></input>
-                        <label>{slot}</label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <div className="col-md-6 pl-5">
+                <Calendar
+                  className="rounded"
+                  onChange={handleInputDate}
+                  value={date}
+                  minDate={minDate}
+                />
+                {/* {console.log(staffInfo)}
+          {console.log(staff,dateFormated)}
+          {console.log(calendar)} */}
               </div>
             </div>
-
             <div className="col-md-12 text-center pb-5 ">
-              <Link
-                style={{ width: "40%" }}
-                className="button is-rounded is-danger mr-3"
-                to={cancelBook}
-              >
-                Cancel
-              </Link>
               <button
-                style={{ width: "40%" }}
-                className="button is-rounded is-info ml-3"
+                className="btn btn-primary"
                 onClick={handleSubmit}
                 disabled={!staff || !time || !dateFormated}
               >
@@ -250,7 +221,7 @@ export default function Staff() {
           </div>
         </div>
 
-        <div className="column is-2"></div>
+        <div className="column is-3"></div>
       </div>
     </div>
   );

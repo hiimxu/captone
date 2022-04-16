@@ -1,24 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import serviceLists from "../../components/mockUp/serviceData.json";
 import fakeReviews from "../../components/mockUp/review.json";
-import paperbg from "../../assets/paperbg.jpg";
+import videobg from "../../assets/videobg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
-
+import {
+  getListServiceForSalon,
+  resetListServiceOfSalon
+} from "../../redux/actions/creators/salon";
 import { currencyFormatter } from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/creators/auth";
 
+import { Modal, Box } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import Box from "@mui/material/Box";
 
 export default function ManageService() {
-  const fakeServiceList = serviceLists;
-  const fakeReview = fakeReviews;
   const link = {
     fontSize: "20px",
     color: "white",
@@ -30,13 +31,38 @@ export default function ManageService() {
   };
   const menuStyle = {
     height: "100%",
-    backgroundColor: "rgb(0, 82, 189, 95%)",
-    width: "3%",
+    backgroundColor: "#000d6b",
+    width: "9%",
     position: "fixed",
     top: 0,
     left: 0,
     overflowX: "hidden",
-  }; // -- SIDE MENU HOVER --
+    fontWeight:"bold"
+  };
+  const dispatch = useDispatch();
+  // -- FIXED DATA --
+  const fakeServiceList = serviceLists;
+  const fakeReview = fakeReviews;
+
+
+
+  // -- API DATA --
+  const [type, setType] = useState("Services");
+  console.log(type);
+  const { listService } = useSelector((state) => state.listServiceSalon);
+  const { token, account_name: username } = useSelector(
+    (state) => state.loginAccount.account
+  );
+  useEffect(() => {
+    dispatch(getListServiceForSalon(token));
+    return () => {
+      dispatch(resetListServiceOfSalon());
+    };
+  }, [dispatch, token]);
+
+
+
+  // -- SIDE MENU HOVER --
   const changeMouseOver = (e) => {
     e.target.style.color = "rgb(0, 82, 189)";
   };
@@ -49,11 +75,14 @@ export default function ManageService() {
     setValue(newValue);
   };
   // -- LOG OUT --
-  const dispatch = useDispatch();
   const { account } = useSelector((state) => state.loginAccount);
   const handleLogout = () => {
     dispatch(logout("token"));
   };
+  // -- MODAL --
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <div>
       {" "}
@@ -61,7 +90,7 @@ export default function ManageService() {
         <aside className="menu">
           <ul className="menu-list">
             <li>
-              <Link
+            <Link
                 onMouseOver={changeMouseOver}
                 onMouseOut={changeMouseOut}
                 to="/"
@@ -71,7 +100,10 @@ export default function ManageService() {
                   color: "white",
                 }}
               >
-                <i className="fa-solid fa-clipboard-list"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-clipboard-list"></i> Orders
+                </p>
               </Link>
             </li>
             <div
@@ -85,13 +117,17 @@ export default function ManageService() {
                 to="/manage_service"
                 style={link}
               >
-                <i className="fa-solid fa-shop"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-shop"></i> Salon
+                </p>
               </Link>
             </li>
             <div
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
+
             <li>
               <Link
                 onMouseOver={changeMouseOver}
@@ -99,13 +135,17 @@ export default function ManageService() {
                 to="/SalonStaff"
                 style={link}
               >
-                <i className="fa-solid fa-users"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-users"></i> Staffs{" "}
+                </p>
               </Link>
             </li>
             <div
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
+
             <li>
               <Link
                 onMouseOver={changeMouseOver}
@@ -117,15 +157,20 @@ export default function ManageService() {
                   color: "white",
                 }}
               >
-                <i className="fa-solid fa-gear"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-gear"></i> Information
+                </p>
               </Link>
-            </li>{" "}
+            </li>
             <div
               className="is-divider"
               style={{ width: "80%", color: "grey", margin: "auto" }}
             ></div>
             <li>
               <Link
+                onMouseOver={changeMouseOver}
+                onMouseOut={changeMouseOut}
                 className="text-white"
                 style={{
                   fontSize: "20px",
@@ -135,7 +180,10 @@ export default function ManageService() {
                 to="/"
                 onClick={handleLogout}
               >
-                <i className="fa-solid fa-right-from-bracket"></i>
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-right-from-bracket"></i> Log out{" "}
+                </p>
               </Link>
             </li>
           </ul>
@@ -149,8 +197,8 @@ export default function ManageService() {
               className="p-0 container"
               style={{ backgroundColor: "#FBE8CA" }}
             >
-              <div>
-                {fakeServiceList?.dataSalon?.map((salon) => (
+              {/* <div>
+                {listService?.map((salon) => (
                   <div
                     className=""
                     style={{ backgroundColor: "#C3AF91" }}
@@ -173,8 +221,8 @@ export default function ManageService() {
                       <p className="font-weight-bold">
                         Open:{" "}
                         <span className="text-danger">
-                          Mon-Sun {salon.timeOpen.slice(0, -3)} -{" "}
-                          {salon.timeClose.slice(0, -3)}
+                          Mon-Sun {salon.timeOpen} -{" "}
+                          {salon.timeClose}
                         </span>
                       </p>
                       <p>
@@ -195,9 +243,9 @@ export default function ManageService() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> */}
 
-              <div className="p-3" style={{ backgroundColor: "#FFDCA6" }}>
+              <div style={{ background: "url("+videobg +")" }}>
                 <TabContext value={value}>
                   <Box
                     sx={{
@@ -217,7 +265,15 @@ export default function ManageService() {
                   </Box>
                   <TabPanel value="1">
                     <div>
-                      {fakeServiceList?.data?.map((service) => (
+                      <div className="has-text-right mb-5">
+                        <button
+                          className="button is-link is-rounded"
+                          onClick={handleOpen}
+                        >
+                          Add service
+                        </button>
+                      </div>
+                      {listService?.map((service) => (
                         <div
                           className="card mb-3"
                           style={{
@@ -258,6 +314,7 @@ export default function ManageService() {
                                   </span>
                                   {currencyFormatter.format(service.price)}
                                 </p>
+                                <p className="">{service.content}</p>
                                 <p className="">{service.description}</p>
                               </div>
                             </div>
@@ -277,6 +334,117 @@ export default function ManageService() {
                         </div>
                       ))}
                     </div>
+                    {/* Modal */}
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: 800,
+                          bgcolor: "background.paper",
+                          border: "2px solid #000",
+                          borderRadius: "25px",
+                          boxShadow: 24,
+                          p: 4,
+                        }}
+                      >
+                        <div>
+                          <form action="" method="post" className="addEmployee">
+                            <fieldset>
+                              <div
+                                className="has-text-right"
+                                style={{ marginRight: "100px" }}
+                              >
+                                <label for="Name">Service's name:</label>
+                                <input
+                                  id="Name"
+                                  className="input w-50 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                />
+                                <br></br>
+                                <label className="mt-5" for="Time">
+                                  Service's time:
+                                </label>
+                                <input
+                                  id="Time"
+                                  className="input mt-5 w-50 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                />{" "}
+                                <br></br>
+                                <label className="mt-5" for="Price">
+                                  Price:
+                                </label>
+                                <input
+                                  id="Price"
+                                  className="input w-50 mt-5 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                />{" "}
+                                <br></br>
+                                <label className="mt-5" for="Content">
+                                  Content:
+                                </label>
+                                <input
+                                  id="Content"
+                                  className="input w-50 mt-5 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                />{" "}
+                                <br></br>
+                                <label className="mt-5" for="Description">
+                                  Description:
+                                </label>
+                                <input
+                                  id="Description"
+                                  className="input w-50 mt-5 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                />{" "}
+                                <br></br>
+                                <label className="mt-5" for="picture">
+                                  Service's picture:
+                                </label>
+                                <input
+                                  id="picture"
+                                  className="mt-5 ml-5"
+                                  type="file"
+                                  accept="image/*"
+                                />
+                              </div>{" "}
+                              <br></br>
+                              <div className="has-text-right">
+                                <button
+                                  className="button is-rounded is-danger"
+                                  onClick={handleClose}
+                                >
+                                  {" "}
+                                  Cancel
+                                </button>
+                                <input
+                                  className="button is-rounded is-info ml-5"
+                                  type="submit"
+                                  value="Add"
+                                ></input>
+                              </div>
+                            </fieldset>
+                          </form>
+                        </div>
+                      </Box>
+                    </Modal>
                   </TabPanel>
                   <TabPanel value="2">
                     <div>

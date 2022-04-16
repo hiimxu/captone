@@ -35,6 +35,7 @@ export default function HomePage() {
               <div
                 class="card"
                 style={{
+                  height:"40rem",
                   boxShadow:
                     "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                 }}
@@ -47,7 +48,7 @@ export default function HomePage() {
                     />
                   </figure>
                 </div>
-                <div class="card-content">
+                <div class="card-content" style={{height:"14rem"}}>
                   <div class="media">
                     <div class="media-left">
                       <figure class="image is-48x48">
@@ -78,16 +79,7 @@ export default function HomePage() {
                     </span>
                   </div>
                 </div>
-                <footer class="card-footer">
-                  {/* <a
-                    href="#"
-                    class="card-footer-item has-text-weight-semibold has-text-danger"
-                  >
-                    <p>
-                      {" "}
-                      <i class="fa-solid fa-heart"></i> Favorite
-                    </p>
-                  </a> */}
+                <footer class="card-footer pr-0 pl-0">
                   <Link
                     to={`/services/${salon.salonId}`}
                     class="card-footer-item has-text-weight-bold has-text-link"
@@ -96,7 +88,7 @@ export default function HomePage() {
                     }
                   >
                     <p>
-                      Visit <i class="fa-solid fa-right-to-bracket"></i>{" "}
+                     <span className="is-size-5"> Visit {" "} <i class="fa-solid fa-right-to-bracket"></i>{" "}</span>
                     </p>
                   </Link>
                 </footer>
