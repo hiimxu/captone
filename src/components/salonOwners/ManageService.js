@@ -6,7 +6,7 @@ import videobg from "../../assets/videobg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import {
   getListServiceForSalon,
-  resetListServiceOfSalon
+  resetListServiceOfSalon,
 } from "../../redux/actions/creators/salon";
 import { currencyFormatter } from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
@@ -37,14 +37,12 @@ export default function ManageService() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    fontWeight:"bold"
+    fontWeight: "bold",
   };
   const dispatch = useDispatch();
   // -- FIXED DATA --
   const fakeServiceList = serviceLists;
   const fakeReview = fakeReviews;
-
-
 
   // -- API DATA --
   const [type, setType] = useState("Services");
@@ -59,8 +57,6 @@ export default function ManageService() {
       dispatch(resetListServiceOfSalon());
     };
   }, [dispatch, token]);
-
-
 
   // -- SIDE MENU HOVER --
   const changeMouseOver = (e) => {
@@ -86,11 +82,11 @@ export default function ManageService() {
   return (
     <div>
       {" "}
-      <div style={menuStyle}>
+      {/* <div style={menuStyle}>
         <aside className="menu">
           <ul className="menu-list">
             <li>
-            <Link
+              <Link
                 onMouseOver={changeMouseOver}
                 onMouseOut={changeMouseOut}
                 to="/"
@@ -188,7 +184,7 @@ export default function ManageService() {
             </li>
           </ul>
         </aside>
-      </div>{" "}
+      </div>{" "} */}
       <div style={root}>
         <div className="columns">
           <div className="column is-3"></div>
@@ -245,7 +241,7 @@ export default function ManageService() {
                 ))}
               </div> */}
 
-              <div style={{ background: "url("+videobg +")" }}>
+              <div style={{ background: "url(" + videobg + ")" }}>
                 <TabContext value={value}>
                   <Box
                     sx={{

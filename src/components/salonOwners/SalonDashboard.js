@@ -41,7 +41,7 @@ export default function SalonDashboard() {
 
   const menuStyle = {
     height: "100%",
-    backgroundColor: "rgb(0, 82, 189, 95%)",
+    backgroundColor: "#000d6b",
     width: "9%",
     position: "fixed",
     top: 0,
@@ -147,7 +147,7 @@ export default function SalonDashboard() {
 
   return (
     <div>
-      <div style={menuStyle}>
+      {/* <div style={menuStyle}>
         <aside className="menu">
           <ul className="menu-list">
             <li>
@@ -249,7 +249,7 @@ export default function SalonDashboard() {
             </li>
           </ul>
         </aside>
-      </div>
+      </div> */}
       <div style={root}>
         <div
           className="columns"

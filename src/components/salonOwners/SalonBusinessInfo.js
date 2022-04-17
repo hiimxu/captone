@@ -16,7 +16,7 @@ export default function SalonDashboard() {
   };
   const sideMenu = {
     height: "100%",
-    backgroundColor: "rgb(0, 82, 189, 95%)",
+    backgroundColor: "#000d6b",
     width: "9%",
     position: "fixed",
     top: 0,
@@ -59,7 +59,7 @@ export default function SalonDashboard() {
   };
   return (
     <div>
-      <div style={sideMenu}>
+      {/* <div style={sideMenu}>
         <aside className="menu">
           <ul className="menu-list">
             <li>
@@ -161,7 +161,7 @@ export default function SalonDashboard() {
             </li>
           </ul>
         </aside>
-      </div>
+      </div> */}
       <div style={root}>
         {/* logo */}
         {/* <div>

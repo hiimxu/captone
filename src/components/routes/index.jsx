@@ -27,6 +27,8 @@ import SalonHstory from "../salonOwners/oldComponents/SalonHstory";
 import Schedule from "../salonOwners/oldComponents/Schedule";
 import SalonStaff from "../salonOwners/SalonStaff";
 import SalonBusinessInfo from "../salonOwners/SalonBusinessInfo";
+import SideMenu from "../salonOwners/SideMenu";
+
 // import HeaderSalon from "../salonOwners/Header";
 
 import HomepageMockup from "../mockUp/Homepage";
@@ -67,7 +69,7 @@ const SwitchRoutes = () => {
     if (account.role === AccountRoles.Salon) {
       return (
         <>
-          {/* <HeaderSalon /> */}
+          <SideMenu />
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/addService" element={<AddService />} />

@@ -10,6 +10,11 @@ import { getHistoryBooking, getReservation, resetReservationList } from "../redu
 import { convertISOStringToLocaleDateString } from "../utils";
 import { validPhone } from "../validations/regex";
 
+import introbg from "../assets/introbg-1.jpg";
+import bgImg from "../assets/barbershopbg.jpg";
+import videobg from "../assets/videobg.jpg";
+import patterbg from "../assets/patterbg.svg";
+
 const PageWrapper = styled(Grid)({
   backgroundColor: "#cfc787",
   minHeight: "100vh",

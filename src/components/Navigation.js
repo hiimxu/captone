@@ -87,7 +87,7 @@ export default function Navigation() {
             </li>
             <li className="nav-item p-4 ">
               <Link className="text-reset" to="/favorite">
-                Favorite
+                Recent
               </Link>
             </li>
             <li className="nav-item">

@@ -9,6 +9,7 @@ import {
 import { currencyFormatter } from "../utils";
 
 import bgImg from "../assets/barbershopbg.jpg";
+import paperbg from "../assets/paperbg.jpg";
 import videobg from "../assets/videobg.jpg";
 import patterbg from "../assets/patterbg.svg";
 import imageUnavailable from "../assets/image-unavailable.png";
@@ -270,7 +271,7 @@ export default function Service() {
                       <div className="pb-2 mb-3">
                         <h2
                           style={{ color: "#134068" }}
-                          className="is-size-2 has-text-weight-semibold"
+                          className="is-size-1 has-text-weight-semibold"
                         >
                           {salon.nameSalon}
                         </h2>
@@ -286,7 +287,7 @@ export default function Service() {
                             Phone number:{" "}
                           </span>
                           <span
-                            className="is-size-5 text"
+                            className="is-size-5 is-underlined"
                             style={{ color: "#134068" }}
                           >
                             {salon.phone}
@@ -308,7 +309,7 @@ export default function Service() {
               ))}
             </div>
 
-            <div className="p-3" style={{ background: "url(" + videobg + ")" }}>
+            <div style={{ background: "url(" + videobg + ")" }}>
               <TabContext value={value}>
                 <Box
                   sx={{
@@ -332,7 +333,7 @@ export default function Service() {
                       <div
                         className="card mb-3"
                         style={{
-                          backgroundColor: "#dfe7ed",
+                          background: "url("+paperbg+")",
                           height: "12rem",
                           borderRadius: "25px",
                         }}

@@ -21,7 +21,7 @@ export default function SalonDashboard() {
   };
   const sideMenu = {
     height: "100%",
-    backgroundColor: "rgb(0, 82, 189, 95%)",
+    backgroundColor: "#000d6b",
     width: "9%",
     position: "fixed",
     top: 0,
@@ -65,7 +65,7 @@ export default function SalonDashboard() {
   };
   return (
     <div>
-      <div style={sideMenu}>
+      {/* <div style={sideMenu}>
         <aside className="menu">
           <ul className="menu-list">
             <li>
@@ -167,29 +167,8 @@ export default function SalonDashboard() {
             </li>
           </ul>
         </aside>
-      </div>
+      </div> */}
       <div style={root}>
-        {/* logo */}
-        {/* <div>
-          <nav
-            className="navbar navbar-expand-lg is-fixed-top fixed-top font-weight-bold"
-            style={{ backgroundColor: "rgb(0,0,0,90%)" }}
-          >
-            <div className="justify-content-center navbar-collapse text">
-              <ul className="menu navbar-nav ml-5">
-                <li className="nav-item">
-                  <Link to="/about">
-                    <img
-                      src={logoImg}
-                      alt="logo"
-                      style={{ width: "100%", height: "5rem" }}
-                    />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div> */}
 
         <div
           className="columns"
@@ -213,7 +192,7 @@ export default function SalonDashboard() {
             </h1>
             <div className="has-text-right mb-5 mr-5">
               <button
-                className="button is-info is-rounded is-outlined"
+                className="button is-info is-rounded"
                 onClick={handleOpen}
               >
                 {" "}

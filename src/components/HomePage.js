@@ -48,7 +48,7 @@ export default function HomePage() {
                     />
                   </figure>
                 </div>
-                <div class="card-content" style={{height:"14rem"}}>
+                <div class="card-content" style={{height:"15rem"}}>
                   <div class="media">
                     <div class="media-left">
                       <figure class="image is-48x48">
