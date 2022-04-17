@@ -50,6 +50,7 @@ export default function HomePage() {
                   <span className="font-weight-bold">Address:</span>{" "}
                   {salon.detailAddress}
                 </p>
+                <div>
                 <Link
                   to={`/services/${salon.salonId}`}
                   className="btn btn-primary"
@@ -57,6 +58,7 @@ export default function HomePage() {
                 >
                   Book now
                 </Link>
+                </div>
               </div>
             </div>
           </div>

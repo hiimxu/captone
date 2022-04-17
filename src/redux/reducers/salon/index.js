@@ -65,23 +65,25 @@ export const ListStaffSalon = (
   }
 };
 
-
-export const ListService =(
+export const ListService = (
   state = {
     listService: null,
     errMess: null,
   },
   action
-)=> {
+) => {
   switch (action.type) {
     case SalonActionTypes.GET_SERVICE_LIST_FOR_SALON_FAILED:
       return { ...state, listService: null, errMess: action.payload.errMess };
     case SalonActionTypes.GET_SERVICE_LIST_FOR_SALON_SUCCESSFULLY:
-      return { ...state, listService: action.payload.listService, errMess: null };
+      return {
+        ...state,
+        listService: action.payload.listService,
+        errMess: null,
+      };
     case SalonActionTypes.RESET_SERVICE_LIST_OF_SALON:
       return { ...state, listService: null, errMess: null };
     default:
       return state;
   }
 };
-
