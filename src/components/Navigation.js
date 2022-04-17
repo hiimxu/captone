@@ -5,7 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/actions/creators/auth";
 
 export default function Navigation() {
-  const [navbar, setNavbar] = useState({});
+  const [navbar, setNavbar] = useState({
+    backgroundColor: "rgb(28, 23, 1, 0.1)",
+  });
   const [menu, setMenu] = useState({
     fontSize: "1.2rem",
     color: "white",
