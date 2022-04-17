@@ -9,9 +9,9 @@ import {
   cancelOrder,
   getSalonBookingHistory,
   resetSalonBookingHistoryList,
-} from "../../redux/actions/creators/salon";
-import bgImg from "../../assets/barbershopbg.jpg";
-import paperbg from "../../assets/paperbg.jpg";
+} from "../../../redux/actions/creators/salon";
+import bgImg from "../../../assets/barbershopbg.jpg";
+import paperbg from "../../../assets/paperbg.jpg";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -25,7 +25,7 @@ import {
   convertISOStringToLocaleTimeString,
   currencyFormatter,
   convertISOStringToLocaleDateString,
-} from "../../utils";
+} from "../../../utils";
 import moment from "moment";
 
 export default function Schedule() {

@@ -47,11 +47,27 @@ export default function SalonDashboard() {
     top: 0,
     left: 0,
     overflowX: "hidden",
-    fontWeight: "bold"
+    fontWeight: "bold",
   };
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
+
+  // -- FILLTER STAFF
+  const [data, setData] = useState({
+    day: convertDate(date),
+    nameStaff: "",
+  });
+  const [staff, setStaff] = useState("");
+  const { listStaff } = useSelector((state) => state.listStaffSalon);
+  const handleSelectStaff = (e) => {
+    setStaff(e.target.value);
+  };
+  useEffect(() => {
+    if (date) {
+      setData({ day: date, nameStaff: staff });
+    }
+  }, [date, staff]);
 
   // -- LOG OUT --
   const dispatch = useDispatch();
@@ -434,14 +450,31 @@ export default function SalonDashboard() {
                 </Modal>
               </TabPanel>
               <TabPanel value="2">
-                <div className="mb-5">
-                  <input
-                    style={{ width: "400px" }}
-                    className="input is-normal"
-                    placeholder="Normal input"
-                    onChange={handleSelectDateHistory}
-                    type="date"
-                  ></input>
+                <div className="row">
+                  <div className="mb-5">
+                    <input
+                      style={{ width: "400px" }}
+                      className="input is-normal"
+                      placeholder="Normal input"
+                      onChange={handleSelectDateHistory}
+                      type="date"
+                    ></input>
+                  </div>
+                  <div className="col-3">
+                    <select
+                      className="custom-select"
+                      value={staff}
+                      onChange={handleSelectStaff}
+                      style={{ width: "20rem" }}
+                    >
+                      <option value="">Choose...</option>
+                      {listStaff?.map((staff) => (
+                        <option key={staff.staffId} value={staff.name}>
+                          {staff.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
                 <table className="table">
                   <thead>
