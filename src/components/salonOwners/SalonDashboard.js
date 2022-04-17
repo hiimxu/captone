@@ -54,20 +54,20 @@ export default function SalonDashboard() {
   );
 
   // -- FILLTER STAFF
-  const [data, setData] = useState({
-    day: convertDate(date),
-    nameStaff: "",
-  });
-  const [staff, setStaff] = useState("");
-  const { listStaff } = useSelector((state) => state.listStaffSalon);
-  const handleSelectStaff = (e) => {
-    setStaff(e.target.value);
-  };
-  useEffect(() => {
-    if (date) {
-      setData({ day: date, nameStaff: staff });
-    }
-  }, [date, staff]);
+  // const [data, setData] = useState({
+  //   day: convertDate(date),
+  //   nameStaff: "",
+  // });
+  // const [staff, setStaff] = useState("");
+  // const { listStaff } = useSelector((state) => state.listStaffSalon);
+  // const handleSelectStaff = (e) => {
+  //   setStaff(e.target.value);
+  // };
+  // useEffect(() => {
+  //   if (date) {
+  //     setData({ day: date, nameStaff: staff });
+  //   }
+  // }, [date, staff]);
 
   // -- LOG OUT --
   const dispatch = useDispatch();
@@ -460,7 +460,7 @@ export default function SalonDashboard() {
                       type="date"
                     ></input>
                   </div>
-                  <div className="col-3">
+                  {/* <div className="col-3">
                     <select
                       className="custom-select"
                       value={staff}
@@ -474,7 +474,7 @@ export default function SalonDashboard() {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
                 </div>
                 <table className="table">
                   <thead>
