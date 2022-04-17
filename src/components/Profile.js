@@ -23,7 +23,7 @@ const PageWrapper = styled(Grid)({
 
 const UserInfo = styled(Box)({
   padding: 20,
-  backgroundColor: "#ffdca6",
+  backgroundColor: "white",
   display: "flex",
   flexDirection: "column",
   minHeight: 550,
@@ -83,7 +83,7 @@ const SecondaryActionButton = styled(ActionButton)({
 });
 
 const ReservationHistory = styled(Box)({
-  backgroundColor: "#ffdca6",
+  backgroundColor: "white",
   display: "flex",
   flexDirection: "column",
   minHeight: 550,
@@ -94,7 +94,7 @@ const Tabs = styled(Grid)({
 });
 
 const Tab = styled(Box)(({ selected }) => ({
-  backgroundColor: selected ? "#ffdca6" : "#dfc8a5",
+  backgroundColor: selected ? "white" : "#dfc8a5",
   display: "flex",
   color: "#305470",
   fontSize: 28,
