@@ -9,6 +9,7 @@ export default function SalonProfile() {
     (state) => state.loginAccount.account
   );
   const { profileSalon } = useSelector((state) => state.profileSalon);
+  console.log(profileSalon)
 
   //call API
   useEffect(() => {

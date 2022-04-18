@@ -27,6 +27,7 @@ import {
   convertISOStringToLocaleDateString,
 } from "../../../utils";
 import moment from "moment";
+import { set } from "date-fns";
 
 export default function Schedule() {
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
@@ -34,86 +35,41 @@ export default function Schedule() {
     day: convertDate(date),
     nameStaff: "",
   });
-  const [orderIdSelected, setOrderIdSelected] = useState("");
-  const [orderIdCancel, setOrderIdCancel] = useState("");
-  const [value, setValue] = React.useState("1");
   const [dayFormated, setDayFormated] = useState({
     day: convertDate(date),
   });
-
   const [staff, setStaff] = useState("");
+  const [orderIdSelected, setOrderIdSelected] = useState("");
+  const [orderIdCancel, setOrderIdCancel] = useState("");
+  const [value, setValue] = React.useState("1");
+
+  //set action dialog
   const [openFinish, setOpenFinish] = React.useState(false);
-  const handleOpenFinish = () => setOpenFinish(true);
-  const handleCloseFinish = () => setOpenFinish(false);
   const [openCancel, setOpenCancel] = React.useState(false);
-  const handleOpenCancel = () => setOpenCancel(true);
-  const handleCloseCancel = () => setOpenCancel(false);
 
-  const dispatch = useDispatch();
-
-  const { listStaff } = useSelector((state) => state.listStaffSalon);
-  const { currentSchedule, errMess } = useSelector(
-    (state) => state.scheduleCurent
-  );
-  console.log("SCHEDULE " + currentSchedule);
-  const { token, account_name: username } = useSelector(
-    (state) => state.loginAccount.account
-  );
-  const { historyBooking } = useSelector((state) => state.salonHistory);
-
-  useEffect(() => {
-    dispatch(getListStaffForSalon(token));
-    return () => {
-      dispatch(resetListStaffOfSalon());
-    };
-  }, [dispatch, token]);
-
-  useEffect(() => {
-    dispatch(getScheduleCurrent(token, data));
-    return () => {
-      dispatch(resetScheduleCurentList());
-    };
-  }, [dispatch, token, data]);
-
-  // useEffect(() => {
-  //   if (orderIdSelected) {
-  //     dispatch(finishOrder(token, { id: orderIdSelected }));
-  //   }
-  //   return () => {
-  //     dispatch(resetScheduleCurentList());
-  //   };
-  // }, [dispatch, token, orderIdSelected]);
-
-  // useEffect(() => {
-  //   if (orderIdCancel) {
-  //     dispatch(
-  //       cancelOrder(token, {
-  //         registerServiceId: orderIdCancel.registerServiceId,
-  //         service_time: orderIdCancel.service_time,
-  //         note:"Customer confirmed!"
-  //       })
-  //     );
-  //   }
-  //   return () => {
-  //     dispatch(resetScheduleCurentList());
-  //   };
-  // }, [dispatch, token, orderIdCancel]);
-
-  useEffect(() => {
-    dispatch(getSalonBookingHistory(token, { day: date }));
-    return () => {
-      dispatch(resetSalonBookingHistoryList());
-    };
-  }, [dispatch, token, date]);
-
-  const handleFinish = (orderId) => {
-    setOrderIdSelected(orderId);
+  //handle function set, show data
+  //open dialog finish order
+  const handleOpenFinish = (data) => {
+    setOrderIdSelected(data);
+    setOpenFinish(true);
+  };
+  //close dialog finish order
+  const handleCloseFinish = () => {
+    setOpenFinish(false);
+    setOrderIdSelected("");
+  };
+  //open dialog cancel order
+  const handleOpenCancel = (data) => {
+    setOpenCancel(true);
+    setOrderIdCancel(data);
+  };
+  //close dialog cancel order
+  const handleCloseCancel = () => {
+    setOpenCancel(false);
+    setOrderIdCancel("");
   };
 
-  const handleCancel = (orderId) => {
-    setOrderIdCancel(orderId);
-  };
-
+  //handle function select data
   const handleSelectDate = (e) => {
     setDate(convertDate(e.target.value));
   };
@@ -130,6 +86,80 @@ export default function Schedule() {
     setDayFormated({ day: convertDate(e.target.value) });
   };
 
+  const dispatch = useDispatch();
+
+  //call redux store
+  const { listStaff } = useSelector((state) => state.listStaffSalon);
+  const { currentSchedule, errMess } = useSelector(
+    (state) => state.scheduleCurent
+  );
+  const { token, account_name: username } = useSelector(
+    (state) => state.loginAccount.account
+  );
+  const { historyBooking } = useSelector((state) => state.salonHistory);
+
+  //call api get list staff
+  useEffect(() => {
+    dispatch(getListStaffForSalon(token));
+    return () => {
+      dispatch(resetListStaffOfSalon());
+    };
+  }, [dispatch, token]);
+
+  //call api get schedule
+  useEffect(() => {
+    dispatch(getScheduleCurrent(token, data));
+    return () => {
+      dispatch(resetScheduleCurentList());
+    };
+  }, [dispatch, token, data]);
+
+  //call api get history booking
+  useEffect(() => {
+    dispatch(getSalonBookingHistory(token, { day: date }));
+    return () => {
+      dispatch(resetSalonBookingHistoryList());
+    };
+  }, [dispatch, token, date]);
+
+  //feature finish order
+  const handleFinish = () => {
+    if (!orderIdSelected) return;
+    const successCallback = () => {
+      console.log("callback");
+      dispatch(resetScheduleCurentList());
+      handleCloseFinish();
+      dispatch(getScheduleCurrent(token, data));
+    };
+    dispatch(
+      finishOrder(
+        token,
+        { id: orderIdSelected.registerServiceId },
+        successCallback
+      )
+    );
+  };
+
+  const handleCancel = () => {
+    if (!orderIdCancel) return;
+    const successCallback = () => {
+      dispatch(resetScheduleCurentList());
+      handleCloseCancel();
+      dispatch(getScheduleCurrent(token, data));
+    };
+    dispatch(
+      cancelOrder(
+        token,
+        {
+          registerServiceId: orderIdCancel.registerServiceId,
+          service_time: orderIdCancel.service_time,
+          note: "Customer confirmed!",
+        },
+        successCallback
+      )
+    );
+  };
+
   useEffect(() => {
     if (date) {
       setData({ day: date, nameStaff: staff });
@@ -143,10 +173,6 @@ export default function Schedule() {
     return [newdate.getFullYear(), mnth, day].join("-");
   }
 
-  const link = {
-    fontSize: "20px",
-    color: "white",
-  };
   const root = {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
@@ -159,7 +185,7 @@ export default function Schedule() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 500,
+    width: 600,
     borderRadius: "25px",
     bgcolor: "background.paper",
     border: "2px solid #000",
@@ -286,13 +312,13 @@ export default function Schedule() {
                       <td className="has-text-centered has-text-white">
                         <button
                           className="button is-rounded is-success mr-2"
-                          onClick={handleOpenFinish}
+                          onClick={() => handleOpenFinish(element)}
                         >
                           <i className="fa-solid fa-circle-check"></i>
                         </button>
                         <button
                           className="button is-rounded is-danger mr-2"
-                          onClick={handleOpenCancel}
+                          onClick={() => handleOpenCancel(element)}
                         >
                           <i className="fa-solid fa-trash-can"></i>
                         </button>
@@ -308,15 +334,29 @@ export default function Schedule() {
               >
                 <Box sx={style}>
                   <div className="has-text-centered">
-                    <h1 className="is-size-4 has-text-weight-semibold">
+                    <h1 className="is-size-4 ">
                       {" "}
-                      Do you want to{" "}
-                      <span className="has-text-info">finish</span> this order ?
+                      <span className="has-text-weight-semibold">
+                        {" "}
+                        Do you want to{" "}
+                        <span className="has-text-info">finish</span> this
+                        order:{" "}
+                      </span>
+                      <br></br>
+                      <br></br>
+                      <p className="is-size-3">
+                        {orderIdSelected.nameCustomer} -{" "}
+                        {orderIdSelected.nameService} -{" "}
+                        {orderIdSelected.nameStaff} -{" "}
+                        {convertISOStringToLocaleTimeString(
+                          orderIdSelected.timeUse
+                        ).slice(0, -3)}
+                      </p>
                     </h1>
                     <br></br>
                     <button
                       onClick={handleFinish}
-                      className="button is-rounded is-info mr-5"
+                      className="button is-rounded is-primary mr-5"
                       style={{ width: "150px" }}
                     >
                       Finish order
@@ -338,16 +378,29 @@ export default function Schedule() {
               >
                 <Box sx={style}>
                   <div className="has-text-centered">
-                    <h1 className="is-size-4 has-text-weight-semibold">
+                  <h1 className="is-size-4 ">
                       {" "}
-                      Do you want to{" "}
-                      <span className="has-text-danger">cancel</span> this order
-                      ?
+                      <span className="has-text-weight-semibold">
+                        {" "}
+                        Do you want to{" "}
+                        <span className="has-text-danger">cancel</span> this
+                        order:{" "}
+                      </span>
+                      <br></br>
+                      <br></br>
+                      <p className="is-size-3">
+                        {orderIdCancel.nameCustomer} -{" "}
+                        {orderIdCancel.nameService} -{" "}
+                        {orderIdCancel.nameStaff} -{" "}
+                        {convertISOStringToLocaleTimeString(
+                          orderIdCancel.timeUse
+                        ).slice(0, -3)}
+                      </p>
                     </h1>
                     <br></br>
                     <button
                       onClick={handleCancel}
-                      className="button is-rounded is-info mr-5"
+                      className="button is-rounded is-primary mr-5"
                       style={{ width: "150px" }}
                     >
                       Cancel order
@@ -369,6 +422,7 @@ export default function Schedule() {
                   style={{ width: "400px" }}
                   className="input is-normal"
                   placeholder="Normal input"
+                  value={date}
                   onChange={handleSelectDateHistory}
                   type="date"
                 ></input>

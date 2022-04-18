@@ -1,50 +1,40 @@
-import { Link } from "react-router-dom";
 import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import imageUnavailable from "../../assets/image-unavailable.png";
-import { useState } from "react";
-import { Modal, Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getProfileOfSalon } from "../../redux/actions/creators/salon";
+import { Modal, Box } from "@mui/material";
 import { logout } from "../../redux/actions/creators/auth";
 
 export default function SalonDashboard() {
-  const changeMouseOver = (e) => {
-    e.target.style.color = "rgb(0, 82, 189)";
-  };
-  const changeMouseOut = (e) => {
-    e.target.style.color = "white";
-  };
-  const sideMenu = {
-    height: "100%",
-    backgroundColor: "#000d6b",
-    width: "9%",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    overflowX: "hidden",
-    fontWeight: "bold",
-  };
-  const link = {
-    fontSize: "20px",
-    color: "white",
-  };
   const root = {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
   };
-  const fakeData = {
-    salonId: "1",
-    salonName: "Golden Scissor",
-    taxCode: "6234vs02hf82",
-    phone: "092 312 5123",
-    timeOpen: "07:30:00",
-    timeClose: "20:00:00",
-    address: "Ba Đình, Hà Nội",
-    email: "salon.goldenscissor@gmail.com",
-    image:
-      "https://camnanghaiphong.vn/wp-content/uploads/2022/02/Top-10-tiem-salon-toc-chat-luong-Hai-Phong.jpg",
-  };
+  // const profileSalon = {
+  //   salonId: "1",
+  //   salonName: "Golden Scissor",
+  //   taxCode: "6234vs02hf82",
+  //   phone: "092 312 5123",
+  //   timeOpen: "07:30:00",
+  //   timeClose: "20:00:00",
+  //   address: "Ba Đình, Hà Nội",
+  //   email: "salon.goldenscissor@gmail.com",
+  //   image:
+  //     "https://camnanghaiphong.vn/wp-content/uploads/2022/02/Top-10-tiem-salon-toc-chat-luong-Hai-Phong.jpg",
+  // };
+  const dispatch = useDispatch();
+
+  // -- GET SALON PROFILE --
+  const { token, account_name: username } = useSelector(
+    (state) => state.loginAccount.account
+  );
+  const { profileSalon } = useSelector((state) => state.profileSalon);
+  useEffect(() => {
+    dispatch(getProfileOfSalon(token));
+  }, [dispatch, token]);
 
   // -- MODAL --
   const [open, setOpen] = useState(false);
@@ -52,139 +42,13 @@ export default function SalonDashboard() {
   const handleClose = () => setOpen(false);
 
   // -- LOG OUT --
-  const dispatch = useDispatch();
   const { account } = useSelector((state) => state.loginAccount);
   const handleLogout = () => {
     dispatch(logout("token"));
   };
   return (
     <div>
-      {/* <div style={sideMenu}>
-        <aside className="menu">
-          <ul className="menu-list">
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                to="/"
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "20px",
-                  color: "white",
-                }}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-clipboard-list"></i> Orders
-                </p>
-              </Link>
-            </li>
-            <div
-              className="is-divider"
-              style={{ width: "80%", color: "grey", margin: "auto" }}
-            ></div>
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                to="/manage_service"
-                style={link}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-shop"></i> Salon
-                </p>
-              </Link>
-            </li>
-            <div
-              className="is-divider"
-              style={{ width: "80%", color: "grey", margin: "auto" }}
-            ></div>
-
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                to="/SalonStaff"
-                style={link}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-users"></i> Staffs{" "}
-                </p>
-              </Link>
-            </li>
-            <div
-              className="is-divider"
-              style={{ width: "80%", color: "grey", margin: "auto" }}
-            ></div>
-
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                to="/SalonBusinessInfo"
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "18px",
-                  color: "white",
-                }}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-gear"></i> Information
-                </p>
-              </Link>
-            </li>
-            <div
-              className="is-divider"
-              style={{ width: "80%", color: "grey", margin: "auto" }}
-            ></div>
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                className="text-white"
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "18px",
-                  color: "white",
-                }}
-                to="/"
-                onClick={handleLogout}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-right-from-bracket"></i> Log out{" "}
-                </p>
-              </Link>
-            </li>
-          </ul>
-        </aside>
-      </div> */}
       <div style={root}>
-        {/* logo */}
-        {/* <div>
-          <nav
-            className="navbar navbar-expand-lg is-fixed-top fixed-top font-weight-bold"
-            style={{ backgroundColor: "rgb(0,0,0,90%)" }}
-          >
-            <div className="justify-content-center navbar-collapse text">
-              <ul className="menu navbar-nav ml-5">
-                <li className="nav-item">
-                  <Link to="/about">
-                    <img
-                      src={logoImg}
-                      alt="logo"
-                      style={{ width: "100%", height: "5rem" }}
-                    />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div> */}
-
         <div
           className="columns"
           style={{
@@ -207,34 +71,49 @@ export default function SalonDashboard() {
               <div className="column is-6 has-text-right">
                 <p className="is-size-4">Salon Id : </p>
                 <p className="is-size-4">Salon name : </p>
+                <p className="is-size-4">Salon owner : </p>
                 <p className="is-size-4">Tax code : </p>
                 <p className="is-size-4">Phone number : </p>
                 <p className="is-size-4">Time open : </p>
                 <p className="is-size-4">Time close : </p>
-                <p className="is-size-4">Address : </p>
+                <p className="is-size-4">District : </p>
+                <p className="is-size-4">City : </p>
+                <p className="is-size-4">Detail address : </p>
                 <p className="is-size-4">Email : </p>
                 <p className="is-size-4">Salon image : </p>
               </div>
               <div className="column is-6 has-text-left">
-                <p className="is-size-4">{fakeData.salonId}</p>
-                <p className="is-size-4">{fakeData.salonName}</p>
+                <p className="is-size-4">{profileSalon[0].salonId}</p>
+                <p className="is-size-4">{profileSalon[0].nameSalon}</p>
+                <p className="is-size-4"> {profileSalon[0].nameOwner}</p>
                 <p className="is-size-4 has-text-primary has-text-weight-bold">
-                  {fakeData.taxCode}
+                  {profileSalon[0].taxCode}
                 </p>
-                <p className="is-size-4">{fakeData.phone}</p>
-                <p className="is-size-4 has-text-danger">{fakeData.timeOpen}</p>
+                <p className="is-size-4">{profileSalon[0].phone}</p>
                 <p className="is-size-4 has-text-danger">
-                  {fakeData.timeClose}
+                  {profileSalon[0].timeOpen}
                 </p>
-                <p className="is-size-4">{fakeData.address}</p>
-                <p className="is-size-4 is-underlined">{fakeData.email}</p>
+                <p className="is-size-4 has-text-danger">
+                  {profileSalon[0].timeClose}
+                </p>
+                <p className="is-size-4">{profileSalon[0].district}</p>
+                <p className="is-size-4">{profileSalon[0].city}</p>
+                <p className="is-size-4">{profileSalon[0].detailAddress}</p>
+                <p className="is-size-4 is-underlined">
+                  {profileSalon[0].email}
+                </p>
                 <img
                   style={{
                     maxHeight: "300px",
                     maxWidth: "500px",
                     marginTop: "10px",
                   }}
-                  src={fakeData.image ? fakeData.image : imageUnavailable}
+                  src={
+                    profileSalon[0].image
+                      ? profileSalon[0].image
+                      : imageUnavailable
+                  }
+                  alt="..."
                 ></img>
               </div>
             </div>

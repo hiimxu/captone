@@ -4,7 +4,7 @@ import { logout } from "../../redux/actions/creators/auth";
 export default function SalonDashboard() {
   const menuStyle = {
     height: "100%",
-    backgroundColor: "#000d6b",
+    backgroundColor: "#003fa6",
     width: "9%",
     position: "fixed",
     top: 0,

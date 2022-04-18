@@ -19,19 +19,17 @@ import FinishBooking from "../FinishBooking";
 
 import RegisterSalon from "../salonOwners/RegisterSalon";
 import SalonDashboard from "../salonOwners/SalonDashboard";
-import SalonDashboardMockup from "../mockUp/SalonDashboardMockup";
 import ManageService from "../salonOwners/ManageService";
-import AddService from "../salonOwners/oldComponents/AddService";
 import ManageBooking from "../salonOwners/ManageBooking";
-import SalonHstory from "../salonOwners/oldComponents/SalonHstory";
-import Schedule from "../salonOwners/Schedule";
 import SalonStaff from "../salonOwners/SalonStaff";
 import SalonBusinessInfo from "../salonOwners/SalonBusinessInfo";
 import SideMenu from "../salonOwners/SideMenu";
-import SalonProfile from "../salonOwners/SalonProfile";
+import Schedule from "../salonOwners/oldComponents/Schedule"
 
+// import SalonProfile from "../salonOwners/SalonProfile";
 // import HeaderSalon from "../salonOwners/Header";
 
+import SalonDashboardMockup from "../mockUp/SalonDashboardMockup";
 import HomepageMockup from "../mockUp/Homepage";
 import ServiceMockup from "../mockUp/Service";
 import FinishBookingMockup from "../mockUp/FinishBooking";
@@ -73,15 +71,15 @@ const SwitchRoutes = () => {
           <SideMenu />
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
-            <Route path="/addService" element={<AddService />} />
             <Route path="/manage_service" element={<ManageService />} />
-            <Route path="/" element={<Schedule/>} />{" "}
+            <Route path="/" element={<SalonDashboard />} />{" "}
             <Route path="/SalonStaff" element={<SalonStaff />} />
-            {/* <Route path="/SalonBusinessInfo" element={<SalonBusinessInfo />} /> */}
-            <Route path="/SalonBusinessInfo" element={<SalonProfile/>} />
-            <Route path="/manage_staff" element={<ManageStaff />} />
+            <Route path="/SalonBusinessInfo" element={<SalonBusinessInfo />} />
+            {/* <Route path="/SalonBusinessInfo" element={<SalonProfile/>} /> */}
+            {/* <Route path="/manage_staff" element={<ManageStaff />} /> */}
             <Route path="/Schedule" element={<Schedule />} />
-            <Route path="/SalonHstory" element={<SalonHstory />} />
+            {/* <Route path="/SalonHstory" element={<SalonHstory />} /> */}
+            {/* <Route path="/addService" element={<AddService />} /> */}
           </Routes>
           {/* </div> */}
           <Footer />
@@ -127,13 +125,11 @@ const SwitchRoutes = () => {
             <Route path="*" element={<Navigate to="/login" />} />
             {/* Salon */}
             <Route path="/manage_staff" element={<ManageStaff />} />
-
             <Route path="/register_salon" element={<RegisterSalon />} />
             <Route path="SalonDashboard" element={<SalonDashboard />} />{" "}
             <Route path="/SalonStaff" element={<SalonStaff />} />
             <Route path="manage_service" element={<ManageService />} />
             <Route path="ManageBooking" element={<ManageBooking />} />
-            <Route path="AddService" element={<AddService />} />
             <Route path="SalonBusinessInfo" element={<SalonBusinessInfo />} />
             {/*  */}
           </Routes>
