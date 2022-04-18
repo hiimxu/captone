@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProfileOfSalon } from "../../redux/actions/creators/salon";
+import { getProfileOfSalon } from "../../../redux/actions/creators/salon";
 
 export default function SalonProfile() {
   const dispatch = useDispatch();
