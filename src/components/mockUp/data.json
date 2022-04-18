@@ -6,30 +6,7 @@
         "nameSalon": "Hiếu's salon",
         "detailAddress": "Hoàn Kiếm, Hà Nội",
         "detailSalon": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.",
-        "openDay": "Mon - Fri",
-        "rating": "",
-        "reply":[
-            {
-                "salonName":"",
-                "comment":""
-            },
-            {
-                "salonName":"",
-                "comment":""
-            },
-            {
-                "salonName":"",
-                "comment":"",
-            },
-            {
-                "salonName":"",
-                "comment":"",
-            },
-            {
-                "salonName":"",
-                "comment":"",
-            }
-        ]
+        "openDay": "Mon - Fri"
     },
     {
         "phone": "123",
