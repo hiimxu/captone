@@ -365,3 +365,59 @@ export const resetListServiceOfSalon = () => (dispatch) => {
     type: SalonActionTypes.RESET_SERVICE_LIST_OF_SALON,
   });
 };
+
+//get profile for salon
+export const getProfileOfSalon = (token) => (dispatch) => {
+  return fetch(`${api}api/salonowner/profile/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(getProfileOfSalonFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length) {
+        dispatch(
+          getProfileOfSalonSuccesfully({
+            profileSalon: response.data,
+          })
+        );
+      } else {
+        dispatch(getProfileOfSalonFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get profile failed", error);
+    });
+};
+
+const getProfileOfSalonSuccesfully = (payload) => {
+  return {
+    type: SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY,
+    payload,
+  };
+};
+const getProfileOfSalonFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.GET_PROFILE_FOR_SALON_FAILED,
+    payload: errMess,
+  };
+};

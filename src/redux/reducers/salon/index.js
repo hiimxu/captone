@@ -87,3 +87,25 @@ export const ListService = (
       return state;
   }
 };
+
+export const ProfileSalon = (
+  state = {
+    profileSalon: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.GET_PROFILE_FOR_SALON_FAILED:
+      return { ...state, profileSalon: null, errMess: action.payload.errMess };
+    case SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        profileSalon: action.payload.profileSalon,
+        errMess: null,
+      };
+
+    default:
+      return state;
+  }
+};

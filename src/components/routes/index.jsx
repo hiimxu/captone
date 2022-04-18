@@ -24,10 +24,11 @@ import ManageService from "../salonOwners/ManageService";
 import AddService from "../salonOwners/oldComponents/AddService";
 import ManageBooking from "../salonOwners/ManageBooking";
 import SalonHstory from "../salonOwners/oldComponents/SalonHstory";
-import Schedule from "../salonOwners/oldComponents/Schedule";
+import Schedule from "../salonOwners/Schedule";
 import SalonStaff from "../salonOwners/SalonStaff";
 import SalonBusinessInfo from "../salonOwners/SalonBusinessInfo";
 import SideMenu from "../salonOwners/SideMenu";
+import SalonProfile from "../salonOwners/SalonProfile";
 
 // import HeaderSalon from "../salonOwners/Header";
 
@@ -74,9 +75,10 @@ const SwitchRoutes = () => {
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/addService" element={<AddService />} />
             <Route path="/manage_service" element={<ManageService />} />
-            <Route path="/" element={<SalonDashboard />} />{" "}
+            <Route path="/" element={<Schedule/>} />{" "}
             <Route path="/SalonStaff" element={<SalonStaff />} />
-            <Route path="/SalonBusinessInfo" element={<SalonBusinessInfo />} />
+            {/* <Route path="/SalonBusinessInfo" element={<SalonBusinessInfo />} /> */}
+            <Route path="/SalonBusinessInfo" element={<SalonProfile/>} />
             <Route path="/manage_staff" element={<ManageStaff />} />
             <Route path="/Schedule" element={<Schedule />} />
             <Route path="/SalonHstory" element={<SalonHstory />} />
