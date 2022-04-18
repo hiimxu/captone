@@ -250,7 +250,7 @@ const finishOrderSuccessfully = (payload) => {
   };
 };
 
-export const cancelOrder = (token, order) => (dispatch) => {
+export const cancelOrder = (token, order,successCallback) => (dispatch) => {
   const data = new URLSearchParams({ ...order });
   return fetch(`${api}api/salonowner/cancelBookingServiceBySalon`, {
     method: "PUT",
@@ -279,30 +279,31 @@ export const cancelOrder = (token, order) => (dispatch) => {
       }
     )
     .then((response) => {
-      if (response.data?.length && response.message) {
+      if (response.data && response.message) {
         dispatch(
           cancelOrderSuccessfully({
             orderIdCanceled: response.data,
             successMessage: response.message,
           })
         );
+        successCallback();
       } else {
         dispatch(cancelcelOrderFailed(response.message));
       }
     })
     .catch((error) => {
-      console.log("Get schedule failed", error);
+      console.log("Cancel order failed", error);
     });
 };
 const cancelcelOrderFailed = (errMess) => {
   return {
-    type: SalonActionTypes.FINISH_ORDER_FAILED,
+    type: SalonActionTypes.CANCEL_ORDER_FAILED,
     payload: errMess,
   };
 };
 const cancelOrderSuccessfully = (payload) => {
   return {
-    type: SalonActionTypes.FINISH_ORDER_SUCCESSFULLY,
+    type: SalonActionTypes.CANCEL_ORDER_SUCCESSFULLY,
     payload,
   };
 };
@@ -364,4 +365,60 @@ export const resetListServiceOfSalon = () => (dispatch) => {
   dispatch({
     type: SalonActionTypes.RESET_SERVICE_LIST_OF_SALON,
   });
+};
+
+//get profile for salon
+export const getProfileOfSalon = (token) => (dispatch) => {
+  return fetch(`${api}api/salonowner/profile/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(getProfileOfSalonFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length) {
+        dispatch(
+          getProfileOfSalonSuccesfully({
+            profileSalon: response.data,
+          })
+        );
+      } else {
+        dispatch(getProfileOfSalonFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get profile failed", error);
+    });
+};
+
+const getProfileOfSalonSuccesfully = (payload) => {
+  return {
+    type: SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY,
+    payload,
+  };
+};
+const getProfileOfSalonFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.GET_PROFILE_FOR_SALON_FAILED,
+    payload: errMess,
+  };
 };
