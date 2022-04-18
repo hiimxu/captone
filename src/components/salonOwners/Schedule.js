@@ -35,82 +35,41 @@ export default function Schedule() {
     day: convertDate(date),
     nameStaff: "",
   });
-  const [orderIdSelected, setOrderIdSelected] = useState("");
-  const [orderIdCancel, setOrderIdCancel] = useState("");
-  const [value, setValue] = React.useState("1");
   const [dayFormated, setDayFormated] = useState({
     day: convertDate(date),
   });
-
   const [staff, setStaff] = useState("");
+  const [orderIdSelected, setOrderIdSelected] = useState("");
+  const [orderIdCancel, setOrderIdCancel] = useState("");
+  const [value, setValue] = React.useState("1");
+
+  //set action dialog
   const [openFinish, setOpenFinish] = React.useState(false);
+  const [openCancel, setOpenCancel] = React.useState(false);
+
+  //handle function set, show data
+  //open dialog finish order
   const handleOpenFinish = (data) => {
     setOrderIdSelected(data);
     setOpenFinish(true);
   };
+  //close dialog finish order
   const handleCloseFinish = () => {
     setOpenFinish(false);
-    setOrderIdSelected("")
+    setOrderIdSelected("");
   };
-  const [openCancel, setOpenCancel] = React.useState(false);
-  const handleOpenCancel = () => setOpenCancel(true);
-  const handleCloseCancel = () => setOpenCancel(false);
-
-  const dispatch = useDispatch();
-
-  const { listStaff } = useSelector((state) => state.listStaffSalon);
-  const { currentSchedule, errMess } = useSelector(
-    (state) => state.scheduleCurent
-  );
-  const { token, account_name: username } = useSelector(
-    (state) => state.loginAccount.account
-  );
-  const { historyBooking } = useSelector((state) => state.salonHistory);
-
-  useEffect(() => {
-    dispatch(getListStaffForSalon(token));
-    return () => {
-      dispatch(resetListStaffOfSalon());
-    };
-  }, [dispatch, token]);
-
-  useEffect(() => {
-    dispatch(getScheduleCurrent(token, data));
-    return () => {
-      dispatch(resetScheduleCurentList());
-    };
-  }, [dispatch, token, data]);
-
- 
-
-  useEffect(() => {
-    dispatch(getSalonBookingHistory(token, { day: date }));
-    return () => {
-      dispatch(resetSalonBookingHistoryList());
-    };
-  }, [dispatch, token, date]);
-
-  const handleFinish = () => {
-    if (!orderIdSelected) return;
-    const successCallback = () => {
-      console.log("callback")
-      dispatch(resetScheduleCurentList())
-      handleCloseFinish()
-      dispatch(getScheduleCurrent(token,data));
-    };
-    dispatch(
-      finishOrder(
-        token,
-        { id: orderIdSelected.registerServiceId },
-        successCallback
-      )
-    );
+  //open dialog cancel order
+  const handleOpenCancel = (data) => {
+    setOpenCancel(true);
+    setOrderIdCancel(data);
+  };
+  //close dialog cancel order
+  const handleCloseCancel = () => {
+    setOpenCancel(false);
+    setOrderIdCancel("");
   };
 
-  const handleCancel = (orderId) => {
-    setOrderIdCancel(orderId);
-  };
-
+  //handle function select data
   const handleSelectDate = (e) => {
     setDate(convertDate(e.target.value));
   };
@@ -125,6 +84,80 @@ export default function Schedule() {
   const handleSelectDateHistory = (e) => {
     setDate(e.target.value);
     setDayFormated({ day: convertDate(e.target.value) });
+  };
+
+  const dispatch = useDispatch();
+
+  //call redux store
+  const { listStaff } = useSelector((state) => state.listStaffSalon);
+  const { currentSchedule, errMess } = useSelector(
+    (state) => state.scheduleCurent
+  );
+  const { token, account_name: username } = useSelector(
+    (state) => state.loginAccount.account
+  );
+  const { historyBooking } = useSelector((state) => state.salonHistory);
+
+  //call api get list staff
+  useEffect(() => {
+    dispatch(getListStaffForSalon(token));
+    return () => {
+      dispatch(resetListStaffOfSalon());
+    };
+  }, [dispatch, token]);
+
+  //call api get schedule
+  useEffect(() => {
+    dispatch(getScheduleCurrent(token, data));
+    return () => {
+      dispatch(resetScheduleCurentList());
+    };
+  }, [dispatch, token, data]);
+
+  //call api get history booking
+  useEffect(() => {
+    dispatch(getSalonBookingHistory(token, { day: date }));
+    return () => {
+      dispatch(resetSalonBookingHistoryList());
+    };
+  }, [dispatch, token, date]);
+
+  //feature finish order
+  const handleFinish = () => {
+    if (!orderIdSelected) return;
+    const successCallback = () => {
+      console.log("callback");
+      dispatch(resetScheduleCurentList());
+      handleCloseFinish();
+      dispatch(getScheduleCurrent(token, data));
+    };
+    dispatch(
+      finishOrder(
+        token,
+        { id: orderIdSelected.registerServiceId },
+        successCallback
+      )
+    );
+  };
+
+  const handleCancel = () => {
+    if (!orderIdCancel) return;
+    const successCallback = () => {
+      dispatch(resetScheduleCurentList());
+      handleCloseCancel();
+      dispatch(getScheduleCurrent(token, data));
+    };
+    dispatch(
+      cancelOrder(
+        token,
+        {
+          registerServiceId: orderIdCancel.registerServiceId,
+          service_time:orderIdCancel.service_time,
+          note: "Customer confirmed!",
+        },
+        successCallback
+      )
+    );
   };
 
   useEffect(() => {
@@ -289,7 +322,7 @@ export default function Schedule() {
                         </button>
                         <button
                           className="button is-rounded is-danger mr-2"
-                          onClick={handleOpenCancel}
+                          onClick={() => handleOpenCancel(element)}
                         >
                           <i className="fa-solid fa-trash-can"></i>
                         </button>

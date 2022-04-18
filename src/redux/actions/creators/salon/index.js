@@ -250,7 +250,7 @@ const finishOrderSuccessfully = (payload) => {
   };
 };
 
-export const cancelOrder = (token, order) => (dispatch) => {
+export const cancelOrder = (token, order,successCallback) => (dispatch) => {
   const data = new URLSearchParams({ ...order });
   return fetch(`${api}api/salonowner/cancelBookingServiceBySalon`, {
     method: "PUT",
@@ -279,30 +279,31 @@ export const cancelOrder = (token, order) => (dispatch) => {
       }
     )
     .then((response) => {
-      if (response.data?.length && response.message) {
+      if (response.data && response.message) {
         dispatch(
           cancelOrderSuccessfully({
             orderIdCanceled: response.data,
             successMessage: response.message,
           })
         );
+        successCallback();
       } else {
         dispatch(cancelcelOrderFailed(response.message));
       }
     })
     .catch((error) => {
-      console.log("Get schedule failed", error);
+      console.log("Cancel order failed", error);
     });
 };
 const cancelcelOrderFailed = (errMess) => {
   return {
-    type: SalonActionTypes.FINISH_ORDER_FAILED,
+    type: SalonActionTypes.CANCEL_ORDER_FAILED,
     payload: errMess,
   };
 };
 const cancelOrderSuccessfully = (payload) => {
   return {
-    type: SalonActionTypes.FINISH_ORDER_SUCCESSFULLY,
+    type: SalonActionTypes.CANCEL_ORDER_SUCCESSFULLY,
     payload,
   };
 };
