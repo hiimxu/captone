@@ -164,8 +164,7 @@ export default function Schedule() {
       cancelOrder(
         token,
         {
-          registerServiceId: orderIdCancel.registerServiceId,
-          service_time: orderIdCancel.service_time,
+          registerServiceId: orderIdCancel.registerServiceId,          
           note: "Customer confirmed!",
         },
         successCallback
@@ -515,6 +514,7 @@ export default function Schedule() {
                           <i class="fa-solid fa-xmark"></i>
                         </td>
                       )}
+                      <td>{element.note}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -5,7 +5,7 @@ export default function SalonDashboard() {
   const menuStyle = {
     height: "100%",
     backgroundColor: "#003fa6",
-    width: "9%",
+    width: "10%",
     position: "fixed",
     top: 0,
     left: 0,
