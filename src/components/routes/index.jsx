@@ -24,7 +24,7 @@ import ManageBooking from "../salonOwners/ManageBooking";
 import SalonStaff from "../salonOwners/SalonStaff";
 import SalonBusinessInfo from "../salonOwners/SalonBusinessInfo";
 import SideMenu from "../salonOwners/SideMenu";
-import Schedule from "../salonOwners/oldComponents/Schedule"
+import Schedule from "../salonOwners/Schedule"
 
 // import SalonProfile from "../salonOwners/SalonProfile";
 // import HeaderSalon from "../salonOwners/Header";

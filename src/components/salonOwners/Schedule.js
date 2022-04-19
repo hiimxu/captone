@@ -9,9 +9,9 @@ import {
   cancelOrder,
   getSalonBookingHistory,
   resetSalonBookingHistoryList,
-} from "../../../redux/actions/creators/salon";
-import bgImg from "../../../assets/barbershopbg.jpg";
-import paperbg from "../../../assets/paperbg.jpg";
+} from "../../redux/actions/creators/salon";
+import bgImg from "../../assets/barbershopbg.jpg";
+import paperbg from "../../assets/paperbg.jpg";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -25,7 +25,7 @@ import {
   convertISOStringToLocaleTimeString,
   currencyFormatter,
   convertISOStringToLocaleDateString,
-} from "../../../utils";
+} from "../../utils";
 import moment from "moment";
 import { set } from "date-fns";
 
@@ -187,6 +187,10 @@ export default function Schedule() {
     return [newdate.getFullYear(), mnth, day].join("-");
   }
 
+  const link = {
+    fontSize: "20px",
+    color: "white",
+  };
   const root = {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
@@ -199,7 +203,7 @@ export default function Schedule() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 600,
+    width: 500,
     borderRadius: "25px",
     bgcolor: "background.paper",
     border: "2px solid #000",
@@ -349,29 +353,20 @@ export default function Schedule() {
               >
                 <Box sx={style}>
                   <div className="has-text-centered">
-                    <h1 className="is-size-4 ">
+                    <h1 className="is-size-4 has-text-weight-semibold">
                       {" "}
-                      <span className="has-text-weight-semibold">
-                        {" "}
-                        Do you want to{" "}
-                        <span className="has-text-info">finish</span> this
-                        order:{" "}
-                      </span>
-                      <br></br>
-                      <br></br>
-                      <p className="is-size-3">
-                        {orderIdSelected.nameCustomer} -{" "}
-                        {orderIdSelected.nameService} -{" "}
-                        {orderIdSelected.nameStaff} -{" "}
-                        {convertISOStringToLocaleTimeString(
-                          orderIdSelected.timeUse
-                        ).slice(0, -3)}
-                      </p>
+                      Do you want to{" "}
+                      <span className="has-text-info">finish</span> order of{" "}
+                      <span className="text-success">
+                        {orderIdSelected.nameCustomer}
+                        {console.log(orderIdSelected)}
+                      </span>{" "}
+                      ?
                     </h1>
                     <br></br>
                     <button
                       onClick={handleFinish}
-                      className="button is-rounded is-primary mr-5"
+                      className="button is-rounded is-info mr-5"
                       style={{ width: "150px" }}
                     >
                       Finish order
@@ -393,29 +388,16 @@ export default function Schedule() {
               >
                 <Box sx={style}>
                   <div className="has-text-centered">
-                  <h1 className="is-size-4 ">
+                    <h1 className="is-size-4 has-text-weight-semibold">
                       {" "}
-                      <span className="has-text-weight-semibold">
-                        {" "}
-                        Do you want to{" "}
-                        <span className="has-text-danger">cancel</span> this
-                        order:{" "}
-                      </span>
-                      <br></br>
-                      <br></br>
-                      <p className="is-size-3">
-                        {orderIdCancel.nameCustomer} -{" "}
-                        {orderIdCancel.nameService} -{" "}
-                        {orderIdCancel.nameStaff} -{" "}
-                        {convertISOStringToLocaleTimeString(
-                          orderIdCancel.timeUse
-                        ).slice(0, -3)}
-                      </p>
+                      Do you want to{" "}
+                      <span className="has-text-danger">cancel</span> this order
+                      ?
                     </h1>
                     <br></br>
                     <button
                       onClick={handleCancel}
-                      className="button is-rounded is-primary mr-5"
+                      className="button is-rounded is-info mr-5"
                       style={{ width: "150px" }}
                     >
                       Cancel order
