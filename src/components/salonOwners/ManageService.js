@@ -321,6 +321,12 @@ export default function ManageService() {
                               </div>
                             </div>
                             <div className="column is-2 mt-3 has-text-right">
+                            <button
+                                style={{ width: "100px" }}
+                                className="button mr-3 is-primary is-rounded"
+                              >
+                                Book 
+                              </button>
                               <button
                                 style={{ width: "100px" }}
                                 className="button mr-3 is-info is-rounded"
