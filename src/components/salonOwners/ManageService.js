@@ -30,11 +30,7 @@ export default function ManageService() {
   };
   const dispatch = useDispatch();
   // -- FIXED DATA --
-<<<<<<< HEAD
   // const fakeServiceList = serviceLists;
-=======
-
->>>>>>> fix regiser salon account for new BE, fix current order and history order for new BE
   const fakeReview = fakeReviews;
 
   // -- API DATA --
@@ -51,7 +47,6 @@ export default function ManageService() {
     };
   }, [dispatch, token]);
 
-<<<<<<< HEAD
   // -- GET SALON PROFILE --
   const { profileSalon } = useSelector((state) => state.profileSalon);
   console.log(profileSalon);
@@ -59,14 +54,11 @@ export default function ManageService() {
     dispatch(getProfileOfSalon(token));
   }, [dispatch, token]);
 
-=======
->>>>>>> fix regiser salon account for new BE, fix current order and history order for new BE
   // -- TABS --
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-<<<<<<< HEAD
 
   // -- MODAL CSS --
   const modalcss = {
@@ -99,16 +91,6 @@ export default function ManageService() {
   return (
     <div>
       {" "}
-=======
-  // -- LOG OUT --
-
-  // -- MODAL --
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  return (
-    <div>
->>>>>>> fix regiser salon account for new BE, fix current order and history order for new BE
       <div style={root}>
         <div className="columns">
           <div className="column is-3"></div>
@@ -120,7 +102,6 @@ export default function ManageService() {
               className="p-0 container"
               style={{ backgroundColor: "#FBE8CA" }}
             >
-<<<<<<< HEAD
               <div>
                 {profileSalon?.map((salon) => (
                   <div
@@ -268,9 +249,6 @@ export default function ManageService() {
                 </Box>
               </Modal>
               <div style={{ background: "url(" + paperbg + ")" }}>
-=======
-              <div style={{ background: "url(" + videobg + ")" }}>
->>>>>>> fix regiser salon account for new BE, fix current order and history order for new BE
                 <TabContext value={value}>
                   <Box
                     sx={{
