@@ -13,26 +13,6 @@ import { Modal, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SalonDashboard() {
-  const changeMouseOver = (e) => {
-    e.target.style.color = "rgb(0, 82, 189)";
-  };
-  const changeMouseOut = (e) => {
-    e.target.style.color = "white";
-  };
-  const sideMenu = {
-    height: "100%",
-    backgroundColor: "#000d6b",
-    width: "9%",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    overflowX: "hidden",
-    fontWeight: "bold",
-  };
-  const link = {
-    fontSize: "20px",
-    color: "white",
-  };
   const root = {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
@@ -58,125 +38,10 @@ export default function SalonDashboard() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // -- LOG OUT --
-  const { account } = useSelector((state) => state.loginAccount);
-  const handleLogout = () => {
-    dispatch(logout("token"));
-  };
   return (
     <div>
-      {/* <div style={sideMenu}>
-        <aside className="menu">
-          <ul className="menu-list">
-            <li>
-            <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                to="/"
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "20px",
-                  color: "white",
-                }}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-clipboard-list"></i> Orders
-                </p>
-              </Link>
-            </li>
-            <div
-              className="is-divider"
-              style={{ width: "80%", color: "grey", margin: "auto" }}
-            ></div>
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                to="/manage_service"
-                style={link}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-shop"></i> Salon
-                </p>
-              </Link>
-            </li>
-            <div
-              className="is-divider"
-              style={{ width: "80%", color: "grey", margin: "auto" }}
-            ></div>
-
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                to="/SalonStaff"
-                style={link}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-users"></i> Staffs{" "}
-                </p>
-              </Link>
-            </li>
-            <div
-              className="is-divider"
-              style={{ width: "80%", color: "grey", margin: "auto" }}
-            ></div>
-
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                to="/SalonBusinessInfo"
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "18px",
-                  color: "white",
-                }}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-gear"></i> Information
-                </p>
-              </Link>
-            </li>
-            <div
-              className="is-divider"
-              style={{ width: "80%", color: "grey", margin: "auto" }}
-            ></div>
-            <li>
-              <Link
-                onMouseOver={changeMouseOver}
-                onMouseOut={changeMouseOut}
-                className="text-white"
-                style={{
-                  fontSize: "20px",
-                  paddingLeft: "18px",
-                  color: "white",
-                }}
-                to="/"
-                onClick={handleLogout}
-              >
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-right-from-bracket"></i> Log out{" "}
-                </p>
-              </Link>
-            </li>
-          </ul>
-        </aside>
-      </div> */}
       <div style={root}>
-
-        <div
-          className="columns"
-          style={{
-            minHeight: "400px",
-            // , marginTop: "96px"
-          }}
-        >
+        <div className="columns">
           <div className="column is-2"></div>
           <div
             className="column is-8"
@@ -312,7 +177,7 @@ export default function SalonDashboard() {
                     type="text"
                     placeholder="Text input"
                   />{" "}
-                  <br></br>                  
+                  <br></br>
                 </div>{" "}
                 <br></br>
                 <div className="has-text-right">

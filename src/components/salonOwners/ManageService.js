@@ -16,7 +16,7 @@ import imageUnavailable from "../../assets/image-unavailable.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/creators/auth";
 
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, Tooltip } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -151,7 +151,7 @@ export default function ManageService() {
                               {salon.detailAddress}
                             </span>
                           </p>
-                          <p className="is-size-5">{salon.description}</p>
+                          <p>{salon.description}</p>
                         </div>
                         <div className="has-text-right mb-5 mr-5">
                           <button
@@ -265,24 +265,25 @@ export default function ManageService() {
                     <div>
                       <div className="has-text-right mb-5">
                         <button
-                          className="button is-link is-rounded"
+                        style={{height:"70px"}}
+                          className="button is-link is-fullwidth is-outlined"
                           onClick={handleOpenService}
                         >
-                          Add service
+                          <span className="is-size-4 has-text-weight-semibold">Add a service {" "} <i class="fa-solid fa-plus"></i></span>
                         </button>
                       </div>
                       {listService?.map((service) => (
                         <div
                           className="card mb-3"
                           style={{
-                            backgroundColor: "#dfe7ed",
+                            backgroundColor: " #F5F3ED",
                             height: "12rem",
                             borderRadius: "25px",
                           }}
                           key={service.serviceId}
                         >
                           <div className="columns">
-                            <div className="column is-4">
+                            <div className="column is-3">
                               <img
                                 src={
                                   service.image
@@ -298,7 +299,7 @@ export default function ManageService() {
                                 }}
                               />
                             </div>
-                            <div className="column is-6 mt-2 has-text-left">
+                            <div className="column is-7 mt-2 has-text-left">
                               <div>
                                 <h4 className="has-text-info-dark is-size-3 has-text-weight-bold">
                                   {service.name}
@@ -316,25 +317,26 @@ export default function ManageService() {
                                 <p className="">{service.description}</p>
                               </div>
                             </div>
-                            <div className="column is-2 mt-3 has-text-right">
-                            <button
-                                style={{ width: "100px" }}
-                                className="button mr-3 is-primary is-rounded"
-                              >
-                                Book 
-                              </button>
-                              <button
-                                style={{ width: "100px" }}
-                                className="button mr-3 is-info is-rounded"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                style={{ width: "100px" ,backgroundColor:"red"}}
-                                className="button mr-3 mt-3 is-info is-rounded"
-                              >
-                                Delete
-                              </button>
+                            <div className="column is-2 has-text-right">
+                              <Tooltip title="Delete" placement="right">
+                                <button className="button mr-3 mt-3 is-danger is-rounded is-small">
+                                  <i className="fa-solid fa-trash-can"></i>
+                                </button>
+                              </Tooltip>
+                              <br></br>
+                              <Tooltip title="Book" placement="right">
+                                <button className="button mr-3 is-primary is-rounded  mt-3 is-small">
+                                  <span className="has-text-weight-semibold">
+                                    <i class="fa-solid fa-address-book"></i>
+                                  </span>
+                                </button>
+                              </Tooltip>
+                              <br></br>
+                              <Tooltip title="Edit" placement="right">
+                                <button className="button mr-3 is-info is-rounded  mt-3 is-small">
+                                  <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>

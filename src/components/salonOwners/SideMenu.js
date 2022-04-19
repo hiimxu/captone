@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/creators/auth";
+import { Tooltip } from "@mui/material";
 export default function SalonDashboard() {
   const menuStyle = {
     height: "100%",
-    backgroundColor: "#003fa6",
+    backgroundColor: "#2e2e2e",
+
     width: "10%",
     position: "fixed",
     top: 0,
@@ -44,10 +46,12 @@ export default function SalonDashboard() {
                 color: "white",
               }}
             >
-              <p>
-                {" "}
-                <i className="fa-solid fa-clipboard-list"></i> Orders
-              </p>
+              {/* <Tooltip title="Order" placement="right"> */}
+                <p>
+                  {" "}
+                  <i className="fa-solid fa-clipboard-list"></i> Orders
+                </p>
+              {/* </Tooltip> */}
             </Link>
           </li>
           <div

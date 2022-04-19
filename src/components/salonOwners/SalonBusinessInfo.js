@@ -60,7 +60,8 @@ export default function SalonDashboard() {
           <div
             className="column is-8  has-text-centered "
             style={{
-              background: "url(" + paperbg + ")",
+              // background: "url(" + paperbg + ")",
+              // backgroundColor :"#f5f4eb",
               padding: 0,
               marginTop: "30px",
               marginBottom: "30px",
