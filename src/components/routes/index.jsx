@@ -121,7 +121,7 @@ const SwitchRoutes = () => {
             <Route path="forgot_password" element={<ForgotPassword />} />
             <Route path="History" element={<History />} />
             <Route path="Profile" element={<Profile />} />
-            <Route path="/services/:salonId" element={<Service />} />
+            
             <Route path="*" element={<Navigate to="/login" />} />
             {/* Salon */}
             <Route path="/manage_staff" element={<ManageStaff />} />

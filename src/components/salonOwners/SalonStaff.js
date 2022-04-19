@@ -312,11 +312,7 @@ export default function SalonDashboard() {
                     type="text"
                     placeholder="Text input"
                   />{" "}
-                  <br></br>
-                  <label className="mt-5" for="License">
-                    Employee's license:
-                  </label>
-                  <input id="License" className="mt-5 ml-5" type="file" />
+                  <br></br>                  
                 </div>{" "}
                 <br></br>
                 <div className="has-text-right">

@@ -30,7 +30,11 @@ import moment from "moment";
 import { set } from "date-fns";
 
 export default function Schedule() {
-  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
+  const minDate =  new Date().toISOString().substring(0, 10)
+  const [date, setDate] = useState(minDate);
+  const [dateHistory, setDateHistory] = useState(
+    new Date().toISOString().substring(0, 10)
+  );
   const [data, setData] = useState({
     day: convertDate(date),
     nameStaff: "",
@@ -38,7 +42,11 @@ export default function Schedule() {
   const [dayFormated, setDayFormated] = useState({
     day: convertDate(date),
   });
+  //set staff id for order current
   const [staff, setStaff] = useState("");
+  //set staff id for history order
+  const [staffId, setStaffId] = useState("");
+  //set order id selected
   const [orderIdSelected, setOrderIdSelected] = useState("");
   const [orderIdCancel, setOrderIdCancel] = useState("");
   const [value, setValue] = React.useState("1");
@@ -77,12 +85,15 @@ export default function Schedule() {
   const handleSelectStaff = (e) => {
     setStaff(e.target.value);
   };
+  const handleSelectStaffIdForHistory = (e) => {
+    setStaffId(e.target.value);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const handleSelectDateHistory = (e) => {
-    setDate(e.target.value);
+    setDateHistory(e.target.value);
     setDayFormated({ day: convertDate(e.target.value) });
   };
 
@@ -116,11 +127,13 @@ export default function Schedule() {
 
   //call api get history booking
   useEffect(() => {
-    dispatch(getSalonBookingHistory(token, { day: date }));
+    dispatch(
+      getSalonBookingHistory(token, { day: dateHistory, staffId: staffId })
+    );
     return () => {
       dispatch(resetSalonBookingHistoryList());
     };
-  }, [dispatch, token, date]);
+  }, [dispatch, token, dateHistory, staffId]);
 
   //feature finish order
   const handleFinish = () => {
@@ -162,8 +175,9 @@ export default function Schedule() {
 
   useEffect(() => {
     if (date) {
-      setData({ day: date, nameStaff: staff });
+      setData({ day: date, staffId: staff });
     }
+    
   }, [date, staff]);
 
   function convertDate(date) {
@@ -238,6 +252,7 @@ export default function Schedule() {
                     placeholder="Normal input"
                     type="date"
                     value={date}
+                    min={minDate}
                     onChange={handleSelectDate}
                   ></input>
                 </div>
@@ -250,7 +265,7 @@ export default function Schedule() {
                   >
                     <option value="">Choose...</option>
                     {listStaff?.map((staff) => (
-                      <option key={staff.staffId} value={staff.name}>
+                      <option key={staff.staffId} value={staff.staffId}>
                         {staff.name}
                       </option>
                     ))}
@@ -417,15 +432,32 @@ export default function Schedule() {
               </Modal>
             </TabPanel>
             <TabPanel value="2">
-              <div className="mb-5">
-                <input
-                  style={{ width: "400px" }}
-                  className="input is-normal"
-                  placeholder="Normal input"
-                  value={date}
-                  onChange={handleSelectDateHistory}
-                  type="date"
-                ></input>
+              <div className="row">
+                <div className="mb-5">
+                  <input
+                    style={{ width: "400px" }}
+                    className="input is-normal"
+                    placeholder="Normal input"
+                    value={dateHistory}
+                    onChange={handleSelectDateHistory}
+                    type="date"
+                  ></input>
+                </div>
+                <div className="col-3">
+                  <select
+                    className="custom-select"
+                    value={staffId}
+                    onChange={handleSelectStaffIdForHistory}
+                    style={{ width: "20rem" }}
+                  >
+                    <option value="">Choose...</option>
+                    {listStaff?.map((staff) => (
+                      <option key={staff.staffId} value={staff.staffId}>
+                        {staff.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <table className="table">
                 <thead>

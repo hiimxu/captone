@@ -30,7 +30,11 @@ export default function ManageService() {
   };
   const dispatch = useDispatch();
   // -- FIXED DATA --
+<<<<<<< HEAD
   // const fakeServiceList = serviceLists;
+=======
+
+>>>>>>> fix regiser salon account for new BE, fix current order and history order for new BE
   const fakeReview = fakeReviews;
 
   // -- API DATA --
@@ -47,6 +51,7 @@ export default function ManageService() {
     };
   }, [dispatch, token]);
 
+<<<<<<< HEAD
   // -- GET SALON PROFILE --
   const { profileSalon } = useSelector((state) => state.profileSalon);
   console.log(profileSalon);
@@ -54,11 +59,14 @@ export default function ManageService() {
     dispatch(getProfileOfSalon(token));
   }, [dispatch, token]);
 
+=======
+>>>>>>> fix regiser salon account for new BE, fix current order and history order for new BE
   // -- TABS --
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+<<<<<<< HEAD
 
   // -- MODAL CSS --
   const modalcss = {
@@ -91,6 +99,16 @@ export default function ManageService() {
   return (
     <div>
       {" "}
+=======
+  // -- LOG OUT --
+
+  // -- MODAL --
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  return (
+    <div>
+>>>>>>> fix regiser salon account for new BE, fix current order and history order for new BE
       <div style={root}>
         <div className="columns">
           <div className="column is-3"></div>
@@ -102,6 +120,7 @@ export default function ManageService() {
               className="p-0 container"
               style={{ backgroundColor: "#FBE8CA" }}
             >
+<<<<<<< HEAD
               <div>
                 {profileSalon?.map((salon) => (
                   <div
@@ -249,6 +268,9 @@ export default function ManageService() {
                 </Box>
               </Modal>
               <div style={{ background: "url(" + paperbg + ")" }}>
+=======
+              <div style={{ background: "url(" + videobg + ")" }}>
+>>>>>>> fix regiser salon account for new BE, fix current order and history order for new BE
                 <TabContext value={value}>
                   <Box
                     sx={{
@@ -322,16 +344,18 @@ export default function ManageService() {
                               </div>
                             </div>
                             <div className="column is-2 mt-3 has-text-right">
-                              <Link
-                                to={`/staff/${service.salonId}`}
+                              <button
                                 style={{ width: "100px" }}
                                 className="button mr-3 is-info is-rounded"
-                                // onClick={() =>
-                                //   dispatch(updateSelectedService(service))
-                                // }
                               >
-                                Book
-                              </Link>
+                                Edit
+                              </button>
+                              <button
+                                style={{ width: "100px" ,backgroundColor:"red"}}
+                                className="button mr-3 mt-3 is-info is-rounded"
+                              >
+                                Delete
+                              </button>
                             </div>
                           </div>
                         </div>

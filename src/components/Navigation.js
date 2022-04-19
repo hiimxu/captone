@@ -127,7 +127,7 @@ export default function Navigation() {
               </li>
               <li className="nav-item p-1">
                 <div
-                  class="vl"
+                  className="vl"
                   style={{
                     borderLeft: 2 + "px solid white",
                     height: 40 + "px",

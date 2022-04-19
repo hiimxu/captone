@@ -19,7 +19,9 @@ export default function RegisterSalon() {
   const [dedtailAddress, setDetailAddress] = useState("");
   const [timeOpen, setTimeOpen] = useState("");
   const [timeClose, setTimeClose] = useState("");
-  const [salonImage,setSalonImage]=useState("");
+  const [salonImage, setSalonImage] = useState("");
+  const [salonDescription, setSalonDescription] = useState("");
+  const [nameOwner, setNameOwner] = useState("");
 
   //error
   const [error, setError] = useState(false);
@@ -91,9 +93,15 @@ export default function RegisterSalon() {
   const handlePhone = (e) => {
     setPhone(e.target.value);
   };
-  const handleSalonImage =e=>{
-    setSalonImage(e.target.value)
-  }
+  const handleSalonImage = (e) => {
+    setSalonImage(e.target.value);
+  };
+  const handleNameOwner = (e) => {
+    setNameOwner(e.target.value);
+  };
+  const handleSalonDescription = (e) => {
+    setSalonDescription(e.target.value);
+  };
 
   const resetForm = () => {
     setUserName("");
@@ -108,7 +116,9 @@ export default function RegisterSalon() {
     setDetailAddress("");
     setTimeOpen("");
     setTimeClose("");
-    setSalonImage("")
+    setSalonImage("");
+    setNameOwner("");
+    setSalonDescription("");
   };
 
   const handleSubmit = (e) => {
@@ -132,7 +142,9 @@ export default function RegisterSalon() {
       timeOpen: timeOpen,
       timeClose: timeClose,
       role: "salon",
-      image: salonImage
+      image: salonImage,
+      description: salonDescription,
+      nameOwner: nameOwner,
     };
     let pass = true;
     if (
@@ -146,8 +158,10 @@ export default function RegisterSalon() {
       district === "" ||
       city === "" ||
       timeOpen === "" ||
-      timeClose === ""||
-      salonImage===""
+      timeClose === "" ||
+      salonImage === "" ||
+      salonDescription === "" ||
+      nameOwner === ""
     ) {
       setError(true);
       pass = false;
@@ -212,8 +226,7 @@ export default function RegisterSalon() {
                         {successMessage && (
                           <div className="success">
                             <p className="text-success">
-                              {successMessage}:{" "}
-                              {registeredSalon?.account_name}
+                              {successMessage}: {registeredSalon?.account_name}
                             </p>
                           </div>
                         )}
@@ -294,7 +307,22 @@ export default function RegisterSalon() {
                             />
                           </div>
                         </div>
-
+                        <div className="form-outline mb-4">
+                          <div className="input-group">
+                            <div className="input-group-prepend">
+                              <span className="input-group-text" id="">
+                                Owner's name
+                              </span>
+                            </div>
+                            <input
+                              value={nameOwner}
+                              type="text"
+                              className="form-control"
+                              maxLength={40}
+                              onChange={handleNameOwner}
+                            />
+                          </div>
+                        </div>
                         <div className="form-outline mb-4">
                           <div className="input-group">
                             <div className="input-group-prepend">
@@ -386,14 +414,14 @@ export default function RegisterSalon() {
                             <div className="input-group-prepend ml-3">
                               <label
                                 className="input-group-text"
-                                htmlFor="inputGroupSelect01"
+                                htmlFor="inputGroupSelect02"
                               >
                                 City
                               </label>
                             </div>
                             <select
                               className="custom-select"
-                              id="inputGroupSelect01"
+                              id="inputGroupSelect02"
                               value={city}
                               onChange={handleCity}
                             >
@@ -423,14 +451,14 @@ export default function RegisterSalon() {
                             <div className="input-group-prepend">
                               <label
                                 className="input-group-text"
-                                htmlFor="inputGroupSelect01"
+                                htmlFor="inputGroupSelect03"
                               >
                                 Open
                               </label>
                             </div>
                             <select
                               className="custom-select"
-                              id="inputGroupSelect01"
+                              id="inputGroupSelect03"
                               value={timeOpen}
                               onChange={handleTimeOpen}
                             >
@@ -444,14 +472,14 @@ export default function RegisterSalon() {
                             <div className="input-group-prepend ml-3">
                               <label
                                 className="input-group-text"
-                                htmlFor="inputGroupSelect01"
+                                htmlFor="inputGroupSelect04"
                               >
                                 Close
                               </label>
                             </div>
                             <select
                               className="custom-select"
-                              id="inputGroupSelect01"
+                              id="inputGroupSelect04"
                               value={timeClose}
                               onChange={handleTimeClose}
                             >
@@ -477,6 +505,19 @@ export default function RegisterSalon() {
                               className="form-control"
                               maxLength={2000}
                               onChange={handleSalonImage}
+                            />
+                          </div>
+                        </div>
+                        <div className="">
+                          <div className="form-group">
+                            <textarea
+                              value={salonDescription}
+                              type="text"
+                              className="form-control"
+                              maxLength={2000}
+                              onChange={handleSalonDescription}
+                              placeholder="Description for your salon"
+                              style={{minHeight:"10rem"}}
                             />
                           </div>
                         </div>
