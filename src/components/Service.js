@@ -21,6 +21,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
+import { Modal } from "@mui/material";
 
 export default function Service() {
   // FAKE DATA
@@ -47,6 +48,19 @@ export default function Service() {
     backgroundSize: "100%",
     minHeight: "40rem",
   };
+  // -- MODAL CSS --
+  const modalcss = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    borderRadius: "25px",
+    boxShadow: 24,
+    p: 4,
+  };
 
   // -- TABS --
   const [value, setValue] = React.useState("1");
@@ -54,6 +68,10 @@ export default function Service() {
     setValue(newValue);
   };
 
+  // -- MODAL REVIEW --
+  const [openReview, setOpenReview] = useState(false);
+  const handleOpenReview = () => setOpenReview(true);
+  const handleCloseReview = () => setOpenReview(false);
   return (
     <div style={root}>
       {/* -- VERTICAL STYLE -- */}
@@ -146,11 +164,19 @@ export default function Service() {
                     onChange={handleChange}
                     aria-label="disabled tabs example"
                   >
-                    <Tab className="font-weight-bold" label="Services" value="1" />
-                    <Tab className="font-weight-bold" label="Review" value="2" />
+                    <Tab
+                      className="font-weight-bold"
+                      label="Services"
+                      value="1"
+                    />
+                    <Tab
+                      className="font-weight-bold"
+                      label="Review"
+                      value="2"
+                    />
                   </TabList>
                 </Box>
-                <TabPanel value="1" style={{marginBottom:"1.5rem"}}>
+                <TabPanel value="1" style={{ marginBottom: "1.5rem" }}>
                   <div>
                     {serviceList?.data?.map((service) => (
                       <div
@@ -213,6 +239,14 @@ export default function Service() {
                 </TabPanel>
                 <TabPanel value="2">
                   <div>
+                    <span className="has-text-right w-100 pr-5">
+                      <button
+                        className="button is-info is-rounded"
+                        onClick={handleOpenReview}
+                      >
+                        Write review
+                      </button>
+                    </span>
                     {fakeReview?.map((review) => (
                       <div
                         className="m-4  "
@@ -244,6 +278,63 @@ export default function Service() {
                       </div>
                     ))}
                   </div>
+                  {/* Modal Salon */}
+                  <Modal
+                    open={openReview}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={modalcss}>
+                      <div>
+                        <form action="" method="post" className="writeReview">
+                          <fieldset>
+                            <div
+                              className="has-text-right"
+                              style={{ marginRight: "100px" }}
+                            >
+                              <br></br>
+                              <label className="mt-5" for="vote">
+                                rate the salon:
+                              </label>
+                              <input
+                                id="vote"
+                                className="input mt-5 w-50 ml-5"
+                                style={{ height: "30px" }}
+                                type="text"
+                                placeholder="Text input"
+                              />{" "}
+                              <br></br>
+                              <label className="mt-5" for="content">
+                                Write your review:
+                              </label>
+                              <textarea
+                                id="content"
+                                className="input mt-5 w-50 ml-5"
+                                style={{ height: "30px" }}
+                                placeholder="Text input"
+                              />{" "}
+                              <br></br>
+                            </div>{" "}
+                            <br></br>
+                            <div className="has-text-right">
+                              <button
+                                className="button is-rounded is-danger"
+                                onClick={handleCloseReview}
+                              >
+                                {" "}
+                                Cancel
+                              </button>
+                              <input
+                                className="button is-rounded is-info ml-5"
+                                type="submit"
+                                value="Add"
+                              ></input>
+                            </div>
+                          </fieldset>
+                        </form>
+                      </div>
+                    </Box>
+                  </Modal>
                 </TabPanel>
               </TabContext>
             </div>

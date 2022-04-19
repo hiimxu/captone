@@ -84,10 +84,6 @@ export default function ManageService() {
   const handleOpenSalon = () => setOpenSalon(true);
   const handleCloseSalon = () => setOpenSalon(false);
 
-  // -- MODAL REVIEW --
-  // const [openReview, setOpenReview] = useState(false);
-  // const handleOpenReview = () => setOpenReview(true);
-  // const handleCloseReview = () => setOpenReview(false);
   return (
     <div>
       {" "}
@@ -178,7 +174,7 @@ export default function ManageService() {
               >
                 <Box sx={modalcss}>
                   <div>
-                    <form action="" method="post" className="addEmployee">
+                    <form action="" method="post" className="editSalon">
                       <fieldset>
                         <div
                           className="has-text-right"
@@ -352,7 +348,7 @@ export default function ManageService() {
                     >
                       <Box sx={modalcss}>
                         <div>
-                          <form action="" method="post" className="addEmployee">
+                          <form action="" method="post" className="editService">
                             <fieldset>
                               <div
                                 className="has-text-right"
