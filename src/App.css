@@ -11,6 +11,8 @@ a{
 .component{    
     background-image: url('./assets/paperbg.jpg');
     background-size: cover;
+    min-height: 40rem;
+    
 }
 
 .salon-page{

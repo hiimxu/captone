@@ -9,9 +9,9 @@ import {
   cancelOrder,
   getSalonBookingHistory,
   resetSalonBookingHistoryList,
-} from "../../../redux/actions/creators/salon";
-import bgImg from "../../../assets/barbershopbg.jpg";
-import paperbg from "../../../assets/paperbg.jpg";
+} from "../../redux/actions/creators/salon";
+import bgImg from "../../assets/barbershopbg.jpg";
+import paperbg from "../../assets/paperbg.jpg";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -25,12 +25,16 @@ import {
   convertISOStringToLocaleTimeString,
   currencyFormatter,
   convertISOStringToLocaleDateString,
-} from "../../../utils";
+} from "../../utils";
 import moment from "moment";
 import { set } from "date-fns";
 
 export default function Schedule() {
-  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
+  const minDate =  new Date().toISOString().substring(0, 10)
+  const [date, setDate] = useState(minDate);
+  const [dateHistory, setDateHistory] = useState(
+    new Date().toISOString().substring(0, 10)
+  );
   const [data, setData] = useState({
     day: convertDate(date),
     nameStaff: "",
@@ -38,7 +42,11 @@ export default function Schedule() {
   const [dayFormated, setDayFormated] = useState({
     day: convertDate(date),
   });
+  //set staff id for order current
   const [staff, setStaff] = useState("");
+  //set staff id for history order
+  const [staffId, setStaffId] = useState("");
+  //set order id selected
   const [orderIdSelected, setOrderIdSelected] = useState("");
   const [orderIdCancel, setOrderIdCancel] = useState("");
   const [value, setValue] = React.useState("1");
@@ -77,12 +85,15 @@ export default function Schedule() {
   const handleSelectStaff = (e) => {
     setStaff(e.target.value);
   };
+  const handleSelectStaffIdForHistory = (e) => {
+    setStaffId(e.target.value);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const handleSelectDateHistory = (e) => {
-    setDate(e.target.value);
+    setDateHistory(e.target.value);
     setDayFormated({ day: convertDate(e.target.value) });
   };
 
@@ -116,11 +127,13 @@ export default function Schedule() {
 
   //call api get history booking
   useEffect(() => {
-    dispatch(getSalonBookingHistory(token, { day: date }));
+    dispatch(
+      getSalonBookingHistory(token, { day: dateHistory, staffId: staffId })
+    );
     return () => {
       dispatch(resetSalonBookingHistoryList());
     };
-  }, [dispatch, token, date]);
+  }, [dispatch, token, dateHistory, staffId]);
 
   //feature finish order
   const handleFinish = () => {
@@ -151,8 +164,7 @@ export default function Schedule() {
       cancelOrder(
         token,
         {
-          registerServiceId: orderIdCancel.registerServiceId,
-          service_time: orderIdCancel.service_time,
+          registerServiceId: orderIdCancel.registerServiceId,          
           note: "Customer confirmed!",
         },
         successCallback
@@ -162,8 +174,9 @@ export default function Schedule() {
 
   useEffect(() => {
     if (date) {
-      setData({ day: date, nameStaff: staff });
+      setData({ day: date, staffId: staff });
     }
+    
   }, [date, staff]);
 
   function convertDate(date) {
@@ -173,6 +186,10 @@ export default function Schedule() {
     return [newdate.getFullYear(), mnth, day].join("-");
   }
 
+  const link = {
+    fontSize: "20px",
+    color: "white",
+  };
   const root = {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
@@ -185,7 +202,7 @@ export default function Schedule() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 600,
+    width: 500,
     borderRadius: "25px",
     bgcolor: "background.paper",
     border: "2px solid #000",
@@ -238,6 +255,7 @@ export default function Schedule() {
                     placeholder="Normal input"
                     type="date"
                     value={date}
+                    min={minDate}
                     onChange={handleSelectDate}
                   ></input>
                 </div>
@@ -250,7 +268,7 @@ export default function Schedule() {
                   >
                     <option value="">Choose...</option>
                     {listStaff?.map((staff) => (
-                      <option key={staff.staffId} value={staff.name}>
+                      <option key={staff.staffId} value={staff.staffId}>
                         {staff.name}
                       </option>
                     ))}
@@ -334,29 +352,20 @@ export default function Schedule() {
               >
                 <Box sx={style}>
                   <div className="has-text-centered">
-                    <h1 className="is-size-4 ">
+                    <h1 className="is-size-4 has-text-weight-semibold">
                       {" "}
-                      <span className="has-text-weight-semibold">
-                        {" "}
-                        Do you want to{" "}
-                        <span className="has-text-info">finish</span> this
-                        order:{" "}
-                      </span>
-                      <br></br>
-                      <br></br>
-                      <p className="is-size-3">
-                        {orderIdSelected.nameCustomer} -{" "}
-                        {orderIdSelected.nameService} -{" "}
-                        {orderIdSelected.nameStaff} -{" "}
-                        {convertISOStringToLocaleTimeString(
-                          orderIdSelected.timeUse
-                        ).slice(0, -3)}
-                      </p>
+                      Do you want to{" "}
+                      <span className="has-text-info">finish</span> order of{" "}
+                      <span className="text-success">
+                        {orderIdSelected.nameCustomer}
+                        {console.log(orderIdSelected)}
+                      </span>{" "}
+                      ?
                     </h1>
                     <br></br>
                     <button
                       onClick={handleFinish}
-                      className="button is-rounded is-primary mr-5"
+                      className="button is-rounded is-info mr-5"
                       style={{ width: "150px" }}
                     >
                       Finish order
@@ -378,29 +387,16 @@ export default function Schedule() {
               >
                 <Box sx={style}>
                   <div className="has-text-centered">
-                  <h1 className="is-size-4 ">
+                    <h1 className="is-size-4 has-text-weight-semibold">
                       {" "}
-                      <span className="has-text-weight-semibold">
-                        {" "}
-                        Do you want to{" "}
-                        <span className="has-text-danger">cancel</span> this
-                        order:{" "}
-                      </span>
-                      <br></br>
-                      <br></br>
-                      <p className="is-size-3">
-                        {orderIdCancel.nameCustomer} -{" "}
-                        {orderIdCancel.nameService} -{" "}
-                        {orderIdCancel.nameStaff} -{" "}
-                        {convertISOStringToLocaleTimeString(
-                          orderIdCancel.timeUse
-                        ).slice(0, -3)}
-                      </p>
+                      Do you want to{" "}
+                      <span className="has-text-danger">cancel</span> this order
+                      ?
                     </h1>
                     <br></br>
                     <button
                       onClick={handleCancel}
-                      className="button is-rounded is-primary mr-5"
+                      className="button is-rounded is-info mr-5"
                       style={{ width: "150px" }}
                     >
                       Cancel order
@@ -417,15 +413,32 @@ export default function Schedule() {
               </Modal>
             </TabPanel>
             <TabPanel value="2">
-              <div className="mb-5">
-                <input
-                  style={{ width: "400px" }}
-                  className="input is-normal"
-                  placeholder="Normal input"
-                  value={date}
-                  onChange={handleSelectDateHistory}
-                  type="date"
-                ></input>
+              <div className="row">
+                <div className="mb-5">
+                  <input
+                    style={{ width: "400px" }}
+                    className="input is-normal"
+                    placeholder="Normal input"
+                    value={dateHistory}
+                    onChange={handleSelectDateHistory}
+                    type="date"
+                  ></input>
+                </div>
+                <div className="col-3">
+                  <select
+                    className="custom-select"
+                    value={staffId}
+                    onChange={handleSelectStaffIdForHistory}
+                    style={{ width: "20rem" }}
+                  >
+                    <option value="">Choose...</option>
+                    {listStaff?.map((staff) => (
+                      <option key={staff.staffId} value={staff.staffId}>
+                        {staff.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <table className="table">
                 <thead>
@@ -501,6 +514,7 @@ export default function Schedule() {
                           <i class="fa-solid fa-xmark"></i>
                         </td>
                       )}
+                      <td>{element.note}</td>
                     </tr>
                   ))}
                 </tbody>

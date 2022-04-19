@@ -321,16 +321,18 @@ export default function ManageService() {
                               </div>
                             </div>
                             <div className="column is-2 mt-3 has-text-right">
-                              <Link
-                                to={`/staff/${service.salonId}`}
+                              <button
                                 style={{ width: "100px" }}
                                 className="button mr-3 is-info is-rounded"
-                                // onClick={() =>
-                                //   dispatch(updateSelectedService(service))
-                                // }
                               >
-                                Book
-                              </Link>
+                                Edit
+                              </button>
+                              <button
+                                style={{ width: "100px" ,backgroundColor:"red"}}
+                                className="button mr-3 mt-3 is-info is-rounded"
+                              >
+                                Delete
+                              </button>
                             </div>
                           </div>
                         </div>

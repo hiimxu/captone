@@ -33,45 +33,46 @@ export default function HomePage() {
           <div className="card-columns">
             {salonList?.map((salon) => (
               <div
-                class="card"
+                className="card"
                 style={{
                   height:"40rem",
                   boxShadow:
                     "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                 }}
+                key={salon.salonId}
               >
-                <div class="card-image">
-                  <figure class="image is-5by4">
+                <div className="card-image">
+                  <figure className="image is-5by4">
                     <img
                       src={salon.image ? salon.image : imageUnavailable}
-                      alt="Placeholder image"
+                      alt=""
                     />
                   </figure>
                 </div>
-                <div class="card-content" style={{height:"15rem"}}>
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
+                <div className="card-content" style={{height:"15rem"}}>
+                  <div className="media">
+                    <div className="media-left">
+                      <figure className="image is-48x48">
                         <img
                           className="is-rounded"
                           src={salon.image ? salon.image : imageUnavailable}
-                          alt="Placeholder image"
+                          alt=""
                         />
                       </figure>
                     </div>
-                    <div class="media-content" style={{ marginBottom: 0 }}>
-                      <p class="title is-4">{salon.nameSalon}</p>
-                      <p class="subtitle is-6">
-                        <i class="fa-solid fa-location-dot"></i>{" "}
+                    <div className="media-content" style={{ marginBottom: 0 }}>
+                      <p className="title is-4">{salon.nameSalon}</p>
+                      <p className="subtitle is-6">
+                        <i className="fa-solid fa-location-dot"></i>{" "}
                         {salon.detailAddress}
                       </p>
                     </div>
                   </div>
-                  <div class="content">
-                    <i class="fa-solid fa-phone"></i>{" "}
+                  <div className="content">
+                    <i className="fa-solid fa-phone"></i>{" "}
                     <span className="is-underlined is-size-4"> {salon.phone}</span>
                     <br />
-                    <i class="fa-solid fa-calendar-check"></i>{" "}
+                    <i className="fa-solid fa-calendar-check"></i>{" "}
                     <span className="has-text-danger-dark has-text-weight-bold">
                       Mon - Fri <br></br> {" "}
                       {salon.timeOpen} - {salon.timeClose}
@@ -79,16 +80,16 @@ export default function HomePage() {
                     </span>
                   </div>
                 </div>
-                <footer class="card-footer pr-0 pl-0">
+                <footer className="card-footer pr-0 pl-0">
                   <Link
                     to={`/services/${salon.salonId}`}
-                    class="card-footer-item has-text-weight-bold has-text-link"
+                    className="card-footer-item has-text-weight-bold has-text-link"
                     onClick={() =>
                       dispatch(updateSelectedSalonId(salon.salonId))
                     }
                   >
                     <p>
-                     <span className="is-size-5"> Visit {" "} <i class="fa-solid fa-right-to-bracket"></i>{" "}</span>
+                     <span className="is-size-5"> Visit {" "} <i className="fa-solid fa-right-to-bracket"></i>{" "}</span>
                     </p>
                   </Link>
                 </footer>

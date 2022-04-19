@@ -46,7 +46,7 @@ export default function SalonDashboard() {
   const handleLogout = () => {
     dispatch(logout("token"));
   };
-  return (
+  return profileSalon ? (
     <div>
       <div style={root}>
         <div
@@ -255,5 +255,7 @@ export default function SalonDashboard() {
       </Modal>
       {/*  */}
     </div>
+  ) : (
+    <div></div>
   );
 }
