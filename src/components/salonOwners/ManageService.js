@@ -210,11 +210,10 @@ export default function ManageService() {
                           <label className="mt-5" for="Description">
                             Description:
                           </label>
-                          <input
+                          <textarea
                             id="Description"
                             className="input w-50 mt-5 ml-5"
                             style={{ height: "30px" }}
-                            type="text"
                             placeholder="Text input"
                           />{" "}
                           <br></br>
