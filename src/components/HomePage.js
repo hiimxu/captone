@@ -35,7 +35,7 @@ export default function HomePage() {
               <div
                 className="card"
                 style={{
-                  height:"40rem",
+                  height:"46rem",
                   boxShadow:
                     "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                 }}
@@ -49,7 +49,7 @@ export default function HomePage() {
                     />
                   </figure>
                 </div>
-                <div className="card-content" style={{height:"15rem"}}>
+                <div className="card-content" style={{height:"21rem"}}>
                   <div className="media">
                     <div className="media-left">
                       <figure className="image is-48x48">
@@ -66,18 +66,25 @@ export default function HomePage() {
                         <i className="fa-solid fa-location-dot"></i>{" "}
                         {salon.detailAddress}
                       </p>
+                     
                     </div>
+                    
                   </div>
-                  <div className="content">
-                    <i className="fa-solid fa-phone"></i>{" "}
-                    <span className="is-underlined is-size-4"> {salon.phone}</span>
+                  <hr style={{margin:"5px"}}></hr>
+                      <i className="fa-solid fa-phone"></i>{" "}
+                    <span className="is-underlined is-size-5"> {salon.phone}</span>
                     <br />
                     <i className="fa-solid fa-calendar-check"></i>{" "}
                     <span className="has-text-danger-dark has-text-weight-bold">
-                      Mon - Fri <br></br> {" "}
+                      Mon - Fri  {" "}
                       {salon.timeOpen} - {salon.timeClose}
                       <br />
                     </span>
+                    <hr style={{margin:"5px"}}></hr>
+                  <div className="content">
+                    
+                   
+                    <p>{salon.description}</p>
                   </div>
                 </div>
                 <footer className="card-footer pr-0 pl-0">

@@ -155,7 +155,8 @@ export default function ManageService() {
                         </div>
                         <div className="has-text-right mb-5 mr-5">
                           <button
-                            className="button is-link is-rounded"
+                          style={{width:"120px"}}
+                            className="button is-info is-rounded"
                             onClick={handleOpenSalon}
                           >
                             Edit
@@ -265,11 +266,13 @@ export default function ManageService() {
                     <div>
                       <div className="has-text-right mb-5">
                         <button
-                        style={{height:"70px"}}
-                          className="button is-link is-fullwidth is-outlined"
+                          style={{ height: "70px" }}
+                          className="button is-info is-fullwidth is-outlined is-rounded"
                           onClick={handleOpenService}
                         >
-                          <span className="is-size-4 has-text-weight-semibold">Add a service {" "} <i class="fa-solid fa-plus"></i></span>
+                          <span className="is-size-4 has-text-weight-semibold">
+                            Add a service <i class="fa-solid fa-plus"></i>
+                          </span>
                         </button>
                       </div>
                       {listService?.map((service) => (
@@ -304,15 +307,44 @@ export default function ManageService() {
                                 <h4 className="has-text-info-dark is-size-3 has-text-weight-bold">
                                   {service.name}
                                 </h4>
-                                <p
-                                  className="has-text-danger"
-                                  style={{ fontSize: "1.5rem" }}
-                                >
-                                  <span className="has-text-dark">
-                                    {service.service_time} minutes -{" "}
-                                  </span>
-                                  {currencyFormatter.format(service.price)}
+                                <p className="has-text-dark is-size-5">
+                                  {service.service_time} minutes
                                 </p>
+
+                                {service.promotion === 0 && (
+                                  <p className="has-text-danger has-text-weight-semibold">
+                                    {" "}
+                                    {currencyFormatter.format(
+                                      service.price
+                                    )}{" "}
+                                  </p>
+                                )}
+
+                                {service.promotion !== 0 && (
+                                  <p className="has-text-grey-light has-text-weight-semibold">
+                                    <del>
+                                      {" "}
+                                      {currencyFormatter.format(
+                                        service.price
+                                      )}{" "}
+                                    </del>
+
+                                    <span className="has-text-danger-dark has-text-weight-semibold">
+                                      {" "}
+                                      ->{" "}
+                                      {currencyFormatter.format(
+                                        service.price -
+                                          (service.price / 100) *
+                                            service.promotion
+                                      )}{" "}
+                                    </span>
+                                    <span className="tag is-danger has-text-weight-semibold">
+                                      {" "}
+                                      {service.promotion} %
+                                    </span>
+                                  </p>
+                                )}
+
                                 <p className="">{service.content}</p>
                                 <p className="">{service.description}</p>
                               </div>

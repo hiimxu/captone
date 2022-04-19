@@ -31,11 +31,11 @@ export default function FinishBooking() {
   const rightReceipt = {
     height: 400 + "px",
     background: `url(${patterbg})`,
-    borderRadius: "0 25px 25px 0",
+    // borderRadius: "0 25px 25px 0",
   };
   const leftReceipt = {
     minHeight: 400 + "px",
-    borderRadius: "25px 0 0 25px",
+    // borderRadius: "25px 0 0 25px",
     background: "url(" + paperbg + ")",
     borderRight: "1px solid gray",
   };
@@ -48,7 +48,7 @@ export default function FinishBooking() {
         {/* -- FINISH CARD -- */}
         <div
           className="columns mt-5 mb-5"
-          style={{ boxShadow: "1px 1px 20px black", borderRadius: "25px" }}
+          style={{ boxShadow: "1px 1px 20px black"}}
         >
           {/* -- RIGHT CARD -- */}
           <div className="column is-4 " style={leftReceipt}>

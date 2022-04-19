@@ -138,6 +138,9 @@ export default function Service() {
                             {salon.detailAddress}
                           </span>
                         </p>
+                        <p>
+                          {salon.description}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -189,7 +192,7 @@ export default function Service() {
                         key={service.serviceId}
                       >
                         <div className="columns">
-                          <div className="column is-4">
+                          <div className="column is-3">
                             <img
                               src={
                                 service.image ? service.image : imageUnavailable
@@ -203,7 +206,7 @@ export default function Service() {
                               }}
                             />
                           </div>
-                          <div className="column is-6 mt-2 has-text-left">
+                          <div className="column is-7 mt-2 has-text-left">
                             <div>
                               <h4 className="has-text-info-dark is-size-3 has-text-weight-bold">
                                 {service.name}
