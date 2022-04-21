@@ -112,8 +112,8 @@ export default function Staff() {
   return (
     <div style={root}>
       <div className="columns">
-        <div className="column is-2"></div>
-        <div className="column is-8">
+        <div className="column is-1"></div>
+        <div className="column is-10">
           <div
             className="mt-5 mb-5"
             style={{
@@ -232,7 +232,7 @@ export default function Staff() {
                 <div class="step-details">
                   <p class="step-title">Note</p>
                   <br></br>
-                  <textarea placeholder="Customer's name / phone number"></textarea>
+                  <textarea placeholder="Customer's name / phone number" rows="10" cols="35"></textarea>
                 </div>
               </div>
             </div>
@@ -257,7 +257,7 @@ export default function Staff() {
           </div>
         </div>
 
-        <div className="column is-2"></div>
+        <div className="column is-1"></div>
       </div>
     </div>
   );

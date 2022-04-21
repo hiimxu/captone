@@ -266,13 +266,12 @@ export default function ManageService() {
                     <div>
                       <div className="has-text-right mb-5">
                         <button
-                          style={{ height: "70px" }}
-                          className="button is-info is-fullwidth is-outlined is-rounded"
+                          className="button is-info is-rounded"
                           onClick={handleOpenService}
                         >
-                          <span className="is-size-4 has-text-weight-semibold">
-                            Add a service <i class="fa-solid fa-plus"></i>
-                          </span>
+                         
+                            Add a service
+                         
                         </button>
                       </div>
                       {listService?.map((service) => (
