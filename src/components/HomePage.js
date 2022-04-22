@@ -75,16 +75,7 @@ export default function HomePage() {
                     <span className="is-underlined is-size-5"> {salon.phone}</span>
                     <br />
                     <i className="fa-solid fa-calendar-check"></i>{" "}
-                    <span className="has-text-danger-dark has-text-weight-bold">
-<<<<<<< HEAD
-                      Mon - Fri  {" "}
-                      {salon.timeOpen} - {salon.timeClose}
-=======
-                      Mon - Fri <br></br> {" "}
-                      {salon.timeOpen.slice(0, -3)} - {salon.timeClose.slice(0, -3)}
->>>>>>> Done feature add new service for salon
-                      <br />
-                    </span>
+                    
                     <hr style={{margin:"5px"}}></hr>
                   <div className="content">
                     
