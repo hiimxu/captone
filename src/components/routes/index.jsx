@@ -79,7 +79,7 @@ const SwitchRoutes = () => {
                 element={<SalonBusinessInfo />}
               />
               <Route
-                path="/ManageBooking/:serviceId"
+                path="/ManageBooking"
                 element={<ManageBooking />}
               />
               {/* <Route path="/SalonBusinessInfo" element={<SalonProfile/>} /> */}

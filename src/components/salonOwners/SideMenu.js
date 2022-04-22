@@ -47,10 +47,10 @@ export default function SalonDashboard() {
               }}
             >
               {/* <Tooltip title="Order" placement="right"> */}
-                <p>
-                  {" "}
-                  <i className="fa-solid fa-clipboard-list"></i> Orders
-                </p>
+              <p>
+                {" "}
+                <i className="fa-solid fa-clipboard-list"></i> Orders
+              </p>
               {/* </Tooltip> */}
             </Link>
           </li>
@@ -71,6 +71,24 @@ export default function SalonDashboard() {
               </p>
             </Link>
           </li>
+          <div
+            className="is-divider"
+            style={{ width: "80%", color: "grey", margin: "auto" }}
+          ></div>
+          <li>
+            <Link
+              onMouseOver={changeMouseOver}
+              onMouseOut={changeMouseOut}
+              to="/ManageBooking"
+              style={link}
+            >
+              <p>
+                {" "}
+                <i class="fa-solid fa-book-open-reader"></i> Booking{" "}
+              </p>
+            </Link>
+          </li>
+
           <div
             className="is-divider"
             style={{ width: "80%", color: "grey", margin: "auto" }}

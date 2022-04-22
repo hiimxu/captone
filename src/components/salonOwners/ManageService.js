@@ -79,11 +79,35 @@ export default function ManageService() {
   const handleOpenService = () => setOpenSerive(true);
   const handleCloseService = () => setOpenSerive(false);
 
+  // -- MODAL EDIT SERVICE --
+  const [openEditService, setOpenEditService] = useState(false);
+  const handleOpenEditService = () => setOpenEditService(true);
+  const handleCloseEditService = () => setOpenEditService(false);
+
+  // -- MODAL DELETE SERVICE --
+  const [openDeleteService, setOpenDeleteSerive] = useState(false);
+  const handleOpenDeleteService = () => setOpenDeleteSerive(true);
+  const handleCloseDeleteService = () => setOpenDeleteSerive(false);
+
   // -- MODAL SALON --
   const [openSalon, setOpenSalon] = useState(false);
   const handleOpenSalon = () => setOpenSalon(true);
   const handleCloseSalon = () => setOpenSalon(false);
 
+  // -- TIME --
+
+  const [time, setTime] = useState(15);
+  const addTime = () => {
+    setTime(time + 15);
+  };
+
+  const minusTime = () => {
+    if (time >= 30) {
+      setTime(time - 15);
+    } else {
+      setTime(15);
+    }
+  };
   return (
     <div>
       {" "}
@@ -155,7 +179,7 @@ export default function ManageService() {
                         </div>
                         <div className="has-text-right mb-5 mr-5">
                           <button
-                          style={{width:"120px"}}
+                            style={{ width: "120px" }}
                             className="button is-info is-rounded"
                             onClick={handleOpenSalon}
                           >
@@ -189,7 +213,7 @@ export default function ManageService() {
                             id="TimeOpen"
                             className="input mt-5 w-50 ml-5"
                             style={{ height: "30px" }}
-                            type="text"
+                            type="time"
                             placeholder="Text input"
                           />{" "}
                           <br></br>
@@ -200,7 +224,7 @@ export default function ManageService() {
                             id="TimeClose"
                             className="input mt-5 w-50 ml-5"
                             style={{ height: "30px" }}
-                            type="text"
+                            type="time"
                             placeholder="Text input"
                           />{" "}
                           <br></br>
@@ -209,9 +233,10 @@ export default function ManageService() {
                           </label>
                           <textarea
                             id="Description"
-                            className="input w-50 mt-5 ml-5"
-                            style={{ height: "30px" }}
+                            style={{ resize: "none" }}
+                            className=" mt-5 w-50 ml-5"
                             placeholder="Text input"
+                            rows="5"
                           />{" "}
                           <br></br>
                           <label className="mt-5" for="picture">
@@ -269,9 +294,7 @@ export default function ManageService() {
                           className="button is-info is-rounded"
                           onClick={handleOpenService}
                         >
-                         
-                            Add a service
-                         
+                          Add a service
                         </button>
                       </div>
                       {listService?.map((service) => (
@@ -350,21 +373,19 @@ export default function ManageService() {
                             </div>
                             <div className="column is-2 has-text-right">
                               <Tooltip title="Delete" placement="right">
-                                <button className="button mr-3 mt-3 is-danger is-rounded is-small">
+                                <button
+                                  onClick={handleOpenDeleteService}
+                                  className="button mr-3 mt-3 is-danger is-rounded is-small"
+                                >
                                   <i className="fa-solid fa-trash-can"></i>
                                 </button>
                               </Tooltip>
                               <br></br>
-                              <Tooltip title="Book" placement="right">
-                                <button className="button mr-3 is-primary is-rounded  mt-3 is-small">
-                                  <span className="has-text-weight-semibold">
-                                    <i class="fa-solid fa-address-book"></i>
-                                  </span>
-                                </button>
-                              </Tooltip>
-                              <br></br>
                               <Tooltip title="Edit" placement="right">
-                                <button className="button mr-3 is-info is-rounded  mt-3 is-small">
+                                <button
+                                  onClick={handleOpenEditService}
+                                  className="button mr-3 is-primary is-rounded  mt-3 is-small"
+                                >
                                   <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                               </Tooltip>
@@ -381,7 +402,10 @@ export default function ManageService() {
                     >
                       <Box sx={modalcss}>
                         <div>
-                          <form action="" method="post" className="editService">
+                          <div className="has-text-centered">
+                            <h1 className="is-size-3 mb-5">Add service </h1>
+                          </div>
+                          <form action="" method="post" className="addService">
                             <fieldset>
                               <div
                                 className="has-text-right"
@@ -432,12 +456,12 @@ export default function ManageService() {
                                 <label className="mt-5" for="Description">
                                   Description:
                                 </label>
-                                <input
+                                <textarea
                                   id="Description"
-                                  className="input w-50 mt-5 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
+                                  style={{ resize: "none" }}
+                                  className=" mt-5 w-50 ml-5"
                                   placeholder="Text input"
+                                  rows="5"
                                 />{" "}
                                 <br></br>
                                 <label className="mt-5" for="picture">
@@ -470,9 +494,179 @@ export default function ManageService() {
                         </div>
                       </Box>
                     </Modal>
+                    {/* Modal Service */}
+                    <Modal
+                      open={openEditService}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={modalcss}>
+                        <div>
+                          <div className="has-text-centered">
+                            <h1 className="is-size-3 mb-5">Edit employee</h1>
+                          </div>
+                          <form action="" method="post" className="editService">
+                            <fieldset>
+                              <div
+                                className="has-text-right"
+                                style={{ marginRight: "100px" }}
+                              >
+                                <label for="Name">Service's name:</label>
+                                <input
+                                  id="Name"
+                                  className="input w-50 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                />
+                                <br></br>
+                                <label className="mt-5" for="Time">
+                                  Service's time:
+                                </label>
+                                <input
+                                  id="Time"
+                                  className="input w-50 mt-5 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                ></input>
+                                <br></br>
+                                <label className="mt-5" for="Price">
+                                  Price:
+                                </label>
+                                <input
+                                  id="Price"
+                                  className="input w-50 mt-5 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                />{" "}
+                                <br></br>
+                                <label className="mt-5" for="Content">
+                                  Content:
+                                </label>
+                                <input
+                                  id="Content"
+                                  className="input w-50 mt-5 ml-5"
+                                  style={{ height: "30px" }}
+                                  type="text"
+                                  placeholder="Text input"
+                                />{" "}
+                                <br></br>
+                                <label className="mt-5" for="Description">
+                                  Description:
+                                </label>
+                                <textarea
+                                  id="Description"
+                                  style={{ resize: "none" }}
+                                  className=" mt-5 w-50 ml-5"
+                                  placeholder="Text input"
+                                  rows="5"
+                                />{" "}
+                                <br></br>
+                                <label className="mt-5" for="picture">
+                                  Service's picture:
+                                </label>
+                                <input
+                                  id="picture"
+                                  className="mt-5 ml-5"
+                                  type="file"
+                                  accept="image/*"
+                                />
+                              </div>{" "}
+                              <br></br>
+                              <div className="has-text-right">
+                                <button
+                                  className="button is-rounded is-danger"
+                                  onClick={handleCloseEditService}
+                                >
+                                  {" "}
+                                  Cancel
+                                </button>
+                                <input
+                                  className="button is-rounded is-info ml-5"
+                                  type="submit"
+                                  value="Edit"
+                                ></input>
+                              </div>
+                            </fieldset>
+                          </form>
+                        </div>
+                      </Box>
+                    </Modal>
+                    {/* Modal delete service */}
+                    <Modal
+                      open={openDeleteService}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={modalcss}>
+                        <div className="has-text-centered">
+                          <h1 className="is-size-4 has-text-weight-semibold">
+                            {" "}
+                            Do you want to{" "}
+                            <span className="has-text-danger">delete</span> this
+                            service ?
+                          </h1>
+                          <br></br>{" "}
+                          <button
+                            onClick={handleCloseDeleteService}
+                            className="button is-rounded is-danger mr-5"
+                            style={{ width: "150px" }}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="button is-rounded is-info ml-5"
+                            style={{ width: "150px" }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </Box>
+                    </Modal>
+                    {/*  */}
                   </TabPanel>
                   <TabPanel value="2">
                     <div>
+                      <div className=" columns">
+                        <div className="column is-3 has-text-centered">
+                          <p className="has-text-info">
+                            {" "}
+                            <span className="is-size-4 has-text-weight-semibold">
+                              4.5
+                            </span>
+                            <br></br>
+                            out of 5<br></br>
+                            156 reviews
+                          </p>
+                        </div>
+                        <div className="column is-9 has-text-left mt-3">
+                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                            5
+                          </button>
+                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                            4
+                          </button>
+                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                            3
+                          </button>
+                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                            2
+                          </button>
+                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                            1
+                          </button>
+                        </div>
+                      </div>
+                      <hr
+                        style={{
+                          backgroundColor: "grey",
+                          margin: "0px",
+                          height: "1px",
+                          opacity: "60%",
+                        }}
+                      ></hr>
                       {fakeReview?.map((review) => (
                         <div
                           className="m-4  "

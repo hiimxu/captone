@@ -34,9 +34,29 @@ export default function SalonDashboard() {
   }, [dispatch, token]);
 
   // -- MODAL --
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const modalcss = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    borderRadius: "25px",
+    boxShadow: 24,
+    p: 4,
+  };
+  const [openAdd, setOpenAdd] = useState(false);
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
+
+  const [openEdit, setOpenEdit] = useState(false);
+  const handleOpenEdit = () => setOpenEdit(true);
+  const handleCloseEdit = () => setOpenEdit(false);
+
+  const [openDeleteStaff, setOpenDeleteStaff] = useState(false);
+  const handleOpenDeleteStaff = () => setOpenDeleteStaff(true);
+  const handleCloseDeleteStaff = () => setOpenDeleteStaff(false);
 
   return (
     <div>
@@ -58,7 +78,7 @@ export default function SalonDashboard() {
             <div className="has-text-right mb-5 mr-5">
               <button
                 className="button is-info is-rounded"
-                onClick={handleOpen}
+                onClick={handleOpenAdd}
               >
                 {" "}
                 Add Employee
@@ -93,10 +113,16 @@ export default function SalonDashboard() {
                     <td>{element.phone}</td>
 
                     <td className="has-text-centered">
-                      <button className="button is-rounded is-primary mr-5">
+                      <button
+                        onClick={handleOpenEdit}
+                        className="button is-rounded is-primary mr-5"
+                      >
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
-                      <button className="button is-rounded is-danger">
+                      <button
+                        onClick={handleOpenDeleteStaff}
+                        className="button is-rounded is-danger"
+                      >
                         <i className="fa-solid fa-trash-can"></i>
                       </button>
                     </td>
@@ -108,28 +134,17 @@ export default function SalonDashboard() {
           <div className="column is-2"></div>
         </div>
       </div>
-      {/* Modal */}
+      {/* Modal add staff */}
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openAdd}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 800,
-            bgcolor: "background.paper",
-            border: "2px solid #000",
-            borderRadius: "25px",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
+        <Box sx={modalcss}>
           <div>
+            <div className="has-text-centered">
+              <h1 className="is-size-3 mb-5">Add employee</h1>
+            </div>
             <form action="" method="post" className="addEmployee">
               <fieldset>
                 <div
@@ -183,7 +198,7 @@ export default function SalonDashboard() {
                 <div className="has-text-right">
                   <button
                     className="button is-rounded is-danger"
-                    onClick={handleClose}
+                    onClick={handleCloseAdd}
                   >
                     {" "}
                     Cancel
@@ -196,6 +211,121 @@ export default function SalonDashboard() {
                 </div>
               </fieldset>
             </form>
+          </div>
+        </Box>
+      </Modal>
+      {/*  */}
+
+      {/* Modal edit staff */}
+      <Modal
+        open={openEdit}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalcss}>
+          <div>
+            <div className="has-text-centered">
+              <h1 className="is-size-3 mb-5">Edit employee</h1>
+            </div>
+            <form action="" method="post" className="editEmployee">
+              <fieldset>
+                <div
+                  className="has-text-right"
+                  style={{ marginRight: "100px" }}
+                >
+                  <label for="Name">Employee's name:</label>
+                  <input
+                    id="Name"
+                    className="input w-50 ml-5"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Text input"
+                  />
+                  <br></br>
+                  <label className="mt-5" for="Title">
+                    Employee's title:
+                  </label>
+                  <input
+                    id="Title"
+                    className="input mt-5 w-50 ml-5"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Text input"
+                  />{" "}
+                  <br></br>
+                  <label className="mt-5" for="Phone">
+                    Employee's phone:
+                  </label>
+                  <input
+                    id="Phone"
+                    className="input w-50 mt-5 ml-5"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Text input"
+                  />{" "}
+                  <br></br>
+                  <label className="mt-5" for="Address">
+                    Employee's address:
+                  </label>
+                  <input
+                    id="Address"
+                    className="input w-50 mt-5 ml-5"
+                    style={{ height: "30px" }}
+                    type="text"
+                    placeholder="Text input"
+                  />{" "}
+                  <br></br>
+                </div>{" "}
+                <br></br>
+                <div className="has-text-right">
+                  <button
+                    className="button is-rounded is-danger"
+                    onClick={handleCloseEdit}
+                  >
+                    {" "}
+                    Cancel
+                  </button>
+                  <input
+                    className="button is-rounded is-info ml-5"
+                    type="submit"
+                    value="Edit"
+                  ></input>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </Box>
+      </Modal>
+      {/*  */}
+      {/* Modal delete staff */}
+      <Modal
+        open={openDeleteStaff}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalcss}>
+          <div className="has-text-centered">
+            <h1 className="is-size-4 has-text-weight-semibold">
+              {" "}
+              Do you want to <span className="has-text-danger">
+                delete
+              </span>{" "}
+              this employee ?
+            </h1>
+            <br></br>{" "}
+            <button
+              onClick={handleCloseDeleteStaff}
+              className="button is-rounded is-danger mr-5"
+              style={{ width: "150px" }}
+            >
+              Cancel
+            </button>
+            <button
+              className="button is-rounded is-info ml-5"
+              style={{ width: "150px" }}
+            >
+              Delete
+            </button>
           </div>
         </Box>
       </Modal>

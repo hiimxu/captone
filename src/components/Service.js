@@ -10,10 +10,7 @@ import { currencyFormatter } from "../utils";
 
 import bgImg from "../assets/barbershopbg.jpg";
 import paperbg from "../assets/paperbg.jpg";
-import videobg from "../assets/videobg.jpg";
-import patterbg from "../assets/patterbg.svg";
 import imageUnavailable from "../assets/image-unavailable.png";
-import serviceLists from "../components/mockUp/serviceData.json";
 import fakeReviews from "../components/mockUp/review.json";
 
 import Tab from "@mui/material/Tab";
@@ -138,9 +135,7 @@ export default function Service() {
                             {salon.detailAddress}
                           </span>
                         </p>
-                        <p>
-                          {salon.description}
-                        </p>
+                        <p>{salon.description}</p>
                       </div>
                     </div>
                   </div>
@@ -208,18 +203,47 @@ export default function Service() {
                           </div>
                           <div className="column is-7 mt-2 has-text-left">
                             <div>
-                              <h4 className="has-text-info-dark is-size-3 has-text-weight-bold">
-                                {service.name}
-                              </h4>
-                              <p
-                                className="has-text-danger"
-                                style={{ fontSize: "1.5rem" }}
-                              >
-                                <span className="has-text-dark">
-                                  {service.service_time} minutes -{" "}
+                              <h4 className="has-text-info-dark is-size-4 has-text-weight-bold">
+                                {service.name} -{" "}
+                                <span className="has-text-link-dark is-size-5">
+                                  {service.content}
                                 </span>
-                                {currencyFormatter.format(service.price)}
+                              </h4>
+
+                              <p className="is-size-5 has-text-dark">
+                                {service.service_time} minutes
                               </p>
+                              {service.promotion === 0 && (
+                                <p className="has-text-danger has-text-weight-semibold">
+                                  {" "}
+                                  {currencyFormatter.format(service.price)}{" "}
+                                </p>
+                              )}
+
+                              {service.promotion !== 0 && (
+                                <p className="has-text-grey-light has-text-weight-semibold">
+                                  <del>
+                                    {" "}
+                                    {currencyFormatter.format(
+                                      service.price
+                                    )}{" "}
+                                  </del>
+
+                                  <span className="has-text-danger-dark has-text-weight-semibold">
+                                    {" "}
+                                    ->{" "}
+                                    {currencyFormatter.format(
+                                      service.price -
+                                        (service.price / 100) *
+                                          service.promotion
+                                    )}{" "}
+                                  </span>
+                                  <span className="tag is-danger has-text-weight-semibold">
+                                    {" "}
+                                    {service.promotion} %
+                                  </span>
+                                </p>
+                              )}
                               <p className="">{service.description}</p>
                             </div>
                           </div>
@@ -242,14 +266,14 @@ export default function Service() {
                 </TabPanel>
                 <TabPanel value="2">
                   <div>
-                    <span className="has-text-right w-100 pr-5">
+                    <div className="has-text-right w-100 pr-5">
                       <button
                         className="button is-info is-rounded"
                         onClick={handleOpenReview}
                       >
                         Write review
                       </button>
-                    </span>
+                    </div>
                     {fakeReview?.map((review) => (
                       <div
                         className="m-4  "
@@ -281,7 +305,7 @@ export default function Service() {
                       </div>
                     ))}
                   </div>
-                  {/* Modal Salon */}
+                  {/* Modal review */}
                   <Modal
                     open={openReview}
                     aria-labelledby="modal-modal-title"
@@ -312,9 +336,10 @@ export default function Service() {
                               </label>
                               <textarea
                                 id="content"
-                                className="input mt-5 w-50 ml-5"
-                                style={{ height: "30px" }}
+                                style={{resize: "none"}}
+                                className=" mt-5 w-50 ml-5"
                                 placeholder="Text input"
+                                rows="5"
                               />{" "}
                               <br></br>
                             </div>{" "}

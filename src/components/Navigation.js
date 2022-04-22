@@ -87,21 +87,13 @@ export default function Navigation() {
                 Home
               </Link>
             </li>
-            <li className="nav-item p-4 ">
-              <Link className="text-reset" to="/favorite">
-                Recent
-              </Link>
-            </li>
+
             <li className="nav-item">
               <Link to="/about">
                 <img src={logoImg} alt="logo" style={logo} />
               </Link>
             </li>
-            <li className="nav-item p-4">
-              <Link className="text-reset" to="/history">
-                History
-              </Link>
-            </li>
+
             <li className="text-reset nav-item p-4">
               <Link className="text-reset" to="/profile">
                 Profile

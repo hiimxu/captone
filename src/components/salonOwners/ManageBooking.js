@@ -107,7 +107,7 @@ export default function Staff() {
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
   };
-  const cancelBook = `/services/${selectedSalonId}`;
+  const cancelBook = `/`;
 
   return (
     <div style={root}>
