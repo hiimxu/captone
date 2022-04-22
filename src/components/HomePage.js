@@ -75,7 +75,11 @@ export default function HomePage() {
                     <span className="is-underlined is-size-5"> {salon.phone}</span>
                     <br />
                     <i className="fa-solid fa-calendar-check"></i>{" "}
-                    
+                    <span className="has-text-danger-dark has-text-weight-bold">
+                      Mon - Fri  {" "}
+                      {salon.timeOpen} - {salon.timeClose}
+                      <br />
+                    </span>
                     <hr style={{margin:"5px"}}></hr>
                   <div className="content">
                     
