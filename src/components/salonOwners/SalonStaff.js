@@ -6,13 +6,74 @@ import { logout } from "../../redux/actions/creators/auth";
 import {
   getListStaffForSalon,
   resetListStaffOfSalon,
+  addStaff,
 } from "../../redux/actions/creators/salon";
 
 import { useState, useEffect } from "react";
 import { Modal, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { validPhone } from "../../validations/regex";
 
 export default function SalonDashboard() {
+  //STATE
+  const [staffName, setStaffName] = useState("");
+  const [staffPhone, setStaffPhone] = useState("");
+  const [staffAddress, setStaffAddress] = useState("");
+  const [staffTitle, setStaffTitle] = useState("");
+
+  //ERROR
+  const [error, setError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+
+  //RESET ADD STAFF FORM
+  const resetFormAddStaff = () => {
+    setStaffName("");
+    setStaffPhone("");
+    setStaffAddress("");
+    setStaffTitle("");
+  };
+
+  //ADD STAFF
+  const handleAddStaff = (e) => {
+    e.preventDefault();
+    setError(false);
+    setPhoneError(false);
+
+    const newStaff = {
+      name: staffName,
+      phone: staffPhone,
+      address: staffAddress,
+      title: staffTitle,
+    };
+
+    let pass = true;
+
+    if (
+      staffName === "" ||
+      staffPhone === "" ||
+      staffAddress === "" ||
+      staffTitle === ""
+    ) {
+      setError(true);
+      pass = false;
+      return;
+    }
+    if (!validPhone.test(staffPhone)) {
+      setPhoneError(true);
+      pass = false;
+    }
+    if (pass) {
+      console.log(newStaff);
+      resetFormAddStaff();
+      const successCallback = () => {
+        dispatch(resetListStaffOfSalon);
+        handleCloseAdd();
+        dispatch(getListStaffForSalon(token));
+      };
+      dispatch(addStaff(token, newStaff, successCallback));
+    }
+  };
+
   const root = {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
@@ -144,6 +205,15 @@ export default function SalonDashboard() {
           <div>
             <div className="has-text-centered">
               <h1 className="is-size-3 mb-5">Add employee</h1>
+              {phoneError && (
+                <p className="text-danger">
+                Your phone number is not correct.
+              </p>
+              )}{error && (
+                <p className="text-danger mb-3">
+                Please enter all the fields!
+              </p>
+              )}
             </div>
             <form action="" method="post" className="addEmployee">
               <fieldset>
@@ -151,16 +221,21 @@ export default function SalonDashboard() {
                   className="has-text-right"
                   style={{ marginRight: "100px" }}
                 >
-                  <label for="Name">Employee's name:</label>
+                  <label >Employee's name:</label>
                   <input
                     id="Name"
                     className="input w-50 ml-5"
                     style={{ height: "30px" }}
                     type="text"
-                    placeholder="Text input"
+                    placeholder="Name"
+                    maxLength={40}
+                    value={staffName}
+                    onChange={(event) => {
+                      setStaffName(event.target.value);
+                    }}
                   />
                   <br></br>
-                  <label className="mt-5" for="Title">
+                  <label className="mt-5" >
                     Employee's title:
                   </label>
                   <input
@@ -168,21 +243,31 @@ export default function SalonDashboard() {
                     className="input mt-5 w-50 ml-5"
                     style={{ height: "30px" }}
                     type="text"
-                    placeholder="Text input"
+                    placeholder="Title"
+                    maxLength={40}
+                    value={staffTitle}
+                    onChange={(event) => {
+                      setStaffTitle(event.target.value);
+                    }}
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="Phone">
+                  <label className="mt-5" >
                     Employee's phone:
                   </label>
                   <input
                     id="Phone"
                     className="input w-50 mt-5 ml-5"
                     style={{ height: "30px" }}
-                    type="text"
-                    placeholder="Text input"
+                    type="phone"
+                    placeholder="Phone"
+                    maxLength={40}
+                    value={staffPhone}
+                    onChange={(event) => {
+                      setStaffPhone(event.target.value);
+                    }}
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="Address">
+                  <label className="mt-5" >
                     Employee's address:
                   </label>
                   <input
@@ -190,7 +275,12 @@ export default function SalonDashboard() {
                     className="input w-50 mt-5 ml-5"
                     style={{ height: "30px" }}
                     type="text"
-                    placeholder="Text input"
+                    placeholder="Address"
+                    maxLength={40}
+                    value={staffAddress}
+                    onChange={(event) => {
+                      setStaffAddress(event.target.value);
+                    }}
                   />{" "}
                   <br></br>
                 </div>{" "}
@@ -203,11 +293,13 @@ export default function SalonDashboard() {
                     {" "}
                     Cancel
                   </button>
-                  <input
-                    className="button is-rounded is-info ml-5"
-                    type="submit"
-                    value="Add"
-                  ></input>
+                  <button
+                    className="button is-rounded is-primary ml-3"
+                    onClick={handleAddStaff}
+                  >
+                    {" "}
+                    Add
+                  </button>
                 </div>
               </fieldset>
             </form>
@@ -233,7 +325,7 @@ export default function SalonDashboard() {
                   className="has-text-right"
                   style={{ marginRight: "100px" }}
                 >
-                  <label for="Name">Employee's name:</label>
+                  <label >Employee's name:</label>
                   <input
                     id="Name"
                     className="input w-50 ml-5"
@@ -242,7 +334,7 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />
                   <br></br>
-                  <label className="mt-5" for="Title">
+                  <label className="mt-5" >
                     Employee's title:
                   </label>
                   <input
@@ -253,7 +345,7 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="Phone">
+                  <label className="mt-5" htmlfor="Phone">
                     Employee's phone:
                   </label>
                   <input
@@ -264,7 +356,7 @@ export default function SalonDashboard() {
                     placeholder="Text input"
                   />{" "}
                   <br></br>
-                  <label className="mt-5" for="Address">
+                  <label className="mt-5" htmlfor="Address">
                     Employee's address:
                   </label>
                   <input

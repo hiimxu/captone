@@ -467,7 +467,7 @@ export const addService =
         }
       })
       .catch((error) => {
-        console.log("Cancel order failed", error);
+        console.log("Add new service failed", error);
       });
   };
 const addNewServiceFailed = (errMess) => {
@@ -479,6 +479,64 @@ const addNewServiceFailed = (errMess) => {
 const addNewServiceSuccessfully = (payload) => {
   return {
     type: SalonActionTypes.ADD_NEW_SERVICE_SUCCESSFULLY,
+    payload,
+  };
+};
+
+export const addStaff = (token, staffData, successCallback) => (dispatch) => {
+  const data = new URLSearchParams({ ...staffData });
+  return fetch(`${api}api/salonowner/create/staff`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(addNewStaffFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data && response.success) {
+        dispatch(
+          addNewStaffSuccessfully({
+            newStaffAdded: response.data,
+            successMessage: response.success,
+          })
+        );
+        successCallback();
+      } else {
+        dispatch(addNewStaffFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Add new staff failed", error);
+    });
+};
+const addNewStaffFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.ADD_NEW_STAFF_FAILED,
+    payload: errMess,
+  };
+};
+const addNewStaffSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.ADD_NEW_STAFF_SUCCESSFULLY,
     payload,
   };
 };
