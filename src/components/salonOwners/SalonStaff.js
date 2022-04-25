@@ -78,6 +78,7 @@ export default function SalonDashboard() {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
+    minHeight: "55rem"
   };
   const fakeDashboardData = salonFixedData;
 
