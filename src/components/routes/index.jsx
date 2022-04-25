@@ -1,6 +1,8 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+// CUSTOMER
 import HomePage from "../HomePage";
 import Favorite from "../Favorite";
 import Profile from "../Profile";
@@ -17,6 +19,7 @@ import Staff from "../Staff";
 import { AccountRoles } from "../../constants";
 import FinishBooking from "../FinishBooking";
 
+// SALON
 import RegisterSalon from "../salonOwners/RegisterSalon";
 import ManageService from "../salonOwners/ManageService";
 import ManageBooking from "../salonOwners/ManageBooking";
@@ -28,6 +31,13 @@ import Schedule from "../salonOwners/Schedule";
 // import SalonProfile from "../salonOwners/SalonProfile";
 // import HeaderSalon from "../salonOwners/Header";
 
+// ADMIN
+import NavigationAdmin from "../admin/Navigation";
+import ManageSalon from "../admin/ManageSalon";
+import DetailSalon from "../admin/DetailSalon";
+import RequestForm from "../admin/RequestForm";
+
+// MOCK UP
 import SalonDashboardMockup from "../mockUp/SalonDashboardMockup";
 import HomepageMockup from "../mockUp/Homepage";
 import ServiceMockup from "../mockUp/Service";
@@ -78,10 +88,7 @@ const SwitchRoutes = () => {
                 path="/SalonBusinessInfo"
                 element={<SalonBusinessInfo />}
               />
-              <Route
-                path="/ManageBooking"
-                element={<ManageBooking />}
-              />
+              <Route path="/ManageBooking" element={<ManageBooking />} />
               {/* <Route path="/SalonBusinessInfo" element={<SalonProfile/>} /> */}
               {/* <Route path="/manage_staff" element={<ManageStaff />} /> */}
               {/* <Route path="/SalonHstory" element={<SalonHstory />} /> */}
@@ -95,7 +102,19 @@ const SwitchRoutes = () => {
     }
 
     if (account.role === AccountRoles.Admin) {
-      return <></>;
+      return (
+        <>
+          <NavigationAdmin />
+          <Header />
+          <Routes>
+            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/" element={<ManageSalon />} />{" "}
+            <Route path="/DetailSalon" element={<DetailSalon />} />{" "}
+            <Route path="/RequestForm" element={<RequestForm />} />{" "}
+          </Routes>
+          <Footer />
+        </>
+      );
     }
   } else {
     return (
