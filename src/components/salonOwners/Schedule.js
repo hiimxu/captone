@@ -30,7 +30,7 @@ import moment from "moment";
 import { set } from "date-fns";
 
 export default function Schedule() {
-  const minDate =  new Date().toISOString().substring(0, 10)
+  const minDate = new Date().toISOString().substring(0, 10);
   const [date, setDate] = useState(minDate);
   const [dateHistory, setDateHistory] = useState(
     new Date().toISOString().substring(0, 10)
@@ -164,7 +164,7 @@ export default function Schedule() {
       cancelOrder(
         token,
         {
-          registerServiceId: orderIdCancel.registerServiceId,          
+          registerServiceId: orderIdCancel.registerServiceId,
           note: "Customer confirmed!",
         },
         successCallback
@@ -176,7 +176,6 @@ export default function Schedule() {
     if (date) {
       setData({ day: date, staffId: staff });
     }
-    
   }, [date, staff]);
 
   function convertDate(date) {
@@ -185,6 +184,18 @@ export default function Schedule() {
       day = ("0" + newdate.getDate()).slice(-2);
     return [newdate.getFullYear(), mnth, day].join("-");
   }
+
+  const handleLoadCurrentData = () => {
+    dispatch(resetScheduleCurentList());
+    dispatch(getScheduleCurrent(token, data));
+  };
+
+  const handleLoadHistoryData = () => {
+    dispatch(resetSalonBookingHistoryList());
+    dispatch(
+      getSalonBookingHistory(token, { day: dateHistory, staffId: staffId })
+    );
+  };
 
   const link = {
     fontSize: "20px",
@@ -209,6 +220,7 @@ export default function Schedule() {
     boxShadow: 24,
     p: 4,
   };
+
   return (
     <div className="p-5" style={root}>
       <div
@@ -241,8 +253,16 @@ export default function Schedule() {
                 onChange={handleChange}
                 aria-label="disabled tabs example"
               >
-                <Tab label="Current Order" value="1" />
-                <Tab label="History" value="2" />
+                <Tab
+                  label="Current Order"
+                  value="1"
+                  onClick={handleLoadCurrentData}
+                />
+                <Tab
+                  label="History"
+                  value="2"
+                  onClick={handleLoadHistoryData}
+                />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -399,7 +419,7 @@ export default function Schedule() {
                       className="button is-rounded is-info mr-5"
                       style={{ width: "150px" }}
                     >
-                      Cancel order
+                      Confirmed
                     </button>
                     <button
                       onClick={handleCloseCancel}
