@@ -10,6 +10,7 @@ import {
   getListServiceForSalon,
   resetListServiceOfSalon,
   getProfileOfSalon,
+  addService,
 } from "../../redux/actions/creators/salon";
 import { currencyFormatter } from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
@@ -23,6 +24,94 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 export default function ManageService() {
+  //create state for add service
+  const [serviceName, setServiceName] = useState("");
+  const [serviceTime, setServiceTime] = useState(15);
+  const [price, setPrice] = useState("");
+  const [promotion, setPromotion] = useState("");
+  const [content, setContent] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageService, setImageService] = useState("");
+
+  //create state for error
+  const [error, setError] = useState(false);
+  const [priceError, setPiceError] = useState(false);
+  const [promotioError, setPromotionError] = useState(false);
+
+  //setServiceTime,
+  const addTime = () => {
+    setServiceTime(serviceTime + 15);
+  };
+  const minusTime = () => {
+    if (serviceTime >= 30) {
+      setServiceTime(serviceTime - 15);
+    } else {
+      setServiceTime(15);
+    }
+  };
+
+  //reset form
+  const resetAddServiceForm = () => {
+    setServiceName("");
+    setServiceTime(15);
+    setPrice("");
+    setPromotion("");
+    setContent("");
+    setDescription("");
+    setImageService("");
+  };
+
+  //add new service
+  const handleAddService = (e) => {
+    e.preventDefault();
+    setError(false);
+    setPiceError(false);
+    setPromotionError(false);
+
+    const newService = {
+      name: serviceName,
+      price: price,
+      service_time: serviceTime,
+      promotion: promotion,
+      content: content,
+      description: description,
+      image: imageService,
+    };
+    let pass = true;
+    if (
+      serviceName === "" ||
+      price === "" ||
+      serviceTime === "" ||
+      promotion === "" ||
+      content === "" ||
+      description === "" ||
+      imageService === ""
+    ) {
+      setError(true);
+      pass = false;
+      return;
+    }
+    if (price <= 0) {
+      setPiceError(true);
+      pass = false;
+    }
+    if (promotion < 0) {
+      setPromotionError(true);
+      pass = false;
+    }
+    if (pass) {
+      console.log(newService);
+      resetAddServiceForm();
+      const successCallback = () => {
+        console.log("success callback");
+        dispatch(resetListServiceOfSalon());
+        handleCloseService();        
+        dispatch(getListServiceForSalon(token));
+      };
+      dispatch(addService(token, newService, successCallback));
+    }
+  };
+
   const root = {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "repeat-y",
@@ -34,8 +123,7 @@ export default function ManageService() {
   const fakeReview = fakeReviews;
 
   // -- API DATA --
-  const [type, setType] = useState("Services");
-  console.log(type);
+
   const { listService } = useSelector((state) => state.listServiceSalon);
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
@@ -49,7 +137,7 @@ export default function ManageService() {
 
   // -- GET SALON PROFILE --
   const { profileSalon } = useSelector((state) => state.profileSalon);
-  console.log(profileSalon);
+
   useEffect(() => {
     dispatch(getProfileOfSalon(token));
   }, [dispatch, token]);
@@ -73,11 +161,20 @@ export default function ManageService() {
     boxShadow: 24,
     p: 4,
   };
+  const btnTime = {
+    width: "2rem",
+    height: "2.3rem",
+    textAlign: "center",
+    borderRadius: "15%",
+  };
 
   // -- MODAL SERVICE --
   const [openService, setOpenSerive] = useState(false);
   const handleOpenService = () => setOpenSerive(true);
-  const handleCloseService = () => setOpenSerive(false);
+  const handleCloseService = () => {
+    setOpenSerive(false);
+    
+  };
 
   // -- MODAL EDIT SERVICE --
   const [openEditService, setOpenEditService] = useState(false);
@@ -94,20 +191,9 @@ export default function ManageService() {
   const handleOpenSalon = () => setOpenSalon(true);
   const handleCloseSalon = () => setOpenSalon(false);
 
-  // -- TIME --
+  
 
-  const [time, setTime] = useState(15);
-  const addTime = () => {
-    setTime(time + 15);
-  };
-
-  const minusTime = () => {
-    if (time >= 30) {
-      setTime(time - 15);
-    } else {
-      setTime(15);
-    }
-  };
+  
   return (
     <div>
       {" "}
@@ -353,7 +439,7 @@ export default function ManageService() {
 
                                     <span className="has-text-danger-dark has-text-weight-semibold">
                                       {" "}
-                                      ->{" "}
+                                      
                                       {currencyFormatter.format(
                                         service.price -
                                           (service.price / 100) *
@@ -402,194 +488,186 @@ export default function ManageService() {
                     >
                       <Box sx={modalcss}>
                         <div>
-                          <div className="has-text-centered">
-                            <h1 className="is-size-3 mb-5">Add service </h1>
-                          </div>
-                          <form action="" method="post" className="addService">
-                            <fieldset>
-                              <div
-                                className="has-text-right"
-                                style={{ marginRight: "100px" }}
-                              >
-                                <label for="Name">Service's name:</label>
-                                <input
-                                  id="Name"
-                                  className="input w-50 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
-                                  placeholder="Text input"
-                                />
-                                <br></br>
-                                <label className="mt-5" for="Time">
-                                  Service's time:
-                                </label>
-                                <input
-                                  id="Time"
-                                  className="input mt-5 w-50 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
-                                  placeholder="Text input"
-                                />{" "}
-                                <br></br>
-                                <label className="mt-5" for="Price">
-                                  Price:
-                                </label>
-                                <input
-                                  id="Price"
-                                  className="input w-50 mt-5 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
-                                  placeholder="Text input"
-                                />{" "}
-                                <br></br>
-                                <label className="mt-5" for="Content">
-                                  Content:
-                                </label>
-                                <input
-                                  id="Content"
-                                  className="input w-50 mt-5 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
-                                  placeholder="Text input"
-                                />{" "}
-                                <br></br>
-                                <label className="mt-5" for="Description">
-                                  Description:
-                                </label>
-                                <textarea
-                                  id="Description"
-                                  style={{ resize: "none" }}
-                                  className=" mt-5 w-50 ml-5"
-                                  placeholder="Text input"
-                                  rows="5"
-                                />{" "}
-                                <br></br>
-                                <label className="mt-5" for="picture">
-                                  Service's picture:
-                                </label>
-                                <input
-                                  id="picture"
-                                  className="mt-5 ml-5"
-                                  type="file"
-                                  accept="image/*"
-                                />
-                              </div>{" "}
-                              <br></br>
-                              <div className="has-text-right">
-                                <button
-                                  className="button is-rounded is-danger"
-                                  onClick={handleCloseService}
+                          <form>
+                            <div>
+                              <label>Service's Name:</label>
+                            </div>
+                            <div className="form-outline mb-4">
+                              <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                value={serviceName}
+                                onChange={(event) => {
+                                  setServiceName(event.target.value);
+                                }}
+                                placeholder="Service's name*"
+                              />
+                            </div>
+                            <div>
+                              <label>Service's Time:</label>
+                            </div>
+                            <div className="input-group form-outline mb-4">
+                              <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                disabled
+                                value={serviceTime}
+                                onChange={(event) => {
+                                  setServiceTime(event.target.value);
+                                }}
+                                placeholder="Service's time"
+                              />
+                              <div className="input-group-append">
+                                <span
+                                  className="input-group-text rounded-right"
+                                  id="basic-addon1"
                                 >
-                                  {" "}
-                                  Cancel
-                                </button>
-                                <input
-                                  className="button is-rounded is-info ml-5"
-                                  type="submit"
-                                  value="Add"
-                                ></input>
+                                  Minute
+                                </span>
                               </div>
-                            </fieldset>
-                          </form>
-                        </div>
-                      </Box>
-                    </Modal>
-                    {/* Modal Service */}
-                    <Modal
-                      open={openEditService}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={modalcss}>
-                        <div>
-                          <div className="has-text-centered">
-                            <h1 className="is-size-3 mb-5">Edit employee</h1>
-                          </div>
-                          <form action="" method="post" className="editService">
-                            <fieldset>
-                              <div
-                                className="has-text-right"
-                                style={{ marginRight: "100px" }}
-                              >
-                                <label for="Name">Service's name:</label>
-                                <input
-                                  id="Name"
-                                  className="input w-50 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
-                                  placeholder="Text input"
-                                />
-                                <br></br>
-                                <label className="mt-5" for="Time">
-                                  Service's time:
-                                </label>
-                                <input
-                                  id="Time"
-                                  className="input w-50 mt-5 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
-                                  placeholder="Text input"
-                                ></input>
-                                <br></br>
-                                <label className="mt-5" for="Price">
-                                  Price:
-                                </label>
-                                <input
-                                  id="Price"
-                                  className="input w-50 mt-5 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
-                                  placeholder="Text input"
-                                />{" "}
-                                <br></br>
-                                <label className="mt-5" for="Content">
-                                  Content:
-                                </label>
-                                <input
-                                  id="Content"
-                                  className="input w-50 mt-5 ml-5"
-                                  style={{ height: "30px" }}
-                                  type="text"
-                                  placeholder="Text input"
-                                />{" "}
-                                <br></br>
-                                <label className="mt-5" for="Description">
-                                  Description:
-                                </label>
-                                <textarea
-                                  id="Description"
-                                  style={{ resize: "none" }}
-                                  className=" mt-5 w-50 ml-5"
-                                  placeholder="Text input"
-                                  rows="5"
-                                />{" "}
-                                <br></br>
-                                <label className="mt-5" for="picture">
-                                  Service's picture:
-                                </label>
-                                <input
-                                  id="picture"
-                                  className="mt-5 ml-5"
-                                  type="file"
-                                  accept="image/*"
-                                />
-                              </div>{" "}
-                              <br></br>
-                              <div className="has-text-right">
+                              <div className="mt-1">
                                 <button
-                                  className="button is-rounded is-danger"
-                                  onClick={handleCloseEditService}
+                                  className="btn btn-outline-secondary bg-dark text-white mr-1 ml-1"
+                                  type="button"
+                                  style={btnTime}
+                                  onClick={addTime}
                                 >
-                                  {" "}
-                                  Cancel
+                                  +
                                 </button>
-                                <input
-                                  className="button is-rounded is-info ml-5"
-                                  type="submit"
-                                  value="Edit"
-                                ></input>
+                                <button
+                                  className="btn btn-outline-secondary bg-dark text-white"
+                                  type="button"
+                                  style={btnTime}
+                                  onClick={minusTime}
+                                >
+                                  -
+                                </button>
                               </div>
-                            </fieldset>
+                            </div>
+                            <div className="row">
+                              <label className="col-6">Price:</label>
+                              <label className="col-6">Promotion:</label>
+                            </div>
+                            <div className="row">
+                              <div className="col-6 input-group form-outline mb-4">
+                                <input
+                                  type="number"
+                                  className="form-control form-control-lg"
+                                  value={price}
+                                  min="0"
+                                  onChange={(event) => {
+                                    setPrice(event.target.value);
+                                  }}
+                                  placeholder="Price*"
+                                />
+                                <div className="input-group-append">
+                                  <span
+                                    className="input-group-text"
+                                    id="basic-addon1"
+                                  >
+                                    VND
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="col-6 input-group form-outline mb-4">
+                                <input
+                                  type="number"
+                                  className="form-control form-control-lg"
+                                  min="0"
+                                  value={promotion}
+                                  onChange={(event) => {
+                                    setPromotion(event.target.value);
+                                  }}
+                                  placeholder="Promotion*"
+                                />
+                                <div className="input-group-append">
+                                  <span
+                                    className="input-group-text"
+                                    id="basic-addon1"
+                                  >
+                                    %
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-6">
+                                {priceError && (
+                                  <p className="text-danger">
+                                    Price is a number greater than 0.
+                                  </p>
+                                )}
+                              </div>
+                              <div className="col-6">
+                                {promotioError && (
+                                  <p className="text-danger">
+                                    Promotion is a number greater than or equal
+                                    to 0
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <label>Content:</label>
+                            </div>
+                            <div className="form-outline mb-4">
+                              <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                value={content}
+                                onChange={(event) => {
+                                  setContent(event.target.value);
+                                }}
+                                placeholder="Content*"
+                              />
+                            </div>
+                            <div>
+                              <label>Image:</label>
+                            </div>
+                            <div className="form-outline mb-4">
+                              <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                value={imageService}
+                                onChange={(event) => {
+                                  setImageService(event.target.value);
+                                }}
+                                placeholder="Image*"
+                              />
+                            </div>
+                            <div>
+                              <label>Description:</label>
+                            </div>
+                            <div className="form-outline mb-4">
+                              <textarea
+                                rows={4}
+                                cols={50}
+                                type="text"
+                                className="form-control form-control-lg"
+                                value={description}
+                                onChange={(event) => {
+                                  setDescription(event.target.value);
+                                }}
+                                placeholder="Description"
+                              />
+                            </div>
+
+                            <div className="has-text-right">
+                              <button
+                                className="button is-rounded is-danger"
+                                onClick={handleCloseService}
+                              >
+                                {" "}
+                                Cancel
+                              </button>
+                              <button
+                                className="button is-rounded is-primary ml-4"
+                                onClick={handleAddService}
+                              >
+                                {" "}
+                                Add
+                              </button>
+                            </div>
                           </form>
                         </div>
                       </Box>

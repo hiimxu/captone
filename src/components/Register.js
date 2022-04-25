@@ -184,6 +184,7 @@ export default function Register() {
                     value={username}
                     onChange={handleUsername}
                     placeholder="Username"
+                    maxLength={40}
                   />
                 </div>
                 <div className="form-group">

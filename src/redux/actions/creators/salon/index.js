@@ -193,7 +193,7 @@ export const resetListStaffOfSalon = () => (dispatch) => {
   });
 };
 
-export const finishOrder = (token, orderID) => (dispatch) => {
+export const finishOrder = (token, orderID, successCallback) => (dispatch) => {
   const data = new URLSearchParams({ ...orderID });
   return fetch(`${api}api/salonowner/update/finshBooking`, {
     method: "PUT",
@@ -222,13 +222,14 @@ export const finishOrder = (token, orderID) => (dispatch) => {
       }
     )
     .then((response) => {
-      if (response.data?.length && response.message) {
+      if (response.data && response.message) {
         dispatch(
           finishOrderSuccessfully({
             orderIdFinished: response.data,
             successMessage: response.message,
           })
         );
+        successCallback();
       } else {
         dispatch(finishOrderFailed(response.message));
       }
@@ -250,7 +251,7 @@ const finishOrderSuccessfully = (payload) => {
   };
 };
 
-export const cancelOrder = (token, order,successCallback) => (dispatch) => {
+export const cancelOrder = (token, order, successCallback) => (dispatch) => {
   const data = new URLSearchParams({ ...order });
   return fetch(`${api}api/salonowner/cancelBookingServiceBySalon`, {
     method: "PUT",
@@ -420,5 +421,122 @@ const getProfileOfSalonFailed = (errMess) => {
   return {
     type: SalonActionTypes.GET_PROFILE_FOR_SALON_FAILED,
     payload: errMess,
+  };
+};
+
+export const addService =
+  (token, serviceData, successCallback) => (dispatch) => {
+    const data = new URLSearchParams({ ...serviceData });
+    return fetch(`${api}api/salonowner/create/service`, {
+      method: "POST",
+      body: data,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "x-access-token": `${token}`,
+      },
+    })
+      .then(
+        async (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            const errMess = (await response.json()).message;
+            dispatch(addNewServiceFailed(errMess));
+            throw error;
+          }
+        },
+        (error) => {
+          var errMess = new Error(error);
+          throw errMess;
+        }
+      )
+      .then((response) => {
+        if (response.data && response.message) {
+          dispatch(
+            addNewServiceSuccessfully({
+              newServiceAdded: response.data,
+              successMessage: response.message,
+            })
+          );
+          successCallback();
+        } else {
+          dispatch(addNewServiceFailed(response.message));
+        }
+      })
+      .catch((error) => {
+        console.log("Add new service failed", error);
+      });
+  };
+const addNewServiceFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.ADD_NEW_SERVICE_FAILED,
+    payload: errMess,
+  };
+};
+const addNewServiceSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.ADD_NEW_SERVICE_SUCCESSFULLY,
+    payload,
+  };
+};
+
+export const addStaff = (token, staffData, successCallback) => (dispatch) => {
+  const data = new URLSearchParams({ ...staffData });
+  return fetch(`${api}api/salonowner/create/staff`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(addNewStaffFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data && response.success) {
+        dispatch(
+          addNewStaffSuccessfully({
+            newStaffAdded: response.data,
+            successMessage: response.success,
+          })
+        );
+        successCallback();
+      } else {
+        dispatch(addNewStaffFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Add new staff failed", error);
+    });
+};
+const addNewStaffFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.ADD_NEW_STAFF_FAILED,
+    payload: errMess,
+  };
+};
+const addNewStaffSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.ADD_NEW_STAFF_SUCCESSFULLY,
+    payload,
   };
 };

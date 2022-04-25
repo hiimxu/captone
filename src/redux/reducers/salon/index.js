@@ -109,3 +109,51 @@ export const ProfileSalon = (
       return state;
   }
 };
+
+export const AddNewService = (
+  state = {
+    newServiceAdded: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.ADD_NEW_SERVICE_FAILED:
+      return {
+        ...state,
+        newServiceAdded: null,
+        errMess: action.payload.errMess,
+      };
+    case SalonActionTypes.ADD_NEW_SERVICE_SUCCESSFULLY:
+      return {
+        ...state,
+        newServiceAdded: action.payload.newServiceAdded,
+        errMess: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const AddNewStaff = (
+  state = {
+    newStaffAdded: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.ADD_NEW_STAFF_FAILED:
+      return { ...state, newStaffAdded: null, errMess: action.payload.errMess };
+    case SalonActionTypes.ADD_NEW_STAFF_SUCCESSFULLY:
+      return {
+        ...state,
+        newStaffAdded: action.payload.newStaffAdded,
+        errMess: null,
+      };
+
+    default:
+      return state;
+  }
+};
