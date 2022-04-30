@@ -256,14 +256,14 @@ export default function Staff() {
             <div className="col-md-12 text-center pb-5 ">
               <Link
                 style={{ width: "40%" }}
-                className="button is-rounded is-danger mr-3"
+                className="button is-rounded is-danger mr-3 has-text-weight-semibold"
                 to={cancelBook}
               >
                 Cancel
               </Link>
               <button
                 style={{ width: "40%" }}
-                className="button is-rounded is-info ml-3"
+                className="button is-rounded is-info ml-3 has-text-weight-semibold"
                 onClick={handleSubmit}
                 disabled={!staff || !time || !dateFormated}
               >
