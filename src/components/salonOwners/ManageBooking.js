@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Calendar from "react-calendar";
+import { currencyFormatter } from "../../utils";
+
 import {
   getStaffList,
   resetStaffList,
@@ -15,8 +17,11 @@ import moment from "moment";
 import introbg from "../../assets/introbg-1.jpg";
 import videobg from "../../assets/videobg.jpg";
 import patterbg from "../../assets/patterbg.svg";
+import imageUnavailable from "../../assets/image-unavailable.png";
 
 export default function Staff() {
+  const { listService } = useSelector((state) => state.listServiceSalon);
+
   const minDate = new Date(
     moment().add(4, "hours").add(15, "minutes").startOf("day")
   ); // If the current time is after 7:45pm, the min date will be the next day
@@ -103,6 +108,7 @@ export default function Staff() {
     dispatch(bookService(bookingInfo, token, callback));
   };
   const root = {
+    minHeight: "60rem",
     backgroundImage: `url(${introbg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
@@ -114,6 +120,74 @@ export default function Staff() {
       <div className="columns">
         <div className="column is-1"></div>
         <div className="column is-10">
+          {listService?.map((service) => (
+            <div
+              className="card mb-3"
+              style={{
+                display: "inline-block",
+                marginRight:"2%",
+                marginTop:"5px",
+                width: "48%",
+                backgroundColor: " #F5F3ED",
+                height: "12rem",
+                borderRadius: "25px",
+              }}
+              key={service.serviceId}
+            >
+              <div className="columns">
+                <div className="column is-4">
+                  <img
+                    src={service.image ? service.image : imageUnavailable}
+                    alt="..."
+                    style={{
+                      height: "100%",
+                      width: "100%  ",
+                      maxHeight: "12rem",
+                      borderRadius: "25px",
+                    }}
+                  />
+                </div>
+                <div className="column is-8 mt-2 has-text-left">
+                  <div>
+                    <h4 className="has-text-info-dark is-size-3 has-text-weight-bold">
+                      {service.name}
+                    </h4>
+                    <p className="has-text-dark is-size-5">
+                      {service.service_time} minutes
+                    </p>
+
+                    {service.promotion === 0 && (
+                      <p className="has-text-danger has-text-weight-semibold">
+                        {" "}
+                        {currencyFormatter.format(service.price)}{" "}
+                      </p>
+                    )}
+
+                    {service.promotion !== 0 && (
+                      <p className="has-text-grey-light has-text-weight-semibold">
+                        <del> {currencyFormatter.format(service.price)} </del>
+
+                        <span className="has-text-danger-dark has-text-weight-semibold">
+                          {" "}
+                          {currencyFormatter.format(
+                            service.price -
+                              (service.price / 100) * service.promotion
+                          )}{" "}
+                        </span>
+                        <span className="tag is-danger has-text-weight-semibold">
+                          {" "}
+                          {service.promotion} %
+                        </span>
+                      </p>
+                    )}
+
+                    <p className="">{service.content}</p>
+                    <p className="">{service.description}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
           <div
             className="mt-5 mb-5"
             style={{
@@ -232,7 +306,11 @@ export default function Staff() {
                 <div class="step-details">
                   <p class="step-title">Note</p>
                   <br></br>
-                  <textarea placeholder="Customer's name / phone number" rows="10" cols="35"></textarea>
+                  <textarea
+                    placeholder="Customer's name / phone number"
+                    rows="10"
+                    cols="35"
+                  ></textarea>
                 </div>
               </div>
             </div>

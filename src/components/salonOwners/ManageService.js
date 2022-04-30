@@ -105,7 +105,7 @@ export default function ManageService() {
       const successCallback = () => {
         console.log("success callback");
         dispatch(resetListServiceOfSalon());
-        handleCloseService();        
+        handleCloseService();
         dispatch(getListServiceForSalon(token));
       };
       dispatch(addService(token, newService, successCallback));
@@ -173,7 +173,6 @@ export default function ManageService() {
   const handleOpenService = () => setOpenSerive(true);
   const handleCloseService = () => {
     setOpenSerive(false);
-    
   };
 
   // -- MODAL EDIT SERVICE --
@@ -191,9 +190,6 @@ export default function ManageService() {
   const handleOpenSalon = () => setOpenSalon(true);
   const handleCloseSalon = () => setOpenSalon(false);
 
-  
-
-  
   return (
     <div>
       {" "}
@@ -439,7 +435,6 @@ export default function ManageService() {
 
                                     <span className="has-text-danger-dark has-text-weight-semibold">
                                       {" "}
-                                      
                                       {currencyFormatter.format(
                                         service.price -
                                           (service.price / 100) *
@@ -671,6 +666,197 @@ export default function ManageService() {
                           </form>
                         </div>
                       </Box>
+                    </Modal>{" "}
+                    {/* Modal Edit Service */}
+                    <Modal
+                      open={openEditService}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={modalcss}>
+                        <div>
+                          <form>
+                            <div>
+                              <label>Service's Name:</label>
+                            </div>
+                            <div className="form-outline mb-4">
+                              <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                value={serviceName}
+                                onChange={(event) => {
+                                  setServiceName(event.target.value);
+                                }}
+                                placeholder="Service's name*"
+                              />
+                            </div>
+                            <div>
+                              <label>Service's Time:</label>
+                            </div>
+                            <div className="input-group form-outline mb-4">
+                              <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                disabled
+                                value={serviceTime}
+                                onChange={(event) => {
+                                  setServiceTime(event.target.value);
+                                }}
+                                placeholder="Service's time"
+                              />
+                              <div className="input-group-append">
+                                <span
+                                  className="input-group-text rounded-right"
+                                  id="basic-addon1"
+                                >
+                                  Minute
+                                </span>
+                              </div>
+                              <div className="mt-1">
+                                <button
+                                  className="btn btn-outline-secondary bg-dark text-white mr-1 ml-1"
+                                  type="button"
+                                  style={btnTime}
+                                  onClick={addTime}
+                                >
+                                  +
+                                </button>
+                                <button
+                                  className="btn btn-outline-secondary bg-dark text-white"
+                                  type="button"
+                                  style={btnTime}
+                                  onClick={minusTime}
+                                >
+                                  -
+                                </button>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <label className="col-6">Price:</label>
+                              <label className="col-6">Promotion:</label>
+                            </div>
+                            <div className="row">
+                              <div className="col-6 input-group form-outline mb-4">
+                                <input
+                                  type="number"
+                                  className="form-control form-control-lg"
+                                  value={price}
+                                  min="0"
+                                  onChange={(event) => {
+                                    setPrice(event.target.value);
+                                  }}
+                                  placeholder="Price*"
+                                />
+                                <div className="input-group-append">
+                                  <span
+                                    className="input-group-text"
+                                    id="basic-addon1"
+                                  >
+                                    VND
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="col-6 input-group form-outline mb-4">
+                                <input
+                                  type="number"
+                                  className="form-control form-control-lg"
+                                  min="0"
+                                  value={promotion}
+                                  onChange={(event) => {
+                                    setPromotion(event.target.value);
+                                  }}
+                                  placeholder="Promotion*"
+                                />
+                                <div className="input-group-append">
+                                  <span
+                                    className="input-group-text"
+                                    id="basic-addon1"
+                                  >
+                                    %
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-6">
+                                {priceError && (
+                                  <p className="text-danger">
+                                    Price is a number greater than 0.
+                                  </p>
+                                )}
+                              </div>
+                              <div className="col-6">
+                                {promotioError && (
+                                  <p className="text-danger">
+                                    Promotion is a number greater than or equal
+                                    to 0
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <label>Content:</label>
+                            </div>
+                            <div className="form-outline mb-4">
+                              <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                value={content}
+                                onChange={(event) => {
+                                  setContent(event.target.value);
+                                }}
+                                placeholder="Content*"
+                              />
+                            </div>
+                            <div>
+                              <label>Image:</label>
+                            </div>
+                            <div className="form-outline mb-4">
+                              <input
+                                type="text"
+                                className="form-control form-control-lg"
+                                value={imageService}
+                                onChange={(event) => {
+                                  setImageService(event.target.value);
+                                }}
+                                placeholder="Image*"
+                              />
+                            </div>
+                            <div>
+                              <label>Description:</label>
+                            </div>
+                            <div className="form-outline mb-4">
+                              <textarea
+                                rows={4}
+                                cols={50}
+                                type="text"
+                                className="form-control form-control-lg"
+                                value={description}
+                                onChange={(event) => {
+                                  setDescription(event.target.value);
+                                }}
+                                placeholder="Description"
+                              />
+                            </div>
+
+                            <div className="has-text-right">
+                              <button
+                                className="button is-rounded is-danger"
+                                onClick={handleCloseEditService}
+                              >
+                                {" "}
+                                Cancel
+                              </button>
+                              <button
+                                className="button is-rounded is-primary ml-4"
+                              >
+                                {" "}
+                                Add
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </Box>
                     </Modal>
                     {/* Modal delete service */}
                     <Modal
@@ -720,19 +906,34 @@ export default function ManageService() {
                           </p>
                         </div>
                         <div className="column is-9 has-text-left mt-3">
-                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                          <button
+                            style={{ border: " 1px solid darkblue" }}
+                            className="button is-rounded is-link is-light mr-4 is-medium"
+                          >
                             5
                           </button>
-                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                          <button
+                            style={{ border: " 1px solid darkblue" }}
+                            className="button is-rounded is-link is-light mr-4 is-medium"
+                          >
                             4
                           </button>
-                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                          <button
+                            style={{ border: " 1px solid darkblue" }}
+                            className="button is-rounded is-link is-light mr-4 is-medium"
+                          >
                             3
                           </button>
-                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                          <button
+                            style={{ border: " 1px solid darkblue" }}
+                            className="button is-rounded is-link is-light mr-4 is-medium"
+                          >
                             2
                           </button>
-                          <button style={{border:" 1px solid darkblue"}} className="button is-rounded is-link is-light mr-4 is-medium">
+                          <button
+                            style={{ border: " 1px solid darkblue" }}
+                            className="button is-rounded is-link is-light mr-4 is-medium"
+                          >
                             1
                           </button>
                         </div>
