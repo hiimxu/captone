@@ -847,9 +847,7 @@ export default function ManageService() {
                                 {" "}
                                 Cancel
                               </button>
-                              <button
-                                className="button is-rounded is-primary ml-4"
-                              >
+                              <button className="button is-rounded is-primary ml-4">
                                 {" "}
                                 Add
                               </button>
@@ -905,36 +903,76 @@ export default function ManageService() {
                             156 reviews
                           </p>
                         </div>
-                        <div className="column is-9 has-text-left mt-3">
+                        <div className="column is-9 has-text-centered mt-3">
                           <button
-                            style={{ border: " 1px solid darkblue" }}
-                            className="button is-rounded is-link is-light mr-4 is-medium"
+                            style={{
+                              border: " 1px solid darkblue",
+                              borderRadius: "50%",
+                              height: "70px",
+                            }}
+                            className="button  is-link is-light mr-4 is-medium"
                           >
                             5
+                            <i
+                              class="fa-solid fa-star"
+                              style={{ color: "gold" }}
+                            ></i>
                           </button>
                           <button
-                            style={{ border: " 1px solid darkblue" }}
-                            className="button is-rounded is-link is-light mr-4 is-medium"
+                            style={{
+                              border: " 1px solid darkblue",
+                              borderRadius: "50%",
+                              height: "70px",
+                            }}
+                            className="button  is-link is-light mr-4 is-medium"
                           >
                             4
+                            <i
+                              class="fa-solid fa-star"
+                              style={{ color: "gold" }}
+                            ></i>
                           </button>
                           <button
-                            style={{ border: " 1px solid darkblue" }}
-                            className="button is-rounded is-link is-light mr-4 is-medium"
+                            style={{
+                              border: " 1px solid darkblue",
+                              borderRadius: "50%",
+                              height: "70px",
+                            }}
+                            className="button  is-link is-light mr-4 is-medium"
                           >
                             3
+                            <i
+                              class="fa-solid fa-star"
+                              style={{ color: "gold" }}
+                            ></i>
                           </button>
                           <button
-                            style={{ border: " 1px solid darkblue" }}
-                            className="button is-rounded is-link is-light mr-4 is-medium"
+                            style={{
+                              border: " 1px solid darkblue",
+                              borderRadius: "50%",
+                              height: "70px",
+                            }}
+                            className="button  is-link is-light mr-4 is-medium"
                           >
                             2
+                            <i
+                              class="fa-solid fa-star"
+                              style={{ color: "gold" }}
+                            ></i>
                           </button>
                           <button
-                            style={{ border: " 1px solid darkblue" }}
-                            className="button is-rounded is-link is-light mr-4 is-medium"
+                            style={{
+                              border: " 1px solid darkblue",
+                              borderRadius: "50%",
+                              height: "70px",
+                            }}
+                            className="button  is-link is-light mr-4 is-medium"
                           >
                             1
+                            <i
+                              class="fa-solid fa-star"
+                              style={{ color: "gold" }}
+                            ></i>
                           </button>
                         </div>
                       </div>

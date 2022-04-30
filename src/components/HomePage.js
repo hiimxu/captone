@@ -60,7 +60,7 @@ export default function HomePage() {
                         />
                       </figure>
                     </div>
-                    <div className="media-content" style={{ marginBottom: 0 }}>
+                    <div className="media-content" style={{ marginBottom: 0,height:"5rem" }}>
                       <p className="title is-4">{salon.nameSalon}</p>
                       <p className="subtitle is-6">
                         <i className="fa-solid fa-location-dot"></i>{" "}
@@ -81,7 +81,7 @@ export default function HomePage() {
                       <br />
                     </span>
                     <hr style={{margin:"5px"}}></hr>
-                  <div className="content">
+                  <div className="content" style={{overflowY: "scroll", height:"8rem"}}>
                     
                    
                     <p>{salon.description}</p>

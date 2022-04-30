@@ -5,14 +5,9 @@ import Calendar from "react-calendar";
 import { currencyFormatter } from "../../utils";
 
 import {
-  getStaffList,
-  resetStaffList,
-  getServiceList,
-  resetServiceList,
-  getStaffCalendar,
-  resetStaffCalender,
-  bookService,
-} from "../../redux/actions/creators/booking";
+  getListServiceForSalon,
+  resetListServiceOfSalon,
+} from "../../redux/actions/creators/salon";
 import moment from "moment";
 import introbg from "../../assets/introbg-1.jpg";
 import videobg from "../../assets/videobg.jpg";
@@ -20,8 +15,6 @@ import patterbg from "../../assets/patterbg.svg";
 import imageUnavailable from "../../assets/image-unavailable.png";
 
 export default function Staff() {
-  const { listService } = useSelector((state) => state.listServiceSalon);
-
   const minDate = new Date(
     moment().add(4, "hours").add(15, "minutes").startOf("day")
   ); // If the current time is after 7:45pm, the min date will be the next day
@@ -31,17 +24,15 @@ export default function Staff() {
   const [time, setTime] = useState(undefined);
   const [dateFormated, setDateFormated] = useState(convertDate(minDate));
   const [staffInfo, setStaffInfo] = useState();
-
   const { serviceId } = useParams();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { staffList } = useSelector((state) => state.staff);
-  const { serviceList } = useSelector((state) => state.service);
   const { selectedSalonId, selectedServiceId, priceOriginal, serviceTime } =
     useSelector((state) => state.booking);
   const { calendar } = useSelector((state) => state.staffCalendar);
-  const { token } = useSelector((state) => state.loginAccount.account);
 
   useEffect(() => {
     if (staff && dateFormated) {
@@ -54,30 +45,19 @@ export default function Staff() {
     }
   }, [staff, dateFormated, serviceTime]);
 
+  // GET SERVICE
+  const { listService } = useSelector((state) => state.listServiceSalon);
+  const { token, account_name: username } = useSelector(
+    (state) => state.loginAccount.account
+  );
   useEffect(() => {
-    dispatch(getServiceList(serviceId));
-
+    dispatch(getListServiceForSalon(token));
     return () => {
-      dispatch(resetServiceList());
+      dispatch(resetListServiceOfSalon());
     };
-  }, [dispatch, serviceId]);
+  }, [dispatch, token]);
 
-  useEffect(() => {
-    dispatch(getStaffList(serviceId));
-
-    return () => {
-      dispatch(resetStaffList());
-    };
-  }, [dispatch, serviceId]);
-
-  useEffect(() => {
-    if (staffInfo) {
-      dispatch(getStaffCalendar(staffInfo));
-    }
-    return () => {
-      dispatch(resetStaffCalender());
-    };
-  }, [dispatch, staffInfo]);
+  //
 
   function convertDate(date) {
     var newdate = new Date(date),
@@ -104,8 +84,6 @@ export default function Staff() {
     const callback = () => {
       navigate("/finish_booking");
     };
-
-    dispatch(bookService(bookingInfo, token, callback));
   };
   const root = {
     minHeight: "60rem",
@@ -122,11 +100,10 @@ export default function Staff() {
         <div className="column is-10">
           {listService?.map((service) => (
             <div
-              className="card mb-3"
+              className="card mb-3 mt-3"
               style={{
                 display: "inline-block",
-                marginRight:"2%",
-                marginTop:"5px",
+                marginRight: "2%",
                 width: "48%",
                 backgroundColor: " #F5F3ED",
                 height: "12rem",
@@ -147,7 +124,7 @@ export default function Staff() {
                     }}
                   />
                 </div>
-                <div className="column is-8 mt-2 has-text-left">
+                <div className="column is-8 has-text-left">
                   <div>
                     <h4 className="has-text-info-dark is-size-3 has-text-weight-bold">
                       {service.name}
@@ -189,51 +166,12 @@ export default function Staff() {
             </div>
           ))}
           <div
-            className="mt-5 mb-5"
+            className="mb-5 pt-5"
             style={{
               background: "url(" + patterbg + ")",
               boxShadow: "1px 1px 20px black",
             }}
           >
-            <div className="">
-              {serviceList?.dataSalon?.map((salon) => (
-                <div
-                  className="text-center"
-                  style={{ background: "url(" + videobg + ")" }}
-                  key={salon.salonId}
-                >
-                  <div className="pb-2 mb-3">
-                    <h2 className="is-size-2 has-text-link has-text-weight-semibold">
-                      {salon.nameSalon}
-                    </h2>
-                    <p className="is-size-4" style={{ color: "white" }}>
-                      Open:{" "}
-                      <span className="text-danger">
-                        Mon-Sun {salon.timeOpen.slice(0, -3)} -{" "}
-                        {salon.timeClose.slice(0, -3)}
-                      </span>
-                    </p>
-                    <p className="is-size-4 " style={{ color: "white" }}>
-                      <span>
-                        Phone number:{" "}
-                        <span className="has-text-weight-thin">
-                          {" "}
-                          <span className="has-text-info is-underlined">
-                            {salon.phone}
-                          </span>
-                        </span>
-                      </span>
-                    </p>
-                    <p className="is-size-4" style={{ color: "white" }}>
-                      <i className="fa-solid fa-location-dot"></i>{" "}
-                      <span className="is-size-4 has-text-primary">
-                        {salon.detailAddress}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
             <div class="steps" id="stepsDemo">
               <div class="step-item is-completed is-link">
                 <div class="step-marker">1</div>
