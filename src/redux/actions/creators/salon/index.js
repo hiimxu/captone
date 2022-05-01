@@ -1,6 +1,7 @@
 import * as SalonActionTypes from "../../types/salon";
 import { api } from "../../../../api/api";
 
+//GET CURRENT SCHEDULE
 export const getScheduleCurrent = (token, info) => (dispatch) => {
   const data = new URLSearchParams({ ...info });
   return fetch(`${api}api/salonowner/current`, {
@@ -66,6 +67,7 @@ export const resetScheduleCurentList = () => (dispatch) => {
   });
 };
 
+//GET BOOKING HISTORY
 export const getSalonBookingHistory = (token, date) => (dispatch) => {
   const data = new URLSearchParams({ ...date });
   return fetch(`${api}api/salonowner/ordersHistory`, {
@@ -131,6 +133,7 @@ export const resetSalonBookingHistoryList = () => (dispatch) => {
   });
 };
 
+//GET LIST STAFF
 export const getListStaffForSalon = (token) => (dispatch) => {
   return fetch(`${api}api/salonowner/staff`, {
     method: "GET",
@@ -193,6 +196,7 @@ export const resetListStaffOfSalon = () => (dispatch) => {
   });
 };
 
+//FINISH CURRENT ORDER
 export const finishOrder = (token, orderID, successCallback) => (dispatch) => {
   const data = new URLSearchParams({ ...orderID });
   return fetch(`${api}api/salonowner/update/finshBooking`, {
@@ -251,6 +255,7 @@ const finishOrderSuccessfully = (payload) => {
   };
 };
 
+//CANCEL CURRENT ORDER
 export const cancelOrder = (token, order, successCallback) => (dispatch) => {
   const data = new URLSearchParams({ ...order });
   return fetch(`${api}api/salonowner/cancelBookingServiceBySalon`, {
@@ -309,6 +314,7 @@ const cancelOrderSuccessfully = (payload) => {
   };
 };
 
+//GET LIST SERVICE
 export const getListServiceForSalon = (token) => (dispatch) => {
   return fetch(`${api}api/salonowner/get/Service`, {
     method: "GET",
@@ -424,6 +430,8 @@ const getProfileOfSalonFailed = (errMess) => {
   };
 };
 
+
+//ADD NEW SERVICE
 export const addService =
   (token, serviceData, successCallback) => (dispatch) => {
     const data = new URLSearchParams({ ...serviceData });
@@ -483,6 +491,8 @@ const addNewServiceSuccessfully = (payload) => {
   };
 };
 
+
+//ADD NEW STAFF
 export const addStaff = (token, staffData, successCallback) => (dispatch) => {
   const data = new URLSearchParams({ ...staffData });
   return fetch(`${api}api/salonowner/create/staff`, {
@@ -541,51 +551,53 @@ const addNewStaffSuccessfully = (payload) => {
   };
 };
 
-export const editStaff = (token, staffData, successCallback,staffId) => (dispatch) => {
-  const data = new URLSearchParams({ ...staffData });
-  return fetch(`${api}api/salonowner/update/staff/${staffId}`, {
-    method: "PUT",
-    body: data,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      "x-access-token": `${token}`,
-    },
-  })
-    .then(
-      async (response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
-          const errMess = (await response.json()).message;
-          dispatch(editStaffFailed(errMess));
-          throw error;
-        }
+//EDIT STAFF PROFILE
+export const editStaff =
+  (token, staffData, successCallback, staffId) => (dispatch) => {
+    const data = new URLSearchParams({ ...staffData });
+    return fetch(`${api}api/salonowner/update/staff/${staffId}`, {
+      method: "PUT",
+      body: data,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "x-access-token": `${token}`,
       },
-      (error) => {
-        var errMess = new Error(error);
-        throw errMess;
-      }
-    )
-    .then((response) => {
-      if (response.data && response.message) {
-        dispatch(
-          editStaffSuccessfully({
-            staffEdited: response.data,
-            successMess: response.message,
-          })
-        );
-        successCallback();
-      } else {
-        dispatch(editStaffFailed(response.message));
-      }
     })
-    .catch((error) => {
-      console.log("Edit staff failed", error);
-    });
-};
+      .then(
+        async (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            const errMess = (await response.json()).message;
+            dispatch(editStaffFailed(errMess));
+            throw error;
+          }
+        },
+        (error) => {
+          var errMess = new Error(error);
+          throw errMess;
+        }
+      )
+      .then((response) => {
+        if (response.data && response.message) {
+          dispatch(
+            editStaffSuccessfully({
+              staffEdited: response.data,
+              successMess: response.message,
+            })
+          );
+          successCallback();
+        } else {
+          dispatch(editStaffFailed(response.message));
+        }
+      })
+      .catch((error) => {
+        console.log("Edit staff failed", error);
+      });
+  };
 const editStaffFailed = (errMess) => {
   return {
     type: SalonActionTypes.ADD_NEW_STAFF_FAILED,
@@ -599,9 +611,71 @@ const editStaffSuccessfully = (payload) => {
   };
 };
 
-export const deleteStaff = (token, staffData, successCallback) => (dispatch) => {
-  const data = new URLSearchParams({ ...staffData });
-  return fetch(`${api}api/salonowner/impossible/staff/`, {
+
+//DELETE STAFF
+export const deleteStaff =
+  (token, staffData, successCallback) => (dispatch) => {
+    const data = new URLSearchParams({ ...staffData });
+    return fetch(`${api}api/salonowner/impossible/staff/`, {
+      method: "PUT",
+      body: data,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "x-access-token": `${token}`,
+      },
+    })
+      .then(
+        async (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            const errMess = (await response.json()).message;
+            dispatch(deleteStaffFailed(errMess));
+            throw error;
+          }
+        },
+        (error) => {
+          var errMess = new Error(error);
+          throw errMess;
+        }
+      )
+      .then((response) => {
+        if (response.data && response.message) {
+          dispatch(
+            deleteStaffSuccessfully({
+              staffIdDeleted: response.data,
+              successMess: response.message,
+            })
+          );
+          successCallback();
+        } else {
+          dispatch(deleteStaffFailed(response.message));
+        }
+      })
+      .catch((error) => {
+        console.log("Delete staff failed", error);
+      });
+  };
+const deleteStaffFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.DELETE_STAFF_FAILED,
+    payload: errMess,
+  };
+};
+const deleteStaffSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.DELETE_STAFF_SUCCESSFULLY,
+    payload,
+  };
+};
+
+//DELETE SERVICE
+export const deleteService= (token, serviceData, successCallback) => (dispatch) => {
+  const data = new URLSearchParams({ ...serviceData });
+  return fetch(`${api}api/salonowner/update/impossibleService/`, {
     method: "PUT",
     body: data,
     headers: {
@@ -618,7 +692,7 @@ export const deleteStaff = (token, staffData, successCallback) => (dispatch) => 
             "Error " + response.status + ": " + response.statusText
           );
           const errMess = (await response.json()).message;
-          dispatch(deleteStaffFailed(errMess));
+          dispatch(deleteServiceFailed(errMess));
           throw error;
         }
       },
@@ -630,8 +704,8 @@ export const deleteStaff = (token, staffData, successCallback) => (dispatch) => 
     .then((response) => {
       if (response.data && response.message) {
         dispatch(
-          deleteStaffSuccessfully({
-            staffIdDeleted: response.data,
+          deleteServiceSuccessfully({
+            serviceIdDeleted: response.data,
             successMess: response.message,
           })
         );
@@ -641,19 +715,20 @@ export const deleteStaff = (token, staffData, successCallback) => (dispatch) => 
       }
     })
     .catch((error) => {
-      console.log("Edit staff failed", error);
+      console.log("Delete service failed", error);
     });
 };
-const deleteStaffFailed = (errMess) => {
+const deleteServiceFailed = (errMess) => {
   return {
-    type: SalonActionTypes.DELETE_STAFF_FAILED,
+    type: SalonActionTypes.DELETE_SERVICE_FAILED,
     payload: errMess,
   };
 };
-const deleteStaffSuccessfully = (payload) => {
+const deleteServiceSuccessfully = (payload) => {
   return {
-    type: SalonActionTypes.DELETE_STAFF_SUCCESSFULLY,
+    type: SalonActionTypes.DELETE_SERVICE_SUCCESSFULLY,
     payload,
   };
 };
+
 

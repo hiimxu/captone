@@ -11,6 +11,7 @@ import {
   resetListServiceOfSalon,
   getProfileOfSalon,
   addService,
+  deleteService,
 } from "../../redux/actions/creators/salon";
 import { currencyFormatter } from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
@@ -182,8 +183,34 @@ export default function ManageService() {
 
   // -- MODAL DELETE SERVICE --
   const [openDeleteService, setOpenDeleteSerive] = useState(false);
-  const handleOpenDeleteService = () => setOpenDeleteSerive(true);
-  const handleCloseDeleteService = () => setOpenDeleteSerive(false);
+  const handleOpenDeleteService = (data) => {
+    setOpenDeleteSerive(true);
+    setServiceDeleteSelected(data);
+  };
+  const handleCloseDeleteService = () => {
+    setOpenDeleteSerive(false);
+    setServiceDeleteSelected("");
+  };
+
+  //STATE DELETE SERVICE
+  const [serviceDeleteSelected, setServiceDeleteSelected] = useState("");
+
+  //DELETE SERVICE
+  const hanldeDeleteService = () => {
+    if (!serviceDeleteSelected) return;
+    const successCallback = () => {
+      dispatch(resetListServiceOfSalon());
+      handleCloseDeleteService();
+      dispatch(getListServiceForSalon(token));
+    };
+    dispatch(
+      deleteService(
+        token,
+        { serviceId: serviceDeleteSelected.serviceId },
+        successCallback
+      )
+    );
+  };
 
   // -- MODAL SALON --
   const [openSalon, setOpenSalon] = useState(false);
@@ -455,7 +482,9 @@ export default function ManageService() {
                             <div className="column is-2 has-text-right">
                               <Tooltip title="Delete" placement="right">
                                 <button
-                                  onClick={handleOpenDeleteService}
+                                  onClick={() =>
+                                    handleOpenDeleteService(service)
+                                  }
                                   className="button mr-3 mt-3 is-danger is-rounded is-small"
                                 >
                                   <i className="fa-solid fa-trash-can"></i>
@@ -881,6 +910,7 @@ export default function ManageService() {
                           <button
                             className="button is-rounded is-info ml-5"
                             style={{ width: "150px" }}
+                            onClick={hanldeDeleteService}
                           >
                             Delete
                           </button>
