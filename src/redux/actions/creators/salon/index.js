@@ -540,3 +540,62 @@ const addNewStaffSuccessfully = (payload) => {
     payload,
   };
 };
+
+export const editStaff = (token, staffData, successCallback,staffId) => (dispatch) => {
+  const data = new URLSearchParams({ ...staffData });
+  return fetch(`${api}api/salonowner/update/staff/${staffId}`, {
+    method: "PUT",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(editStaffFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data && response.message) {
+        dispatch(
+          editStaffSuccessfully({
+            staffEdited: response.data,
+            successMess: response.message,
+          })
+        );
+        successCallback();
+      } else {
+        dispatch(editStaffFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Edit staff failed", error);
+    });
+};
+const editStaffFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.ADD_NEW_STAFF_FAILED,
+    payload: errMess,
+  };
+};
+const editStaffSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.ADD_NEW_STAFF_SUCCESSFULLY,
+    payload,
+  };
+};
+

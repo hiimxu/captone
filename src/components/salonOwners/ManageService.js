@@ -384,7 +384,7 @@ export default function ManageService() {
                           className="card mb-3"
                           style={{
                             backgroundColor: " #F5F3ED",
-                            height: "12rem",
+                            minHeight: "12rem",
                             borderRadius: "25px",
                           }}
                           key={service.serviceId}
