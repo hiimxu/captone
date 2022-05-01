@@ -8,6 +8,7 @@ import {
   resetListStaffOfSalon,
   addStaff,
   editStaff,
+  deleteStaff,
 } from "../../redux/actions/creators/salon";
 
 import { useState, useEffect } from "react";
@@ -23,7 +24,10 @@ export default function SalonDashboard() {
   const [staffTitle, setStaffTitle] = useState("");
 
   //STATE EDIT STAFF
-  const [newStaffInfo, setNewStaffInfo] = useState(null);  
+  const [newStaffInfo, setNewStaffInfo] = useState(null);
+
+  //STATE DELETE STAFF
+  const [staffDeleteSelected, setStaffDeleteSelected] = useState("");
 
   //ERROR
   const [error, setError] = useState("");
@@ -99,7 +103,7 @@ export default function SalonDashboard() {
     };
     const successCallback = () => {
       dispatch(resetListStaffOfSalon);
-      setNewStaffInfo(null)
+      setNewStaffInfo(null);
       handleCloseEdit();
       dispatch(getListStaffForSalon(token));
     };
@@ -159,12 +163,31 @@ export default function SalonDashboard() {
   const handleCloseEdit = () => setOpenEdit(false);
 
   const [openDeleteStaff, setOpenDeleteStaff] = useState(false);
-  const handleOpenDeleteStaff = () => setOpenDeleteStaff(true);
-  const handleCloseDeleteStaff = () => setOpenDeleteStaff(false);
+  const handleOpenDeleteStaff = (data) => {
+    setOpenDeleteStaff(true);
+    setStaffDeleteSelected(data);
+  };
+  const handleCloseDeleteStaff = () => {
+    setOpenDeleteStaff(false);
+    setStaffDeleteSelected("");
+  };
+
+  //DELETE STAFF
+  const handleDeleteStaff = () => {
+    if (!staffDeleteSelected) return;
+    const successCallback = () => {
+      dispatch(resetListStaffOfSalon());
+      handleCloseDeleteStaff();
+      dispatch(getListStaffForSalon(token));
+    };
+    dispatch(
+      deleteStaff(token, { id: staffDeleteSelected.staffId }, successCallback)
+    );
+  };
 
   return (
     <div>
-      <div style={root}>        
+      <div style={root}>
         <div className="columns">
           <div className="column is-2"></div>
           <div
@@ -224,7 +247,9 @@ export default function SalonDashboard() {
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
                       <button
-                        onClick={handleOpenDeleteStaff}
+                        onClick={() => {
+                          handleOpenDeleteStaff(element);
+                        }}
                         className="button is-rounded is-danger"
                       >
                         <i className="fa-solid fa-trash-can"></i>
@@ -429,9 +454,7 @@ export default function SalonDashboard() {
                   <br></br>
                 </div>{" "}
                 <br></br>
-                <div>
-                  {error && <p className="text-danger">{error}</p>}                  
-                </div>
+                <div>{error && <p className="text-danger">{error}</p>}</div>
                 <div className="has-text-right">
                   <button
                     className="button is-rounded is-danger"
@@ -480,6 +503,7 @@ export default function SalonDashboard() {
             <button
               className="button is-rounded is-info ml-5"
               style={{ width: "150px" }}
+              onClick={handleDeleteStaff}
             >
               Delete
             </button>
