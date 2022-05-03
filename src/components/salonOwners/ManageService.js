@@ -17,7 +17,7 @@ import imageUnavailable from "../../assets/image-unavailable.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/creators/auth";
 
-import { Modal, Box, Tooltip } from "@mui/material";
+import { Modal, Box, Tooltip, Rating, Stack } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -123,7 +123,6 @@ export default function ManageService() {
   const fakeReview = fakeReviews;
 
   // -- API DATA --
-
   const { listService } = useSelector((state) => state.listServiceSalon);
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
@@ -148,26 +147,6 @@ export default function ManageService() {
     setValue(newValue);
   };
 
-  // -- MODAL CSS --
-  const modalcss = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 800,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    borderRadius: "25px",
-    boxShadow: 24,
-    p: 4,
-  };
-  const btnTime = {
-    width: "2rem",
-    height: "2.3rem",
-    textAlign: "center",
-    borderRadius: "15%",
-  };
-
   // -- MODAL SERVICE --
   const [openService, setOpenSerive] = useState(false);
   const handleOpenService = () => setOpenSerive(true);
@@ -189,6 +168,29 @@ export default function ManageService() {
   const [openSalon, setOpenSalon] = useState(false);
   const handleOpenSalon = () => setOpenSalon(true);
   const handleCloseSalon = () => setOpenSalon(false);
+
+  // -- RATING --
+  const [valueRating, setValueRating] = React.useState(2);
+
+  // -- MODAL CSS --
+  const modalcss = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    borderRadius: "25px",
+    boxShadow: 24,
+    p: 4,
+  };
+  const btnTime = {
+    width: "2rem",
+    height: "2.3rem",
+    textAlign: "center",
+    borderRadius: "15%",
+  };
 
   return (
     <div>
@@ -895,16 +897,38 @@ export default function ManageService() {
                         <div className="column is-3 has-text-centered">
                           <p className="has-text-info">
                             {" "}
-                            <span className="is-size-4 has-text-weight-semibold">
-                              4.5
-                            </span>
+                            <Stack spacing={1}>
+                              <span className="is-size-4 has-text-weight-semibold">
+                                4.5
+                              </span>
+                              <br></br>
+
+                              <Rating
+                                name="half-rating-read"
+                                defaultValue={2.5}
+                                precision={0.5}
+                                readOnly
+                              />
+                            </Stack>
                             <br></br>
-                            out of 5<br></br>
+                            out of 5 <br></br>
                             156 reviews
                           </p>
                         </div>
-                        <div className="column is-9 has-text-centered mt-3">
-                          <button
+                        <div className="column is-9 has-text-centered mt-3" style={{ display: "inline-block"}}>
+                          Filter :{" "}
+                          <Stack spacing={1}>
+                            <Rating
+                              name="simple-controlled"
+                              value={valueRating}
+                              defaultValue={2.5}
+                              precision={0.5}
+                              onChange={(event, newValue) => {
+                                setValueRating(newValue);
+                              }}
+                            />
+                          </Stack>
+                          {/*   <button
                             style={{
                               border: " 1px solid darkblue",
                               borderRadius: "50%",
@@ -973,7 +997,7 @@ export default function ManageService() {
                               class="fa-solid fa-star"
                               style={{ color: "gold" }}
                             ></i>
-                          </button>
+                          </button>*/}
                         </div>
                       </div>
                       <hr

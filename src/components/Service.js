@@ -231,7 +231,7 @@ export default function Service() {
 
                                   <span className="has-text-danger-dark has-text-weight-semibold">
                                     {" "}
-                                    ->{" "}
+                                    {"-> "}
                                     {currencyFormatter.format(
                                       service.price -
                                         (service.price / 100) *
@@ -336,7 +336,7 @@ export default function Service() {
                               </label>
                               <textarea
                                 id="content"
-                                style={{resize: "none"}}
+                                style={{ resize: "none" }}
                                 className=" mt-5 w-50 ml-5"
                                 placeholder="Text input"
                                 rows="5"

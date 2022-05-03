@@ -103,7 +103,7 @@ export default function SalonDashboard() {
             >
               <p>
                 {" "}
-                <i className="fa-solid fa-users"></i> Staffs{" "}
+                <i className="fa-solid fa-users"></i> Employees{" "}
               </p>
             </Link>
           </li>

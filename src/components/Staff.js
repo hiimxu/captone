@@ -21,6 +21,7 @@ export default function Staff() {
     moment().add(4, "hours").add(15, "minutes").startOf("day")
   ); // If the current time is after 7:45pm, the min date will be the next day
 
+
   const [date, setDate] = useState(minDate);
   const [staff, setStaff] = useState("");
   const [time, setTime] = useState(undefined);
@@ -157,6 +158,8 @@ export default function Staff() {
                       </span>
                     </p>
                   </div>
+                  <br></br>
+                  <p className="has-text-danger"> {selectedServiceId}</p>
                 </div>
               ))}
             </div>
