@@ -22,6 +22,7 @@ import {
   ListService,
   ProfileSalon,
   AddNewService,
+  EditStaff
 } from "../reducers/salon";
 import { Profile } from "../reducers/profile";
 import { persistStore, persistReducer } from "redux-persist";
@@ -57,6 +58,7 @@ const rootReducer = combineReducers({
   listServiceSalon: ListService,
   profileSalon: ProfileSalon,
   addNewService: AddNewService,
+  editStaffProfile: EditStaff
 });
 
 export const ConfigureStore = () => {

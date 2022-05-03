@@ -136,6 +136,34 @@ export const AddNewService = (
   }
 };
 
+export const EditStaff = (
+  state = {
+    staffEdited: null,
+    successMess: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.ADD_NEW_STAFF_FAILED:
+      return {
+        ...state,
+        newStaffAdded: null,
+        successMess: null,
+        errMess: action.payload.errMess,
+      };
+    case SalonActionTypes.ADD_NEW_STAFF_SUCCESSFULLY:
+      return {
+        ...state,
+        newStaffAdded: action.payload.newStaffAdded,
+        successMess: action.payload.successMess,
+        errMess: null,
+      };
+
+    default:
+      return state;
+  }
+};
 export const AddNewStaff = (
   state = {
     newStaffAdded: null,
