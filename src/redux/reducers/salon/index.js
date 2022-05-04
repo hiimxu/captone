@@ -185,3 +185,38 @@ export const AddNewStaff = (
       return state;
   }
 };
+
+export const EditService = (
+  state = {
+    serviceEdited: null,
+    successMess: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.EDIT_SERVICE_FAILED:
+      return {
+        ...state,
+        serviceEdited: null,
+        successMess: null,
+        errMess: action.payload.errMess,
+      };
+    case SalonActionTypes.EDIT_SERVICE_SUCCESSFULLY:
+      return {
+        ...state,
+        serviceEdited: action.payload.serviceEdited,
+        successMess: action.payload.successMess,
+        errMess: null,
+      };
+    case SalonActionTypes.GET_SERVICE_LIST_FOR_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        serviceEdited: null,
+        successMess: null,
+        errMess: null,
+      };
+    default:
+      return state;
+  }
+};

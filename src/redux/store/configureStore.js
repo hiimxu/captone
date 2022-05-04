@@ -22,11 +22,12 @@ import {
   ListService,
   ProfileSalon,
   AddNewService,
-  EditStaff
+  EditStaff,EditService
 } from "../reducers/salon";
 import { Profile } from "../reducers/profile";
 import { persistStore, persistReducer } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
+
 
 const loginConfig = {
   key: "loginAccount",
@@ -58,7 +59,8 @@ const rootReducer = combineReducers({
   listServiceSalon: ListService,
   profileSalon: ProfileSalon,
   addNewService: AddNewService,
-  editStaffProfile: EditStaff
+  editStaffProfile: EditStaff,
+  editService: EditService
 });
 
 export const ConfigureStore = () => {

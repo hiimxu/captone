@@ -145,14 +145,14 @@ const SwitchRoutes = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="forgot_password" element={<ForgotPassword />} />
+<<<<<<< HEAD
             <Route path="History" element={<History />} />
             {/* <Route path="Profile" element={<Profile />} /> */}
+=======
+>>>>>>> 9c4bcd0 (done feature edit service for salon)
             <Route path="*" element={<Navigate to="/login" />} />
             {/* Salon */}
             <Route path="/register_salon" element={<RegisterSalon />} />
-            <Route path="/SalonStaff" element={<SalonStaff />} />
-            <Route path="manage_service" element={<ManageService />} />
-            <Route path="SalonBusinessInfo" element={<SalonBusinessInfo />} />
             {/*  */}
           </Routes>
         </div>

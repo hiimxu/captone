@@ -12,6 +12,7 @@ import {
   getProfileOfSalon,
   addService,
   deleteService,
+  editService,
 } from "../../redux/actions/creators/salon";
 import { currencyFormatter } from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
@@ -39,6 +40,9 @@ export default function ManageService() {
   const [priceError, setPiceError] = useState(false);
   const [promotioError, setPromotionError] = useState(false);
 
+  //STATE EDIT SERVICE
+  const [serviceInfo, setServiceInfo] = useState(undefined);
+
   //setServiceTime,
   const addTime = () => {
     setServiceTime(serviceTime + 15);
@@ -48,6 +52,32 @@ export default function ManageService() {
       setServiceTime(serviceTime - 15);
     } else {
       setServiceTime(15);
+    }
+  };
+
+  const addTimeEdit = () => {
+    if (!serviceInfo) {
+      return;
+    } else {
+      setServiceInfo({
+        ...serviceInfo,
+        service_time: serviceInfo.service_time + 15,
+      });
+    }
+  };
+
+  const minusTimeEdit = (time) => {
+    if (!serviceInfo) return;
+    if (serviceInfo?.service_time >= 30) {
+      setServiceInfo({
+        ...serviceInfo,
+        service_time: serviceInfo.service_time - 15,
+      });
+    } else {
+      setServiceInfo({
+        ...serviceInfo,
+        service_time: 15,
+      });
     }
   };
 
@@ -157,8 +187,14 @@ export default function ManageService() {
 
   // -- MODAL EDIT SERVICE --
   const [openEditService, setOpenEditService] = useState(false);
-  const handleOpenEditService = () => setOpenEditService(true);
-  const handleCloseEditService = () => setOpenEditService(false);
+  const handleOpenEditService = (serviceInfo) => {
+    setOpenEditService(true);
+    setServiceInfo(serviceInfo);
+  };
+  const handleCloseEditService = () => {
+    setOpenEditService(false);
+    setServiceInfo(undefined);
+  };
 
   // -- MODAL DELETE SERVICE --
   const [openDeleteService, setOpenDeleteSerive] = useState(false);
@@ -191,14 +227,80 @@ export default function ManageService() {
     );
   };
 
-  // -- MODAL SALON --
+  //CALL SUCESSMESS EDIT SERVICE
+  const { serviceEdited, successMess } = useSelector(
+    (state) => state.editService
+  );
+
+  // STATE ERROR FOR EDIT SERVICE
+  const [editError, setEditError] = useState(null);
+
+  //EDIT SERVICE
+  const handleEditService = (event) => {
+    event.preventDefault();
+    const {
+      name,
+      price,
+      service_time,
+      promotion,
+      content,
+      description,
+      image,
+    } = serviceInfo;
+    console.log(serviceInfo);
+    if (
+      !name ||
+      !price ||
+      !service_time ||
+      !content ||
+      !description ||
+      !image
+    ) {
+      setEditError("Please enter all the fields!");
+      return;
+    }
+    if (price <= 0) {
+      setEditError("Price is a number greater than 0.");
+    }
+    if (promotion < 0) {
+      setEditError("Promotion is a number greater than or equal to 0..");
+    }
+    setEditError(null);
+    const submitServiceObject = {
+      name,
+      price,
+      service_time,
+      promotion,
+      content,
+      description,
+      image,
+    };
+    const successCallback = () => {
+      handleCloseEditService();
+      dispatch(resetListServiceOfSalon());
+      dispatch(getListServiceForSalon(token));
+    };
+    dispatch(
+      editService(
+        token,
+        submitServiceObject,
+        successCallback,
+        serviceInfo.serviceId
+      )
+    );
+  };
+
+  // -- MODAL EDIT PROFILE SALON --
   const [openSalon, setOpenSalon] = useState(false);
   const handleOpenSalon = () => setOpenSalon(true);
   const handleCloseSalon = () => setOpenSalon(false);
 
+<<<<<<< HEAD
   // -- RATING --
   const [valueRating, setValueRating] = React.useState(2);
 
+=======
+>>>>>>> 9c4bcd0 (done feature edit service for salon)
   // -- MODAL CSS --
   const modalcss = {
     position: "absolute",
@@ -495,7 +597,7 @@ export default function ManageService() {
                               <br></br>
                               <Tooltip title="Edit" placement="right">
                                 <button
-                                  onClick={handleOpenEditService}
+                                  onClick={() => handleOpenEditService(service)}
                                   className="button mr-3 is-primary is-rounded  mt-3 is-small"
                                 >
                                   <i class="fa-solid fa-pen-to-square"></i>
@@ -714,9 +816,12 @@ export default function ManageService() {
                               <input
                                 type="text"
                                 className="form-control form-control-lg"
-                                value={serviceName}
+                                value={serviceInfo?.name}
                                 onChange={(event) => {
-                                  setServiceName(event.target.value);
+                                  setServiceInfo({
+                                    ...serviceInfo,
+                                    name: event.target.value,
+                                  });
                                 }}
                                 placeholder="Service's name*"
                               />
@@ -729,9 +834,12 @@ export default function ManageService() {
                                 type="text"
                                 className="form-control form-control-lg"
                                 disabled
-                                value={serviceTime}
+                                value={serviceInfo?.service_time}
                                 onChange={(event) => {
-                                  setServiceTime(event.target.value);
+                                  setServiceInfo({
+                                    ...serviceInfo,
+                                    service_time: event.target.value,
+                                  });
                                 }}
                                 placeholder="Service's time"
                               />
@@ -748,7 +856,7 @@ export default function ManageService() {
                                   className="btn btn-outline-secondary bg-dark text-white mr-1 ml-1"
                                   type="button"
                                   style={btnTime}
-                                  onClick={addTime}
+                                  onClick={addTimeEdit}
                                 >
                                   +
                                 </button>
@@ -756,7 +864,7 @@ export default function ManageService() {
                                   className="btn btn-outline-secondary bg-dark text-white"
                                   type="button"
                                   style={btnTime}
-                                  onClick={minusTime}
+                                  onClick={minusTimeEdit}
                                 >
                                   -
                                 </button>
@@ -771,10 +879,13 @@ export default function ManageService() {
                                 <input
                                   type="number"
                                   className="form-control form-control-lg"
-                                  value={price}
                                   min="0"
+                                  value={serviceInfo?.price}
                                   onChange={(event) => {
-                                    setPrice(event.target.value);
+                                    setServiceInfo({
+                                      ...serviceInfo,
+                                      price: event.target.value,
+                                    });
                                   }}
                                   placeholder="Price*"
                                 />
@@ -792,9 +903,12 @@ export default function ManageService() {
                                   type="number"
                                   className="form-control form-control-lg"
                                   min="0"
-                                  value={promotion}
+                                  value={serviceInfo?.promotion}
                                   onChange={(event) => {
-                                    setPromotion(event.target.value);
+                                    setServiceInfo({
+                                      ...serviceInfo,
+                                      promotion: event.target.value,
+                                    });
                                   }}
                                   placeholder="Promotion*"
                                 />
@@ -808,23 +922,7 @@ export default function ManageService() {
                                 </div>
                               </div>
                             </div>
-                            <div className="row">
-                              <div className="col-6">
-                                {priceError && (
-                                  <p className="text-danger">
-                                    Price is a number greater than 0.
-                                  </p>
-                                )}
-                              </div>
-                              <div className="col-6">
-                                {promotioError && (
-                                  <p className="text-danger">
-                                    Promotion is a number greater than or equal
-                                    to 0
-                                  </p>
-                                )}
-                              </div>
-                            </div>
+
                             <div>
                               <label>Content:</label>
                             </div>
@@ -832,9 +930,12 @@ export default function ManageService() {
                               <input
                                 type="text"
                                 className="form-control form-control-lg"
-                                value={content}
+                                value={serviceInfo?.content}
                                 onChange={(event) => {
-                                  setContent(event.target.value);
+                                  setServiceInfo({
+                                    ...serviceInfo,
+                                    content: event.target.value,
+                                  });
                                 }}
                                 placeholder="Content*"
                               />
@@ -846,9 +947,12 @@ export default function ManageService() {
                               <input
                                 type="text"
                                 className="form-control form-control-lg"
-                                value={imageService}
+                                value={serviceInfo?.image}
                                 onChange={(event) => {
-                                  setImageService(event.target.value);
+                                  setServiceInfo({
+                                    ...serviceInfo,
+                                    image: event.target.value,
+                                  });
                                 }}
                                 placeholder="Image*"
                               />
@@ -862,12 +966,23 @@ export default function ManageService() {
                                 cols={50}
                                 type="text"
                                 className="form-control form-control-lg"
-                                value={description}
+                                value={serviceInfo?.description}
                                 onChange={(event) => {
-                                  setDescription(event.target.value);
+                                  setServiceInfo({
+                                    ...serviceInfo,
+                                    description: event.target.value,
+                                  });
                                 }}
                                 placeholder="Description"
                               />
+                            </div>
+                            <div>
+                              {successMess && (
+                                <p className="text-success">{successMess}</p>
+                              )}
+                              {editError && (
+                                <p className="text-danger">{editError}</p>
+                              )}
                             </div>
 
                             <div className="has-text-right">
@@ -878,7 +993,10 @@ export default function ManageService() {
                                 {" "}
                                 Cancel
                               </button>
-                              <button className="button is-rounded is-primary ml-4">
+                              <button
+                                className="button is-rounded is-primary ml-4"
+                                onClick={handleEditService}
+                              >
                                 {" "}
                                 Add
                               </button>

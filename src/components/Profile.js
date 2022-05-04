@@ -240,7 +240,7 @@ export default function Profile() {
                   {reservationErrMess && <ErrorText>{reservationErrMess}</ErrorText>}
                 </>
               ) : (
-                <Loading />
+                <UserInfoText className="text-center">You don't have any reservation</UserInfoText>
               ))}
             {selectedTab === 1 &&
               (historyList?.length > 0 ? (
