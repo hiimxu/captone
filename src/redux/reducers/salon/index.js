@@ -220,3 +220,39 @@ export const EditService = (
       return state;
   }
 };
+
+
+export const EditBusinessInfo = (
+  state = {
+    businessInfoEdited: null,
+    successMess: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.EDIT_SALON_BUSINESS_INFO_FAILED:
+      return {
+        ...state,
+        businessInfoEdited: null,
+        successMess: null,
+        errMess: action.payload.errMess,
+      };
+    case SalonActionTypes.EDIT_SALON_BUSINESS_INFO_SUCCESSFULLY:
+      return {
+        ...state,
+        businessInfoEdited: action.payload.businessInfoEdited,
+        successMess: action.payload.successMess,
+        errMess: null,
+      };
+    case SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        businessInfoEdited: null,
+        successMess: null,
+        errMess: null,
+      };
+    default:
+      return state;
+  }
+};

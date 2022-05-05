@@ -447,6 +447,7 @@ export default function ManageService() {
                             className=" mt-5 w-50 ml-5"
                             placeholder="Text input"
                             rows="5"
+                            maxLength={200}
                           />{" "}
                           <br></br>
                           <label className="mt-5" for="picture">
