@@ -295,12 +295,9 @@ export default function ManageService() {
   const handleOpenSalon = () => setOpenSalon(true);
   const handleCloseSalon = () => setOpenSalon(false);
 
-<<<<<<< HEAD
   // -- RATING --
   const [valueRating, setValueRating] = React.useState(2);
 
-=======
->>>>>>> 9c4bcd0 (done feature edit service for salon)
   // -- MODAL CSS --
   const modalcss = {
     position: "absolute",
