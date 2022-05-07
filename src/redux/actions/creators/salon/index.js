@@ -860,3 +860,67 @@ const editBusinessInfoSuccessfully = (payload) => {
     payload,
   };
 };
+
+// EDIT SALON INFO
+export const editSalonInfo =
+  (token, infoData, successCallback) => (dispatch) => {
+    const data = new URLSearchParams({ ...infoData });
+    return fetch(`${api}api/salonowner/update/salonInformationForCustomer/`, {
+      method: "PUT",
+      body: data,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "x-access-token": `${token}`,
+      },
+    })
+      .then(
+        async (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            const errMess = (await response.json()).message;
+            dispatch(editSalonInfoFailed(errMess));
+            throw error;
+          }
+        },
+        (error) => {
+          var errMess = new Error(error);
+          throw errMess;
+        }
+      )
+      .then((response) => {
+        if (response.data && response.message) {
+          dispatch(
+            editSalonInfoSuccessfully({
+              salonInfoEdited: response.data,
+              successMess: response.message,
+            })
+          );
+          if (successCallback) {
+            setTimeout(() => {
+              successCallback();
+            }, 1500);
+          }
+        } else {
+          dispatch(editSalonInfoFailed(response.message));
+        }
+      })
+      .catch((error) => {
+        console.log("Edit business info failed", error);
+      });
+  };
+const editSalonInfoFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.EDIT_SALON_INFO_FAILED,
+    payload: errMess,
+  };
+};
+const editSalonInfoSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.EDIT_SALON_INFO_SUCCESSFULLY,
+    payload,
+  };
+};

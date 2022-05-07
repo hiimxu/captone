@@ -22,12 +22,20 @@ import {
   ListService,
   ProfileSalon,
   AddNewService,
-  EditStaff,EditService,EditBusinessInfo
+  EditStaff,
+  EditService,
+  EditBusinessInfo,
+  EditSalonInfo,
 } from "../reducers/salon";
+import {
+  ListSalonActive,
+  ListSalonDeactive,
+  ListSalonRequest,
+} from "../reducers/admin";
+
 import { Profile } from "../reducers/profile";
 import { persistStore, persistReducer } from "redux-persist";
 import storageSession from "redux-persist/lib/storage/session";
-
 
 const loginConfig = {
   key: "loginAccount",
@@ -61,7 +69,12 @@ const rootReducer = combineReducers({
   addNewService: AddNewService,
   editStaffProfile: EditStaff,
   editService: EditService,
-  editBusinessInfo:EditBusinessInfo
+  editBusinessInfo: EditBusinessInfo,
+  editSalonInfo: EditSalonInfo,
+  //admin
+  litSalonActivated: ListSalonActive,
+  listSalonDeactive: ListSalonDeactive,
+  listSalonRequest: ListSalonRequest,
 });
 
 export const ConfigureStore = () => {

@@ -236,7 +236,7 @@ export const EditBusinessInfo = (
         ...state,
         businessInfoEdited: null,
         successMess: null,
-        errMess: action.payload.errMess,
+        errMess: action.payload,
       };
     case SalonActionTypes.EDIT_SALON_BUSINESS_INFO_SUCCESSFULLY:
       return {
@@ -251,6 +251,41 @@ export const EditBusinessInfo = (
         businessInfoEdited: null,
         successMess: null,
         errMess: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const EditSalonInfo = (
+  state = {
+    salonInfoEdited: null,
+    successMess: null,
+    errMessage: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.EDIT_SALON_INFO_FAILED:
+      return {
+        ...state,
+        salonInfoEdited: null,
+        successMess: null,
+        errMessage: action.payload,
+      };
+    case SalonActionTypes.EDIT_SALON_INFO_SUCCESSFULLY:
+      return {
+        ...state,
+        salonInfoEdited: action.payload.salonInfoEdited,
+        successMess: action.payload.successMess,
+        errMessage: null,
+      };
+    case SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        salonInfoEdited: null,
+        successMess: null,
+        errMessage: null,
       };
     default:
       return state;

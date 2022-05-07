@@ -5,6 +5,8 @@ import fakeReviews from "../../components/mockUp/review.json";
 import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import patterbg from "../../assets/patterbg.svg";
+import { districts, times } from "../../assets/data/data.js";
+import { validEmail, validPhone } from "../../validations/regex";
 
 import {
   getListServiceForSalon,
@@ -13,6 +15,7 @@ import {
   addService,
   deleteService,
   editService,
+  editSalonInfo,
 } from "../../redux/actions/creators/salon";
 import { currencyFormatter } from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
@@ -24,6 +27,32 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+
+// -- MODAL CSS --
+const modalcss = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 800,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  borderRadius: "25px",
+  boxShadow: 24,
+  p: 4,
+};
+const btnTime = {
+  width: "2rem",
+  height: "2.3rem",
+  textAlign: "center",
+  borderRadius: "15%",
+};
+
+const root = {
+  backgroundImage: `url(${bgImg})`,
+  backgroundRepeat: "repeat-y",
+  backgroundSize: "100%",
+};
 
 export default function ManageService() {
   //create state for add service
@@ -143,11 +172,6 @@ export default function ManageService() {
     }
   };
 
-  const root = {
-    backgroundImage: `url(${bgImg})`,
-    backgroundRepeat: "repeat-y",
-    backgroundSize: "100%",
-  };
   const dispatch = useDispatch();
   // -- FIXED DATA --
   // const fakeServiceList = serviceLists;
@@ -298,24 +322,79 @@ export default function ManageService() {
   // -- RATING --
   const [valueRating, setValueRating] = React.useState(2);
 
-  // -- MODAL CSS --
-  const modalcss = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 800,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    borderRadius: "25px",
-    boxShadow: 24,
-    p: 4,
-  };
-  const btnTime = {
-    width: "2rem",
-    height: "2.3rem",
-    textAlign: "center",
-    borderRadius: "15%",
+  //STATE EDIT BUSINESS INFO
+  const [businessInfo, setBusinessInfo] = useState(null);
+
+  //LOAD BUSINESS INFO
+  useEffect(() => {
+    if (profileSalon) {
+      setBusinessInfo(profileSalon[0]);
+    }
+  }, [profileSalon]);
+
+  // VALIDATE ERROR MESSAGE STATE
+  const [emptyError, setEmptyError] = useState(false);
+  const [phoneErr, setPhoneErr] = useState(false);
+
+  // CALL EDIT SALON FROM REDUX
+  const { salonInfoEdited, successMessage, errMessage } = useSelector(
+    (state) => state.editSalonInfo
+  );
+
+  // EDIT SALON INFO
+  const handleEditSalonInfo = (e) => {
+    e.preventDefault();
+    setEmptyError(false);
+    setPhoneErr(false);
+    const {
+      nameSalon,
+      phone,
+      timeOpen,
+      timeClose,
+      district,
+      city,
+      detailAddress,
+      image,
+      description,
+    } = businessInfo;
+
+    if (
+      !nameSalon ||
+      !description ||
+      !phone ||
+      !district ||
+      !city ||
+      !detailAddress ||
+      !timeOpen ||
+      !timeClose ||
+      !image
+    ) {
+      setEmptyError(true);
+      return;
+    }
+    if (!validPhone.test(phone)) {
+      setPhoneErr(true);
+      return;
+    }
+    setEmptyError(false);
+    setPhoneErr(false);
+    const submitOjb = {
+      nameSalon,
+      phone,
+      timeOpen,
+      timeClose,
+      district,
+      city,
+      detailAddress,
+      image,
+      description,
+    };
+    console.log(submitOjb);
+    const callback = () => {
+      handleCloseSalon();
+      dispatch(getProfileOfSalon(token));
+    };
+    dispatch(editSalonInfo(token, submitOjb, callback));
   };
 
   return (
@@ -361,8 +440,7 @@ export default function ManageService() {
                           <p className="is-size-5 font-weight-bold">
                             Open:{" "}
                             <span className="text-danger">
-                              Mon-Sun {salon.timeOpen.slice(0, -3)} -{" "}
-                              {salon.timeClose.slice(0, -3)}
+                              Mon-Sun {salon.timeOpen} - {salon.timeClose}
                             </span>
                           </p>
                           <p>
@@ -385,7 +463,9 @@ export default function ManageService() {
                               {salon.detailAddress}
                             </span>
                           </p>
-                          <p>{salon.description}</p>
+                          <div>
+                            <span>{salon.description}</span>
+                          </div>
                         </div>
                         <div className="has-text-right mb-5 mr-5">
                           <button
@@ -409,73 +489,259 @@ export default function ManageService() {
               >
                 <Box sx={modalcss}>
                   <div>
-                    <form action="" method="post" className="editSalon">
-                      <fieldset>
-                        <div
-                          className="has-text-right"
-                          style={{ marginRight: "100px" }}
-                        >
-                          <br></br>
-                          <label className="mt-5" for="TimeOpen">
-                            Salon open time:
-                          </label>
+                    <form>
+                      <div className="form-outline mb-4">
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text" id="">
+                              Salon's name
+                            </span>
+                          </div>
                           <input
-                            id="TimeOpen"
-                            className="input mt-5 w-50 ml-5"
-                            style={{ height: "30px" }}
-                            type="time"
-                            placeholder="Text input"
-                          />{" "}
-                          <br></br>
-                          <label className="mt-5" for="TimeClose">
-                            Salon close time:
-                          </label>
+                            type="text"
+                            className="form-control"
+                            maxLength={40}
+                            value={businessInfo?.nameSalon}
+                            onChange={(e) => {
+                              setBusinessInfo({
+                                ...businessInfo,
+                                nameSalon: e.target.value,
+                              });
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4">
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text" id="">
+                              Phone
+                            </span>
+                          </div>
                           <input
-                            id="TimeClose"
-                            className="input mt-5 w-50 ml-5"
-                            style={{ height: "30px" }}
-                            type="time"
-                            placeholder="Text input"
-                          />{" "}
-                          <br></br>
-                          <label className="mt-5" for="Description">
+                            type="text"
+                            className="form-control"
+                            maxLength={40}
+                            value={businessInfo?.phone}
+                            onChange={(e) => {
+                              setBusinessInfo({
+                                ...businessInfo,
+                                phone: e.target.value,
+                              });
+                            }}
+                          />
+                        </div>
+                        {phoneErr && (
+                          <p className="text-danger">Your phone is invalid!</p>
+                        )}
+                      </div>
+
+                      <div className="form-outline mb-4">
+                        <div className="input-group mb-3">
+                          <div className="input-group-prepend">
+                            <label
+                              className="input-group-text"
+                              htmlFor="inputGroupSelect01"
+                            >
+                              District
+                            </label>
+                          </div>
+                          <select
+                            className="custom-select"
+                            id="inputGroupSelect01"
+                            onChange={(e) => {
+                              setBusinessInfo({
+                                ...businessInfo,
+                                district: e.target.value,
+                              });
+                            }}
+                          >
+                            <option defaultValue={businessInfo?.district}>
+                              {businessInfo?.district}
+                            </option>
+                            {districts.map((district) => (
+                              <option
+                                key={district.toString()}
+                                value={district}
+                              >
+                                {district}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="input-group-prepend ml-3">
+                            <label
+                              className="input-group-text"
+                              htmlFor="inputGroupSelect02"
+                            >
+                              City
+                            </label>
+                          </div>
+                          <select
+                            className="custom-select"
+                            id="inputGroupSelect02"
+                          >
+                            <option value={businessInfo?.city}>
+                              {businessInfo?.city}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-outline mb-4">
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text" id="">
+                              Address
+                            </span>
+                          </div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            maxLength={40}
+                            value={businessInfo?.detailAddress}
+                            onChange={(e) => {
+                              setBusinessInfo({
+                                ...businessInfo,
+                                detailAddress: e.target.value,
+                              });
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-outline mb-4">
+                        <div className="input-group mb-3">
+                          <div className="input-group-prepend">
+                            <label
+                              className="input-group-text"
+                              htmlFor="inputGroupSelect03"
+                            >
+                              Open
+                            </label>
+                          </div>
+                          <select
+                            className="custom-select"
+                            id="inputGroupSelect03"
+                            onChange={(e) => {
+                              setBusinessInfo({
+                                ...businessInfo,
+                                timeOpen: e.target.value,
+                              });
+                            }}
+                          >
+                            <option defaultValue={businessInfo?.timeOpen}>
+                              {businessInfo?.timeOpen}
+                            </option>
+                            {times.map((time) => (
+                              <option key={time.toString()} value={time}>
+                                {time}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="input-group-prepend ml-3">
+                            <label
+                              className="input-group-text"
+                              htmlFor="inputGroupSelect04"
+                            >
+                              Close
+                            </label>
+                          </div>
+                          <select
+                            className="custom-select"
+                            id="inputGroupSelect04"
+                            onChange={(e) => {
+                              setBusinessInfo({
+                                ...businessInfo,
+                                timeClose: e.target.value,
+                              });
+                            }}
+                          >
+                            <option value={businessInfo?.timeClose}>
+                              {businessInfo?.timeClose}
+                            </option>
+                            {times.map((time) => (
+                              <option key={time.toString()} value={time}>
+                                {time}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="form-outline mb-4">
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text" id="">
+                              Salon's image
+                            </span>
+                          </div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            maxLength={2000}
+                            value={businessInfo?.image}
+                            onChange={(e) => {
+                              setBusinessInfo({
+                                ...businessInfo,
+                                image: e.target.value,
+                              });
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="">
+                        <div className="form-group">
+                          <label className="font-weight-bold">
                             Description:
                           </label>
                           <textarea
-                            id="Description"
-                            style={{ resize: "none" }}
-                            className=" mt-5 w-50 ml-5"
-                            placeholder="Text input"
-                            rows="5"
-                            maxLength={200}
-                          />{" "}
-                          <br></br>
-                          <label className="mt-5" for="picture">
-                            Salon's picture:
-                          </label>
-                          <input
-                            id="picture"
-                            className="mt-5 ml-5"
-                            type="file"
-                            accept="image/*"
+                            value={businessInfo?.description}
+                            type="text"
+                            className="form-control"
+                            maxLength={2000}
+                            onChange={(e) => {
+                              setBusinessInfo({
+                                ...businessInfo,
+                                description: e.target.value,
+                              });
+                            }}
+                            placeholder="Description for your salon"
+                            style={{ minHeight: "10rem" }}
                           />
-                        </div>{" "}
-                        <br></br>
-                        <div className="has-text-right">
-                          <button
-                            className="button is-rounded is-danger"
-                            onClick={handleCloseSalon}
-                          >
-                            {" "}
-                            Cancel
-                          </button>
-                          <input
-                            className="button is-rounded is-info ml-5"
-                            type="submit"
-                            value="Add"
-                          ></input>
                         </div>
-                      </fieldset>
+                      </div>
+
+                      <div className="text-center">
+                        {successMessage && (
+                          <p className="text-success">
+                            Edit salon info successfully
+                          </p>
+                        )}
+                        {errMessage && (
+                          <p className="text-danger">{errMessage}</p>
+                        )}
+                        {emptyError && (
+                          <p className="text-danger">
+                            Please enter all the fields
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="has-text-right">
+                        <button
+                          className="button is-rounded is-danger"
+                          onClick={handleCloseSalon}
+                        >
+                          {" "}
+                          Cancel
+                        </button>
+                        <button
+                          className="button is-rounded is-primary ml-4"
+                          onClick={handleEditSalonInfo}
+                        >
+                          {" "}
+                          Edit
+                        </button>
+                      </div>
                     </form>
                   </div>
                 </Box>
@@ -1061,7 +1327,10 @@ export default function ManageService() {
                             156 reviews
                           </p>
                         </div>
-                        <div className="column is-9 has-text-centered mt-3" style={{ display: "inline-block"}}>
+                        <div
+                          className="column is-9 has-text-centered mt-3"
+                          style={{ display: "inline-block" }}
+                        >
                           Filter :{" "}
                           <Stack spacing={1}>
                             <Rating

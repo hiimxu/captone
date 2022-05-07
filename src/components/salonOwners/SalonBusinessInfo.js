@@ -3,43 +3,23 @@ import bgImg from "../../assets/barbershopbg.jpg";
 import imageUnavailable from "../../assets/image-unavailable.png";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProfileOfSalon,editSalonBusinessInfo } from "../../redux/actions/creators/salon";
+import {
+  getProfileOfSalon,
+  editSalonBusinessInfo,
+} from "../../redux/actions/creators/salon";
 import { Modal, Box, Tooltip } from "@mui/material";
 import { logout } from "../../redux/actions/creators/auth";
 import { districts, times } from "../../assets/data/data.js";
 import { validEmail, validPhone } from "../../validations/regex";
 // CSS
-const btnSubmit = {
-  border: "none",
-  borderRadius: "0.5rem",
-  padding: "1%",
-  marginTop: "2rem",
-  width: "30%",
-  height: "2.6rem",
-  cursor: "pointer",
-  background: "#0062cc",
-  color: "#fff",
-  fontSize: "1.3rem",
+
+const root = {
+  backgroundImage: `url(${bgImg})`,
+  backgroundRepeat: "repeat-y",
+  backgroundSize: "100%",
 };
 
 export default function SalonDashboard() {
-  const root = {
-    backgroundImage: `url(${bgImg})`,
-    backgroundRepeat: "repeat-y",
-    backgroundSize: "100%",
-  };
-  // const profileSalon = {
-  //   salonId: "1",
-  //   salonName: "Golden Scissor",
-  //   taxCode: "6234vs02hf82",
-  //   phone: "092 312 5123",
-  //   timeOpen: "07:30:00",
-  //   timeClose: "20:00:00",
-  //   address: "Ba Đình, Hà Nội",
-  //   email: "salon.goldenscissor@gmail.com",
-  //   image:
-  //     "https://camnanghaiphong.vn/wp-content/uploads/2022/02/Top-10-tiem-salon-toc-chat-luong-Hai-Phong.jpg",
-  // };
   const dispatch = useDispatch();
 
   // -- GET SALON PROFILE --
@@ -54,12 +34,17 @@ export default function SalonDashboard() {
   // -- MODAL --
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  
+  const handleClose = () => {
+    if (profileSalon) {
+      setBusinessInfo(profileSalon[0]);
+    }
+    setOpen(false);
+  };
 
   //LOAD REDUX EDIT BUSINESS INFO
-  const { businessInfoEdited,successMess,errMess } = useSelector((state) => state.editBusinessInfo);
+  const { businessInfoEdited, successMess, errMess } = useSelector(
+    (state) => state.editBusinessInfo
+  );
   //STATE EDIT BUSINESS INFO
   const [businessInfo, setBusinessInfo] = useState(null);
 
@@ -67,7 +52,6 @@ export default function SalonDashboard() {
   useEffect(() => {
     if (profileSalon) {
       setBusinessInfo(profileSalon[0]);
-      console.log(businessInfo);
     }
   }, [profileSalon]);
 
@@ -136,12 +120,12 @@ export default function SalonDashboard() {
       timeClose,
       image,
     };
-    console.log(submitOjb);
+    
     const successCallback = () => {
       handleClose();
       dispatch(getProfileOfSalon(token));
     };
-    dispatch(editSalonBusinessInfo(token,submitOjb,successCallback))
+    dispatch(editSalonBusinessInfo(token, submitOjb, successCallback));
   };
 
   return profileSalon ? (
@@ -454,7 +438,7 @@ export default function SalonDashboard() {
                     }}
                   >
                     <option defaultValue={businessInfo?.timeOpen}>
-                      {businessInfo?.timeOpen.slice(0, -3)}
+                      {businessInfo?.timeOpen}
                     </option>
                     {times.map((time) => (
                       <option key={time.toString()} value={time}>
@@ -481,7 +465,7 @@ export default function SalonDashboard() {
                     }}
                   >
                     <option value={businessInfo?.timeClose}>
-                      {businessInfo?.timeClose.slice(0, -3)}
+                      {businessInfo?.timeClose}
                     </option>
                     {times.map((time) => (
                       <option key={time.toString()} value={time}>
@@ -515,7 +499,9 @@ export default function SalonDashboard() {
               <div>
                 {successMess && <p className="text-success">{successMess}</p>}
                 {errMess && <p className="text-danger">{errMess}</p>}
-                {emptyError && <p className="text-danger">Please enter all the fields</p>}
+                {emptyError && (
+                  <p className="text-danger">Please enter all the fields</p>
+                )}
               </div>
 
               <div className="has-text-right">
