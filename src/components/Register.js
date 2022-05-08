@@ -238,6 +238,7 @@ export default function Register() {
                     <input
                       className="form-control"
                       type="text"
+                      maxLength={40}
                       value={name}
                       onChange={handleName}
                       placeholder="Enter your name"
@@ -247,6 +248,7 @@ export default function Register() {
                     <input
                       className="form-control"
                       type="text"
+                      maxLength={40}
                       value={phone}
                       onChange={handlePhone}
                       placeholder="Phone number"
@@ -267,6 +269,7 @@ export default function Register() {
                   <input
                     className="form-control"
                     type="text"
+                    maxLength={40}
                     value={address}
                     onChange={handleFirstname}
                     placeholder="Enter your address"

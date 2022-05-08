@@ -390,6 +390,7 @@ export default function SalonDashboard() {
                     className="input w-50 ml-5"
                     style={{ height: "30px" }}
                     type="text"
+                    maxLength={40}
                     placeholder="Text input"
                     value={newStaffInfo?.name}
                     onChange={(e) => {
@@ -406,6 +407,7 @@ export default function SalonDashboard() {
                     className="input mt-5 w-50 ml-5"
                     style={{ height: "30px" }}
                     type="text"
+                    maxLength={40}
                     placeholder="Text input"
                     value={newStaffInfo?.title}
                     onChange={(e) => {
@@ -442,6 +444,7 @@ export default function SalonDashboard() {
                     className="input w-50 mt-5 ml-5"
                     style={{ height: "30px" }}
                     type="text"
+                    maxLength={40}
                     placeholder="Text input"
                     value={newStaffInfo?.address}
                     onChange={(e) => {

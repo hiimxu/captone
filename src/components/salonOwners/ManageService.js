@@ -887,6 +887,7 @@ export default function ManageService() {
                             <div className="form-outline mb-4">
                               <input
                                 type="text"
+                                maxLength={40}
                                 className="form-control form-control-lg"
                                 value={serviceName}
                                 onChange={(event) => {
@@ -1005,6 +1006,7 @@ export default function ManageService() {
                             <div className="form-outline mb-4">
                               <input
                                 type="text"
+                                maxLength={40}
                                 className="form-control form-control-lg"
                                 value={content}
                                 onChange={(event) => {
@@ -1019,6 +1021,7 @@ export default function ManageService() {
                             <div className="form-outline mb-4">
                               <input
                                 type="text"
+                                maxLength={2000}
                                 className="form-control form-control-lg"
                                 value={imageService}
                                 onChange={(event) => {
@@ -1035,6 +1038,7 @@ export default function ManageService() {
                                 rows={4}
                                 cols={50}
                                 type="text"
+                                maxLength={200}
                                 className="form-control form-control-lg"
                                 value={description}
                                 onChange={(event) => {
@@ -1079,6 +1083,7 @@ export default function ManageService() {
                             <div className="form-outline mb-4">
                               <input
                                 type="text"
+                                maxLength={40}
                                 className="form-control form-control-lg"
                                 value={serviceInfo?.name}
                                 onChange={(event) => {
@@ -1193,6 +1198,7 @@ export default function ManageService() {
                             <div className="form-outline mb-4">
                               <input
                                 type="text"
+                                maxLength={40}
                                 className="form-control form-control-lg"
                                 value={serviceInfo?.content}
                                 onChange={(event) => {
@@ -1210,6 +1216,7 @@ export default function ManageService() {
                             <div className="form-outline mb-4">
                               <input
                                 type="text"
+                                maxLength={2000}
                                 className="form-control form-control-lg"
                                 value={serviceInfo?.image}
                                 onChange={(event) => {
@@ -1229,6 +1236,7 @@ export default function ManageService() {
                                 rows={4}
                                 cols={50}
                                 type="text"
+                                maxLength={200}
                                 className="form-control form-control-lg"
                                 value={serviceInfo?.description}
                                 onChange={(event) => {
