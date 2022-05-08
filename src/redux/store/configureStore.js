@@ -31,7 +31,10 @@ import {
   ListSalonActive,
   ListSalonDeactive,
   ListSalonRequest,
-  SalonBusinessInfo
+  SalonBusinessInfo,
+  ActiveSalon,
+  DeactiveSalon,
+  RejectSalon,
 } from "../reducers/admin";
 
 import { Profile } from "../reducers/profile";
@@ -76,7 +79,10 @@ const rootReducer = combineReducers({
   litSalonActivated: ListSalonActive,
   listSalonDeactive: ListSalonDeactive,
   listSalonRequest: ListSalonRequest,
-  salonBusinessInfo:SalonBusinessInfo
+  salonBusinessInfo: SalonBusinessInfo,
+  activeSalon: ActiveSalon,
+  deactiveSalon: DeactiveSalon,
+  rejectSalon: RejectSalon,
 });
 
 export const ConfigureStore = () => {

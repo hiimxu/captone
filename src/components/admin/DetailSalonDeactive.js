@@ -1,9 +1,20 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+
+import { styled } from "@mui/system";
+import {
+  Box,
+  Button as MuiButton,
+  Dialog,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import bgImg from "../../assets/barbershopbg.jpg";
 import paperbg from "../../assets/paperbg.jpg";
+import { activeSalon } from "../../redux/actions/creators/admin";
 
 //CSS
 const root = {
@@ -11,11 +22,56 @@ const root = {
   backgroundRepeat: "repeat-y",
   backgroundSize: "100%",
 };
+const FieldLabel = styled(Box)({
+  display: "flex",
+  color: "#305470",
+  fontSize: 30,
+  fontFamily: "Segoe UI",
+  alignItems: "center",
+  justifyContent: "flex-end",
+});
+const FormWrapper = styled(Box)({
+  minWidth: 800,
+  backgroundColor: "#f8e0be",
+  padding: 30,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+});
+const ButtonWrapper = styled(Box)({
+  backgroundColor: "#f8e0be",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingTop: "2rem",
+  paddingBottom: "1rem",
+});
+const ErrorText = styled(Typography)({
+  color: "#ED4337",
+  fontSize: 16,
+  fontFamily: "Segoe UI",
+  lineHeight: 1.75,
+});
+
+const SuccessText = styled(Typography)({
+  color: "#4F8A10",
+  fontSize: 16,
+  fontFamily: "Segoe UI",
+  lineHeight: 1.75,
+});
 
 export default function DetailSalonDeactive() {
   const navigate = useNavigate();
+  const dispatch =useDispatch()
 
+  //LOAD DATA FROM REDUX
   const { salonDeactivated } = useSelector((state) => state.salonBusinessInfo);
+  const { successMess, errMess } = useSelector((state) => state.activeSalon);
+  const { token, account_name: username } = useSelector(
+    (state) => state.loginAccount.account
+  );
 
   useEffect(() => {
     if (!salonDeactivated) {
@@ -23,6 +79,22 @@ export default function DetailSalonDeactive() {
       return;
     }
   }, [salonDeactivated]);
+
+  //DIALOG
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
+  //ACTIVE SALON
+  const handleActive=()=>{
+    if (!salonDeactivated) return;
+    const callback = () => {
+      setDialogOpen(false);
+      navigate("/");
+    };
+    dispatch(activeSalon(token,{salonId: salonDeactivated.salonId},callback))
+  }
 
   return salonDeactivated ? (
     <div style={root}>
@@ -134,10 +206,36 @@ export default function DetailSalonDeactive() {
               >
                 Back
               </Link>
-              <button className="button is-danger has-text-white is-rounded">
+              <button className="button is-success has-text-white is-rounded"
+              onClick={()=>{
+                setDialogOpen(true)
+              }}>
                 Active
               </button>
             </div>
+            <Dialog onClose={handleClose} open={dialogOpen} maxWidth="lg">
+              <FormWrapper style={{ minHeight: "6rem" }}>
+                <FieldLabel>Are you sure activate this salon?</FieldLabel>
+              </FormWrapper>
+              <ButtonWrapper>
+                {successMess && <SuccessText>{successMess}</SuccessText>}
+                {errMess && <ErrorText>{errMess}</ErrorText>}
+              </ButtonWrapper>
+              <ButtonWrapper>
+                <button
+                  className="button is-info mr-5 has-text-white is-rounded"
+                  onClick={() => setDialogOpen(false)}
+                >
+                  Close
+                </button>
+                <button
+                  className="button is-success has-text-white is-rounded"
+                  onClick={handleActive}
+                >
+                  Active
+                </button>
+              </ButtonWrapper>
+            </Dialog>
           </div>
         </div>
       </div>

@@ -107,3 +107,98 @@ export const SalonBusinessInfo = (
       return state;
   }
 };
+
+export const DeactiveSalon = (
+  state = {
+    salonDeactive: null,
+    successMess: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case AdminActionTypes.DEACTIVE_SALON_FAILED:
+      return {
+        ...state,
+        salonDeactive: null,
+        successMess: null,
+        errMess: action.payload,
+      };
+    case AdminActionTypes.DEACTIVE_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        salonDeactive: action.payload.salonDeactive,
+        successMess: action.payload.successMess,
+        errMess: null,
+      };
+    case AdminActionTypes.GET_LIST_SALON_ACTIVE_SUCCESSFULLY:
+      return {
+        ...state,
+        salonDeactive: null,
+        successMess: null,
+        errMess: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const ActiveSalon = (
+  state = {
+    salonActive: null,
+    successMess: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case AdminActionTypes.ACTIVE_SALON_FAILED:
+      return {
+        ...state,
+        salonActive: null,
+        successMess: null,
+        errMess: action.payload,
+      };
+    case AdminActionTypes.ACTIVE_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        salonActive: action.payload.salonActive,
+        successMess: action.payload.successMess,
+        errMess: null,
+      };
+    case AdminActionTypes.GET_LIST_SALON_ACTIVE_SUCCESSFULLY:
+      return { ...state, salonActive: null, successMess: null, errMess: null };
+    default:
+      return state;
+  }
+};
+
+export const RejectSalon = (
+  state = {
+    salonReject: null,
+    successMess: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case AdminActionTypes.REJECT_SALON_FAILED:
+      return {
+        ...state,
+        salonReject: null,
+        successMess: null,
+        errMess: action.payload,
+      };
+    case AdminActionTypes.REJECT_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        salonReject: action.payload.salonReject,
+        successMess: action.payload.successMess,
+        errMess: null,
+      };
+    case AdminActionTypes.GET_LIST_SALON_ACTIVE_SUCCESSFULLY:
+      return { ...state, salonReject: null, successMess: null, errMess: null };
+    default:
+      return state;
+  }
+};

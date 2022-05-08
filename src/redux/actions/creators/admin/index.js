@@ -219,3 +219,134 @@ export const updateSelectedSalonRequestBussinessInfo = (data) => (dispatch) => {
     payload: data,
   });
 };
+
+//ACTIVE SALON
+
+export const activeSalon = (token, salonId, callback) => (dispatch) => {
+  const data = new URLSearchParams({ ...salonId });
+  return fetch(`${api}api/admin/update/activeSalon/`, {
+    method: "PUT",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(activeSalonFail(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data && response.message) {
+        dispatch(
+          activeSalonSuccessfully({
+            salonActive: response.data,
+            successMess: response.message,
+          })
+        );
+        if (callback) {
+          setTimeout(() => {
+            callback();
+          }, 1500);
+        }
+      } else {
+        dispatch(activeSalonFail(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Active salon failed", error);
+    });
+};
+
+const activeSalonSuccessfully = (payload) => {
+  return {
+    type: AdminActionTypes.ACTIVE_SALON_SUCCESSFULLY,
+    payload,
+  };
+};
+
+const activeSalonFail = (errMess) => {
+  return {
+    type: AdminActionTypes.ACTIVE_SALON_FAILED,
+    payload: errMess,
+  };
+};
+
+//DEACTIVE SALON
+export const deactiveSalon = (token, salonId, callback) => (dispatch) => {
+  const data = new URLSearchParams({ ...salonId });
+  return fetch(`${api}api/admin/update/deactiveSalon/`, {
+    method: "PUT",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(deactiveSalonFail(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data && response.message) {
+        dispatch(
+          deactiveSalonSuccessfully({
+            salonDeactive: response.data,
+            successMess: response.message,
+          })
+        );
+        if (callback) {
+          setTimeout(() => {
+            callback();
+          }, 1500);
+        }
+      } else {
+        dispatch(deactiveSalonFail(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Deactive salon failed", error);
+    });
+};
+
+const deactiveSalonSuccessfully = (payload) => {
+  return {
+    type: AdminActionTypes.DEACTIVE_SALON_SUCCESSFULLY,
+    payload,
+  };
+};
+
+const deactiveSalonFail = (errMess) => {
+  return {
+    type: AdminActionTypes.DEACTIVE_SALON_FAILED,
+    payload: errMess,
+  };
+};

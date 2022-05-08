@@ -113,7 +113,7 @@ const SwitchRoutes = () => {
             <Route path="/" element={<ManageSalon />} />{" "}
             <Route path="/DetailSalonActive/:salonId" element={<DetailSalonActive/>} />{" "}
             <Route path="/DetailSalonDeactive/:salonId" element={<DetailSalonDeactive/>}/>
-            <Route path="/RequestForm" element={<RequestForm />} />{" "}
+            <Route path="/RequestForm/:salonId" element={<RequestForm />} />{" "}
           </Routes>
           <Footer />
         </>
