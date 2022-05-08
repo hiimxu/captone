@@ -176,8 +176,8 @@ export default function ManageService() {
       dispatch(resetListSalonDeactive());
       dispatch(resetListSalonRequest());
       setDialogOpen(false);
-      dispatch(getListSalonActive(token,{ nameSalon: nameSalonRequest }));
-      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonRequest }));
+      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
       dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
     };
     dispatch(
@@ -193,8 +193,8 @@ export default function ManageService() {
       dispatch(resetListSalonDeactive());
       dispatch(resetListSalonRequest());
       setDialogActiveOpen(false);
-      dispatch(getListSalonActive(token,{ nameSalon: nameSalonRequest }));
-      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonRequest }));
+      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
       dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
     };
     dispatch(activeSalon(token, { salonId: salonActive.salonId }, callback));
@@ -208,9 +208,9 @@ export default function ManageService() {
       dispatch(resetListSalonDeactive());
       dispatch(resetListSalonRequest);
       setDialogRejectOpen(false);
-      dispatch(getListSalonActive(token));
-      dispatch(getListSalonDeactive(token));
-      dispatch(getListSalonRequest(token));
+      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
+      dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
     };
     dispatch(rejectSalon(token, { salonId: salonReject.salonId }, callback));
   };
