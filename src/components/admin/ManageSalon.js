@@ -21,6 +21,10 @@ import {
   resetListSalonActive,
   resetListSalonDeactive,
   resetListSalonRequest,
+  updateSelectedSalonActiveBussinessInfo,
+  updateSelectedSalonBussinessInfo,
+  updateSelectedSalonDeactiveBussinessInfo,
+  updateSelectedSalonRequestBussinessInfo,
 } from "../../redux/actions/creators/admin";
 
 const root = {
@@ -169,8 +173,15 @@ export default function ManageService() {
 
                           <td className="has-text-centered">
                             <Link
-                              to="/DetailSalon"
+                              to={`/DetailSalonActive/${element.salonId}`}
                               className="button is-rounded is-info mr-5"
+                              onClick={() => {
+                                dispatch(
+                                  updateSelectedSalonActiveBussinessInfo(
+                                    element
+                                  )
+                                );
+                              }}
                             >
                               <i className="fa-solid fa-circle-info"></i>
                             </Link>{" "}
@@ -235,8 +246,15 @@ export default function ManageService() {
 
                           <td className="has-text-centered">
                             <Link
-                              to="/DetailSalon"
+                              to={`/DetailSalonDeactive/${element.salonId}`}
                               className="button is-rounded is-info mr-5"
+                              onClick={() => {
+                                dispatch(
+                                  updateSelectedSalonDeactiveBussinessInfo(
+                                    element
+                                  )
+                                );
+                              }}
                             >
                               <i className="fa-solid fa-circle-info"></i>
                             </Link>{" "}
@@ -305,8 +323,15 @@ export default function ManageService() {
 
                           <td className="has-text-centered">
                             <Link
-                              to="/RequestForm"
+                              to={`/RequestForm/${element.salonId}`}
                               className="button is-rounded is-info mr-5"
+                              onClick={() => {
+                                dispatch(
+                                  updateSelectedSalonRequestBussinessInfo(
+                                    element
+                                  )
+                                );
+                              }}
                             >
                               <i className="fa-solid fa-circle-info"></i>
                             </Link>{" "}

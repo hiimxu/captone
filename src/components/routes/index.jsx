@@ -36,6 +36,8 @@ import NavigationAdmin from "../admin/Navigation";
 import ManageSalon from "../admin/ManageSalon";
 import DetailSalon from "../admin/DetailSalon";
 import RequestForm from "../admin/RequestForm";
+import DetailSalonActive from "../admin/DetailSalonActive";
+import DetailSalonDeactive from "../admin/DetailSalonDeactive";
 
 // MOCK UP
 import SalonDashboardMockup from "../mockUp/SalonDashboardMockup";
@@ -109,7 +111,8 @@ const SwitchRoutes = () => {
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/" element={<ManageSalon />} />{" "}
-            <Route path="/DetailSalon" element={<DetailSalon />} />{" "}
+            <Route path="/DetailSalonActive/:salonId" element={<DetailSalonActive/>} />{" "}
+            <Route path="/DetailSalonDeactive/:salonId" element={<DetailSalonDeactive/>}/>
             <Route path="/RequestForm" element={<RequestForm />} />{" "}
           </Routes>
           <Footer />

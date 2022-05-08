@@ -198,3 +198,24 @@ export const resetListSalonRequest = () => (dispatch) => {
     type: AdminActionTypes.RESET_LIST_SALON_REQUEST,
   });
 };
+
+//UPDATE SELECTED SALON BUSSINESS INFO
+export const updateSelectedSalonActiveBussinessInfo = (data) => (dispatch) => {
+  dispatch({
+    type: AdminActionTypes.UPDATE_SELECTED_SALON_ACTIVE_BUSINESS_INFO_SUCCESFULLY,
+    payload: data,
+  });
+};
+export const updateSelectedSalonDeactiveBussinessInfo =
+  (data) => (dispatch) => {
+    dispatch({
+      type: AdminActionTypes.UPDATE_SELECTED_SALON_DEACTIVE_BUSINESS_INFO_SUCCESFULLY,
+      payload: data,
+    });
+  };
+export const updateSelectedSalonRequestBussinessInfo = (data) => (dispatch) => {
+  dispatch({
+    type: AdminActionTypes.UPDATE_SELECTED_SALON_REQUEST_BUSINESS_INFO_SUCCESFULLY,
+    payload: data,
+  });
+};
