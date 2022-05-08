@@ -68,7 +68,7 @@ export default function DetailSalonActive() {
 
   //LOAD DATA FROM REDUX
   const { salonActivated } = useSelector((state) => state.salonBusinessInfo);
-  const { successMess, errMess } = useSelector((state) => state.deactiveSalon);
+  const { deactiveSuccessMess, errMess } = useSelector((state) => state.deactiveSalon);
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
@@ -218,7 +218,7 @@ export default function DetailSalonActive() {
                   <FieldLabel>Are you sure deactivate this salon?</FieldLabel>
                 </FormWrapper>
                 <ButtonWrapper>
-                  {successMess && <SuccessText>{successMess}</SuccessText>}
+                  {deactiveSuccessMess && <SuccessText>{deactiveSuccessMess}</SuccessText>}
                   {errMess && <ErrorText>{errMess}</ErrorText>}
                 </ButtonWrapper>
                 <ButtonWrapper>

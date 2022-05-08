@@ -255,7 +255,7 @@ export const activeSalon = (token, salonId, callback) => (dispatch) => {
         dispatch(
           activeSalonSuccessfully({
             salonActive: response.data,
-            successMess: response.message,
+            activeSuccessMess: response.message,
           })
         );
         if (callback) {
@@ -320,7 +320,7 @@ export const deactiveSalon = (token, salonId, callback) => (dispatch) => {
         dispatch(
           deactiveSalonSuccessfully({
             salonDeactive: response.data,
-            successMess: response.message,
+            deactiveSuccessMess: response.message,
           })
         );
         if (callback) {
@@ -347,6 +347,71 @@ const deactiveSalonSuccessfully = (payload) => {
 const deactiveSalonFail = (errMess) => {
   return {
     type: AdminActionTypes.DEACTIVE_SALON_FAILED,
+    payload: errMess,
+  };
+};
+
+//REJECT SALON
+export const rejectSalon = (token, salonId, callback) => (dispatch) => {
+  const data = new URLSearchParams({ ...salonId });
+  return fetch(`${api}api/admin/delete/accountSalon/`, {
+    method: "PUT",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(rejectSalonFail(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data && response.message) {
+        dispatch(
+          rejectSalonSuccessfully({
+            salonReject: response.data,
+            rejectSuccessMess: response.message,
+          })
+        );
+        if (callback) {
+          setTimeout(() => {
+            callback();
+          }, 1500);
+        }
+      } else {
+        dispatch(rejectSalonFail(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Reject salon failed", error);
+    });
+};
+
+const rejectSalonSuccessfully = (payload) => {
+  return {
+    type: AdminActionTypes.REJECT_SALON_SUCCESSFULLY,
+    payload,
+  };
+};
+
+const rejectSalonFail = (errMess) => {
+  return {
+    type: AdminActionTypes.REJECT_SALON_FAILED,
     payload: errMess,
   };
 };

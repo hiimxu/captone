@@ -111,7 +111,7 @@ export const SalonBusinessInfo = (
 export const DeactiveSalon = (
   state = {
     salonDeactive: null,
-    successMess: null,
+    deactiveSuccessMess: null,
     errMess: null,
   },
   action
@@ -121,21 +121,21 @@ export const DeactiveSalon = (
       return {
         ...state,
         salonDeactive: null,
-        successMess: null,
+        deactiveSuccessMess: null,
         errMess: action.payload,
       };
     case AdminActionTypes.DEACTIVE_SALON_SUCCESSFULLY:
       return {
         ...state,
         salonDeactive: action.payload.salonDeactive,
-        successMess: action.payload.successMess,
+        deactiveSuccessMess: action.payload.deactiveSuccessMess,
         errMess: null,
       };
     case AdminActionTypes.GET_LIST_SALON_ACTIVE_SUCCESSFULLY:
       return {
         ...state,
         salonDeactive: null,
-        successMess: null,
+        deactiveSuccessMess: null,
         errMess: null,
       };
     default:
@@ -146,7 +146,7 @@ export const DeactiveSalon = (
 export const ActiveSalon = (
   state = {
     salonActive: null,
-    successMess: null,
+    activeSuccessMess: null,
     errMess: null,
   },
   action
@@ -156,18 +156,18 @@ export const ActiveSalon = (
       return {
         ...state,
         salonActive: null,
-        successMess: null,
+        activeSuccessMess: null,
         errMess: action.payload,
       };
     case AdminActionTypes.ACTIVE_SALON_SUCCESSFULLY:
       return {
         ...state,
         salonActive: action.payload.salonActive,
-        successMess: action.payload.successMess,
+        activeSuccessMess: action.payload.activeSuccessMess,
         errMess: null,
       };
     case AdminActionTypes.GET_LIST_SALON_ACTIVE_SUCCESSFULLY:
-      return { ...state, salonActive: null, successMess: null, errMess: null };
+      return { ...state, salonActive: null, activeSuccessMess: null, errMess: null };
     default:
       return state;
   }
@@ -176,7 +176,7 @@ export const ActiveSalon = (
 export const RejectSalon = (
   state = {
     salonReject: null,
-    successMess: null,
+    rejectSuccessMess: null,
     errMess: null,
   },
   action
@@ -186,18 +186,18 @@ export const RejectSalon = (
       return {
         ...state,
         salonReject: null,
-        successMess: null,
+        rejectSuccessMess: null,
         errMess: action.payload,
       };
     case AdminActionTypes.REJECT_SALON_SUCCESSFULLY:
       return {
         ...state,
         salonReject: action.payload.salonReject,
-        successMess: action.payload.successMess,
+        rejectSuccessMess: action.payload.rejectSuccessMess,
         errMess: null,
       };
     case AdminActionTypes.GET_LIST_SALON_ACTIVE_SUCCESSFULLY:
-      return { ...state, salonReject: null, successMess: null, errMess: null };
+      return { ...state, salonReject: null, rejectSuccessMess: null, errMess: null };
     default:
       return state;
   }
