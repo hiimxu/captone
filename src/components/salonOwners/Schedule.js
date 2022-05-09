@@ -39,9 +39,7 @@ export default function Schedule() {
     day: convertDate(date),
     nameStaff: "",
   });
-  const [dayFormated, setDayFormated] = useState({
-    day: convertDate(date),
-  });
+
   //set staff id for order current
   const [staff, setStaff] = useState("");
   //set staff id for history order
@@ -94,7 +92,6 @@ export default function Schedule() {
   };
   const handleSelectDateHistory = (e) => {
     setDateHistory(e.target.value);
-    setDayFormated({ day: convertDate(e.target.value) });
   };
 
   const dispatch = useDispatch();
@@ -385,14 +382,14 @@ export default function Schedule() {
                     <br></br>
                     <button
                       onClick={handleFinish}
-                      className="button is-rounded is-info mr-5"
+                      className="button is-rounded is-success mr-5"
                       style={{ width: "150px" }}
                     >
                       Finish order
                     </button>
                     <button
                       onClick={handleCloseFinish}
-                      className="button is-rounded is-danger ml-5"
+                      className="button is-rounded is-info ml-5"
                       style={{ width: "150px" }}
                     >
                       Cancel
@@ -416,17 +413,17 @@ export default function Schedule() {
                     <br></br>
                     <button
                       onClick={handleCancel}
-                      className="button is-rounded is-info mr-5"
+                      className="button is-rounded is-success mr-5"
                       style={{ width: "150px" }}
                     >
                       Confirmed
                     </button>
                     <button
                       onClick={handleCloseCancel}
-                      className="button is-rounded is-danger ml-5"
+                      className="button is-rounded is-info ml-5"
                       style={{ width: "150px" }}
                     >
-                      Cancel
+                      Close
                     </button>
                   </div>
                 </Box>

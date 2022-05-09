@@ -7,12 +7,21 @@ import { currencyFormatter } from "../../utils";
 import {
   getListServiceForSalon,
   resetListServiceOfSalon,
+  getListStaffForSalon,
+  resetListStaffOfSalon,
+  getCalendar,
+  resetCalendar,
+  salonBooking,
 } from "../../redux/actions/creators/salon";
+
+import { styled } from "@mui/system";
 import {
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
+  Box,
+  Button as MuiButton,
+  Dialog,
+  Grid,
+  TextField,
+  Typography,
 } from "@mui/material";
 
 import moment from "moment";
@@ -21,25 +30,80 @@ import videobg from "../../assets/videobg.jpg";
 import patterbg from "../../assets/patterbg.svg";
 import imageUnavailable from "../../assets/image-unavailable.png";
 
+const root = {
+  minHeight: "60rem",
+  backgroundImage: `url(${introbg})`,
+  backgroundRepeat: "repeat-y",
+  backgroundSize: "100%",
+  paddingBottom: "2rem",
+};
+
+const cardService = {
+  height: "12rem",
+  borderRadius: "25px",
+  marginRight: "3rem",
+};
+const FieldLabel = styled(Box)({
+  display: "flex",
+  color: "#305470",
+  fontSize: 30,
+  fontFamily: "Segoe UI",
+  alignItems: "center",
+  justifyContent: "flex-end",
+});
+const FormWrapper = styled(Box)({
+  minWidth: 800,
+  backgroundColor: "#f8e0be",
+  padding: 30,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+});
+const ButtonWrapper = styled(Box)({
+  backgroundColor: "#f8e0be",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingTop: "2rem",
+  paddingBottom: "1rem",
+});
+const ErrorText = styled(Typography)({
+  color: "#ED4337",
+  fontSize: 16,
+  fontFamily: "Segoe UI",
+  lineHeight: 1.75,
+});
+
+const SuccessText = styled(Typography)({
+  color: "#4F8A10",
+  fontSize: "2rem",
+  fontFamily: "Segoe UI",
+  lineHeight: 1.75,
+});
+
 export default function Staff() {
   const minDate = new Date(
     moment().add(4, "hours").add(15, "minutes").startOf("day")
   ); // If the current time is after 7:45pm, the min date will be the next day
 
+  //STATE
   const [date, setDate] = useState(minDate);
   const [staff, setStaff] = useState("");
   const [time, setTime] = useState(undefined);
   const [dateFormated, setDateFormated] = useState(convertDate(minDate));
   const [staffInfo, setStaffInfo] = useState();
-  const { serviceId } = useParams();
+  const [serviceInfo, setServiceInfo] = useState(null);
+  const [note, setNote] = useState("");
+
+  //STATE ERROR
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { staffList } = useSelector((state) => state.staff);
-  const { selectedSalonId, selectedServiceId, priceOriginal, serviceTime } =
-    useSelector((state) => state.booking);
-  const { calendar } = useSelector((state) => state.staffCalendar);
+  const { listStaff } = useSelector((state) => state.listStaffSalon);
 
   useEffect(() => {
     if (staff && dateFormated) {
@@ -47,16 +111,19 @@ export default function Staff() {
       setStaffInfo({
         staffId: staff,
         day: dateFormated,
-        service_time: serviceTime,
       });
     }
-  }, [staff, dateFormated, serviceTime]);
+  }, [staff, dateFormated]);
 
-  // GET SERVICE
+  //LOAD DATA FROM REDUX
   const { listService } = useSelector((state) => state.listServiceSalon);
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
+  const { listCalendar } = useSelector((state) => state.listCalendar);
+  const { successMess } = useSelector((state) => state.salonBooking);
+
+  //GET LIST SERVICE OF SALON
   useEffect(() => {
     dispatch(getListServiceForSalon(token));
     return () => {
@@ -64,7 +131,32 @@ export default function Staff() {
     };
   }, [dispatch, token]);
 
-  //
+  //GET LIST STAFF Of SALON
+  useEffect(() => {
+    dispatch(getListStaffForSalon(token));
+    return () => {
+      dispatch(resetListStaffOfSalon());
+    };
+  }, [dispatch, token]);
+
+  //GET CALENDAR
+  useEffect(() => {
+    if (!serviceInfo) {
+      setError("Please choose one service!");
+
+      return;
+    }
+    setError(null);
+    const reqestData = {
+      service_time: serviceInfo.service_time,
+      day: dateFormated,
+      staffId: staff,
+    };
+    dispatch(getCalendar(token, reqestData));
+    return () => {
+      dispatch(resetCalendar());
+    };
+  }, [dispatch, token, staff, serviceInfo, dateFormated]);
 
   function convertDate(date) {
     var newdate = new Date(date),
@@ -78,133 +170,113 @@ export default function Staff() {
     setDateFormated(convertDate(date));
   };
 
+  //DIALOG
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleClose = () => {
+    setDialogOpen(false);
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+  };
+
+  //BOOKING
   const handleSubmit = () => {
     const bookingInfo = {
-      salonId: selectedSalonId,
-      serviceId: selectedServiceId,
+      serviceId: serviceInfo.serviceId,
       staffId: staff,
       timeUse: `${dateFormated} ${time}:00`,
-      price_original: parseInt(priceOriginal),
-      service_time: serviceTime,
+      price_original: serviceInfo.price,
+      service_time: serviceInfo.service_time,
+      note: note,
     };
-
     const callback = () => {
-      navigate("/finish_booking");
+      setDialogOpen(true);
     };
+    dispatch(salonBooking(token, bookingInfo, callback));
   };
-  const root = {
-    minHeight: "60rem",
-    backgroundImage: `url(${introbg})`,
-    backgroundRepeat: "repeat-y",
-    backgroundSize: "100%",
-  };
-  const cancelBook = `/`;
 
   return (
     <div style={root}>
       <div className="columns">
         <div className="column is-1"></div>
-        <div className="column is-10">
-          {/* radio button */}
-          <FormControl>
-            <RadioGroup
-              aria-labelledby="radio-buttons-group-label"
-              defaultValue="0"
-              name="radio-buttons-group"
-            >
-              <div className="rows">
-                {listService?.map((service) => (
-                  <div
-                    className="card mb-3 mt-3 col-6"
-                    style={{
-                      display: "inline-block",
-                      marginRight: "2%",
-                      width: "48%",
-                      backgroundColor: " #F5F3ED",
-                      height: "12rem",
-                      borderRadius: "25px",
-                    }}
-                    key={service.serviceId}
-                  >
-                    <div className="columns">
-                      {/* <div className="column is-4">
-                      <img
-                        src={service.image ? service.image : imageUnavailable}
-                        alt="..."
-                        style={{
-                          height: "100%",
-                          width: "100%  ",
-                          maxHeight: "12rem",
-                          borderRadius: "25px",
-                        }}
-                      />
-                    </div> */}
-                      <div className="column is-1">
-                        <FormControlLabel
-                          value={service.serviceId}
-                          control={<Radio />}
-                          label=""
-                        />
-                      </div>
-                      <div className="column is-11 has-text-left">
-                        <div>
-                          <h4 className="has-text-info-dark is-size-3 has-text-weight-bold">
-                            {service.name}
-                          </h4>
-                          <p className="has-text-dark is-size-5">
-                            {service.service_time} minutes
-                          </p>
+        <div className="">
+          <div
+            className="row pb-5"
+            style={{ paddingLeft: "7%", paddingTop: "3rem" }}
+          >
+            {listService?.map((service) => (
+              <div
+                className="card mb-5 column is-5 "
+                style={cardService}
+                key={service.serviceId}
+                value={serviceInfo}
+                onChange={() => setServiceInfo(service)}
+              >
+                <div className="row">
+                  <div className="form-check form-check-inline column is-1 ml-5 mt-5 pt-5 ">
+                    <input
+                      style={{ width: "1.5rem", height: "1.5rem" }}
+                      type="radio"
+                      name="inlineRadioOptions"
+                      value={service.serviceId}
+                      className="rounded mr-1 mb-2 bg-white"
+                    ></input>
+                  </div>
+                  <div className="column is-10">
+                    <div>
+                      <h4 className="has-text-info-dark is-size-4 has-text-weight-bold">
+                        {service.name} -{" "}
+                        <span className="has-text-link-dark is-size-5">
+                          {service.content}
+                        </span>
+                      </h4>
 
-                          {service.promotion === 0 && (
-                            <p className="has-text-danger has-text-weight-semibold">
-                              {" "}
-                              {currencyFormatter.format(service.price)}{" "}
-                            </p>
-                          )}
+                      <p className="is-size-5 has-text-dark">
+                        {service.service_time} minutes
+                      </p>
+                      {service.promotion === 0 && (
+                        <p className="has-text-danger has-text-weight-semibold">
+                          {" "}
+                          {currencyFormatter.format(service.price)}{" "}
+                        </p>
+                      )}
 
-                          {service.promotion !== 0 && (
-                            <p className="has-text-grey-light has-text-weight-semibold">
-                              <del>
-                                {" "}
-                                {currencyFormatter.format(service.price)}{" "}
-                              </del>
+                      {service.promotion !== 0 && (
+                        <p className="has-text-grey-light has-text-weight-semibold">
+                          <del> {currencyFormatter.format(service.price)} </del>
 
-                              <span className="has-text-danger-dark has-text-weight-semibold">
-                                {" "}
-                                {currencyFormatter.format(
-                                  service.price -
-                                    (service.price / 100) * service.promotion
-                                )}{" "}
-                              </span>
-                              <span className="tag is-danger has-text-weight-semibold">
-                                {" "}
-                                {service.promotion} %
-                              </span>
-                            </p>
-                          )}
-
-                          <p className="">{service.content}</p>
-                          <p className="">{service.description}</p>
-                        </div>
-                      </div>
+                          <span className="has-text-danger-dark has-text-weight-semibold">
+                            {" "}
+                            {"-> "}
+                            {currencyFormatter.format(
+                              service.price -
+                                (service.price / 100) * service.promotion
+                            )}{" "}
+                          </span>
+                          <span className="tag is-danger has-text-weight-semibold">
+                            {" "}
+                            {service.promotion} %
+                          </span>
+                        </p>
+                      )}
+                      <p className="">{service.description}</p>
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
-            </RadioGroup>
-          </FormControl>
+            ))}
+          </div>
+
           <div
-            className="mb-5 pt-5"
+            className="mb-5 pt-5 rows"
             style={{
               background: "url(" + patterbg + ")",
               boxShadow: "1px 1px 20px black",
             }}
           >
-            <div class="steps" id="stepsDemo">
-              <div class="step-item is-completed is-link">
-                <div class="step-marker">1</div>
-                <div class="step-details">
-                  <p class="step-title">Choose date</p>
+            <div className="steps ml-5" id="stepsDemo">
+              <div className="is-completed is-link">
+                <div className="step-details">
                   <br></br>
                   <Calendar
                     className="rounded"
@@ -212,15 +284,10 @@ export default function Staff() {
                     value={date}
                     minDate={minDate}
                   />
-                  {/* { console.log(staffInfo)}
-                   {console.log(staff,dateFormated)}
-                   {console.log(calendar)}  */}
                 </div>
               </div>
-              <div class="step-item  is-completed is-link">
-                <div class="step-marker">2</div>
-                <div class="step-details">
-                  <p class="step-title">Choose staff</p>
+              <div className="col-4 ml-5">
+                <div className="step-details">
                   <br></br>
                   <select
                     className="form-select form-select-lg mb-3 "
@@ -233,73 +300,92 @@ export default function Staff() {
                       backgroundColor: "white",
                     }}
                   >
-                    <option defaultValue={""}>Choose a staff...</option>
-                    {staffList?.map((staff) => (
+                    <option value="">Choose a staff...</option>
+                    {listStaff?.map((staff) => (
                       <option key={staff.staffId} value={staff.staffId}>
                         {staff.name}
                       </option>
                     ))}
                   </select>
                 </div>
-              </div>
-              <div class="step-item is-completed is-link">
-                <div class="step-marker">3</div>
-                <div class="step-details">
-                  <p class="step-title">Choose slot</p>
-                  <br></br>
-                  <div className="form-check">
-                    {calendar?.calendar.map((slot) => (
-                      <div
-                        className="form-check form-check-inline mr-4"
-                        key={slot.toString()}
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                      >
-                        <input
-                          type="radio"
-                          name="inlineRadioOptions"
-                          value={slot}
-                          className="rounded mr-1 mb-2 bg-white"
-                        ></input>
-                        <label>{slot}</label>
-                      </div>
-                    ))}
+                <div className="">
+                  <div className="step-details">
+                    <br></br>
+                    <div className="form-check">
+                      {listCalendar?.map((slot) => (
+                        <div
+                          className="form-check form-check-inline mr-4"
+                          key={slot.toString()}
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                        >
+                          <input
+                            type="radio"
+                            name="inlineRadioOptions1"
+                            value={slot}
+                            className="rounded mr-1 mb-2 bg-white"
+                          ></input>
+                          <label>{slot}</label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="step-item is-completed is-link">
-                <div class="step-marker">4</div>
-                <div class="step-details">
-                  <p class="step-title">Note</p>
-                  <br></br>
+
+              <div className=" col-4">
+                <div className="pt-4 font-weight-bold">
+                  <label>Note:</label>
+                </div>
+                <div className="">
                   <textarea
-                    placeholder="Customer's name / phone number"
+                    className="pl-1"
+                    placeholder=" Customer's name / phone number"
                     rows="10"
                     cols="35"
+                    maxLength={40}
+                    value={note}
+                    onChange={(e) => {
+                      setNote(e.target.value);
+                    }}
                   ></textarea>
                 </div>
               </div>
             </div>
+            <div className="text-center">
+              {error && <p className="text-danger">{error}</p>}
+            </div>
 
             <div className="col-md-12 text-center pb-5 ">
-              <Link
-                style={{ width: "40%" }}
-                className="button is-rounded is-danger mr-3 has-text-weight-semibold"
-                to={cancelBook}
-              >
-                Cancel
-              </Link>
               <button
-                style={{ width: "40%" }}
+                style={{ width: "30%" }}
                 className="button is-rounded is-info ml-3 has-text-weight-semibold"
                 onClick={handleSubmit}
-                disabled={!staff || !time || !dateFormated}
+                disabled={
+                  !staff || !time || !dateFormated || !serviceInfo || !note
+                }
               >
                 Submit
               </button>
             </div>
           </div>
         </div>
+        <Dialog open={dialogOpen} maxWidth="lg">
+          <FormWrapper style={{ minHeight: "6rem" }}>
+            <SuccessText>
+              <i class="fa-solid fa-circle-check"></i>
+            </SuccessText>
+            <SuccessText>Booking successfully!</SuccessText>
+          </FormWrapper>
+          <ButtonWrapper>
+            <button
+              className="button is-info has-text-white is-rounded"
+              onClick={handleClose}
+            >
+              Close
+            </button>
+          </ButtonWrapper>
+        </Dialog>
 
         <div className="column is-1"></div>
       </div>

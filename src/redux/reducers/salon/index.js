@@ -221,7 +221,6 @@ export const EditService = (
   }
 };
 
-
 export const EditBusinessInfo = (
   state = {
     businessInfoEdited: null,
@@ -287,6 +286,59 @@ export const EditSalonInfo = (
         successMess: null,
         errMessage: null,
       };
+    default:
+      return state;
+  }
+};
+
+export const ListCalendar = (
+  state = {
+    listCalendar: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.GET_LIST_STAFF_CALENDAR_FAILED:
+      return { ...state, listCalendar: null, errMess: action.payload.errMess };
+    case SalonActionTypes.GET_LIST_STAFF_CALENDAR_SUCCESSFULLY:
+      return {
+        ...state,
+        listCalendar: action.payload.listCalendar,
+        errMess: null,
+      };
+    case SalonActionTypes.RESET_LIST_STAFF_CALENDAR:
+      return { ...state, listCalendar: null, errMess: null };
+    default:
+      return state;
+  }
+};
+
+export const SalonBooking = (
+  state = {
+    bookingInfo: null,
+    successMess: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.BOOKING_NEW_SERVICE_FAILED:
+      return {
+        ...state,
+        listCalendar: null,
+        successMess: null,
+        errMess: action.payload.errMess,
+      };
+    case SalonActionTypes.GET_LIST_STAFF_CALENDAR_SUCCESSFULLY:
+      return {
+        ...state,
+        listCalendar: action.payload.listCalendar,
+        successMess: action.payload.successMess,
+        errMess: null,
+      };
+    case SalonActionTypes.GET_SCHEDULE_CURRENT_SUCCESSFULLY:
+      return { ...state, listCalendar: null, successMess: null, errMess: null };
     default:
       return state;
   }

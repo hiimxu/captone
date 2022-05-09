@@ -26,6 +26,8 @@ import {
   EditService,
   EditBusinessInfo,
   EditSalonInfo,
+  ListCalendar,
+  SalonBooking,
 } from "../reducers/salon";
 import {
   ListSalonActive,
@@ -75,6 +77,8 @@ const rootReducer = combineReducers({
   editService: EditService,
   editBusinessInfo: EditBusinessInfo,
   editSalonInfo: EditSalonInfo,
+  listCalendar: ListCalendar,
+  salonBooking: SalonBooking,
   //admin
   litSalonActivated: ListSalonActive,
   listSalonDeactive: ListSalonDeactive,

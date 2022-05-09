@@ -42,7 +42,7 @@ export default function Navigation() {
                   className="button is-dark  is-outlined is-inverted"
                   onClick={handleLogout}
                 >
-                  <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                  <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
                 </button>
               </li>
             </ul>
