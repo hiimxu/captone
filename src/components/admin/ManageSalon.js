@@ -3,12 +3,22 @@ import { Link } from "react-router-dom";
 
 import SalonList from "./SalonList.json";
 
+import { styled } from "@mui/system";
+import {
+  Box,
+  Button as MuiButton,
+  Dialog,
+  Grid,
+  TextField,
+  Typography,
+  Tooltip,
+} from "@mui/material";
+
 import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import patterbg from "../../assets/patterbg.svg";
 import { convertISOStringToLocaleDateString } from "../../utils/index";
 
-import { Modal, Box, Tooltip } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -26,6 +36,11 @@ import {
   updateSelectedSalonDeactiveBussinessInfo,
   updateSelectedSalonRequestBussinessInfo,
 } from "../../redux/actions/creators/admin";
+import {
+  deactiveSalon,
+  activeSalon,
+  rejectSalon,
+} from "../../redux/actions/creators/admin";
 
 const root = {
   backgroundImage: `url(${bgImg})`,
@@ -33,6 +48,45 @@ const root = {
   backgroundSize: "100%",
   minHeight: "60rem",
 };
+const FieldLabel = styled(Box)({
+  display: "flex",
+  color: "#305470",
+  fontSize: 30,
+  fontFamily: "Segoe UI",
+  alignItems: "center",
+  justifyContent: "flex-end",
+});
+const FormWrapper = styled(Box)({
+  minWidth: 800,
+  backgroundColor: "#f8e0be",
+  padding: 30,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+});
+const ButtonWrapper = styled(Box)({
+  backgroundColor: "#f8e0be",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingTop: "2rem",
+  paddingBottom: "1rem",
+});
+const ErrorText = styled(Typography)({
+  color: "#ED4337",
+  fontSize: 16,
+  fontFamily: "Segoe UI",
+  lineHeight: 1.75,
+});
+
+const SuccessText = styled(Typography)({
+  color: "#4F8A10",
+  fontSize: 16,
+  fontFamily: "Segoe UI",
+  lineHeight: 1.75,
+});
 
 export default function ManageService() {
   const fakeData = SalonList.data;
@@ -46,6 +100,10 @@ export default function ManageService() {
   // DISPATCH
   const dispatch = useDispatch();
 
+  //STATE SALON SELECTED
+  const [salonActive, setSalonActive] = useState(null);
+  const [salonDeactive, setSalonDeactive] = useState(null);
+  const [salonReject, setSalonReject] = useState(null);
   //STATE NAME SALON FOR FILTER
   const [nameSalonActive, setNameSalonActive] = useState("");
   const [nameSalonDeactive, setNameSalonDeactive] = useState("");
@@ -62,6 +120,10 @@ export default function ManageService() {
   const { listSalonDeactive } = useSelector((state) => state.listSalonDeactive);
   //LOAD LIST SALON REQUEST
   const { listSalonRequest } = useSelector((state) => state.listSalonRequest);
+
+  const { deactiveSuccessMess } = useSelector((state) => state.deactiveSalon);
+  const { rejectSuccessMess } = useSelector((state) => state.rejectSalon);
+  const { activeSuccessMess } = useSelector((state) => state.activeSalon);
 
   //GET DATA FORM API
   //GET LIST SALON ACTIVE
@@ -84,9 +146,74 @@ export default function ManageService() {
   useEffect(() => {
     dispatch(getListSalonRequest(token, { nameSalon: nameSalonRequest }));
     return () => {
-      dispatch(resetListSalonRequest);
+      dispatch(resetListSalonRequest());
     };
   }, [dispatch, token, nameSalonRequest]);
+
+  //DIALOG ACTIVE
+  const [dialogActiveOpen, setDialogActiveOpen] = useState(false);
+  const handleActiveClose = () => {
+    setDialogActiveOpen(false);
+  };
+
+  //DIALOG REJECT
+  const [dialogRejectOpen, setDialogRejectOpen] = useState(false);
+  const handleRejectClose = () => {
+    setDialogRejectOpen(false);
+  };
+
+  //DIALOG DEACTIVE
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
+  //DEACTIVE SALON
+  const handleDeactive = () => {
+    if (!salonDeactive) return;
+    const callback = () => {
+      dispatch(resetListSalonActive());
+      dispatch(resetListSalonDeactive());
+      dispatch(resetListSalonRequest());
+      setDialogOpen(false);
+      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
+      dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
+    };
+    dispatch(
+      deactiveSalon(token, { salonId: salonDeactive.salonId }, callback)
+    );
+  };
+
+  //ACTIVE SALON
+  const handleActive = () => {
+    if (!salonActive) return;
+    const callback = () => {
+      dispatch(resetListSalonActive());
+      dispatch(resetListSalonDeactive());
+      dispatch(resetListSalonRequest());
+      setDialogActiveOpen(false);
+      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
+      dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
+    };
+    dispatch(activeSalon(token, { salonId: salonActive.salonId }, callback));
+  };
+
+  //REJECT SALON
+  const handleReject = () => {
+    if (!salonReject) return;
+    const callback = () => {
+      dispatch(resetListSalonActive());
+      dispatch(resetListSalonDeactive());
+      dispatch(resetListSalonRequest);
+      setDialogRejectOpen(false);
+      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
+      dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
+    };
+    dispatch(rejectSalon(token, { salonId: salonReject.salonId }, callback));
+  };
 
   return (
     <div>
@@ -185,7 +312,13 @@ export default function ManageService() {
                             >
                               <i className="fa-solid fa-circle-info"></i>
                             </Link>{" "}
-                            <button className="button is-rounded is-warning has-text-white">
+                            <button
+                              className="button is-rounded is-warning has-text-white"
+                              onClick={() => {
+                                setSalonDeactive(element);
+                                setDialogOpen(true);
+                              }}
+                            >
                               <i className="fa-solid fa-stop"></i>
                             </button>
                           </td>
@@ -258,7 +391,13 @@ export default function ManageService() {
                             >
                               <i className="fa-solid fa-circle-info"></i>
                             </Link>{" "}
-                            <button className="button is-rounded is-primary has-text-white">
+                            <button
+                              className="button is-rounded is-primary has-text-white"
+                              onClick={() => {
+                                setSalonActive(element);
+                                setDialogActiveOpen(true);
+                              }}
+                            >
                               <i className="fa-solid fa-play"></i>
                             </button>
                           </td>
@@ -335,10 +474,22 @@ export default function ManageService() {
                             >
                               <i className="fa-solid fa-circle-info"></i>
                             </Link>{" "}
-                            <button className="button is-rounded is-success mr-5 has-text-white">
+                            <button
+                              className="button is-rounded is-success mr-5 has-text-white"
+                              onClick={() => {
+                                setSalonActive(element);
+                                setDialogActiveOpen(true);
+                              }}
+                            >
                               <i className="fa-solid fa-check"></i>
                             </button>
-                            <button className="button is-rounded is-danger has-text-white">
+                            <button
+                              className="button is-rounded is-danger has-text-white"
+                              onClick={() => {
+                                setSalonReject(element);
+                                setDialogRejectOpen(true);
+                              }}
+                            >
                               <i className="fa-solid fa-trash-can"></i>
                             </button>
                           </td>
@@ -350,6 +501,89 @@ export default function ManageService() {
               </TabPanel>
             </TabContext>
           </div>
+          {/* DIALOG ACTIVE */}
+          <Dialog
+            onClose={handleActiveClose}
+            open={dialogActiveOpen}
+            maxWidth="lg"
+          >
+            <FormWrapper style={{ minHeight: "6rem" }}>
+              <FieldLabel>Are you sure active this salon?</FieldLabel>
+            </FormWrapper>
+            <ButtonWrapper>
+              {activeSuccessMess && (
+                <SuccessText>{activeSuccessMess}</SuccessText>
+              )}
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <button
+                className="button is-info mr-5 has-text-white is-rounded"
+                onClick={() => setDialogActiveOpen(false)}
+              >
+                Close
+              </button>
+              <button
+                className="button is-success has-text-white is-rounded"
+                onClick={handleActive}
+              >
+                Active
+              </button>
+            </ButtonWrapper>
+          </Dialog>
+          {/* DIALOG Reject */}
+          <Dialog
+            onClose={handleRejectClose}
+            open={dialogRejectOpen}
+            maxWidth="lg"
+          >
+            <FormWrapper style={{ minHeight: "6rem" }}>
+              <FieldLabel>Are you sure reject this salon?</FieldLabel>
+            </FormWrapper>
+            <ButtonWrapper>
+              {rejectSuccessMess && (
+                <SuccessText>{rejectSuccessMess}</SuccessText>
+              )}
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <button
+                className="button is-info mr-5 has-text-white is-rounded"
+                onClick={() => setDialogRejectOpen(false)}
+              >
+                Close
+              </button>
+              <button
+                className="button is-danger has-text-white is-rounded"
+                onClick={handleReject}
+              >
+                Reject
+              </button>
+            </ButtonWrapper>
+          </Dialog>
+          {/* DIALOG DEACTIVE */}
+          <Dialog onClose={handleClose} open={dialogOpen} maxWidth="lg">
+            <FormWrapper style={{ minHeight: "6rem" }}>
+              <FieldLabel>Are you sure deactivate this salon?</FieldLabel>
+            </FormWrapper>
+            <ButtonWrapper>
+              {deactiveSuccessMess && (
+                <SuccessText>{deactiveSuccessMess}</SuccessText>
+              )}
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <button
+                className="button is-info mr-5 has-text-white is-rounded"
+                onClick={() => setDialogOpen(false)}
+              >
+                Close
+              </button>
+              <button
+                className="button is-danger has-text-white is-rounded"
+                onClick={handleDeactive}
+              >
+                Deactive
+              </button>
+            </ButtonWrapper>
+          </Dialog>
           <div className="column is-2"></div>
         </div>
       </div>
