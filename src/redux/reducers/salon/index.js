@@ -259,7 +259,7 @@ export const EditBusinessInfo = (
 export const EditSalonInfo = (
   state = {
     salonInfoEdited: null,
-    successMess: null,
+    successMessage: null,
     errMessage: null,
   },
   action
@@ -269,21 +269,21 @@ export const EditSalonInfo = (
       return {
         ...state,
         salonInfoEdited: null,
-        successMess: null,
+        successMessage: null,
         errMessage: action.payload,
       };
     case SalonActionTypes.EDIT_SALON_INFO_SUCCESSFULLY:
       return {
         ...state,
         salonInfoEdited: action.payload.salonInfoEdited,
-        successMess: action.payload.successMess,
+        successMessage: action.payload.successMessage,
         errMessage: null,
       };
     case SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY:
       return {
         ...state,
         salonInfoEdited: null,
-        successMess: null,
+        successMessage: null,
         errMessage: null,
       };
     default:

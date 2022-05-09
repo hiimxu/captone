@@ -26,8 +26,7 @@ import {
   currencyFormatter,
   convertISOStringToLocaleDateString,
 } from "../../utils";
-import moment from "moment";
-import { set } from "date-fns";
+
 
 export default function Schedule() {
   const minDate = new Date().toISOString().substring(0, 10);
@@ -98,7 +97,7 @@ export default function Schedule() {
 
   //call redux store
   const { listStaff } = useSelector((state) => state.listStaffSalon);
-  const { currentSchedule, errMess } = useSelector(
+  const { currentSchedule } = useSelector(
     (state) => state.scheduleCurent
   );
   const { token, account_name: username } = useSelector(
