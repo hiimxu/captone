@@ -105,6 +105,7 @@ export default function Staff() {
       <div className="columns">
         <div className="column is-1"></div>
         <div className="column is-10">
+          {/* radio button */}
           <FormControl>
             <RadioGroup
               aria-labelledby="radio-buttons-group-label"
