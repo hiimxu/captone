@@ -1,11 +1,21 @@
 import React, { useState } from "react";
+import paperbg from "../assets/paperbg.jpg";
+import bgImg from "../assets/barbershopbg.jpg";
+import patterbg from "../assets/patterbg.svg";
+import barberreviews from "../assets/barberreviews.jpg"
+import suit from "../assets/mens_suite_and_vest_house_of_barbaard_background.jpg"
+import barbershop from "../assets/header_barbershop.jpg"
+
 
 export default function About() {
   const root = {
-    backgroundColor: "rgba(207, 199, 135, 1)",
+    backgroundImage: `url(${bgImg})`,
+    backgroundRepeat: "repeat-y",
+    backgroundSize: "100%",
   };
   const box1 = {
-    backgroundColor: "rgba(30, 98, 150, 1)",
+    backgroundImage: `url(${patterbg})`,
+    boxShadow: "1px 1px 20px black",
     marginRight: "45%",
     paddingTop: "1%",
     paddingBottom: "1%",
@@ -13,7 +23,8 @@ export default function About() {
     paddingRight: "1%",
   };
   const box2 = {
-    backgroundColor: "rgba(188, 123, 90, 1)",
+    backgroundImage: `url(${patterbg})`,
+    boxShadow: "1px 1px 20px black",
     marginLeft: "45%",
     paddingTop: "1%",
     paddingBottom: "1%",
