@@ -163,11 +163,11 @@ export default function Staff() {
                 </div>
               ))}
             </div>
-            <div class="steps" id="stepsDemo">
-              <div class="step-item is-completed is-link">
-                <div class="step-marker">1</div>
-                <div class="step-details">
-                  <p class="step-title">Choose date</p>
+            <div className="steps" id="stepsDemo">
+              <div className="step-item is-completed is-link">
+                <div className="step-marker">1</div>
+                <div className="step-details">
+                  <p className="step-title">Choose date</p>
                   <br></br>
                   <Calendar
                     className="rounded"
@@ -180,10 +180,10 @@ export default function Staff() {
                    {console.log(calendar)}  */}
                 </div>
               </div>
-              <div class="step-item  is-completed is-link">
-                <div class="step-marker">2</div>
-                <div class="step-details">
-                  <p class="step-title">Choose staff</p>
+              <div className="step-item  is-completed is-link">
+                <div className="step-marker">2</div>
+                <div className="step-details">
+                  <p className="step-title">Choose staff</p>
                   <br></br>
                   <select
                     className="form-select form-select-lg mb-3 "
@@ -205,10 +205,10 @@ export default function Staff() {
                   </select>
                 </div>
               </div>
-              <div class="step-item is-completed is-link">
-                <div class="step-marker">3</div>
-                <div class="step-details">
-                  <p class="step-title">Choose slot</p>
+              <div className="step-item is-completed is-link">
+                <div className="step-marker">3</div>
+                <div className="step-details">
+                  <p className="step-title">Choose slot</p>
                   <br></br>
                   <div className="form-check">
                     {calendar?.calendar.map((slot) => (

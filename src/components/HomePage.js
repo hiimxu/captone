@@ -77,6 +77,7 @@ export default function HomePage() {
               type="text"
               placeholder="text here"
               value={nameSalon}
+              maxLength={40}
               onChange={(e) => {
                 setNameSalon(e.target.value);
               }}

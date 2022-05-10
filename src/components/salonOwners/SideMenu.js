@@ -84,7 +84,7 @@ export default function SalonDashboard() {
             >
               <p>
                 {" "}
-                <i class="fa-solid fa-book-open-reader"></i> Booking{" "}
+                <i className="fa-solid fa-book-open-reader"></i> Booking{" "}
               </p>
             </Link>
           </li>

@@ -26,8 +26,7 @@ import {
   currencyFormatter,
   convertISOStringToLocaleDateString,
 } from "../../utils";
-import moment from "moment";
-import { set } from "date-fns";
+
 
 export default function Schedule() {
   const minDate = new Date().toISOString().substring(0, 10);
@@ -39,9 +38,7 @@ export default function Schedule() {
     day: convertDate(date),
     nameStaff: "",
   });
-  const [dayFormated, setDayFormated] = useState({
-    day: convertDate(date),
-  });
+
   //set staff id for order current
   const [staff, setStaff] = useState("");
   //set staff id for history order
@@ -94,14 +91,13 @@ export default function Schedule() {
   };
   const handleSelectDateHistory = (e) => {
     setDateHistory(e.target.value);
-    setDayFormated({ day: convertDate(e.target.value) });
   };
 
   const dispatch = useDispatch();
 
   //call redux store
   const { listStaff } = useSelector((state) => state.listStaffSalon);
-  const { currentSchedule, errMess } = useSelector(
+  const { currentSchedule } = useSelector(
     (state) => state.scheduleCurent
   );
   const { token, account_name: username } = useSelector(
@@ -385,14 +381,14 @@ export default function Schedule() {
                     <br></br>
                     <button
                       onClick={handleFinish}
-                      className="button is-rounded is-info mr-5"
+                      className="button is-rounded is-success mr-5"
                       style={{ width: "150px" }}
                     >
                       Finish order
                     </button>
                     <button
                       onClick={handleCloseFinish}
-                      className="button is-rounded is-danger ml-5"
+                      className="button is-rounded is-info ml-5"
                       style={{ width: "150px" }}
                     >
                       Cancel
@@ -416,17 +412,17 @@ export default function Schedule() {
                     <br></br>
                     <button
                       onClick={handleCancel}
-                      className="button is-rounded is-info mr-5"
+                      className="button is-rounded is-success mr-5"
                       style={{ width: "150px" }}
                     >
                       Confirmed
                     </button>
                     <button
                       onClick={handleCloseCancel}
-                      className="button is-rounded is-danger ml-5"
+                      className="button is-rounded is-info ml-5"
                       style={{ width: "150px" }}
                     >
-                      Cancel
+                      Close
                     </button>
                   </div>
                 </Box>
@@ -531,7 +527,7 @@ export default function Schedule() {
                       )}{" "}
                       {element.nameStatus === "cancelled" && (
                         <td className="has-text-danger is-size-4 has-text-weight-bold has-text-centered">
-                          <i class="fa-solid fa-xmark"></i>
+                          <i className="fa-solid fa-xmark"></i>
                         </td>
                       )}
                       <td>{element.note}</td>

@@ -221,7 +221,6 @@ export const EditService = (
   }
 };
 
-
 export const EditBusinessInfo = (
   state = {
     businessInfoEdited: null,
@@ -260,7 +259,7 @@ export const EditBusinessInfo = (
 export const EditSalonInfo = (
   state = {
     salonInfoEdited: null,
-    successMess: null,
+    successMessage: null,
     errMessage: null,
   },
   action
@@ -270,23 +269,76 @@ export const EditSalonInfo = (
       return {
         ...state,
         salonInfoEdited: null,
-        successMess: null,
+        successMessage: null,
         errMessage: action.payload,
       };
     case SalonActionTypes.EDIT_SALON_INFO_SUCCESSFULLY:
       return {
         ...state,
         salonInfoEdited: action.payload.salonInfoEdited,
-        successMess: action.payload.successMess,
+        successMessage: action.payload.successMessage,
         errMessage: null,
       };
     case SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY:
       return {
         ...state,
         salonInfoEdited: null,
-        successMess: null,
+        successMessage: null,
         errMessage: null,
       };
+    default:
+      return state;
+  }
+};
+
+export const ListCalendar = (
+  state = {
+    listCalendar: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.GET_LIST_STAFF_CALENDAR_FAILED:
+      return { ...state, listCalendar: null, errMess: action.payload.errMess };
+    case SalonActionTypes.GET_LIST_STAFF_CALENDAR_SUCCESSFULLY:
+      return {
+        ...state,
+        listCalendar: action.payload.listCalendar,
+        errMess: null,
+      };
+    case SalonActionTypes.RESET_LIST_STAFF_CALENDAR:
+      return { ...state, listCalendar: null, errMess: null };
+    default:
+      return state;
+  }
+};
+
+export const SalonBooking = (
+  state = {
+    bookingInfo: null,
+    successMess: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.BOOKING_NEW_SERVICE_FAILED:
+      return {
+        ...state,
+        listCalendar: null,
+        successMess: null,
+        errMess: action.payload.errMess,
+      };
+    case SalonActionTypes.GET_LIST_STAFF_CALENDAR_SUCCESSFULLY:
+      return {
+        ...state,
+        listCalendar: action.payload.listCalendar,
+        successMess: action.payload.successMess,
+        errMess: null,
+      };
+    case SalonActionTypes.GET_SCHEDULE_CURRENT_SUCCESSFULLY:
+      return { ...state, listCalendar: null, successMess: null, errMess: null };
     default:
       return state;
   }

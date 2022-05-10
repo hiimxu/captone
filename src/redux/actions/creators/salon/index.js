@@ -896,7 +896,7 @@ export const editSalonInfo =
           dispatch(
             editSalonInfoSuccessfully({
               salonInfoEdited: response.data,
-              successMess: response.message,
+              successMessage: response.message,
             })
           );
           if (successCallback) {
@@ -922,5 +922,133 @@ const editSalonInfoSuccessfully = (payload) => {
   return {
     type: SalonActionTypes.EDIT_SALON_INFO_SUCCESSFULLY,
     payload,
+  };
+};
+
+//GET CALENDAR
+export const getCalendar = (token, info) => (dispatch) => {
+  const data = new URLSearchParams({ ...info });
+  return fetch(`${api}api/salonowner/staffCanledar`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(getCalendarFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length) {
+        dispatch(
+          getCalendarSuccesfully({
+            listCalendar: response.data,
+          })
+        );
+      } else {
+        dispatch(getCalendarFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get calendar failed", error);
+    });
+};
+
+const getCalendarSuccesfully = (payload) => {
+  return {
+    type: SalonActionTypes.GET_LIST_STAFF_CALENDAR_SUCCESSFULLY,
+    payload,
+  };
+};
+const getCalendarFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.GET_LIST_STAFF_CALENDAR_FAILED,
+    payload: errMess,
+  };
+};
+
+export const resetCalendar = () => (dispatch) => {
+  dispatch({
+    type: SalonActionTypes.RESET_LIST_STAFF_CALENDAR,
+  });
+};
+
+//SALON BOOKING
+export const salonBooking = (token, bookingData, callback) => (dispatch) => {
+  const data = new URLSearchParams({ ...bookingData });
+  return fetch(`${api}api/salonowner/bookingService`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(salonBookingFailed(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data && response.message) {
+        dispatch(
+          salonBookingSuccesfully({
+            bookingInfo: response.data,
+            successMess: response.message,
+          })
+        );
+        if (callback) {
+          setTimeout(() => {
+            callback();
+          }, 500);
+        }
+      } else {
+        dispatch(salonBookingFailed(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Salon booking failed", error);
+    });
+};
+
+const salonBookingSuccesfully = (payload) => {
+  return {
+    type: SalonActionTypes.BOOKING_NEW_SERVICE_SUCCESSFULLY,
+    payload,
+  };
+};
+const salonBookingFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.BOOKING_NEW_SERVICE_FAILED,
+    payload: errMess,
   };
 };
