@@ -765,7 +765,7 @@ export default function ManageService() {
                     </TabList>
                   </Box>
                   <TabPanel value="1">
-                    <div>
+                    <div style={{ overflowY: "scroll", height: "1000px" }}>
                       <div className="has-text-right mb-5">
                         <button
                           className="button is-info is-rounded"
@@ -1312,7 +1312,7 @@ export default function ManageService() {
                     {/*  */}
                   </TabPanel>
                   <TabPanel value="2">
-                    <div>
+                    <div style={{ overflowY: "scroll", height: "1000px" }}>
                       <div className=" columns">
                         <div className="column is-3 has-text-centered">
                           <p className="has-text-info">

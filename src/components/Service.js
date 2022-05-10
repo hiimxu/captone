@@ -177,7 +177,7 @@ export default function Service() {
                   </TabList>
                 </Box>
                 <TabPanel value="1" style={{ marginBottom: "1.5rem" }}>
-                  <div>
+                  <div style={{ overflowY: "scroll", height: "1000px" }}>
                     {serviceList?.data?.map((service) => (
                       <div
                         className="card mb-3"
@@ -267,7 +267,7 @@ export default function Service() {
                   </div>
                 </TabPanel>
                 <TabPanel value="2">
-                  <div>
+                  <div style={{ overflowY: "scroll", height: "1000px" }}>
                     <div className="has-text-right w-100 pr-5">
                       <button
                         className="button is-info is-rounded"
