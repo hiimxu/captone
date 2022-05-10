@@ -527,7 +527,7 @@ export default function Schedule() {
                       )}{" "}
                       {element.nameStatus === "cancelled" && (
                         <td className="has-text-danger is-size-4 has-text-weight-bold has-text-centered">
-                          <i class="fa-solid fa-xmark"></i>
+                          <i className="fa-solid fa-xmark"></i>
                         </td>
                       )}
                       <td>{element.note}</td>

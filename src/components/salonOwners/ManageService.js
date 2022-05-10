@@ -864,7 +864,7 @@ export default function ManageService() {
                                   onClick={() => handleOpenEditService(service)}
                                   className="button mr-3 is-primary is-rounded  mt-3 is-small"
                                 >
-                                  <i class="fa-solid fa-pen-to-square"></i>
+                                  <i className="fa-solid fa-pen-to-square"></i>
                                 </button>
                               </Tooltip>
                             </div>
@@ -1361,7 +1361,7 @@ export default function ManageService() {
                           >
                             5
                             <i
-                              class="fa-solid fa-star"
+                              className="fa-solid fa-star"
                               style={{ color: "gold" }}
                             ></i>
                           </button>
@@ -1375,7 +1375,7 @@ export default function ManageService() {
                           >
                             4
                             <i
-                              class="fa-solid fa-star"
+                              className="fa-solid fa-star"
                               style={{ color: "gold" }}
                             ></i>
                           </button>
@@ -1389,7 +1389,7 @@ export default function ManageService() {
                           >
                             3
                             <i
-                              class="fa-solid fa-star"
+                              className="fa-solid fa-star"
                               style={{ color: "gold" }}
                             ></i>
                           </button>
@@ -1403,7 +1403,7 @@ export default function ManageService() {
                           >
                             2
                             <i
-                              class="fa-solid fa-star"
+                              className="fa-solid fa-star"
                               style={{ color: "gold" }}
                             ></i>
                           </button>
@@ -1417,7 +1417,7 @@ export default function ManageService() {
                           >
                             1
                             <i
-                              class="fa-solid fa-star"
+                              className="fa-solid fa-star"
                               style={{ color: "gold" }}
                             ></i>
                           </button>*/}

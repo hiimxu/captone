@@ -373,7 +373,7 @@ export default function Staff() {
         <Dialog open={dialogOpen} maxWidth="lg">
           <FormWrapper style={{ minHeight: "6rem" }}>
             <SuccessText>
-              <i class="fa-solid fa-circle-check"></i>
+              <i className="fa-solid fa-circle-check"></i>
             </SuccessText>
             <SuccessText>Booking successfully!</SuccessText>
           </FormWrapper>

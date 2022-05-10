@@ -69,11 +69,11 @@ export default function FinishBooking() {
               {bookingDetails.phoneSalon}
             </p>
             <p className="is-size-5">
-              <i class="fa-solid fa-location-dot text-secondary"></i>{" "}
+              <i className="fa-solid fa-location-dot text-secondary"></i>{" "}
               <span>{bookingDetails.detailAddress}</span>
             </p>
             <hr
-              class="solid"
+              className="solid"
               style={{
                 marginTop: 5,
                 marginBottom: 5,
@@ -91,7 +91,7 @@ export default function FinishBooking() {
               </span>
             </p>
             <hr
-              class="solid"
+              className="solid"
               style={{
                 marginTop: 5,
                 marginBottom: 5,
@@ -106,7 +106,7 @@ export default function FinishBooking() {
               </span>
             </p>
             <hr
-              class="solid"
+              className="solid"
               style={{
                 marginTop: 5,
                 marginBottom: 5,
@@ -119,7 +119,7 @@ export default function FinishBooking() {
               {bookingDetails.nameStaff}
             </p>
             <hr
-              class="solid"
+              className="solid"
               style={{
                 marginTop: 5,
                 marginBottom: 5,
@@ -137,7 +137,7 @@ export default function FinishBooking() {
           <div className="column is-8" style={rightReceipt}>
             <div className="card-body text-center">
               <h1 className="text-success display-2">
-                <i class="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-check"></i>
               </h1>
               <h2 className="font-weight-bold text-success is-size-3">
                 {message}
