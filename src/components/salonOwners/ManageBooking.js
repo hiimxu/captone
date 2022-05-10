@@ -275,8 +275,10 @@ export default function Staff() {
             }}
           >
             <div className="steps ml-5" id="stepsDemo">
-              <div className="is-completed is-link">
+              <div className="step-item is-completed is-link">
+                <div className="step-marker">1</div>
                 <div className="step-details">
+                  <p className="step-title">Choose date</p>
                   <br></br>
                   <Calendar
                     className="rounded"
@@ -286,8 +288,11 @@ export default function Staff() {
                   />
                 </div>
               </div>
-              <div className="col-4 ml-5">
+
+              <div className="step-item  is-completed is-link">
+                <div className="step-marker">2</div>
                 <div className="step-details">
+                  <p className="step-title">Choose staff/slot</p>
                   <br></br>
                   <select
                     className="form-select form-select-lg mb-3 "
@@ -307,48 +312,47 @@ export default function Staff() {
                       </option>
                     ))}
                   </select>
-                </div>
-                <div className="">
-                  <div className="step-details">
-                    <br></br>
-                    <div className="form-check">
-                      {listCalendar?.map((slot) => (
-                        <div
-                          className="form-check form-check-inline mr-4"
-                          key={slot.toString()}
-                          value={time}
-                          onChange={(e) => setTime(e.target.value)}
-                        >
-                          <input
-                            type="radio"
-                            name="inlineRadioOptions1"
-                            value={slot}
-                            className="rounded mr-1 mb-2 bg-white"
-                          ></input>
-                          <label>{slot}</label>
-                        </div>
-                      ))}
-                    </div>
+                  <br></br>
+                  <div className="form-check">
+                    {listCalendar?.map((slot) => (
+                      <div
+                        className="form-check form-check-inline mr-4"
+                        key={slot.toString()}
+                        value={time}
+                        onChange={(e) => setTime(e.target.value)}
+                      >
+                        <input
+                          type="radio"
+                          name="inlineRadioOptions1"
+                          value={slot}
+                          className="rounded mr-1 mb-2 bg-white"
+                        ></input>
+                        <label>{slot}</label>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <div className=" col-4">
-                <div className="pt-4 font-weight-bold">
-                  <label>Note:</label>
-                </div>
-                <div className="">
-                  <textarea
-                    className="pl-1"
-                    placeholder=" Customer's name / phone number"
-                    rows="10"
-                    cols="35"
-                    maxLength={40}
-                    value={note}
-                    onChange={(e) => {
-                      setNote(e.target.value);
-                    }}
-                  ></textarea>
+              <div className="step-item  is-completed is-link">
+                <div className="step-marker">3</div>
+
+                <div className="step-details">
+                  <p className="step-title">Note:</p>
+                  <br></br>
+                  <div className="">
+                    <textarea
+                      className="pl-1"
+                      placeholder=" Customer's name / phone number"
+                      rows="10"
+                      cols="35"
+                      maxLength={40}
+                      value={note}
+                      onChange={(e) => {
+                        setNote(e.target.value);
+                      }}
+                    ></textarea>
+                  </div>
                 </div>
               </div>
             </div>

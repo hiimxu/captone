@@ -92,7 +92,7 @@ export default function Navigation() {
             <ul className="menu navbar-nav fixed-right" style={sign}>
               <li className="nav-item p-1">
                 <Link className="text-reset" to="/">
-                  <button className="border-0 rounded" onClick={handleLogout}>
+                  <button className="button is-dark is-outlined is-inverted" onClick={handleLogout}>
                     Logout
                   </button>
                 </Link>

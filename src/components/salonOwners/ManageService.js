@@ -404,7 +404,7 @@ export default function ManageService() {
         <div className="columns">
           <div className="column is-3"></div>
           <div
-            className="column is-6 mt-5 p-0"
+            className="column is-6 mt-5 mb-5 p-0"
             style={{ boxShadow: "1px 1px 20px black" }}
           >
             <div
@@ -765,19 +765,20 @@ export default function ManageService() {
                     </TabList>
                   </Box>
                   <TabPanel value="1">
-                    <div style={{ overflowY: "scroll", height: "1000px" }}>
-                      <div className="has-text-right mb-5">
-                        <button
-                          className="button is-info is-rounded"
-                          onClick={handleOpenService}
-                        >
-                          Add a service
-                        </button>
-                      </div>
+                    <div className="has-text-right mb-5">
+                      <button
+                        className="button is-info is-rounded"
+                        onClick={handleOpenService}
+                      >
+                        Add a service
+                      </button>
+                    </div>
+                    <div style={{ overflowY: "scroll", height: "700px" }}>
                       {listService?.map((service) => (
                         <div
                           className="card mb-3"
                           style={{
+                            maxWidth: "98%",
                             backgroundColor: " #F5F3ED",
                             minHeight: "12rem",
                             borderRadius: "25px",
@@ -1312,125 +1313,108 @@ export default function ManageService() {
                     {/*  */}
                   </TabPanel>
                   <TabPanel value="2">
-                    <div style={{ overflowY: "scroll", height: "1000px" }}>
-                      <div className=" columns">
-                        <div className="column is-3 has-text-centered">
-                          <p className="has-text-info">
-                            {" "}
-                            <Stack spacing={1}>
-                              <span className="is-size-4 has-text-weight-semibold">
-                                4.5
-                              </span>
-                              <br></br>
-
-                              <Rating
-                                name="half-rating-read"
-                                defaultValue={2.5}
-                                precision={0.5}
-                                readOnly
-                              />
-                            </Stack>
-                            <br></br>
-                            out of 5 <br></br>
-                            156 reviews
-                          </p>
-                        </div>
-                        <div
-                          className="column is-9 has-text-centered mt-3"
-                          style={{ display: "inline-block" }}
-                        >
-                          Filter :{" "}
-                          <Stack spacing={1}>
-                            <Rating
-                              name="simple-controlled"
-                              value={valueRating}
-                              defaultValue={2.5}
-                              precision={0.5}
-                              onChange={(event, newValue) => {
-                                setValueRating(newValue);
-                              }}
-                            />
-                          </Stack>
-                          {/*   <button
-                            style={{
-                              border: " 1px solid darkblue",
-                              borderRadius: "50%",
-                              height: "70px",
-                            }}
-                            className="button  is-link is-light mr-4 is-medium"
-                          >
-                            5
-                            <i
-                              className="fa-solid fa-star"
-                              style={{ color: "gold" }}
-                            ></i>
-                          </button>
-                          <button
-                            style={{
-                              border: " 1px solid darkblue",
-                              borderRadius: "50%",
-                              height: "70px",
-                            }}
-                            className="button  is-link is-light mr-4 is-medium"
-                          >
-                            4
-                            <i
-                              className="fa-solid fa-star"
-                              style={{ color: "gold" }}
-                            ></i>
-                          </button>
-                          <button
-                            style={{
-                              border: " 1px solid darkblue",
-                              borderRadius: "50%",
-                              height: "70px",
-                            }}
-                            className="button  is-link is-light mr-4 is-medium"
-                          >
-                            3
-                            <i
-                              className="fa-solid fa-star"
-                              style={{ color: "gold" }}
-                            ></i>
-                          </button>
-                          <button
-                            style={{
-                              border: " 1px solid darkblue",
-                              borderRadius: "50%",
-                              height: "70px",
-                            }}
-                            className="button  is-link is-light mr-4 is-medium"
-                          >
-                            2
-                            <i
-                              className="fa-solid fa-star"
-                              style={{ color: "gold" }}
-                            ></i>
-                          </button>
-                          <button
-                            style={{
-                              border: " 1px solid darkblue",
-                              borderRadius: "50%",
-                              height: "70px",
-                            }}
-                            className="button  is-link is-light mr-4 is-medium"
-                          >
-                            1
-                            <i
-                              className="fa-solid fa-star"
-                              style={{ color: "gold" }}
-                            ></i>
-                          </button>*/}
-                        </div>
+                    {" "}
+                    <div className=" columns">
+                      <div className="column is-3 has-text-centered">
+                        <p className="has-text-info">
+                          {" "}
+                          <span className="is-size-4 has-text-weight-semibold">
+                            4.5
+                          </span>
+                          <br></br>
+                          <Rating
+                            name="half-rating-read"
+                            defaultValue={2.5}
+                            precision={0.5}
+                            readOnly
+                          />
+                          <br></br>
+                          out of 5 <br></br>
+                          156 reviews
+                        </p>
                       </div>
-                      <hr
-                        style={{
-                          backgroundColor: "grey",
-                          margin: "0px",
-                          height: "1px",
-                          opacity: "60%",
-                        }}
-                      ></hr>
+                      <div
+                        className="column is-9 has-text-centered mt-3"
+                        style={{ display: "inline-block" }}
+                      >
+                        {/* Filter :{" "}
+                        
+                          <Rating
+                            name="simple-controlled"
+                            value={valueRating}
+                            defaultValue={2.5}
+                            precision={0.5}
+                            onChange={(event, newValue) => {
+                              setValueRating(newValue);
+                            }}
+                          />*/}
+                        <button
+                          style={{
+                            border: " 1px solid darkblue",
+                            borderRadius: "50%",
+                          }}
+                          className="button  is-link is-light mr-4 is-normal"
+                        >
+                          5
+                        </button>
+                        <button
+                          style={{
+                            border: " 1px solid darkblue",
+                            borderRadius: "50%",
+                          }}
+                          className="button  is-link is-light mr-4 is-normal"
+                        >
+                          4
+                        </button>
+                        <button
+                          style={{
+                            border: " 1px solid darkblue",
+                            borderRadius: "50%",
+                          }}
+                          className="button  is-link is-light mr-4 is-normal"
+                        >
+                          3
+                        </button>
+                        <button
+                          style={{
+                            border: " 1px solid darkblue",
+                            borderRadius: "50%",
+                          }}
+                          className="button  is-link is-light mr-4 is-normal"
+                        >
+                          2
+                        </button>
+                        <button
+                          style={{
+                            border: " 1px solid darkblue",
+                            borderRadius: "50%",
+                            // height: "70px",
+                          }}
+                          className="button  is-link is-light mr-4 is-normal"
+                        >
+                          1
+                          {/* <i
+                              className="fa-solid fa-star"
+                              style={{ color: "gold" }}
+                            ></i> */}
+                        </button>
+                      </div>
+                    </div>{" "}
+                    <hr
+                      style={{
+                        backgroundColor: "grey",
+                        margin: "0px",
+                        height: "1px",
+                        opacity: "60%",
+                      }}
+                    ></hr>
+                    <div
+                      style={{
+                        overflowY: "scroll",
+                        height: "600px",
+                        padding: "0px",
+                      }}
+                    >
                       {fakeReview?.map((review) => (
                         <div
                           className="m-4  "

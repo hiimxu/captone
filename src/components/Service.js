@@ -59,8 +59,6 @@ export default function Service() {
     };
   }, [dispatch, salonId]);
 
-  
-
   // -- TABS --
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
@@ -78,7 +76,7 @@ export default function Service() {
       <div className="columns">
         <div className="column is-3"></div>
         <div
-          className="column is-6 mt-3 p-0"
+          className="column is-6 mt-3 mb-5 p-0"
           style={{
             boxShadow: "1px 1px 20px black",
           }}
@@ -113,8 +111,7 @@ export default function Service() {
                         <p className="is-size-5 font-weight-bold">
                           Open:{" "}
                           <span className="text-danger">
-                            Mon-Sun {salon.timeOpen} -{" "}
-                            {salon.timeClose}
+                            Mon-Sun {salon.timeOpen} - {salon.timeClose}
                           </span>
                         </p>
                         <p>
@@ -176,12 +173,13 @@ export default function Service() {
                     />
                   </TabList>
                 </Box>
-                <TabPanel value="1" style={{ marginBottom: "1.5rem" }}>
-                  <div style={{ overflowY: "scroll", height: "1000px" }}>
+                <TabPanel value="1" >
+                  <div style={{ overflowY: "scroll", height: "700px" }}>
                     {serviceList?.data?.map((service) => (
                       <div
                         className="card mb-3"
                         style={{
+                          width: "98%",
                           background: "url(" + paperbg + ")",
                           height: "12rem",
                           borderRadius: "25px",
@@ -267,15 +265,15 @@ export default function Service() {
                   </div>
                 </TabPanel>
                 <TabPanel value="2">
-                  <div style={{ overflowY: "scroll", height: "1000px" }}>
-                    <div className="has-text-right w-100 pr-5">
-                      <button
-                        className="button is-info is-rounded"
-                        onClick={handleOpenReview}
-                      >
-                        Write review
-                      </button>
-                    </div>
+                  <div className="has-text-right w-100 pr-5">
+                    <button
+                      className="button is-info is-rounded"
+                      onClick={handleOpenReview}
+                    >
+                      Write review
+                    </button>
+                  </div>
+                  <div style={{ overflowY: "scroll", height: "700px" }}>
                     {fakeReview?.map((review) => (
                       <div
                         className="m-4  "

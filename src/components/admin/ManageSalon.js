@@ -18,7 +18,7 @@ import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import patterbg from "../../assets/patterbg.svg";
 import { convertISOStringToLocaleDateString } from "../../utils/index";
-
+import  {Rating} from "@mui/material";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -270,13 +270,13 @@ export default function ManageService() {
                           <p title="SalonName">Salon's Name</p>
                         </th>
                         <th>
-                          <p title="SalonAddress">Address</p>
+                          <p title="SalonAddress" >Address</p>
                         </th>
                         <th>
                           <p title="DateJoin">Date join</p>
                         </th>
                         <th>
-                          <p title="Rating">Rating</p>
+                          <p title="Rating" className="has-text-centered">Rating</p>
                         </th>
                         <th className="has-text-centered">
                           <p title="Actions">Actions</p>
@@ -290,13 +290,19 @@ export default function ManageService() {
                             {listSalonActive.indexOf(element) + 1}
                           </th>
                           <td>{element?.nameSalon}</td>
-                          <td>{element?.detailAddress}</td>
+                          <td style={{maxWidth:"20rem"}}>{element?.detailAddress}</td>
                           <td>
                             {convertISOStringToLocaleDateString(
                               element?.joinDate
                             )}
                           </td>
-                          <td>{element?.star}</td>
+                          <td className="has-text-centered">
+                          <Rating
+                            name="half-rating-read"
+                            defaultValue={element?.star}
+                            precision={0.5}
+                            readOnly
+                          /></td>
 
                           <td className="has-text-centered">
                             <Link
@@ -359,7 +365,7 @@ export default function ManageService() {
                           <p title="DateJoin">Date join</p>
                         </th>
                         <th>
-                          <p title="Rating">Rating</p>
+                          <p title="Rating" className="has-text-centered">Rating</p>
                         </th>
                         <th className="has-text-centered">
                           <p title="Actions">Actions</p>
@@ -373,9 +379,14 @@ export default function ManageService() {
                             {listSalonDeactive.indexOf(element) + 1}
                           </th>
                           <td>{element.nameSalon}</td>
-                          <td>{element.detailAddress}</td>
+                          <td style={{maxWidth:"20rem"}}>{element.detailAddress}</td>
                           <td>{element.dateJoin}</td>
-                          <td>{element.AverangeVote}</td>
+                          <td className="has-text-centered"> <Rating
+                            name="half-rating-read"
+                            defaultValue={element.AverangeVote}
+                            precision={0.5}
+                            readOnly
+                          /></td>
 
                           <td className="has-text-centered">
                             <Link
@@ -452,7 +463,7 @@ export default function ManageService() {
                             {listSalonRequest.indexOf(element) + 1}
                           </th>
                           <td>{element.nameSalon}</td>
-                          <td>{element.detailAddress}</td>
+                          <td style={{maxWidth:"20rem"}}>{element.detailAddress}</td>
                           <td>
                             {convertISOStringToLocaleDateString(
                               element.requestDate
