@@ -38,6 +38,10 @@ import {
   DeactiveSalon,
   RejectSalon,
 } from "../reducers/admin";
+import {
+  ListReviewForCustomer,
+  AddReviewForCustomer,
+} from "../reducers/review";
 
 import { Profile } from "../reducers/profile";
 import { persistStore, persistReducer } from "redux-persist";
@@ -87,6 +91,10 @@ const rootReducer = combineReducers({
   activeSalon: ActiveSalon,
   deactiveSalon: DeactiveSalon,
   rejectSalon: RejectSalon,
+
+  //review
+  listReviewForCustomer: ListReviewForCustomer,
+  addReviewForCustomer: AddReviewForCustomer,
 });
 
 export const ConfigureStore = () => {

@@ -346,11 +346,11 @@ export default function SalonDashboard() {
                 <br></br>
                 <div className="has-text-right">
                   <button
-                    className="button is-rounded is-danger"
+                    className="button is-rounded is-info"
                     onClick={handleCloseAdd}
                   >
                     {" "}
-                    Cancel
+                    Close
                   </button>
                   <button
                     className="button is-rounded is-primary ml-3"

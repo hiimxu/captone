@@ -6,7 +6,10 @@ import {
   resetServiceList,
   updateSelectedService,
 } from "../redux/actions/creators/booking";
-import { currencyFormatter } from "../utils";
+import {
+  currencyFormatter,
+  convertISOStringToLocaleDateString,
+} from "../utils";
 
 import bgImg from "../assets/barbershopbg.jpg";
 import paperbg from "../assets/paperbg.jpg";
@@ -19,6 +22,13 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import { Modal } from "@mui/material";
+import Rating from "@mui/material/Rating";
+import Typography from "@mui/material/Typography";
+import {
+  addReview,
+  getListReviewForCustomer,
+  resetReviewListForCustomer,
+} from "../redux/actions/creators/review";
 
 // CSS
 const root = {
@@ -46,6 +56,11 @@ export default function Service() {
   // const fakeServiceList = serviceLists;
   const fakeReview = fakeReviews;
 
+  //TOKEN
+  const { token, account_name: username } = useSelector(
+    (state) => state.loginAccount.account
+  );
+
   // API DATA
   const [type, setType] = useState("Services");
   console.log(type);
@@ -65,10 +80,67 @@ export default function Service() {
     setValue(newValue);
   };
 
+  //FILL BY RATING
+  const [rate, setRate] = useState(0);
+
+  //CALL API REVIEW
+  useEffect(() => {
+    dispatch(getListReviewForCustomer({ salonId: salonId, star: rate }));
+    return () => {
+      dispatch(resetReviewListForCustomer());
+    };
+  }, [dispatch, salonId, rate]);
+
+  //CALL LIST REVIEW FROM REDUX
+  const { listReview } = useSelector((state) => state.listReviewForCustomer);
+
   // -- MODAL REVIEW --
   const [openReview, setOpenReview] = useState(false);
-  const handleOpenReview = () => setOpenReview(true);
+  const handleOpenReview = () => {
+    setOpenReview(true);
+    setErrEmpty(null);
+  };
   const handleCloseReview = () => setOpenReview(false);
+
+  //STATE ADD NEW REVIEW
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewContent, setReviewContent] = useState("");
+  const [errEmpty, setErrEmpty] = useState(null);
+
+  //CALL MESSAGE ADD NEW REVIEW FROM REDUX
+  const { successMessage, errMess } = useSelector(
+    (state) => state.addReviewForCustomer
+  );
+
+  //ADD NEW REVIEW
+  const handleAddNewReview = (e) => {
+    e.preventDefault();
+    if (!reviewRating) {
+      setErrEmpty("Please choose a rating star!");
+      return;
+    }
+    if (!reviewContent) {
+      setErrEmpty("Please write review for salon!");
+      return;
+    }
+    setErrEmpty(null);
+    const callback = () => {
+      dispatch(resetReviewListForCustomer());
+      setErrEmpty(null);
+      setReviewContent("");
+      setReviewRating(0);
+      setOpenReview(false);
+      dispatch(getListReviewForCustomer({ salonId: salonId, star: rate }));
+    };
+    dispatch(
+      addReview(
+        token,
+        { salonId: salonId, rate: reviewRating * 2, content: reviewContent },
+        callback
+      )
+    );
+  };
+
   return (
     <div style={root}>
       {/* -- VERTICAL STYLE -- */}
@@ -173,7 +245,7 @@ export default function Service() {
                     />
                   </TabList>
                 </Box>
-                <TabPanel value="1" >
+                <TabPanel value="1">
                   <div style={{ overflowY: "scroll", height: "700px" }}>
                     {serviceList?.data?.map((service) => (
                       <div
@@ -265,7 +337,7 @@ export default function Service() {
                   </div>
                 </TabPanel>
                 <TabPanel value="2">
-                  <div className="has-text-right w-100 pr-5">
+                  <div className="has-text-right w-100 pr-5 mb-5">
                     <button
                       className="button is-info is-rounded"
                       onClick={handleOpenReview}
@@ -273,37 +345,94 @@ export default function Service() {
                       Write review
                     </button>
                   </div>
-                  <div style={{ overflowY: "scroll", height: "700px" }}>
-                    {fakeReview?.map((review) => (
-                      <div
-                        className="m-4  "
-                        style={{
-                          backgroundColor: "white",
-                          height: "10rem",
-                          borderRadius: "25px",
+                  <div className="row pt-5 ">
+                    <div className="col-8">
+                      {serviceList?.dataSalon?.map((data) => (
+                        <div style={{ fontSize: "2rem" }} className="pl-4">
+                          <label>
+                            {data.AverangeVote}
+                            <i class="fa-solid fa-star text-warning pl-3"></i>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="col-1 font-weight-bold pr-0 pl-5">
+                      <label>Rating:</label>
+                    </div>
+                    <div className="col-3 pl-2">
+                      <Rating
+                        name="simple-controlled"
+                        value={rate}
+                        onChange={(event, newValue) => {
+                          setRate(newValue);
                         }}
-                      >
-                        <h1 className="ml-3 is-size-4">
-                          <span className="is-size-3 mt-5 has-text-weight-semibold">
-                            {review.nameCustomer}{" "}
-                          </span>
-                          - {review.wsend}
-                        </h1>
-                        <p className="ml-3 is-size-5"> {review.dateCreate}</p>
-                        <hr
-                          className="solid"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      overflowY: "scroll",
+                      height: "700px",
+                      backgroundColor: "white",
+                    }}
+                    className="border border-dark rounded"
+                  >
+                    {listReview ? (
+                      listReview.map((review) => (
+                        <div
+                          className="m-4 border shadow-lg p-3 mb-5 bg-white rounded"
                           style={{
-                            width: "95%",
-                            marginTop: 5,
-                            marginLeft: 10,
-                            marginBottom: 0,
-                            borderTop: 1 + "px solid grey",
-                            opacity: 60 + "%",
+                            backgroundColor: "white",
+                            height: "10rem",
+                            borderRadius: "25px",
                           }}
-                        />
-                        <p className="ml-3"> {review.conntent}</p>
+                        >
+                          <div>
+                            <h1 className="ml-3 is-size-4">
+                              <span className="is-size-3 mt-5 has-text-weight-semibold">
+                                {review.nameCustomer}{" "}
+                              </span>
+                              - {review.wsend}
+                            </h1>
+                          </div>
+                          <div className="ml-3">
+                            <Rating
+                              name="half-rating-read"
+                              value={review.rate / 2}
+                              precision={0.5}
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <p className="ml-3 is-size-5">
+                              {" "}
+                              {convertISOStringToLocaleDateString(
+                                review.dateCreate
+                              )}
+                            </p>
+                          </div>
+                          <hr
+                            className="solid"
+                            style={{
+                              width: "95%",
+                              marginTop: 5,
+                              marginLeft: 10,
+                              marginBottom: 0,
+                              borderTop: 1 + "px solid grey",
+                              opacity: 60 + "%",
+                            }}
+                          />
+                          <p className="ml-3"> {review.content}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <div
+                        className="text-center pt-5 font-weight-bold"
+                        style={{ fontSize: "1.5rem" }}
+                      >
+                        There are no reviews!
                       </div>
-                    ))}
+                    )}
                   </div>
                   {/* Modal review */}
                   <Modal
@@ -315,48 +444,65 @@ export default function Service() {
                       <div>
                         <form action="" method="post" className="writeReview">
                           <fieldset>
-                            <div
-                              className="has-text-right"
-                              style={{ marginRight: "100px" }}
-                            >
-                              <br></br>
-                              <label className="mt-5" for="vote">
-                                rate the salon:
-                              </label>
-                              <input
-                                id="vote"
-                                className="input mt-5 w-50 ml-5"
-                                style={{ height: "30px" }}
-                                type="text"
-                                placeholder="Text input"
-                              />{" "}
-                              <br></br>
-                              <label className="mt-5" for="content">
-                                Write your review:
-                              </label>
-                              <textarea
-                                id="content"
-                                style={{ resize: "none" }}
-                                className=" mt-5 w-50 ml-5"
-                                placeholder="Text input"
-                                rows="5"
-                              />{" "}
-                              <br></br>
+                            <div style={{ marginRight: "100px" }}>
+                              <div className="row pt-5">
+                                <div className="col-6 has-text-right font-weight-bold">
+                                  How do you feel?
+                                </div>
+                                <div className="col-6">
+                                  <Rating
+                                    name="simple-controlled"
+                                    value={reviewRating}
+                                    onChange={(event, newValue) => {
+                                      setReviewRating(newValue);
+                                    }}
+                                  />{" "}
+                                </div>
+                              </div>
+                              <div className="row pt-5">
+                                <div className="col-6 has-text-right font-weight-bold">
+                                  Share your feelings about the salon:
+                                </div>
+                                <div className="col-6">
+                                  <textarea
+                                    id="content"
+                                    style={{ resize: "none", width: "100%" }}
+                                    className="p-2 border border-dark"
+                                    rows="6"
+                                    maxLength={200}
+                                    value={reviewContent}
+                                    onChange={(e) => {
+                                      setReviewContent(e.target.value);
+                                    }}
+                                  />
+                                </div>
+                              </div>
                             </div>{" "}
-                            <br></br>
+                            <div className="text-center">
+                              {successMessage && (
+                                <p className="text-success">{successMessage}</p>
+                              )}
+                              {errMess && (
+                                <p className="text-danger">{errMess}</p>
+                              )}
+                              {errEmpty && (
+                                <p className="text-danger">{errEmpty}</p>
+                              )}
+                            </div>
                             <div className="has-text-right">
                               <button
-                                className="button is-rounded is-danger"
+                                className="button is-rounded is-info"
                                 onClick={handleCloseReview}
                               >
                                 {" "}
-                                Cancel
+                                Close
                               </button>
-                              <input
-                                className="button is-rounded is-info ml-5"
-                                type="submit"
-                                value="Add"
-                              ></input>
+                              <button
+                                className="button is-rounded is-success ml-5"
+                                onClick={handleAddNewReview}
+                              >
+                                Add
+                              </button>
                             </div>
                           </fieldset>
                         </form>
