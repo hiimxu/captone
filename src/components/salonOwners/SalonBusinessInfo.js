@@ -33,11 +33,16 @@ export default function SalonDashboard() {
 
   // -- MODAL --
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
+  const handleOpen = () => {
+    setEmptyError(false);
+    setEmailErr(false);
+    setPhoneErr(false);
     if (profileSalon) {
       setBusinessInfo(profileSalon[0]);
     }
+    setOpen(true);
+  };
+  const handleClose = () => {    
     setOpen(false);
   };
 
@@ -120,7 +125,7 @@ export default function SalonDashboard() {
       timeClose,
       image,
     };
-    
+
     const successCallback = () => {
       handleClose();
       dispatch(getProfileOfSalon(token));

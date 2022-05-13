@@ -204,7 +204,10 @@ export default function ManageService() {
 
   // -- MODAL SERVICE --
   const [openService, setOpenSerive] = useState(false);
-  const handleOpenService = () => setOpenSerive(true);
+  const handleOpenService = () => {
+    setOpenSerive(true);
+    setError(false);
+  };
   const handleCloseService = () => {
     setOpenSerive(false);
   };
@@ -212,6 +215,7 @@ export default function ManageService() {
   // -- MODAL EDIT SERVICE --
   const [openEditService, setOpenEditService] = useState(false);
   const handleOpenEditService = (serviceInfo) => {
+    setEditError(null);
     setOpenEditService(true);
     setServiceInfo(serviceInfo);
   };
@@ -316,7 +320,14 @@ export default function ManageService() {
 
   // -- MODAL EDIT PROFILE SALON --
   const [openSalon, setOpenSalon] = useState(false);
-  const handleOpenSalon = () => setOpenSalon(true);
+  const handleOpenSalon = () => {
+    if (profileSalon) {
+      setBusinessInfo(profileSalon[0]);
+    }
+    setEmptyError(false);
+    setPhoneErr(false);
+    setOpenSalon(true);
+  };
   const handleCloseSalon = () => setOpenSalon(false);
 
   // -- RATING --
@@ -1047,6 +1058,13 @@ export default function ManageService() {
                                 }}
                                 placeholder="Description"
                               />
+                            </div>
+                            <div>
+                              {error && (
+                                <p className="text-danger">
+                                  Please enter all the fields!
+                                </p>
+                              )}
                             </div>
 
                             <div className="has-text-right">
