@@ -43,8 +43,7 @@ const modalcss = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
-  bgcolor: "background.paper",
+  width: 800,  
   border: "2px solid #000",
   borderRadius: "25px",
   boxShadow: 24,
@@ -158,13 +157,13 @@ export default function Service() {
         >
           <div
             className="p-0"
-            style={{ backgroundImage: "url(" + paperbg + ")" }}
+            style={{backgroundColor:"#f3f4f6"}}
           >
             <div>
               {serviceList?.dataSalon?.map((salon) => (
                 <div
                   className=""
-                  // style={{ background: "url(" + patterbg + ")" }}
+                   style={{ background: "url(" + paperbg + ")" }}
                   key={salon.salonId}
                 >
                   <div className="columns mt-0 pt-0">
@@ -219,14 +218,14 @@ export default function Service() {
 
             <div
               style={{
-                backgroundImage: "url(" + paperbg + ")",
+                // backgroundImage: "url(" + paperbg + ")",
                 minHeight: "35rem",
               }}
             >
               <TabContext value={value}>
                 <Box
                   sx={{
-                    bgcolor: "background.paper",
+                    bgcolor: "white",
                     borderBottom: 1,
                     borderColor: "divider",
                   }}
@@ -255,7 +254,7 @@ export default function Service() {
                         className="card mb-3"
                         style={{
                           width: "98%",
-                          background: "url(" + paperbg + ")",
+                          // background: "url(" + paperbg + ")",
                           height: "12rem",
                           borderRadius: "25px",
                         }}
@@ -348,16 +347,16 @@ export default function Service() {
                       Write review
                     </button>
                   </div>
-                  <div className="row pt-5 ">
-                    <div className="col-8">
+                  <div className="row pt-5 rounded mb-5">
+                    <div className="col-8" >
                       {serviceList?.dataSalon?.map((data) => (
-                        <div className="row">
+                        <div className="row" >
                           <div className="pl-4 pb-4 col-4 text-center">
                             <div
-                              className="font-weight-bold"
+                              className="font-weight-bold text-info"
                               style={{ fontSize: "1.5rem" }}
                             >
-                              <label>{data.AverangeVote}/5</label>
+                              <label>{data.AverangeVote.toFixed(1)}/5</label>
                             </div>
                             <div>
                               <Rating
@@ -368,9 +367,9 @@ export default function Service() {
                               />
                             </div>
                             <div>
-                              <p>
+                              <p className="">
                                 <span className="font-weight-bold">145 </span>
-                                rating {"&"} review
+                                reviews
                               </p>
                             </div>
                           </div>

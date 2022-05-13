@@ -122,7 +122,7 @@ const Tab = styled(Box)(({ selected }) => ({
 
 const FormWrapper = styled(Box)({
   minWidth: 800,
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   padding: 30,
   display: "flex",
   flexDirection: "column",
@@ -215,10 +215,7 @@ export default function Profile() {
           <UserInfo>
             {info ? (
               <>
-                <UsernameText>{username}</UsernameText>
-                <UserInfoText>
-                  <b>Name:</b> {info?.nameCustomer}
-                </UserInfoText>
+                <UsernameText>{info?.nameCustomer}</UsernameText>                
                 <UserInfoText>
                   <b>Birthday:</b>{" "}
                   {convertISOStringToLocaleDateString(info?.birthday)}
