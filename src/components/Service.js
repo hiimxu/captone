@@ -39,11 +39,12 @@ const root = {
 };
 // -- MODAL CSS --
 const modalcss = {
+  backgroundColor: "white",
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,  
+  width: 800,
   border: "2px solid #000",
   borderRadius: "25px",
   boxShadow: 24,
@@ -155,15 +156,12 @@ export default function Service() {
             boxShadow: "1px 1px 20px black",
           }}
         >
-          <div
-            className="p-0"
-            style={{backgroundColor:"#f3f4f6"}}
-          >
+          <div className="p-0" style={{ backgroundColor: "#f3f4f6" }}>
             <div>
               {serviceList?.dataSalon?.map((salon) => (
                 <div
                   className=""
-                   style={{ background: "url(" + paperbg + ")" }}
+                  style={{ background: "url(" + paperbg + ")" }}
                   key={salon.salonId}
                 >
                   <div className="columns mt-0 pt-0">
@@ -339,19 +337,11 @@ export default function Service() {
                   </div>
                 </TabPanel>
                 <TabPanel value="2">
-                  <div className="has-text-right w-100 pr-5 mb-5">
-                    <button
-                      className="button is-info is-rounded"
-                      onClick={handleOpenReview}
-                    >
-                      Write review
-                    </button>
-                  </div>
                   <div className="row pt-5 rounded mb-5">
-                    <div className="col-8" >
+                    <div className="col-8">
                       {serviceList?.dataSalon?.map((data) => (
-                        <div className="row" >
-                          <div className="pl-4 pb-4 col-4 text-center">
+                        <div className="row">
+                          <div className="pl-4 pb-4 col-5 text-center">
                             <div
                               className="font-weight-bold text-info"
                               style={{ fontSize: "1.5rem" }}
@@ -376,17 +366,27 @@ export default function Service() {
                         </div>
                       ))}
                     </div>
-                    <div className="col-1 font-weight-bold pr-0 pl-5">
-                      <label>Rating:</label>
-                    </div>
-                    <div className="col-3 pl-2">
-                      <Rating
-                        name="simple-controlled"
-                        value={rate}
-                        onChange={(event, newValue) => {
-                          setRate(newValue);
-                        }}
-                      />
+                    <div className="col-4 row">
+                      <div className="has-text-right w-100 pr-3 mb-5">
+                        <button
+                          className="button is-info is-rounded"
+                          onClick={handleOpenReview}
+                        >
+                          Write review
+                        </button>
+                      </div>
+                      <div className="col-6 font-weight-bold pr-0 pl-5 has-text-right pt-5">
+                        <label>Rating:</label>
+                      </div>
+                      <div className="col-6 pl-2 has-text-right pr-5 pt-5">
+                        <Rating
+                          name="simple-controlled"
+                          value={rate}
+                          onChange={(event, newValue) => {
+                            setRate(newValue);
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div
