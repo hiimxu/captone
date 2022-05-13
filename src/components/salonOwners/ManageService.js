@@ -337,8 +337,7 @@ export default function ManageService() {
   };
   const handleCloseSalon = () => setOpenSalon(false);
 
-  // -- RATING --
-  const [valueRating, setValueRating] = React.useState(2);
+  
 
   //STATE EDIT BUSINESS INFO
   const [businessInfo, setBusinessInfo] = useState(null);
@@ -416,13 +415,16 @@ export default function ManageService() {
   };
 
   //STATE REVIEW
-  const [rate, setRate] = useState(0);
+  const [rate, setRate] = useState(null);
 
   //CALL LIST REVIEW FROM REDUX
   const { listReviewSalon } = useSelector((state) => state.listReviewForSalon);
 
   //CALL API REVIEW
   useEffect(() => {
+    if(!rate){
+      setRate("")
+    }
     dispatch(getListReviewForSalon(token, { star: rate }));
     return () => {
       dispatch(resetReviewListForSalon());

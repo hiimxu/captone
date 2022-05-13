@@ -81,10 +81,13 @@ export default function Service() {
   };
 
   //FILL BY RATING
-  const [rate, setRate] = useState(0);
+  const [rate, setRate] = useState(null);
 
   //CALL API REVIEW
   useEffect(() => {
+    if (!rate) {
+      setRate("");
+    }
     dispatch(getListReviewForCustomer({ salonId: salonId, star: rate }));
     return () => {
       dispatch(resetReviewListForCustomer());
