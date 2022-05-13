@@ -17,7 +17,10 @@ import {
   editService,
   editSalonInfo,
 } from "../../redux/actions/creators/salon";
-import { currencyFormatter } from "../../utils";
+import {
+  currencyFormatter,
+  convertISOStringToLocaleDateString,
+} from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions/creators/auth";
@@ -27,6 +30,10 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import {
+  getListReviewForSalon,
+  resetReviewListForSalon,
+} from "../../redux/actions/creators/review";
 
 // -- MODAL CSS --
 const modalcss = {
@@ -407,6 +414,20 @@ export default function ManageService() {
     };
     dispatch(editSalonInfo(token, submitOjb, callback));
   };
+
+  //STATE REVIEW
+  const [rate, setRate] = useState(0);
+
+  //CALL LIST REVIEW FROM REDUX
+  const { listReviewSalon } = useSelector((state) => state.listReviewForSalon);
+
+  //CALL API REVIEW
+  useEffect(() => {
+    dispatch(getListReviewForSalon(token, { star: rate }));
+    return () => {
+      dispatch(resetReviewListForSalon());
+    };
+  }, [dispatch, rate]);
 
   return (
     <div>
@@ -1351,118 +1372,105 @@ export default function ManageService() {
                           156 reviews
                         </p>
                       </div>
+                      <div className="col-6"></div>
                       <div
-                        className="column is-9 has-text-centered mt-3"
+                        className="column is-3 has-text-centered mt-3"
                         style={{ display: "inline-block" }}
                       >
-                        {/* Filter :{" "}
-                        
+                        <div className="col-1 font-weight-bold pr-0 pl-5 text-center">
+                          <label>Rating</label>
+                        </div>
+                        <div className="col-3 pl-2">
                           <Rating
                             name="simple-controlled"
-                            value={valueRating}
-                            defaultValue={2.5}
-                            precision={0.5}
+                            value={rate}
                             onChange={(event, newValue) => {
-                              setValueRating(newValue);
+                              setRate(newValue);
                             }}
-                          />*/}
-                        <button
-                          style={{
-                            border: " 1px solid darkblue",
-                            borderRadius: "50%",
-                          }}
-                          className="button  is-link is-light mr-4 is-normal"
-                        >
-                          5
-                        </button>
-                        <button
-                          style={{
-                            border: " 1px solid darkblue",
-                            borderRadius: "50%",
-                          }}
-                          className="button  is-link is-light mr-4 is-normal"
-                        >
-                          4
-                        </button>
-                        <button
-                          style={{
-                            border: " 1px solid darkblue",
-                            borderRadius: "50%",
-                          }}
-                          className="button  is-link is-light mr-4 is-normal"
-                        >
-                          3
-                        </button>
-                        <button
-                          style={{
-                            border: " 1px solid darkblue",
-                            borderRadius: "50%",
-                          }}
-                          className="button  is-link is-light mr-4 is-normal"
-                        >
-                          2
-                        </button>
-                        <button
-                          style={{
-                            border: " 1px solid darkblue",
-                            borderRadius: "50%",
-                            // height: "70px",
-                          }}
-                          className="button  is-link is-light mr-4 is-normal"
-                        >
-                          1
-                          {/* <i
-                              className="fa-solid fa-star"
-                              style={{ color: "gold" }}
-                            ></i> */}
-                        </button>
+                          />
+                        </div>
                       </div>
-                    </div>{" "}
-                    <hr
-                      style={{
-                        backgroundColor: "grey",
-                        margin: "0px",
-                        height: "1px",
-                        opacity: "60%",
-                      }}
-                    ></hr>
+                    </div>
+                    
                     <div
                       style={{
                         overflowY: "scroll",
-                        height: "600px",
-                        padding: "0px",
+                        height: "700px",
+                        backgroundColor: "white",
                       }}
+                      className="rounded"
                     >
-                      {fakeReview?.map((review) => (
-                        <div
-                          className="m-4  "
-                          style={{
-                            backgroundColor: "white",
-                            height: "10rem",
-                            borderRadius: "25px",
-                          }}
-                        >
-                          <h1 className="ml-3 is-size-4">
-                            <span className="is-size-3 mt-5 has-text-weight-semibold">
-                              {review.nameCustomer}{" "}
-                            </span>
-                            - {review.wsend}
-                          </h1>
-                          <p className="ml-3 is-size-5"> {review.dateCreate}</p>
-                          <hr
-                            className="solid"
+                      {listReviewSalon ? (
+                        listReviewSalon.map((review) => (
+                          <div
+                            className="m-4 pl-3 pr-3 pt-5 pb-5 mb-5 "
                             style={{
-                              width: "95%",
-                              marginTop: 5,
-                              marginLeft: 10,
-                              marginBottom: 0,
-                              borderTop: 1 + "px solid grey",
-                              opacity: 60 + "%",
+                              backgroundColor: "white",
+                              height: "12rem",
+                              borderRadius: "25px",
                             }}
-                          />
-                          <p className="ml-3"> {review.conntent}</p>
+                          >
+                            <div className="row pt-3 pb-3">
+                              <div className="col-6">
+                                <h2 className="is-size-5 row">
+                                  <div
+                                    className="is-size-5 ml-4 mt-5 mr-2 has-text-weight-semibold rounded p-2 text-center"
+                                    style={{
+                                      backgroundColor: "#dddddd",
+                                      width: "35px",
+                                      height: "35px",
+                                    }}
+                                  >
+                                    {review.nameCustomer.charAt(0)}
+                                  </div>
+                                  <span className="is-size-5 p-2 mt-5 has-text-weight-semibold">
+                                    {review.nameCustomer}
+                                  </span>
+                                </h2>
+                              </div>
+                              <div className="col-6 has-text-right mt-5 pt-2">
+                                <p className=" font-weight-bold">
+                                  <span>
+                                    <i className="fa-regular fa-clock mr-1"></i>
+                                  </span>
+                                  {convertISOStringToLocaleDateString(
+                                    review.dateCreate
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                            <div
+                              className="rounded p-4"
+                              style={{ backgroundColor: "#f3f4f6" }}
+                            >
+                              <div>
+                                <Rating
+                                  name="half-rating-read"
+                                  value={review.rate / 2}
+                                  precision={0.5}
+                                  readOnly
+                                />
+                              </div>
+
+                              <div className="pl-1">
+                                <p>
+                                  <span className="font-weight-bold">
+                                    Review:{" "}
+                                  </span>{" "}
+                                  {review.content}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div
+                          className="text-center pt-5 font-weight-bold"
+                          style={{ fontSize: "1.5rem" }}
+                        >
+                          There are no reviews!
                         </div>
-                      ))}
+                      )}
                     </div>
                   </TabPanel>
                 </TabContext>

@@ -134,7 +134,7 @@ const addReviewForCustomerFail = (errMess) => {
 //GET REVIEW FOR SALON
 export const getListReviewForSalon = (token, rate) => (dispatch) => {
   const data = new URLSearchParams({ ...rate });
-  return fetch(`${api}api/customer/get/feedbackByStar`, {
+  return fetch(`${api}api/salonowner/get/feedbackByStar`, {
     method: "POST",
     body: data,
     headers: {
@@ -164,7 +164,7 @@ export const getListReviewForSalon = (token, rate) => (dispatch) => {
       if (response.data?.length && response.message) {
         dispatch(
           getListReviewForSalonSuccessfully({
-            listReview: response.data,
+            listReviewSalon: response.data,
             successMessage: response.message,
           })
         );

@@ -41,6 +41,7 @@ import {
 import {
   ListReviewForCustomer,
   AddReviewForCustomer,
+  ListReviewForSalon
 } from "../reducers/review";
 
 import { Profile } from "../reducers/profile";
@@ -95,6 +96,7 @@ const rootReducer = combineReducers({
   //review
   listReviewForCustomer: ListReviewForCustomer,
   addReviewForCustomer: AddReviewForCustomer,
+  listReviewForSalon:ListReviewForSalon
 });
 
 export const ConfigureStore = () => {

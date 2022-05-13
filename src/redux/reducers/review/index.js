@@ -57,3 +57,26 @@ export const AddReviewForCustomer = (
       return state;
   }
 };
+
+export const ListReviewForSalon = (
+  state = {
+    listReviewSalon: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case ReviewActionTypes.GET_REVIEW_FOR_SALON_FAILED:
+      return { ...state, listReviewSalon: null, errMess: action.payload.errMess };
+    case ReviewActionTypes.GET_REVIEW_FOR_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        listReviewSalon: action.payload.listReviewSalon,
+        errMess: null,
+      };
+    case ReviewActionTypes.RESET_LIST_REVIEW_FOR_SALON:
+      return { ...state, listReviewSalon: null, errMess: null };
+    default:
+      return state;
+  }
+};

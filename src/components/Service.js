@@ -348,11 +348,29 @@ export default function Service() {
                   <div className="row pt-5 ">
                     <div className="col-8">
                       {serviceList?.dataSalon?.map((data) => (
-                        <div style={{ fontSize: "2rem" }} className="pl-4">
-                          <label>
-                            {data.AverangeVote}
-                            <i class="fa-solid fa-star text-warning pl-3"></i>
-                          </label>
+                        <div className="row">
+                          <div className="pl-4 pb-4 col-4 text-center">
+                            <div
+                              className="font-weight-bold"
+                              style={{ fontSize: "1.5rem" }}
+                            >
+                              <label>{data.AverangeVote}/5</label>
+                            </div>
+                            <div>
+                              <Rating
+                                name="simple-controlled"
+                                value={data.AverangeVote}
+                                precision={0.5}
+                                readOnly
+                              />
+                            </div>
+                            <div>
+                              <p>
+                                <span className="font-weight-bold">145 </span>
+                                rating {"&"} review
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -375,54 +393,69 @@ export default function Service() {
                       height: "700px",
                       backgroundColor: "white",
                     }}
-                    className="border border-dark rounded"
+                    className="rounded"
                   >
                     {listReview ? (
                       listReview.map((review) => (
                         <div
-                          className="m-4 border shadow-lg p-3 mb-5 bg-white rounded"
+                          className="m-4 pl-3 pr-3 pt-5 pb-5 mb-5 "
                           style={{
                             backgroundColor: "white",
-                            height: "10rem",
+                            height: "12rem",
                             borderRadius: "25px",
                           }}
                         >
-                          <div>
-                            <h1 className="ml-3 is-size-4">
-                              <span className="is-size-3 mt-5 has-text-weight-semibold">
-                                {review.nameCustomer}{" "}
-                              </span>
-                              - {review.wsend}
-                            </h1>
+                          <div className="row pt-3 pb-3">
+                            <div className="col-6">
+                              <h2 className="is-size-5 row">
+                                <div
+                                  className="is-size-5 ml-4 mt-5 mr-2 has-text-weight-semibold rounded p-2 text-center"
+                                  style={{
+                                    backgroundColor: "#dddddd",
+                                    width: "35px",
+                                    height: "35px",
+                                  }}
+                                >
+                                  {review.nameCustomer.charAt(0)}
+                                </div>
+                                <span className="is-size-5 p-2 mt-5 has-text-weight-semibold">
+                                  {review.nameCustomer}
+                                </span>
+                              </h2>
+                            </div>
+                            <div className="col-6 has-text-right mt-5 pt-2">
+                              <p className=" font-weight-bold">
+                                <span>
+                                  <i className="fa-regular fa-clock mr-1"></i>
+                                </span>
+                                {convertISOStringToLocaleDateString(
+                                  review.dateCreate
+                                )}
+                              </p>
+                            </div>
                           </div>
-                          <div className="ml-3">
-                            <Rating
-                              name="half-rating-read"
-                              value={review.rate / 2}
-                              precision={0.5}
-                              readOnly
-                            />
+                          <div
+                            className="rounded p-4"
+                            style={{ backgroundColor: "#f3f4f6" }}
+                          >
+                            <div>
+                              <Rating
+                                name="half-rating-read"
+                                value={review.rate / 2}
+                                precision={0.5}
+                                readOnly
+                              />
+                            </div>
+
+                            <div className="pl-1">
+                              <p>
+                                <span className="font-weight-bold">
+                                  Review:{" "}
+                                </span>{" "}
+                                {review.content}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="ml-3 is-size-5">
-                              {" "}
-                              {convertISOStringToLocaleDateString(
-                                review.dateCreate
-                              )}
-                            </p>
-                          </div>
-                          <hr
-                            className="solid"
-                            style={{
-                              width: "95%",
-                              marginTop: 5,
-                              marginLeft: 10,
-                              marginBottom: 0,
-                              borderTop: 1 + "px solid grey",
-                              opacity: 60 + "%",
-                            }}
-                          />
-                          <p className="ml-3"> {review.content}</p>
                         </div>
                       ))
                     ) : (
