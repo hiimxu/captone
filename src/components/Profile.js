@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import ReservationTable from "./tables/ReservationTable";
 import {
+  changePassword,
   getCustomerProfile,
   updateCustomerProfile,
 } from "../redux/actions/creators/profile";
@@ -22,13 +23,12 @@ import {
   resetReservationList,
 } from "../redux/actions/creators/booking";
 import { convertISOStringToLocaleDateString } from "../utils";
-import { validPhone } from "../validations/regex";
+import { validPhone, validPassword } from "../validations/regex";
 
 import introbg from "../assets/introbg-1.jpg";
 import bgImg from "../assets/barbershopbg.jpg";
 import videobg from "../assets/videobg.jpg";
 import patterbg from "../assets/patterbg.svg";
-
 
 const PageWrapper = styled(Grid)({
   backgroundColor: "#cfc787",
@@ -150,6 +150,10 @@ const TextInput = styled(TextField)({
   height: 30,
   width: 300,
 });
+const InputPassword = styled(TextField)({
+  height: 30,
+  width: 300,
+});
 
 const Loading = () => (
   <Box
@@ -168,6 +172,13 @@ export default function Profile() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [profileInfo, setProfileInfo] = useState(null);
   const [validationErr, setValidationErr] = useState(null);
+
+  const [dialogChangepassOpen, setDialogChangepassOpen] = useState(false);
+
+  //STATE CHANGE PASSWORD
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [reNewPassword, setReNewPassword] = useState("");
 
   const dispatch = useDispatch();
   const { token, account_name: username } = useSelector(
@@ -197,17 +208,44 @@ export default function Profile() {
     setDialogOpen(false);
   };
 
+  const handleChangePassClose = () => {
+    setDialogChangepassOpen(false);
+  };
+
   const handleReservationTab = () => {
     setSelectedTab(0);
-    dispatch(reservationList())
-    dispatch(getReservation(token))
+    dispatch(reservationList());
+    dispatch(getReservation(token));
   };
 
   const handleHistoryTab = () => {
-    setSelectedTab(1);    
-    dispatch(getHistoryBooking(token))
+    setSelectedTab(1);
+    dispatch(getHistoryBooking(token));
   };
 
+  const handleChangePassword = () => {
+    if (!oldPassword || !newPassword || !reNewPassword) {
+      setValidationErr("Please enter all the fields");
+      return;
+    }
+    if (!validPassword.test(newPassword)) {
+      setValidationErr("New password is invalid!");
+      return;
+    }
+    if(newPassword != reNewPassword){
+      setValidationErr("The entered passwords do not match. Try again!");
+      return;
+    }
+    setValidationErr(null)
+    const submitObject ={
+      old_password:oldPassword,
+      new_password:newPassword
+    }
+    const callback=()=>{
+      setDialogChangepassOpen(false)
+    }
+    dispatch(changePassword(token,submitObject,callback))
+  };
   return (
     <>
       <PageWrapper container spacing={2}>
@@ -215,7 +253,7 @@ export default function Profile() {
           <UserInfo>
             {info ? (
               <>
-                <UsernameText>{info?.nameCustomer}</UsernameText>                
+                <UsernameText>{info?.nameCustomer}</UsernameText>
                 <UserInfoText>
                   <b>Birthday:</b>{" "}
                   {convertISOStringToLocaleDateString(info?.birthday)}
@@ -239,7 +277,7 @@ export default function Profile() {
                   <Button
                     width={180}
                     variant="outlined"
-                    // onClick={() => setDialogOpen(true)}
+                    onClick={() => setDialogChangepassOpen(true)}
                   >
                     Change password
                   </Button>
@@ -262,10 +300,7 @@ export default function Profile() {
                 </Tab>
               </Grid>
               <Grid item xs={6}>
-                <Tab
-                  selected={selectedTab === 1}
-                  onClick={handleHistoryTab}
-                >
+                <Tab selected={selectedTab === 1} onClick={handleHistoryTab}>
                   History
                 </Tab>
               </Grid>
@@ -295,6 +330,7 @@ export default function Profile() {
           </ReservationHistory>
         </Grid>
       </PageWrapper>
+      {/* edit profile */}
       <Dialog onClose={handleClose} open={dialogOpen} maxWidth="lg">
         <FormWrapper style={{ minHeight: "50vh" }}>
           <FieldWrapper container spacing={2}>
@@ -382,6 +418,7 @@ export default function Profile() {
               onClick={() => {
                 setDialogOpen(false);
                 setProfileInfo(info);
+                setValidationErr(null);
               }}
             >
               Cancel
@@ -411,6 +448,95 @@ export default function Profile() {
                 };
                 dispatch(updateCustomerProfile(submitObject, token, callback));
               }}
+            >
+              Done
+            </ActionButton>
+          </ButtonWrapper>
+        </FormWrapper>
+      </Dialog>
+
+      {/* change password */}
+      <Dialog
+        onClose={handleChangePassClose}
+        open={dialogChangepassOpen}
+        maxWidth="lg"
+      >
+        <FormWrapper style={{ minHeight: "50vh" }}>
+          <FieldWrapper container spacing={2}>
+            <Grid item xs={4}>
+              <FieldLabel>Mật khẩu hiện tại</FieldLabel>
+            </Grid>
+            <Grid item xs={8}>
+              <InputPassword
+                type="password"
+                variant="standard"
+                margin="dense"
+                size="small"
+                value={oldPassword}
+                onChange={(e) => {
+                  setOldPassword(e.target.value);
+                }}
+              />
+            </Grid>
+          </FieldWrapper>
+          <FieldWrapper container spacing={2}>
+            <Grid item xs={4}>
+              <FieldLabel>Mật khẩu mới</FieldLabel>
+            </Grid>
+            <Grid item xs={8}>
+              <InputPassword
+                type="password"
+                variant="standard"
+                margin="dense"
+                size="small"
+                value={newPassword}
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                }}
+              />
+            </Grid>
+          </FieldWrapper>
+          <FieldWrapper container spacing={2}>
+            <Grid item xs={4}>
+              <FieldLabel>Nhập lại mật khẩu mới</FieldLabel>
+            </Grid>
+            <Grid item xs={8}>
+              <InputPassword
+                type="password"
+                variant="standard"
+                margin="dense"
+                size="small"
+                value={reNewPassword}
+                onChange={(e) => {
+                  setReNewPassword(e.target.value);
+                }}
+              />
+            </Grid>
+          </FieldWrapper>
+          <ButtonWrapper>
+            {successMess && <SuccessText>{successMess}</SuccessText>}
+            {errMess && <ErrorText>{errMess}</ErrorText>}
+            {validationErr && <ErrorText>{validationErr}</ErrorText>}
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <SecondaryActionButton
+              variant="contained"
+              color="error"
+              width={110}
+              onClick={() => {
+                setDialogChangepassOpen(false);
+                setNewPassword("")
+                setOldPassword("")
+                setReNewPassword("")
+                setValidationErr(null)
+              }}
+            >
+              Cancel
+            </SecondaryActionButton>
+            <ActionButton
+              variant="contained"
+              width={110}
+              onClick={handleChangePassword}
             >
               Done
             </ActionButton>

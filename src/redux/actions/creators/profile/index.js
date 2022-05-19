@@ -121,3 +121,66 @@ const updateCustomerProfileFailed = (errMess) => {
 export const resetMessage = () => (dispatch) => {
   dispatch({ type: ProfileActionTypes.CLEAR_CUSTOMER_PROFILE_MESSAGE });
 };
+
+//Change password
+export const changePassword = (token, password, callback) => (dispatch) => {
+  const data = new URLSearchParams({ ...password });
+  return fetch(`${api}api/account/changePassword`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(changePasswordFail(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data && response.message) {
+        dispatch(
+          changePasswordSuccessfully(response.message)
+        );
+        if (callback) {
+          setTimeout(() => {
+            callback();
+          }, 2000);
+        }
+      } else {
+        dispatch(changePasswordFail(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Change password failed", error);
+    });
+};
+
+const changePasswordSuccessfully = (successMess) => {
+  return {
+    type: ProfileActionTypes.CHANGE_PASSWORD_SUCCESSFULLY,
+    payload:successMess,
+  };
+};
+
+const changePasswordFail = (errMess) => {
+  return {
+    type: ProfileActionTypes.CHANGE_PASSWORD_FAILED,
+    payload: errMess,
+  };
+};
+

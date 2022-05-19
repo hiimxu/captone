@@ -38,6 +38,19 @@ export const Profile = (
         successMess: null,
         errMess: action.payload,
       };
+      case ProfileActionTypes.CHANGE_PASSWORD_SUCCESSFULLY:
+      return {
+        ...state,
+        successMess: action.payload,
+        errMess: null,
+      };
+
+    case ProfileActionTypes.CHANGE_PASSWORD_FAILED:
+      return {
+        ...state,
+        successMess: null,
+        errMess: action.payload,
+      };      
 
     case ProfileActionTypes.CLEAR_CUSTOMER_PROFILE_MESSAGE:
       return { ...state, successMess: null, errMess: null };
