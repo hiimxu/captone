@@ -167,7 +167,12 @@ export const ActiveSalon = (
         errMess: null,
       };
     case AdminActionTypes.GET_LIST_SALON_ACTIVE_SUCCESSFULLY:
-      return { ...state, salonActive: null, activeSuccessMess: null, errMess: null };
+      return {
+        ...state,
+        salonActive: null,
+        activeSuccessMess: null,
+        errMess: null,
+      };
     default:
       return state;
   }
@@ -197,7 +202,80 @@ export const RejectSalon = (
         errMess: null,
       };
     case AdminActionTypes.GET_LIST_SALON_ACTIVE_SUCCESSFULLY:
-      return { ...state, salonReject: null, rejectSuccessMess: null, errMess: null };
+      return {
+        ...state,
+        salonReject: null,
+        rejectSuccessMess: null,
+        errMess: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const SalonInfo = (
+  state = {
+    salonBusinessInfo: null,
+    serviceList: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case AdminActionTypes.GET_SALON_INFO_FOR_ADMIN_FAILED:
+      return {
+        ...state,
+        salonBusinessInfo: null,
+        serviceList: null,
+        errMess: action.payload,
+      };
+    case AdminActionTypes.GET_SALON_INFO_FOR_ADMIN_SUCCESSFULLY:
+      return {
+        ...state,
+        salonBusinessInfo: action.payload.salonBusinessInfo,
+        serviceList: action.payload.serviceList,
+        errMess: null,
+      };
+    case AdminActionTypes.RESET_SALON_INFO_FOR_ADMIN:
+      return {
+        ...state,
+        salonBusinessInfo: null,
+        serviceList: null,
+        errMess: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const SalonReviewList = (
+  state = {
+    listReview: null,
+    errMess: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case AdminActionTypes.GET_REVIEW_FOR_ADMIN_FAILED:
+      return {
+        ...state,
+        listReview: null,
+        errMess: action.payload,
+      };
+    case AdminActionTypes.GET_REVIEW_FOR_ADMIN_SUCCESSFULLY:
+      return {
+        ...state,
+        listReview: action.payload.listReview,
+        errMess: null,
+      };
+    case AdminActionTypes.RESET_REVIEW_SALON_FOR_ADMIN:
+      return {
+        ...state,
+        listReview: null,
+        errMess: null,
+      };
+
     default:
       return state;
   }

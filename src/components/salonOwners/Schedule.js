@@ -27,6 +27,29 @@ import {
   convertISOStringToLocaleDateString,
 } from "../../utils";
 
+const link = {
+  fontSize: "20px",
+  color: "white",
+};
+const root = {
+  backgroundImage: `url(${bgImg})`,
+  backgroundRepeat: "repeat-y",
+  backgroundSize: "100%",
+  minHeight: "60rem",
+};
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  borderRadius: "25px",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export default function Schedule() {
   const minDate = new Date().toISOString().substring(0, 10);
@@ -193,29 +216,7 @@ export default function Schedule() {
     );
   };
 
-  const link = {
-    fontSize: "20px",
-    color: "white",
-  };
-  const root = {
-    backgroundImage: `url(${bgImg})`,
-    backgroundRepeat: "repeat-y",
-    backgroundSize: "100%",
-    minHeight: "60rem",
-  };
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 500,
-    borderRadius: "25px",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
+ 
 
   return (
     <div className="p-5" style={root}>

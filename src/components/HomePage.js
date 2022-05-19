@@ -72,19 +72,26 @@ export default function HomePage() {
       <div className="columns">
         <div className="column is-2"></div>
         <div className="column is-8">
-          <div className="has-text-right mb-5">
-            <input
-              className="input w-50"
-              type="text"
-              placeholder="text here"
-              value={nameSalon}
-              maxLength={40}
-              onChange={(e) => {
-                setNameSalon(e.target.value);
-              }}
-            ></input>
-            <button className="ml-5 button is-info">Search</button>
-          </div>{" "}
+          <div className="mb-5 form-outline row">
+            <div className="col-6"></div>
+            <div className="input-group col-6">
+              <div className="input-group-prepend">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-magnifying-glass"></i>
+                </span>
+              </div>
+              <input
+                className="form-control"
+                type="text"
+                placeholder=""
+                value={nameSalon}
+                maxLength={40}
+                onChange={(e) => {
+                  setNameSalon(e.target.value);
+                }}
+              ></input>
+            </div>
+          </div>
           {salonList ? (
             <Box p="5">
               <div className="row">
@@ -99,7 +106,6 @@ export default function HomePage() {
                       }}
                       key={salon.salonId}
                     >
-                      {console.log(salon)}
                       <div className="card-image">
                         <figure className="image is-5by4">
                           <img
@@ -125,6 +131,7 @@ export default function HomePage() {
                             className="media-content"
                             style={{ marginBottom: 0, height: "7rem" }}
                           >
+<<<<<<< HEAD
                             <p className="title pb-0 mb-1 is-4">{salon.nameSalon}</p>
                             <div className="">
                               <Rating
@@ -135,6 +142,10 @@ export default function HomePage() {
                                 size="small"
                               />
                             </div>
+=======
+                            <p className="title is-4">{salon.nameSalon}</p>
+
+>>>>>>> c382c5d (done feature view profile, service, review of a salon for admin)
                             <p className="subtitle is-6">
                               <i className="fa-solid fa-location-dot"></i>{" "}
                               {salon.detailAddress}

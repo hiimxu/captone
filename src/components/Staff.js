@@ -16,17 +16,23 @@ import introbg from "../assets/introbg-1.jpg";
 import videobg from "../assets/videobg.jpg";
 import patterbg from "../assets/patterbg.svg";
 
+const root = {
+  backgroundImage: `url(${introbg})`,
+  backgroundRepeat: "repeat-y",
+  backgroundSize: "100%",
+};
+
 export default function Staff() {
   const minDate = new Date(
     moment().add(4, "hours").add(15, "minutes").startOf("day")
   ); // If the current time is after 7:45pm, the min date will be the next day
-
 
   const [date, setDate] = useState(minDate);
   const [staff, setStaff] = useState("");
   const [time, setTime] = useState(undefined);
   const [dateFormated, setDateFormated] = useState(convertDate(minDate));
   const [staffInfo, setStaffInfo] = useState();
+  const [staffDetail, setStaffDetail] = useState();
 
   const { serviceId } = useParams();
   const dispatch = useDispatch();
@@ -34,8 +40,13 @@ export default function Staff() {
 
   const { staffList } = useSelector((state) => state.staff);
   const { serviceList } = useSelector((state) => state.service);
-  const { selectedSalonId, selectedServiceId, priceOriginal, serviceTime } =
-    useSelector((state) => state.booking);
+  const {
+    selectedSalonId,
+    selectedServiceId,
+    priceOriginal,
+    serviceTime,
+    errMess,
+  } = useSelector((state) => state.booking);
   const { calendar } = useSelector((state) => state.staffCalendar);
   const { token } = useSelector((state) => state.loginAccount.account);
 
@@ -69,11 +80,12 @@ export default function Staff() {
   useEffect(() => {
     if (staffInfo) {
       dispatch(getStaffCalendar(staffInfo));
+      console.log(staffDetail);
     }
     return () => {
       dispatch(resetStaffCalender());
     };
-  }, [dispatch, staffInfo]);
+  }, [dispatch, staffInfo, staffDetail]);
 
   function convertDate(date) {
     var newdate = new Date(date),
@@ -103,11 +115,7 @@ export default function Staff() {
 
     dispatch(bookService(bookingInfo, token, callback));
   };
-  const root = {
-    backgroundImage: `url(${introbg})`,
-    backgroundRepeat: "repeat-y",
-    backgroundSize: "100%",
-  };
+
   const cancelBook = `/services/${selectedSalonId}`;
 
   return (
@@ -125,7 +133,7 @@ export default function Staff() {
             <div className="">
               {serviceList?.dataSalon?.map((salon) => (
                 <div
-                  className="text-center"
+                  className="text-center pt-4"
                   style={{ background: "url(" + videobg + ")" }}
                   key={salon.salonId}
                 >
@@ -136,8 +144,7 @@ export default function Staff() {
                     <p className="is-size-4" style={{ color: "white" }}>
                       Open:{" "}
                       <span className="text-danger">
-                        Mon-Sun {salon.timeOpen} -{" "}
-                        {salon.timeClose}
+                        Mon-Sun {salon.timeOpen} - {salon.timeClose}
                       </span>
                     </p>
                     <p className="is-size-4 " style={{ color: "white" }}>
@@ -188,7 +195,15 @@ export default function Staff() {
                   <select
                     className="form-select form-select-lg mb-3 "
                     value={staff}
-                    onChange={(e) => setStaff(e.target.value)}
+                    onChange={(e) => {
+                      setStaff(e.target.value);
+                      setStaffDetail(
+                        staffList?.find(
+                          (staffObj) =>
+                            staffObj.staffId === parseInt(e.target.value)
+                        )
+                      );
+                    }}
                     style={{
                       width: "95%",
                       height: "2.5rem",
@@ -203,6 +218,47 @@ export default function Staff() {
                       </option>
                     ))}
                   </select>
+                </div>
+                <div>
+                  {staffDetail ? (
+                    <div
+                      className="ml-4 mr-4 p-4 rounded"
+                      style={{ backgroundColor: "#f3f4f6", fontSize: "1.1rem" }}
+                    >
+                      <div>
+                        <p>
+                          <span className="font-weight-bold mr-2">
+                            Tên barber:
+                          </span>
+                          {staffDetail.name}
+                        </p>
+                      </div>
+                      <div>
+                        <p>
+                          <span className="font-weight-bold mr-2">SĐT:</span>
+                          {staffDetail.phone}
+                        </p>
+                      </div>
+                      <div>
+                        <p>
+                          <span className="font-weight-bold mr-2">
+                            Địa chỉ:
+                          </span>
+                          {staffDetail.address}
+                        </p>
+                      </div>
+                      <div>
+                        <p>
+                          <span className="font-weight-bold mr-2">
+                            Giới thiệu:
+                          </span>
+                          {staffDetail.title}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
               <div className="step-item is-completed is-link">
@@ -231,7 +287,9 @@ export default function Staff() {
                 </div>
               </div>
             </div>
-
+            <div>
+              {errMess && <p className="text-danger text-center p-5">{errMess}</p>}
+            </div>
             <div className="col-md-12 text-center pb-5 ">
               <Link
                 style={{ width: "40%" }}

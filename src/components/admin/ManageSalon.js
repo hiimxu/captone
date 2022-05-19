@@ -18,7 +18,7 @@ import paperbg from "../../assets/paperbg.jpg";
 import bgImg from "../../assets/barbershopbg.jpg";
 import patterbg from "../../assets/patterbg.svg";
 import { convertISOStringToLocaleDateString } from "../../utils/index";
-import  {Rating} from "@mui/material";
+import { Rating } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -47,6 +47,7 @@ const root = {
   backgroundRepeat: "repeat-y",
   backgroundSize: "100%",
   minHeight: "60rem",
+  paddingTop: "3rem",
 };
 const FieldLabel = styled(Box)({
   display: "flex",
@@ -176,9 +177,9 @@ export default function ManageService() {
       dispatch(resetListSalonDeactive());
       dispatch(resetListSalonRequest());
       setDialogOpen(false);
-      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
-      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
-      dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
+      dispatch(getListSalonActive(token, { nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token, { nameSalon: nameSalonDeactive }));
+      dispatch(getListSalonRequest(token, { nameSalon: nameSalonRequest }));
     };
     dispatch(
       deactiveSalon(token, { salonId: salonDeactive.salonId }, callback)
@@ -193,9 +194,9 @@ export default function ManageService() {
       dispatch(resetListSalonDeactive());
       dispatch(resetListSalonRequest());
       setDialogActiveOpen(false);
-      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
-      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
-      dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
+      dispatch(getListSalonActive(token, { nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token, { nameSalon: nameSalonDeactive }));
+      dispatch(getListSalonRequest(token, { nameSalon: nameSalonRequest }));
     };
     dispatch(activeSalon(token, { salonId: salonActive.salonId }, callback));
   };
@@ -208,9 +209,9 @@ export default function ManageService() {
       dispatch(resetListSalonDeactive());
       dispatch(resetListSalonRequest);
       setDialogRejectOpen(false);
-      dispatch(getListSalonActive(token,{ nameSalon: nameSalonActive }));
-      dispatch(getListSalonDeactive(token,{ nameSalon: nameSalonDeactive }));
-      dispatch(getListSalonRequest(token,{ nameSalon: nameSalonRequest }));
+      dispatch(getListSalonActive(token, { nameSalon: nameSalonActive }));
+      dispatch(getListSalonDeactive(token, { nameSalon: nameSalonDeactive }));
+      dispatch(getListSalonRequest(token, { nameSalon: nameSalonRequest }));
     };
     dispatch(rejectSalon(token, { salonId: salonReject.salonId }, callback));
   };
@@ -248,18 +249,27 @@ export default function ManageService() {
               </Box>
               <TabPanel value="1">
                 <div>
-                  <div className="has-text-right mb-5">
-                    <input
-                      className="input w-50"
-                      type="text"
-                      placeholder="text here"
-                      value={nameSalonActive}
-                      onChange={(e) => {
-                        setNameSalonActive(e.target.value);
-                      }}
-                    ></input>
-                    <button className="ml-5 button is-info">Search</button>
-                  </div>{" "}
+                  <div className="mb-5 form-outline row">
+                    <div className="col-6"></div>
+                    <div className="input-group col-6">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                      </div>
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Tìm kiếm"
+                        maxLength={40}
+                        value={nameSalonActive}
+                        onChange={(e) => {
+                          setNameSalonActive(e.target.value);
+                        }}
+                      ></input>
+                    </div>
+                  </div>
+
                   <table className="table">
                     <thead>
                       <tr>
@@ -270,13 +280,15 @@ export default function ManageService() {
                           <p title="SalonName">Salon's Name</p>
                         </th>
                         <th>
-                          <p title="SalonAddress" >Address</p>
+                          <p title="SalonAddress">Address</p>
                         </th>
                         <th>
                           <p title="DateJoin">Date join</p>
                         </th>
                         <th>
-                          <p title="Rating" className="has-text-centered">Rating</p>
+                          <p title="Rating" className="has-text-centered">
+                            Rating
+                          </p>
                         </th>
                         <th className="has-text-centered">
                           <p title="Actions">Actions</p>
@@ -290,19 +302,22 @@ export default function ManageService() {
                             {listSalonActive.indexOf(element) + 1}
                           </th>
                           <td>{element?.nameSalon}</td>
-                          <td style={{maxWidth:"20rem"}}>{element?.detailAddress}</td>
+                          <td style={{ maxWidth: "20rem" }}>
+                            {element?.detailAddress}
+                          </td>
                           <td>
                             {convertISOStringToLocaleDateString(
                               element?.joinDate
                             )}
                           </td>
                           <td className="has-text-centered">
-                          <Rating
-                            name="half-rating-read"
-                            defaultValue={element?.star}
-                            precision={0.5}
-                            readOnly
-                          /></td>
+                            <Rating
+                              name="half-rating-read"
+                              defaultValue={element?.star}
+                              precision={0.5}
+                              readOnly
+                            />
+                          </td>
 
                           <td className="has-text-centered">
                             <Link
@@ -336,19 +351,27 @@ export default function ManageService() {
               </TabPanel>
               <TabPanel value="2">
                 <div>
-                  {" "}
-                  <div className="has-text-right mb-5">
-                    <input
-                      className="input w-50"
-                      type="text"
-                      placeholder="text here"
-                      value={nameSalonDeactive}
-                      onChange={(e) => {
-                        setNameSalonDeactive(e.target.value);
-                      }}
-                    ></input>
-                    <button className="ml-5 button is-info">Search</button>
+                  <div className="mb-5 form-outline row">
+                    <div className="col-6"></div>
+                    <div className="input-group col-6">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                      </div>
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Tìm kiếm"
+                        maxLength={40}
+                        value={nameSalonDeactive}
+                        onChange={(e) => {
+                          setNameSalonDeactive(e.target.value);
+                        }}
+                      ></input>
+                    </div>
                   </div>
+
                   <table className="table">
                     <thead>
                       <tr>
@@ -365,7 +388,9 @@ export default function ManageService() {
                           <p title="DateJoin">Date join</p>
                         </th>
                         <th>
-                          <p title="Rating" className="has-text-centered">Rating</p>
+                          <p title="Rating" className="has-text-centered">
+                            Rating
+                          </p>
                         </th>
                         <th className="has-text-centered">
                           <p title="Actions">Actions</p>
@@ -379,14 +404,19 @@ export default function ManageService() {
                             {listSalonDeactive.indexOf(element) + 1}
                           </th>
                           <td>{element.nameSalon}</td>
-                          <td style={{maxWidth:"20rem"}}>{element.detailAddress}</td>
+                          <td style={{ maxWidth: "20rem" }}>
+                            {element.detailAddress}
+                          </td>
                           <td>{element.dateJoin}</td>
-                          <td className="has-text-centered"> <Rating
-                            name="half-rating-read"
-                            defaultValue={element.AverangeVote}
-                            precision={0.5}
-                            readOnly
-                          /></td>
+                          <td className="has-text-centered">
+                            {" "}
+                            <Rating
+                              name="half-rating-read"
+                              defaultValue={element.star}
+                              precision={0.5}
+                              readOnly
+                            />
+                          </td>
 
                           <td className="has-text-centered">
                             <Link
@@ -421,17 +451,25 @@ export default function ManageService() {
               <TabPanel value="3">
                 <div>
                   {" "}
-                  <div className="has-text-right mb-5">
-                    <input
-                      className="input w-50"
-                      type="text"
-                      placeholder="text here"
-                      value={nameSalonRequest}
-                      onChange={(e) => {
-                        setNameSalonRequest(e.target.value);
-                      }}
-                    ></input>
-                    <button className="ml-5 button is-info">Search</button>
+                  <div className="mb-5 form-outline row">
+                    <div className="col-6"></div>
+                    <div className="input-group col-6">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">
+                          <i className="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                      </div>
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Tìm kiếm"
+                        maxLength={40}
+                        value={nameSalonRequest}
+                        onChange={(e) => {
+                          setNameSalonRequest(e.target.value);
+                        }}
+                      ></input>
+                    </div>
                   </div>
                   <table className="table">
                     <thead>
@@ -463,7 +501,9 @@ export default function ManageService() {
                             {listSalonRequest.indexOf(element) + 1}
                           </th>
                           <td>{element.nameSalon}</td>
-                          <td style={{maxWidth:"20rem"}}>{element.detailAddress}</td>
+                          <td style={{ maxWidth: "20rem" }}>
+                            {element.detailAddress}
+                          </td>
                           <td>
                             {convertISOStringToLocaleDateString(
                               element.requestDate

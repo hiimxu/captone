@@ -69,6 +69,7 @@ export default function ManageService() {
   const [promotion, setPromotion] = useState("");
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
+  // const [imageService, setImageService] = useState(null);
   const [imageService, setImageService] = useState("");
 
   //create state for error
@@ -152,7 +153,7 @@ export default function ManageService() {
       promotion === "" ||
       content === "" ||
       description === "" ||
-      imageService === ""
+      !imageService
     ) {
       setError(true);
       pass = false;
@@ -176,6 +177,7 @@ export default function ManageService() {
         dispatch(getListServiceForSalon(token));
       };
       dispatch(addService(token, newService, successCallback));
+      console.log(newService);
     }
   };
 
@@ -1064,6 +1066,14 @@ export default function ManageService() {
                                 }}
                                 placeholder="Image*"
                               />
+                            </div>
+                            <div>
+                              {/* {imageService &&(
+                                <div>
+                                  <img alt="" width={"150px"} src={URL.createObjectURL(imageService)}/>
+                                  <button onClick={()=>{setImageService(null)}}>Remove</button>
+                                </div>
+                              )} */}
                             </div>
                             <div>
                               <label>Description:</label>

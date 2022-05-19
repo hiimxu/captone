@@ -37,6 +37,7 @@ import {
   ActiveSalon,
   DeactiveSalon,
   RejectSalon,
+  SalonInfo,SalonReviewList
 } from "../reducers/admin";
 import {
   ListReviewForCustomer,
@@ -92,6 +93,8 @@ const rootReducer = combineReducers({
   activeSalon: ActiveSalon,
   deactiveSalon: DeactiveSalon,
   rejectSalon: RejectSalon,
+  salonInfo:SalonInfo,
+  salonReviewList:SalonReviewList,
 
   //review
   listReviewForCustomer: ListReviewForCustomer,

@@ -23,6 +23,14 @@ a{
     margin-left: 10%;
     
 }
+.admin-page{
+  background-image: url("./assets/introbg-1.jpg");
+  background-repeat:repeat-y;
+  background-size:100%;
+  min-height: 60rem;
+  margin-top: 96px;
+}
+
 ::-webkit-scrollbar {
     width: 7px;
   }

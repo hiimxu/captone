@@ -415,3 +415,134 @@ const rejectSalonFail = (errMess) => {
     payload: errMess,
   };
 };
+
+//GET SALON INFO
+export const getSalonInfo = (token, salonId) => (dispatch) => {
+  const data = new URLSearchParams({ ...salonId });
+  return fetch(`${api}api/admin/get/serviceOfSalon`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(getSalonInfoFail(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.dataSalon?.length && response.message) {
+        dispatch(
+          getSalonInfoSuccessfully({
+            salonBusinessInfo: response.dataSalon[0],
+            serviceList: response.data,
+          })
+        );
+      } else {
+        dispatch(getSalonInfoFail(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get salon info failed", error);
+    });
+};
+
+const getSalonInfoSuccessfully = (payload) => {
+  return {
+    type: AdminActionTypes.GET_SALON_INFO_FOR_ADMIN_SUCCESSFULLY,
+    payload,
+  };
+};
+
+const getSalonInfoFail = (errMess) => {
+  return {
+    type: AdminActionTypes.GET_SALON_INFO_FOR_ADMIN_FAILED,
+    payload: errMess,
+  };
+};
+
+export const resetSalonInfo = () => (dispatch) => {
+  dispatch({
+    type: AdminActionTypes.RESET_SALON_INFO_FOR_ADMIN,
+  });
+};
+
+//REVIEW
+export const getSalonReview = (token, info) => (dispatch) => {
+  const data = new URLSearchParams({ ...info });
+  return fetch(`${api}api/admin/get/feedbackByStar`, {
+    method: "POST",
+    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "x-access-token": `${token}`,
+    },
+  })
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(getSalonReviewFail(errMess));
+          throw error;
+        }
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
+    .then((response) => {
+      if (response.data?.length && response.message) {
+        dispatch(
+          getSalonReviewSuccessfully({
+            listReview: response.data,
+          })
+        );
+      } else {
+        dispatch(getSalonReviewFail(response.message));
+      }
+    })
+    .catch((error) => {
+      console.log("Get review failed", error);
+    });
+};
+
+const getSalonReviewSuccessfully = (payload) => {
+  return {
+    type: AdminActionTypes.GET_REVIEW_FOR_ADMIN_SUCCESSFULLY,
+    payload,
+  };
+};
+
+const getSalonReviewFail = (errMess) => {
+  return {
+    type: AdminActionTypes.GET_REVIEW_FOR_ADMIN_FAILED,
+    payload: errMess,
+  };
+};
+
+export const resetSalonReview = () => (dispatch) => {
+  dispatch({
+    type: AdminActionTypes.RESET_REVIEW_SALON_FOR_ADMIN,
+  });
+};

@@ -430,7 +430,7 @@ const getProfileOfSalonFailed = (errMess) => {
   };
 };
 
-//ADD NEW SERVICE
+// //ADD NEW SERVICE
 export const addService =
   (token, serviceData, successCallback) => (dispatch) => {
     const data = new URLSearchParams({ ...serviceData });
@@ -489,6 +489,68 @@ const addNewServiceSuccessfully = (payload) => {
     payload,
   };
 };
+
+// //ADD NEW SERVICE
+// export const addService =
+//   (token, serviceData, successCallback) => (dispatch) => {
+//     const formData = new FormData();
+
+//     formData.append('service',JSON.stringify(serviceData))
+//     return fetch(`${api}api/salonowner/create/serviceUploadImage`, {
+//       method: "POST",
+//       body: formData,
+//       headers: {
+//         'Content-type': 'multipart/form-data',
+//         "x-access-token": `${token}`,
+//       },
+//     })
+//       .then(
+//         async (response) => {
+//           if (response.ok) {
+//             return response.json();
+//           } else {
+//             var error = new Error(
+//               "Error " + response.status + ": " + response.statusText
+//             );
+//             const errMess = (await response.json()).message;
+//             dispatch(addNewServiceFailed(errMess));
+//             throw error;
+//           }
+//         },
+//         (error) => {
+//           var errMess = new Error(error);
+//           throw errMess;
+//         }
+//       )
+//       .then((response) => {
+//         if (response.data && response.message) {
+//           dispatch(
+//             addNewServiceSuccessfully({
+//               newServiceAdded: response.data,
+//               successMessage: response.message,
+//             })
+//           );
+//           successCallback();
+//         } else {
+//           dispatch(addNewServiceFailed(response.message));
+//         }
+//       })
+//       .catch((error) => {
+//         console.log("Add new service failed", error);
+//       });
+//   };
+// const addNewServiceFailed = (errMess) => {
+//   return {
+//     type: SalonActionTypes.ADD_NEW_SERVICE_FAILED,
+//     payload: errMess,
+//   };
+// };
+// const addNewServiceSuccessfully = (payload) => {
+//   return {
+//     type: SalonActionTypes.ADD_NEW_SERVICE_SUCCESSFULLY,
+//     payload,
+//   };
+// };
 
 //ADD NEW STAFF
 export const addStaff = (token, staffData, successCallback) => (dispatch) => {

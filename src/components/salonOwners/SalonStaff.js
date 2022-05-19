@@ -152,7 +152,9 @@ export default function SalonDashboard() {
   };
   const [openAdd, setOpenAdd] = useState(false);
   const handleOpenAdd = () => setOpenAdd(true);
-  const handleCloseAdd = () => setOpenAdd(false);
+  const handleCloseAdd = () => {
+    setError(false);
+    setOpenAdd(false);}
 
   const [openEdit, setOpenEdit] = useState(false);
 
@@ -299,20 +301,7 @@ export default function SalonDashboard() {
                       setStaffName(event.target.value);
                     }}
                   />
-                  <br></br>
-                  <label className="mt-5">Employee's title:</label>
-                  <input
-                    id="Title"
-                    className="input mt-5 w-50 ml-5"
-                    style={{ height: "30px" }}
-                    type="text"
-                    placeholder="Title"
-                    maxLength={40}
-                    value={staffTitle}
-                    onChange={(event) => {
-                      setStaffTitle(event.target.value);
-                    }}
-                  />{" "}
+                  
                   <br></br>
                   <label className="mt-5">Employee's phone:</label>
                   <input
@@ -339,6 +328,22 @@ export default function SalonDashboard() {
                     value={staffAddress}
                     onChange={(event) => {
                       setStaffAddress(event.target.value);
+                    }}
+                  />{" "}
+                  <br></br>
+                  <label className="mt-5">Employee's description:</label>
+                  <textarea
+                    id="Title"
+                    rows="4"
+                    cols="50"
+                    className="input mt-5 w-50 ml-5"
+                    style={{ minHeight: "8rem" }}
+                    type="text"
+                    placeholder="Description"
+                    maxLength={40}
+                    value={staffTitle}
+                    onChange={(event) => {
+                      setStaffTitle(event.target.value);
                     }}
                   />{" "}
                   <br></br>
@@ -400,23 +405,7 @@ export default function SalonDashboard() {
                       });
                     }}
                   />
-                  <br></br>
-                  <label className="mt-5">Employee's title:</label>
-                  <input
-                    id="Title"
-                    className="input mt-5 w-50 ml-5"
-                    style={{ height: "30px" }}
-                    type="text"
-                    maxLength={40}
-                    placeholder="Text input"
-                    value={newStaffInfo?.title}
-                    onChange={(e) => {
-                      setNewStaffInfo({
-                        ...newStaffInfo,
-                        title: e.target.value,
-                      });
-                    }}
-                  />{" "}
+                  
                   <br></br>
                   <label className="mt-5" htmlfor="Phone">
                     Employee's phone:
@@ -451,6 +440,23 @@ export default function SalonDashboard() {
                       setNewStaffInfo({
                         ...newStaffInfo,
                         address: e.target.value,
+                      });
+                    }}
+                  />{" "}
+                  <br></br>
+                  <label className="mt-5">Employee's description:</label>
+                  <textarea
+                    id="Title"
+                    className="input mt-5 w-50 ml-5"
+                    style={{ minHeight: "8rem" }}
+                    type="text"
+                    maxLength={40}
+                    placeholder="Description"
+                    value={newStaffInfo?.title}
+                    onChange={(e) => {
+                      setNewStaffInfo({
+                        ...newStaffInfo,
+                        title: e.target.value,
                       });
                     }}
                   />{" "}

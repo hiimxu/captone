@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-
 // CUSTOMER
 import HomePage from "../HomePage";
 import Favorite from "../Favorite";
@@ -108,14 +107,21 @@ const SwitchRoutes = () => {
       return (
         <>
           <NavigationAdmin />
-          <Header />
-          <Routes>
-            <Route path="*" element={<Navigate to="/" />} />
-            <Route path="/" element={<ManageSalon />} />{" "}
-            <Route path="/DetailSalonActive/:salonId" element={<DetailSalonActive/>} />{" "}
-            <Route path="/DetailSalonDeactive/:salonId" element={<DetailSalonDeactive/>}/>
-            <Route path="/RequestForm/:salonId" element={<RequestForm />} />{" "}
-          </Routes>
+          <div className="admin-page">
+            <Routes>
+              <Route path="*" element={<Navigate to="/" />} />
+              <Route path="/" element={<ManageSalon />} />{" "}
+              <Route
+                path="/DetailSalonActive/:salonId"
+                element={<DetailSalonActive />}
+              />{" "}
+              <Route
+                path="/DetailSalonDeactive/:salonId"
+                element={<DetailSalonDeactive />}
+              />
+              <Route path="/RequestForm/:salonId" element={<RequestForm />} />{" "}
+            </Routes>
+          </div>
           <Footer />
         </>
       );
