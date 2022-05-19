@@ -23,7 +23,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import { Modal } from "@mui/material";
 import Rating from "@mui/material/Rating";
-import Typography from "@mui/material/Typography";
+import StarIcon from '@mui/icons-material/Star';
 import {
   addReview,
   getListReviewForCustomer,
@@ -176,10 +176,17 @@ export default function Service() {
                       <div className="pb-2 mb-3">
                         <h2
                           style={{ color: "#134068" }}
-                          className="is-size-1 has-text-weight-semibold"
+                          className="is-size-2 has-text-weight-semibold"
                         >
                           {salon.nameSalon}
-                        </h2>
+                        </h2>{" "}
+                        <div className="pt-2">
+                        <Rating
+                          name="simple-controlled"
+                          value={salon.AverangeVote}
+                          readOnly
+                          emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                        /></div>
                         <p className="is-size-5 font-weight-bold">
                           Open:{" "}
                           <span className="text-danger">
@@ -358,7 +365,7 @@ export default function Service() {
                             </div>
                             <div>
                               <p className="">
-                                <span className="font-weight-bold">145 </span>
+                                <span className="font-weight-bold">{data.TotalVote} </span>
                                 reviews
                               </p>
                             </div>
@@ -446,6 +453,7 @@ export default function Service() {
                                 value={review.rate / 2}
                                 precision={0.5}
                                 readOnly
+                                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                               />
                             </div>
 

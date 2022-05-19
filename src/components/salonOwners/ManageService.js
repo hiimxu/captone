@@ -337,8 +337,6 @@ export default function ManageService() {
   };
   const handleCloseSalon = () => setOpenSalon(false);
 
-  
-
   //STATE EDIT BUSINESS INFO
   const [businessInfo, setBusinessInfo] = useState(null);
 
@@ -422,8 +420,8 @@ export default function ManageService() {
 
   //CALL API REVIEW
   useEffect(() => {
-    if(!rate){
-      setRate("")
+    if (!rate) {
+      setRate("");
     }
     dispatch(getListReviewForSalon(token, { star: rate }));
     return () => {
@@ -467,10 +465,12 @@ export default function ManageService() {
                         <div className="pb-2 mb-3">
                           <h2
                             style={{ color: "#134068" }}
-                            className="is-size-1 has-text-weight-semibold"
+                            className="is-size-2 has-text-weight-semibold"
                           >
                             {salon.nameSalon}
                           </h2>
+                        
+
                           <p className="is-size-5 font-weight-bold">
                             Open:{" "}
                             <span className="text-danger">
@@ -1305,14 +1305,14 @@ export default function ManageService() {
                                 onClick={handleCloseEditService}
                               >
                                 {" "}
-                                Cancel
+                                Hủy
                               </button>
                               <button
                                 className="button is-rounded is-primary ml-4"
                                 onClick={handleEditService}
                               >
                                 {" "}
-                                Add
+                                Xác nhận
                               </button>
                             </div>
                           </form>
@@ -1393,7 +1393,6 @@ export default function ManageService() {
                         </div>
                       </div>
                     </div>
-                    
                     <div
                       style={{
                         overflowY: "scroll",

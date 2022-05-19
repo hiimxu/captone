@@ -282,7 +282,7 @@ export default function Schedule() {
                     onChange={handleSelectStaff}
                     style={{ width: "20rem" }}
                   >
-                    <option value="">Choose...</option>
+                    <option value="">Tất cả...</option>
                     {listStaff?.map((staff) => (
                       <option key={staff.staffId} value={staff.staffId}>
                         {staff.name}
@@ -447,7 +447,7 @@ export default function Schedule() {
                     onChange={handleSelectStaffIdForHistory}
                     style={{ width: "20rem" }}
                   >
-                    <option value="">Choose...</option>
+                    <option value="">Tất cả...</option>
                     {listStaff?.map((staff) => (
                       <option key={staff.staffId} value={staff.staffId}>
                         {staff.name}

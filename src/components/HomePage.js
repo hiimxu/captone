@@ -9,6 +9,7 @@ import {
 } from "../redux/actions/creators/booking";
 import imageUnavailable from "../assets/image-unavailable.png";
 import bgImg from "../assets/barbershopbg.jpg";
+import StarIcon from '@mui/icons-material/Star';
 
 const root = {
   backgroundImage: `url(${bgImg})`,
@@ -92,7 +93,7 @@ export default function HomePage() {
                     <div
                       className="card"
                       style={{
-                        height: "46rem",
+                        height: "50rem",
                         boxShadow:
                           "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                       }}
@@ -107,7 +108,7 @@ export default function HomePage() {
                           />
                         </figure>
                       </div>
-                      <div className="card-content" style={{ height: "21rem" }}>
+                      <div className="card-content" style={{ height: "25rem" }}>
                         <div className="media">
                           <div className="media-left">
                             <figure className="image is-48x48">
@@ -122,17 +123,18 @@ export default function HomePage() {
                           </div>
                           <div
                             className="media-content"
-                            style={{ marginBottom: 0, height: "5rem" }}
+                            style={{ marginBottom: 0, height: "7rem" }}
                           >
-                            <p className="title is-4">{salon.nameSalon}</p>
-                            {/* <Stack spacing={1} style={{marginTop : "0px"}}>
-                            <Rating
-                              name="half-rating-read"
-                              defaultValue={salon.star}
-                              precision={0.5}
-                              readOnly
-                            />
-                          </Stack> */}
+                            <p className="title pb-0 mb-1 is-4">{salon.nameSalon}</p>
+                            <div className="">
+                              <Rating
+                                name="simple-controlled"
+                                value={salon.star}
+                                readOnly
+                                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                size="small"
+                              />
+                            </div>
                             <p className="subtitle is-6">
                               <i className="fa-solid fa-location-dot"></i>{" "}
                               {salon.detailAddress}
@@ -154,7 +156,7 @@ export default function HomePage() {
                         <hr style={{ margin: "5px" }}></hr>
                         <div
                           className="content"
-                          style={{ overflowY: "scroll", height: "8rem" }}
+                          style={{ overflowY: "scroll", height: "10rem" }}
                         >
                           <p>{salon.description}</p>
                         </div>
