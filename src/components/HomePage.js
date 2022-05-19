@@ -131,7 +131,6 @@ export default function HomePage() {
                             className="media-content"
                             style={{ marginBottom: 0, height: "7rem" }}
                           >
-<<<<<<< HEAD
                             <p className="title pb-0 mb-1 is-4">{salon.nameSalon}</p>
                             <div className="">
                               <Rating
@@ -142,10 +141,6 @@ export default function HomePage() {
                                 size="small"
                               />
                             </div>
-=======
-                            <p className="title is-4">{salon.nameSalon}</p>
-
->>>>>>> c382c5d (done feature view profile, service, review of a salon for admin)
                             <p className="subtitle is-6">
                               <i className="fa-solid fa-location-dot"></i>{" "}
                               {salon.detailAddress}
