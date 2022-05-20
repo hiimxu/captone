@@ -75,7 +75,7 @@ export default function Navigation() {
         style={navbar}
       >
         <div className="justify-content-center navbar-collapse text row">
-          <div className="col-2"></div>
+          <div className="col-1"></div>
           <div className="col-8">
             <div style={{ display:"flex" }}>
               <ul className="menu navbar-nav " style={menu}>
@@ -99,7 +99,7 @@ export default function Navigation() {
               </ul>
             </div>
           </div>
-          <div className="col-2 row">
+          <div className="col-1 row">
             {account ? (
               <ul className="menu navbar-nav fixed-right" style={sign}>
                 <li className="nav-item p-1">
