@@ -415,6 +415,7 @@ export default function SalonDashboard() {
                     className="input w-50 mt-5 ml-5"
                     style={{ height: "30px" }}
                     type="phone"
+                    maxLength={40}
                     placeholder="Text input"
                     value={newStaffInfo?.phone}
                     onChange={(e) => {

@@ -50,6 +50,7 @@ export default function Login() {
                           <input
                             type="text"
                             value={username}
+                            maxLength={40}
                             onChange={(event) => {
                               setUsername(event.target.value);
                             }}
@@ -65,6 +66,7 @@ export default function Login() {
                             id="form2Example27"
                             className="form-control form-control-lg"
                             placeholder="Password"
+                            maxLength={40}
                             value={password}
                             onChange={(event) => {
                               setPassword(event.target.value);

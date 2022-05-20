@@ -471,7 +471,6 @@ export default function ManageService() {
                           >
                             {salon.nameSalon}
                           </h2>
-                        
 
                           <p className="is-size-5 font-weight-bold">
                             Open:{" "}
@@ -1200,7 +1199,7 @@ export default function ManageService() {
                                 <input
                                   type="number"
                                   className="form-control form-control-lg"
-                                  min="0"
+                                  min="0"                                  
                                   value={serviceInfo?.price}
                                   onChange={(event) => {
                                     setServiceInfo({
@@ -1366,24 +1365,28 @@ export default function ManageService() {
                   <TabPanel value="2">
                     {" "}
                     <div className=" columns">
-                      <div className="column is-3 has-text-centered">
-                        <p className="has-text-info">
-                          {" "}
-                          <span className="is-size-4 has-text-weight-semibold">
-                            {profileSalon[0]?.AverangeVote}
-                          </span>
-                          <br></br>
-                          <Rating
-                            name="half-rating-read"
-                            defaultValue={2.5}
-                            precision={0.5}
-                            readOnly
-                          />
-                          <br></br>
-                          out of 5 <br></br>
-                          {profileSalon[0]?.TotalVote} reviews
-                        </p>
-                      </div>
+                      {profileSalon ? (
+                        <div className="column is-3 has-text-centered">
+                          <p className="has-text-info">
+                            {" "}
+                            <span className="is-size-4 has-text-weight-semibold">
+                              {profileSalon[0]?.AverangeVote}
+                            </span>
+                            <br></br>
+                            <Rating
+                              name="half-rating-read"
+                              defaultValue={profileSalon[0]?.AverangeVote}
+                              precision={0.5}
+                              readOnly
+                            />
+                            <br></br>
+                            out of 5 <br></br>
+                            {profileSalon[0]?.TotalVote} reviews
+                          </p>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
                       <div className="col-6"></div>
                       <div
                         className="column is-3 has-text-centered mt-3"

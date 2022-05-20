@@ -280,6 +280,7 @@ export default function RegisterSalon() {
                             </div>
                             <input
                               value={confirmPwd}
+                              maxLength={40}
                               type="password"
                               className="form-control"
                               onChange={handleCPassword}

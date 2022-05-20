@@ -225,6 +225,7 @@ export default function Register() {
                     value={email}
                     onChange={handleEmail}
                     placeholder="Email"
+                    maxLength={40}
                   />
                   {emailErr && (
                     <p className="text-danger">Your email is invalid!</p>
