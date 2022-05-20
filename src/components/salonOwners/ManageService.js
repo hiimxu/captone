@@ -1370,7 +1370,7 @@ export default function ManageService() {
                         <p className="has-text-info">
                           {" "}
                           <span className="is-size-4 has-text-weight-semibold">
-                            4.5
+                            {profileSalon[0]?.AverangeVote}
                           </span>
                           <br></br>
                           <Rating
@@ -1381,7 +1381,7 @@ export default function ManageService() {
                           />
                           <br></br>
                           out of 5 <br></br>
-                          156 reviews
+                          {profileSalon[0]?.TotalVote} reviews
                         </p>
                       </div>
                       <div className="col-6"></div>

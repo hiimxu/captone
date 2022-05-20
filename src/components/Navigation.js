@@ -79,7 +79,7 @@ export default function Navigation() {
           <div className="col-8">
             <div style={{ display:"flex" }}>
               <ul className="menu navbar-nav " style={menu}>
-                <li className="nav-item p-4">
+                <li className="nav-item p-4 pt-5">
                   <Link className="text-reset" to="/">
                     Home
                   </Link>
@@ -91,7 +91,7 @@ export default function Navigation() {
                   </Link>
                 </li>
 
-                <li className="text-reset nav-item p-4">
+                <li className="text-reset nav-item p-4 pt-5">
                   <Link className="text-reset" to="/profile">
                     Profile
                   </Link>

@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import DialogTitle from "@mui/material/DialogTitle";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import ReservationTable from "./tables/ReservationTable";
@@ -232,19 +233,19 @@ export default function Profile() {
       setValidationErr("New password is invalid!");
       return;
     }
-    if(newPassword !== reNewPassword){
+    if (newPassword !== reNewPassword) {
       setValidationErr("The entered passwords do not match. Try again!");
       return;
     }
-    setValidationErr(null)
-    const submitObject ={
-      old_password:oldPassword,
-      new_password:newPassword
-    }
-    const callback=()=>{
-      setDialogChangepassOpen(false)
-    }
-    dispatch(changePassword(token,submitObject,callback))
+    setValidationErr(null);
+    const submitObject = {
+      old_password: oldPassword,
+      new_password: newPassword,
+    };
+    const callback = () => {
+      setDialogChangepassOpen(false);
+    };
+    dispatch(changePassword(token, submitObject, callback));
   };
   return (
     <>
@@ -333,6 +334,7 @@ export default function Profile() {
       {/* edit profile */}
       <Dialog onClose={handleClose} open={dialogOpen} maxWidth="lg">
         <FormWrapper style={{ minHeight: "50vh" }}>
+          <FieldLabel style={{ fontSize: "2rem" }}>Thông tin</FieldLabel>
           <FieldWrapper container spacing={2}>
             <Grid item xs={4}>
               <FieldLabel>Name</FieldLabel>
@@ -462,6 +464,7 @@ export default function Profile() {
         maxWidth="lg"
       >
         <FormWrapper style={{ minHeight: "50vh" }}>
+          <FieldLabel style={{ fontSize: "2rem" }}>Đổi mật khẩu</FieldLabel>
           <FieldWrapper container spacing={2}>
             <Grid item xs={4}>
               <FieldLabel>Mật khẩu hiện tại</FieldLabel>
@@ -525,10 +528,10 @@ export default function Profile() {
               width={110}
               onClick={() => {
                 setDialogChangepassOpen(false);
-                setNewPassword("")
-                setOldPassword("")
-                setReNewPassword("")
-                setValidationErr(null)
+                setNewPassword("");
+                setOldPassword("");
+                setReNewPassword("");
+                setValidationErr(null);
               }}
             >
               Cancel
