@@ -326,19 +326,19 @@ export const SalonBooking = (
     case SalonActionTypes.BOOKING_NEW_SERVICE_FAILED:
       return {
         ...state,
-        listCalendar: null,
+        bookingInfo: null,
         successMess: null,
-        errMess: action.payload.errMess,
+        errMess: action.payload,
       };
-    case SalonActionTypes.GET_LIST_STAFF_CALENDAR_SUCCESSFULLY:
+    case SalonActionTypes.BOOKING_NEW_SERVICE_SUCCESSFULLY:
       return {
         ...state,
-        listCalendar: action.payload.listCalendar,
+        bookingInfo: action.payload.bookingInfo,
         successMess: action.payload.successMess,
         errMess: null,
       };
     case SalonActionTypes.GET_SCHEDULE_CURRENT_SUCCESSFULLY:
-      return { ...state, listCalendar: null, successMess: null, errMess: null };
+      return { ...state, bookingInfo: null, successMess: null, errMess: null };
     default:
       return state;
   }

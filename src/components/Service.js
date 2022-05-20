@@ -353,7 +353,8 @@ export default function Service() {
                               className="font-weight-bold text-info"
                               style={{ fontSize: "1.5rem" }}
                             >
-                              <label>{data.AverangeVote.toFixed(1)}/5</label>
+                              {data?.AverangeVote ? (<label>{data.AverangeVote.toFixed(1)}/5</label>):(<label>0/5</label>)}
+                              
                             </div>
                             <div>
                               <Rating
@@ -365,7 +366,7 @@ export default function Service() {
                             </div>
                             <div>
                               <p className="">
-                                <span className="font-weight-bold">{data.TotalVote} </span>
+                                {data?.TotalVote ? (<span className="font-weight-bold">{data.TotalVote} </span>):(<span className="font-weight-bold">0 </span>)}
                                 reviews
                               </p>
                             </div>

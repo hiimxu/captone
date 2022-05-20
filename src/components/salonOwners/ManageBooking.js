@@ -121,7 +121,7 @@ export default function Staff() {
     (state) => state.loginAccount.account
   );
   const { listCalendar } = useSelector((state) => state.listCalendar);
-  const { successMess } = useSelector((state) => state.salonBooking);
+  const { errMess} = useSelector((state) => state.salonBooking);
 
   //GET LIST SERVICE OF SALON
   useEffect(() => {
@@ -202,17 +202,21 @@ export default function Staff() {
         <div className="">
           <div
             className="row pb-5"
-            style={{ paddingLeft: "7%", paddingTop: "3rem" }}
+            style={{
+              paddingLeft: "7%",
+              paddingTop: "3rem",
+              minHeight: "40rem",
+            }}
           >
             {listService?.map((service) => (
               <div
-                className="card mb-5 column is-5 "
+                className="card mb-5 col-5"
                 style={cardService}
                 key={service.serviceId}
                 value={serviceInfo}
                 onChange={() => setServiceInfo(service)}
               >
-                <div className="row">
+                <div className="row" style={{ minWidth: "40rem" }}>
                   <div className="form-check form-check-inline column is-1 ml-5 mt-5 pt-5 ">
                     <input
                       style={{ width: "1.5rem", height: "1.5rem" }}
@@ -225,12 +229,11 @@ export default function Staff() {
                   <div className="column is-10">
                     <div>
                       <h4 className="has-text-info-dark is-size-4 has-text-weight-bold">
-                        {service.name} -{" "}
-                        <span className="has-text-link-dark is-size-5">
-                          {service.content}
-                        </span>
+                        {service.name}
                       </h4>
-
+                      <span className="has-text-link-dark is-size-5">
+                        {service.content}
+                      </span>
                       <p className="is-size-5 has-text-dark">
                         {service.service_time} minutes
                       </p>
@@ -272,6 +275,7 @@ export default function Staff() {
             style={{
               background: "url(" + patterbg + ")",
               boxShadow: "1px 1px 20px black",
+              minWidth:"1412px"
             }}
           >
             <div className="steps ml-5" id="stepsDemo">
@@ -358,6 +362,7 @@ export default function Staff() {
             </div>
             <div className="text-center">
               {error && <p className="text-danger">{error}</p>}
+              {errMess && <p className="text-danger">{errMess}</p>}
             </div>
 
             <div className="col-md-12 text-center pb-5 ">
