@@ -83,7 +83,7 @@ export default function HomePage() {
               <input
                 className="form-control"
                 type="text"
-                placeholder=""
+                placeholder="Tìm kiếm"
                 value={nameSalon}
                 maxLength={40}
                 onChange={(e) => {

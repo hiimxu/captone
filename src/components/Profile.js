@@ -232,7 +232,7 @@ export default function Profile() {
       setValidationErr("New password is invalid!");
       return;
     }
-    if(newPassword != reNewPassword){
+    if(newPassword !== reNewPassword){
       setValidationErr("The entered passwords do not match. Try again!");
       return;
     }
