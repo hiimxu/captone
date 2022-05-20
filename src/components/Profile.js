@@ -17,6 +17,7 @@ import {
   changePassword,
   getCustomerProfile,
   updateCustomerProfile,
+  resetMessage
 } from "../redux/actions/creators/profile";
 import {
   getHistoryBooking,
@@ -244,6 +245,10 @@ export default function Profile() {
     };
     const callback = () => {
       setDialogChangepassOpen(false);
+      setOldPassword("")
+      setNewPassword("")
+      setReNewPassword("")
+      dispatch(resetMessage())
     };
     dispatch(changePassword(token, submitObject, callback));
   };

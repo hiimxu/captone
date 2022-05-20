@@ -224,8 +224,8 @@ export const EditService = (
 export const EditBusinessInfo = (
   state = {
     businessInfoEdited: null,
-    successMess: null,
-    errMess: null,
+    infoSuccessMess: null,
+    infoErrMess: null,
   },
   action
 ) => {
@@ -234,22 +234,22 @@ export const EditBusinessInfo = (
       return {
         ...state,
         businessInfoEdited: null,
-        successMess: null,
-        errMess: action.payload,
+        infoSuccessMess: null,
+        infoErrMess: action.payload,
       };
     case SalonActionTypes.EDIT_SALON_BUSINESS_INFO_SUCCESSFULLY:
       return {
         ...state,
         businessInfoEdited: action.payload.businessInfoEdited,
-        successMess: action.payload.successMess,
-        errMess: null,
+        infoSuccessMess: action.payload.infoSuccessMess,
+        infoErrMess: null,
       };
     case SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY:
       return {
         ...state,
         businessInfoEdited: null,
-        successMess: null,
-        errMess: null,
+        infoSuccessMess: null,
+        infoErrMess: null,
       };
     default:
       return state;

@@ -10,7 +10,104 @@ import {
 import { Modal, Box, Tooltip } from "@mui/material";
 import { logout } from "../../redux/actions/creators/auth";
 import { districts, times } from "../../assets/data/data.js";
-import { validEmail, validPhone } from "../../validations/regex";
+import { validEmail, validPhone,validPassword } from "../../validations/regex";
+import {
+  
+  Button as MuiButton,
+  Dialog,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/system";
+import{ changePassword, resetMessage} from "../../redux/actions/creators/profile"
+
+
+
+
+const ErrorText = styled(Typography)({
+  color: "#ED4337",
+  fontSize: 16,
+  fontFamily: "Segoe UI",
+  lineHeight: 1.75,
+});
+
+const SuccessText = styled(Typography)({
+  color: "#4F8A10",
+  fontSize: 16,
+  fontFamily: "Segoe UI",
+  lineHeight: 1.75,
+});
+
+
+
+
+
+const ButtonWrapper = styled(Box)({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 20,
+});
+
+const Button = styled(MuiButton)(({ width }) => ({
+  textTransform: "capitalize",
+  fontSize: 16,
+  borderRadius: 12,
+  lineHeight: "40px",
+  width,
+  height: 40,
+}));
+
+const ActionButton = styled(Button)({
+  fontSize: 20,
+  backgroundColor: "#1e6296",
+});
+
+const SecondaryActionButton = styled(ActionButton)({
+  backgroundColor: "#ff6060",
+  marginRight: 30,
+});
+
+
+
+
+
+const FormWrapper = styled(Box)({
+  minWidth: 800,
+  backgroundColor: "white",
+  padding: 30,
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+const FieldWrapper = styled(Grid)({
+  height: 60,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+const FieldLabel = styled(Box)({
+  display: "flex",
+  color: "#305470",
+  fontSize: 20,
+  fontFamily: "Segoe UI",
+  alignItems: "center",
+  justifyContent: "flex-end",
+});
+
+
+const InputPassword = styled(TextField)({
+  height: 30,
+  width: 300,
+});
+
+
+
 // CSS
 
 const root = {
@@ -21,6 +118,14 @@ const root = {
 
 export default function SalonDashboard() {
   const dispatch = useDispatch();
+
+  const [validationErr, setValidationErr] = useState(null);
+  const [dialogChangepassOpen, setDialogChangepassOpen] = useState(false);
+
+  //STATE CHANGE PASSWORD
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [reNewPassword, setReNewPassword] = useState("");
 
   // -- GET SALON PROFILE --
   const { token, account_name: username } = useSelector(
@@ -42,12 +147,13 @@ export default function SalonDashboard() {
     }
     setOpen(true);
   };
-  const handleClose = () => {    
+  const handleClose = () => {
     setOpen(false);
+    
   };
 
   //LOAD REDUX EDIT BUSINESS INFO
-  const { businessInfoEdited, successMess, errMess } = useSelector(
+  const { businessInfoEdited, infoSuccessMess, infoErrMess } = useSelector(
     (state) => state.editBusinessInfo
   );
   //STATE EDIT BUSINESS INFO
@@ -133,6 +239,39 @@ export default function SalonDashboard() {
     dispatch(editSalonBusinessInfo(token, submitOjb, successCallback));
   };
 
+  const handleChangePassClose = () => {
+    setDialogChangepassOpen(false);
+  };
+
+  const { errMess, successMess } = useSelector((state) => state.profile)
+  const handleChangePassword = () => {
+    if (!oldPassword || !newPassword || !reNewPassword) {
+      setValidationErr("Please enter all the fields");
+      return;
+    }
+    if (!validPassword.test(newPassword)) {
+      setValidationErr("New password is invalid!");
+      return;
+    }
+    if (newPassword !== reNewPassword) {
+      setValidationErr("The entered passwords do not match. Try again!");
+      return;
+    }
+    setValidationErr(null);
+    const submitObject = {
+      old_password: oldPassword,
+      new_password: newPassword,
+    };
+    const callback = () => {
+      setDialogChangepassOpen(false);
+      setOldPassword("")
+      setNewPassword("")
+      setReNewPassword("")
+      dispatch(resetMessage())
+    };
+    dispatch(changePassword(token, submitObject, callback));
+  };
+
   return profileSalon ? (
     <div>
       <div style={root}>
@@ -206,19 +345,115 @@ export default function SalonDashboard() {
               </div>
             </div>
 
-            <div className="has-text-centered mb-5 mr-5">
+            <div className="has-text-centered mb-5 pr-0 ">
               <button
                 className="button is-info is-rounded"
                 style={{ width: "200px" }}
                 onClick={handleOpen}
               >
-                Edit
+                Chỉnh sửa hồ sơ
+              </button>
+              <button
+                className="button is-info ml-5 is-rounded"
+                style={{ width: "200px" }}
+                onClick={()=>{setDialogChangepassOpen(true)}}
+              >
+                Đổi mật khẩu
               </button>
             </div>
           </div>
           <div className="column is-2"></div>
         </div>
       </div>
+      {/* change password */}
+      <Dialog
+        onClose={handleChangePassClose}
+        open={dialogChangepassOpen}
+        maxWidth="lg"
+      >
+        <FormWrapper style={{ minHeight: "50vh" }}>
+          <FieldLabel style={{ fontSize: "2rem" }}>Đổi mật khẩu</FieldLabel>
+          <FieldWrapper container spacing={2}>
+            <Grid item xs={4}>
+              <FieldLabel>Mật khẩu hiện tại</FieldLabel>
+            </Grid>
+            <Grid item xs={8}>
+              <InputPassword
+                type="password"
+                variant="standard"
+                margin="dense"
+                size="small"
+                value={oldPassword}
+                onChange={(e) => {
+                  setOldPassword(e.target.value);
+                }}
+              />
+            </Grid>
+          </FieldWrapper>
+          <FieldWrapper container spacing={2}>
+            <Grid item xs={4}>
+              <FieldLabel>Mật khẩu mới</FieldLabel>
+            </Grid>
+            <Grid item xs={8}>
+              <InputPassword
+                type="password"
+                variant="standard"
+                margin="dense"
+                size="small"
+                value={newPassword}
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                }}
+              />
+            </Grid>
+          </FieldWrapper>
+          <FieldWrapper container spacing={2}>
+            <Grid item xs={4}>
+              <FieldLabel>Nhập lại mật khẩu mới</FieldLabel>
+            </Grid>
+            <Grid item xs={8}>
+              <InputPassword
+                type="password"
+                variant="standard"
+                margin="dense"
+                size="small"
+                value={reNewPassword}
+                onChange={(e) => {
+                  setReNewPassword(e.target.value);
+                }}
+              />
+            </Grid>
+          </FieldWrapper>
+          <ButtonWrapper>
+            {successMess && <SuccessText>{successMess}</SuccessText>}
+            {errMess && <ErrorText>{errMess}</ErrorText>}
+            {validationErr && <ErrorText>{validationErr}</ErrorText>}
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <SecondaryActionButton
+              variant="contained"
+              color="error"
+              width={110}
+              onClick={() => {
+                setDialogChangepassOpen(false);
+                setNewPassword("");
+                setOldPassword("");
+                setReNewPassword("");
+                setValidationErr(null);
+              }}
+            >
+              Cancel
+            </SecondaryActionButton>
+            <ActionButton
+              variant="contained"
+              width={110}
+              onClick={handleChangePassword}
+            >
+              Done
+            </ActionButton>
+          </ButtonWrapper>
+        </FormWrapper>
+      </Dialog>
       {/* Modal */}
       <Modal
         open={open}
@@ -502,8 +737,8 @@ export default function SalonDashboard() {
                 </div>
               </div>
               <div>
-                {successMess && <p className="text-success">{successMess}</p>}
-                {errMess && <p className="text-danger">{errMess}</p>}
+                {infoSuccessMess && <p className="text-success">{infoSuccessMess}</p>}
+                {infoErrMess && <p className="text-danger">{infoErrMess}</p>}
                 {emptyError && (
                   <p className="text-danger">Please enter all the fields</p>
                 )}

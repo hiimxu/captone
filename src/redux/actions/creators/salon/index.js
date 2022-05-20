@@ -894,7 +894,7 @@ export const editSalonBusinessInfo =
           dispatch(
             editBusinessInfoSuccessfully({
               businessInfoEdited: response.data,
-              successMess: response.message,
+              infoSuccessMess: response.message,
             })
           );
           if (successCallback) {
