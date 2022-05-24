@@ -249,8 +249,7 @@ export default function ManageService() {
               aria-label="disabled tabs example"
             >
               <Tab label="Thông tin" value="1" />
-              <Tab label="Dịch vụ" value="2" />
-              <Tab label="Đánh giá" value="3" />
+              <Tab label="Dịch vụ" value="2" />              
             </TabList>
           </Box>
           <div
@@ -406,142 +405,7 @@ export default function ManageService() {
                 </div>
               )}
             </TabPanel>
-            <TabPanel value="3">
-              {salonBusinessInfo ? (
-                <div>
-                  <div className=" columns">
-                    <div className="column is-3 has-text-centered">
-                      <p className="has-text-info">
-                        {" "}
-                        <span className="is-size-4 has-text-weight-semibold">
-                          {salonBusinessInfo?.AverangeVote ? (
-                            <>
-                              <span>
-                                {salonBusinessInfo?.AverangeVote.toFixed(1)}
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <span>0</span>
-                            </>
-                          )}
-                        </span>
-                        <br></br>
-                        <Rating
-                          name="half-rating-read"
-                          defaultValue={salonBusinessInfo.AverangeVote}
-                          precision={0.5}
-                          readOnly
-                        />
-                        <br></br>
-                        out of 5 <br></br>
-                        {salonBusinessInfo.TotalVote} reviews
-                      </p>
-                    </div>
-                    <div className="col-6"></div>
-                    <div
-                      className="column is-3 has-text-centered mt-3"
-                      style={{ display: "inline-block" }}
-                    >
-                      <div className="col-1 font-weight-bold pr-0 pl-5 text-center">
-                        <label>Rating</label>
-                      </div>
-                      <div className="col-3 pl-2">
-                        <Rating
-                          name="simple-controlled"
-                          value={rate}
-                          onChange={(event, newValue) => {
-                            setRate(newValue);
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      overflowY: "scroll",
-                      height: "700px",
-                      backgroundColor: "white",
-                    }}
-                    className="rounded"
-                  >
-                    {listReview ? (
-                      listReview.map((review) => (
-                        <div
-                          className="m-4 pl-3 pr-3 pt-5 pb-5 mb-5 "
-                          style={{
-                            backgroundColor: "white",
-                            height: "12rem",
-                            borderRadius: "25px",
-                          }}
-                        >
-                          <div className="row pt-3 pb-3">
-                            <div className="col-6">
-                              <h2 className="is-size-5 row">
-                                <div
-                                  className="is-size-5 ml-4 mt-5 mr-2 has-text-weight-semibold rounded p-2 text-center"
-                                  style={{
-                                    backgroundColor: "#dddddd",
-                                    width: "35px",
-                                    height: "35px",
-                                  }}
-                                >
-                                  {review.nameCustomer.charAt(0)}
-                                </div>
-                                <span className="is-size-5 p-2 mt-5 has-text-weight-semibold">
-                                  {review.nameCustomer}
-                                </span>
-                              </h2>
-                            </div>
-                            <div className="col-6 has-text-right mt-5 pt-2">
-                              <p className=" font-weight-bold">
-                                <span>
-                                  <i className="fa-regular fa-clock mr-1"></i>
-                                </span>
-                                {convertISOStringToLocaleDateString(
-                                  review.dateCreate
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                          <div
-                            className="rounded p-4"
-                            style={{ backgroundColor: "#f3f4f6" }}
-                          >
-                            <div>
-                              <Rating
-                                name="half-rating-read"
-                                value={review.rate / 2}
-                                precision={0.5}
-                                readOnly
-                              />
-                            </div>
-
-                            <div className="pl-1">
-                              <p>
-                                <span className="font-weight-bold">
-                                  Review:{" "}
-                                </span>{" "}
-                                {review.content}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div
-                        className="text-center pt-5 font-weight-bold"
-                        style={{ fontSize: "1.5rem" }}
-                      >
-                        There are no reviews!
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div></div>
-              )}
-            </TabPanel>
+            
             <div className="text-center">
               <div className="pb-5">
                 <Link
