@@ -528,14 +528,14 @@ export default function DetailSalonDeactive() {
                   Back
                 </Link>
                 <button
-                  className="button is-danger has-text-white is-rounded"
+                  className="button is-success has-text-white is-rounded"
                   onClick={() => setDialogOpen(true)}
                 >
-                  Deactive
+                  Active
                 </button>
                 <Dialog onClose={handleClose} open={dialogOpen} maxWidth="lg">
                   <FormWrapper style={{ minHeight: "6rem" }}>
-                    <FieldLabel>Are you sure deactivate this salon?</FieldLabel>
+                    <FieldLabel>Are you sure activate this salon?</FieldLabel>
                   </FormWrapper>
                   <ButtonWrapper>
                     {activeSuccessMess && (
