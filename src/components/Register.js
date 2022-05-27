@@ -149,14 +149,23 @@ export default function Register() {
   return (
     <div className=" bg-transparent" style={root}>
       <div>
-        <h2 className="fw-normal mb-3 pb-3" style={{ letterSpacing: "1px",fontSize:"2.2rem",fontWeight:"bold" }}>
-          User Registration
+        <h2
+          className="fw-normal mb-3 pb-3"
+          style={{
+            letterSpacing: "1px",
+            fontSize: "2.2rem",
+            fontWeight: "bold",
+          }}
+        >
+          Đăng ký tài khoản mới
         </h2>
       </div>
       <div className="messages">
         {error && (
           <div className="error">
-            <p className="text-danger">Please enter all the fields</p>
+            <p className="text-danger">
+              Bạn vui lòng điền đầy đủ thông tin cá nhân!
+            </p>
           </div>
         )}
         {errMess && (
@@ -183,7 +192,7 @@ export default function Register() {
                     type="text"
                     value={username}
                     onChange={handleUsername}
-                    placeholder="Username"
+                    placeholder="Tên đăng nhập*"
                     maxLength={40}
                   />
                 </div>
@@ -193,13 +202,13 @@ export default function Register() {
                     type="password"
                     value={password}
                     onChange={handlePassword}
-                    placeholder="Password"
+                    placeholder="Mật khẩu*"
                     maxLength={40}
                   />
                   {pwdErr && (
                     <p className="text-danger">
-                      Your password must be 8-40 characters long and contain
-                      numbers, lowercase and uppercase letters.
+                      Mật khẩu phải từ 8 đến 40 ký tự, trong đó có chứa ít nhất
+                      1 chữ cái viết hoa, một chữ cái viết thướng và 1 số
                     </p>
                   )}
                 </div>
@@ -209,12 +218,12 @@ export default function Register() {
                     type="password"
                     value={confirmPwd}
                     onChange={handleCPassword}
-                    placeholder="Confirm your password"
+                    placeholder="Nhập lại mật khẩu*"
                     maxLength={40}
                   />
                   {confirmPwdError && (
                     <p className="text-danger">
-                      The entered passwords do not match. Try again.
+                      Mật khẩu không trùng khớp, vui lòng kiểm tra lại!
                     </p>
                   )}
                 </div>
@@ -224,11 +233,13 @@ export default function Register() {
                     type="email"
                     value={email}
                     onChange={handleEmail}
-                    placeholder="Email"
+                    placeholder="Email*"
                     maxLength={40}
                   />
                   {emailErr && (
-                    <p className="text-danger">Your email is invalid!</p>
+                    <p className="text-danger">
+                      Địa chỉ email của bạn không chính xác!
+                    </p>
                   )}
                 </div>
               </div>
@@ -242,7 +253,7 @@ export default function Register() {
                       maxLength={40}
                       value={name}
                       onChange={handleName}
-                      placeholder="Enter your name"
+                      placeholder="Họ và tên*"
                     />
                   </div>
                   <div className="form-group">
@@ -252,10 +263,10 @@ export default function Register() {
                       maxLength={40}
                       value={phone}
                       onChange={handlePhone}
-                      placeholder="Phone number"
+                      placeholder="Số di động*"
                     />
                     {phoneErr && (
-                      <p className="text-danger">Your phone is invalid!</p>
+                      <p className="text-danger">Số di động không hợp lệ</p>
                     )}
                   </div>
                   <div className="form-group">
@@ -264,7 +275,7 @@ export default function Register() {
                       type="date"
                       value={dob}
                       onChange={handleDob}
-                      placeholder="Date of birth"
+                      placeholder="Ngày sinh*"
                     />
                   </div>
                   <input
@@ -273,21 +284,21 @@ export default function Register() {
                     maxLength={40}
                     value={address}
                     onChange={handleFirstname}
-                    placeholder="Enter your address"
+                    placeholder="Địa chỉ*"
                   />
                 </div>
               </div>
             </div>
             <div>
               <p className="mt-4">
-                Become a partner of our salon program:{" "}
+                Để trở thành salon đối tác của website:{" "}
                 <Link to="/register_salon" className="text-primary pl-2">
-                  Register here
+                  Đăng ký tại đây
                 </Link>
               </p>
             </div>
             <button style={btnSubmit} onClick={handleSubmit}>
-              Submit
+              Đăng ký
             </button>
           </form>
         </div>

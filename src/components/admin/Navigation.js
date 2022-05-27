@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/creators/auth";
 
 const title = {
-  fontSize: "3.5rem",
+  fontSize: "3.8rem",
   color: "#c5a85b",
-  fontFamily: "Parisienne",
+  fontFamily: 'Parisienne',
 };
 
 export default function Navigation() {
@@ -58,7 +58,7 @@ export default function Navigation() {
                         className="button is-dark is-outlined is-inverted"
                         onClick={handleLogout}
                       >
-                        Logout
+                        Đăng xuất
                       </button>
                     </Link>
                   </li>

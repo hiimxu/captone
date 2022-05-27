@@ -16,7 +16,7 @@ export default function Login() {
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    minHeight:"40rem"
+    minHeight: "40rem",
   };
   const loginStyle = {
     backgroundColor: "rgba(0,0,0,0)",
@@ -43,7 +43,7 @@ export default function Login() {
                             fontWeight: "bold",
                           }}
                         >
-                          Sign into your account
+                          Đăng nhập
                         </h2>
 
                         <div className="form-outline mb-4">
@@ -56,7 +56,7 @@ export default function Login() {
                             }}
                             id="form2Example17"
                             className="form-control form-control-lg"
-                            placeholder="Username"
+                            placeholder="Tên đăng nhập*"
                           />
                         </div>
 
@@ -65,7 +65,7 @@ export default function Login() {
                             type="password"
                             id="form2Example27"
                             className="form-control form-control-lg"
-                            placeholder="Password"
+                            placeholder="Mật khẩu*"
                             maxLength={40}
                             value={password}
                             onChange={(event) => {
@@ -88,7 +88,7 @@ export default function Login() {
                               dispatch(login({ username, password }));
                             }}
                           >
-                            Login
+                            Đăng nhập
                           </button>
                         </div>
 
@@ -96,28 +96,28 @@ export default function Login() {
                           className="small text-primary"
                           to="/forgot_password"
                         >
-                          Forgot password?
+                          Quên mật khẩu?
                         </Link>
                         <p className="pt-2">
-                          Don't have an account?{" "}
+                          Bạn chưa có tài khoản:{" "}
                           <Link to="/register" className="text-primary pl-2">
-                            Register here
+                            Đăng ký tại đây
                           </Link>
                         </p>
                         <p className="pb-3">
-                          Become a partner of our salon program:{" "}
+                          Để trở thành salon đối tác của website:{" "}
                           <Link
                             to="/register_salon"
                             className="text-primary pl-2"
                           >
-                            Register here
+                            Đăng ký tại đây
                           </Link>
                         </p>
                         <Link to="/" className="small text-muted pr-3">
-                          Terms of use
+                          Điều khoản
                         </Link>
                         <Link to="/" className="small text-muted">
-                          Privacy policy
+                          Chính sách bảo mật
                         </Link>
                       </form>
                     </div>

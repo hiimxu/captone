@@ -242,9 +242,9 @@ export default function ManageService() {
                   onChange={handleChange}
                   aria-label="disabled tabs example"
                 >
-                  <Tab label="Active Salons" value="1" />
-                  <Tab label="Deactive Salons" value="2" />
-                  <Tab label="Pending Request" value="3" />
+                  <Tab label="Salon đang hoạt động" value="1" />
+                  <Tab label="Salon dừng hoạt động" value="2" />
+                  <Tab label="Salon đang chờ duyệt" value="3" />
                 </TabList>
               </Box>
               <TabPanel value="1">
@@ -277,21 +277,21 @@ export default function ManageService() {
                           <p title="stt">#</p>
                         </th>
                         <th>
-                          <p title="SalonName">Salon's Name</p>
+                          <p title="SalonName">Tên salon</p>
                         </th>
                         <th>
-                          <p title="SalonAddress">Address</p>
+                          <p title="SalonAddress">Địa chỉ</p>
                         </th>
                         <th>
-                          <p title="DateJoin">Date join</p>
+                          <p title="DateJoin">Ngày vào</p>
                         </th>
                         <th>
                           <p title="Rating" className="has-text-centered">
-                            Rating
+                            Đánh giá
                           </p>
                         </th>
                         <th className="has-text-centered">
-                          <p title="Actions">Actions</p>
+                          <p title="Actions"></p>
                         </th>
                       </tr>
                     </thead>
@@ -379,21 +379,18 @@ export default function ManageService() {
                           <p title="stt">#</p>
                         </th>
                         <th>
-                          <p title="SalonName">Salon's Name</p>
+                          <p title="SalonName">Tên salon</p>
                         </th>
                         <th>
-                          <p title="SalonAddress">Address</p>
-                        </th>
-                        <th>
-                          <p title="DateJoin">Date join</p>
-                        </th>
+                          <p title="SalonAddress">Địa chỉ</p>
+                        </th>                        
                         <th>
                           <p title="Rating" className="has-text-centered">
-                            Rating
+                            Đánh giá
                           </p>
                         </th>
                         <th className="has-text-centered">
-                          <p title="Actions">Actions</p>
+                          <p title="Actions"></p>
                         </th>
                       </tr>
                     </thead>
@@ -407,7 +404,7 @@ export default function ManageService() {
                           <td style={{ maxWidth: "20rem" }}>
                             {element.detailAddress}
                           </td>
-                          <td>{element.dateJoin}</td>
+                          
                           <td className="has-text-centered">
                             {" "}
                             <Rating
@@ -478,19 +475,19 @@ export default function ManageService() {
                           <p title="stt">#</p>
                         </th>
                         <th>
-                          <p title="SalonName">Salon's Name</p>
+                          <p title="SalonName">Tên salon</p>
                         </th>
                         <th>
-                          <p title="SalonAddress">Address</p>
+                          <p title="SalonAddress">Địa chỉ</p>
                         </th>
                         <th>
-                          <p title="DateJoin">Date join</p>
+                          <p title="DateJoin">Ngày vào</p>
                         </th>
                         <th>
                           <p title="Rating">Email</p>
                         </th>
                         <th className="has-text-centered">
-                          <p title="Actions">Actions</p>
+                          <p title="Actions"></p>
                         </th>
                       </tr>
                     </thead>
@@ -559,7 +556,7 @@ export default function ManageService() {
             maxWidth="lg"
           >
             <FormWrapper style={{ minHeight: "6rem" }}>
-              <FieldLabel>Are you sure active this salon?</FieldLabel>
+              <FieldLabel>Bạn muốn kích hoạt salon này?</FieldLabel>
             </FormWrapper>
             <ButtonWrapper>
               {activeSuccessMess && (
@@ -568,16 +565,16 @@ export default function ManageService() {
             </ButtonWrapper>
             <ButtonWrapper>
               <button
-                className="button is-info mr-5 has-text-white is-rounded"
+                className="button is-danger mr-5 has-text-white is-rounded"
                 onClick={() => setDialogActiveOpen(false)}
               >
-                Close
+                Hủy
               </button>
               <button
                 className="button is-success has-text-white is-rounded"
                 onClick={handleActive}
               >
-                Active
+                Xác nhận
               </button>
             </ButtonWrapper>
           </Dialog>
@@ -588,7 +585,7 @@ export default function ManageService() {
             maxWidth="lg"
           >
             <FormWrapper style={{ minHeight: "6rem" }}>
-              <FieldLabel>Are you sure reject this salon?</FieldLabel>
+              <FieldLabel>Bạn muốn từ chối đơn đăng ký của salon này?</FieldLabel>
             </FormWrapper>
             <ButtonWrapper>
               {rejectSuccessMess && (
@@ -597,23 +594,23 @@ export default function ManageService() {
             </ButtonWrapper>
             <ButtonWrapper>
               <button
-                className="button is-info mr-5 has-text-white is-rounded"
+                className="button is-danger mr-5 has-text-white is-rounded"
                 onClick={() => setDialogRejectOpen(false)}
               >
-                Close
+                Hủy
               </button>
               <button
-                className="button is-danger has-text-white is-rounded"
+                className="button is-success has-text-white is-rounded"
                 onClick={handleReject}
               >
-                Reject
+                Xác nhận
               </button>
             </ButtonWrapper>
           </Dialog>
           {/* DIALOG DEACTIVE */}
           <Dialog onClose={handleClose} open={dialogOpen} maxWidth="lg">
             <FormWrapper style={{ minHeight: "6rem" }}>
-              <FieldLabel>Are you sure deactivate this salon?</FieldLabel>
+              <FieldLabel>Bạn muốn dừng hoạt động của salon này?</FieldLabel>
             </FormWrapper>
             <ButtonWrapper>
               {deactiveSuccessMess && (
@@ -622,16 +619,16 @@ export default function ManageService() {
             </ButtonWrapper>
             <ButtonWrapper>
               <button
-                className="button is-info mr-5 has-text-white is-rounded"
+                className="button is-danger mr-5 has-text-white is-rounded"
                 onClick={() => setDialogOpen(false)}
               >
-                Close
+                Hủy
               </button>
               <button
-                className="button is-danger has-text-white is-rounded"
+                className="button is-success has-text-white is-rounded"
                 onClick={handleDeactive}
               >
-                Deactive
+                Xác nhận
               </button>
             </ButtonWrapper>
           </Dialog>

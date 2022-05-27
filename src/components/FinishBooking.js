@@ -11,7 +11,7 @@ import patterbg from "../assets/patterbg.svg";
 
 
 
-const message = "Your booking is completed";
+const message = "Đặt lịch thành công";
 export default function FinishBooking() {
   const { bookingDetails } = useSelector((state) => state.booking);
   const dispatch = useDispatch();
@@ -59,13 +59,13 @@ export default function FinishBooking() {
               {bookingDetails.nameSalon}
             </h2>
             <p className="font-weight-bold  is-size-5">
-              Open:{" "}
+              Mở cửa:{" "}
               <span className="text-danger">
-                Mon-Sun {bookingDetails.timeOpen}-{bookingDetails.timeClose}
+                T2-CN {bookingDetails.timeOpen}-{bookingDetails.timeClose}
               </span>
             </p>
             <p className=" is-size-5">
-              <span className="font-weight-bold">Phone: </span>{" "}
+              <span className="font-weight-bold">Sđt: </span>{" "}
               {bookingDetails.phoneSalon}
             </p>
             <p className="is-size-5">
@@ -85,7 +85,7 @@ export default function FinishBooking() {
               {bookingDetails.nameService}
             </h5>
             <p className="is-size-5">
-              {bookingDetails.service_time} minutes{" "}
+              {bookingDetails.service_time} phút{" "}
               <span className="font-weight-bold text-danger is-size-5">
                 - {currencyFormatter.format(bookingDetails.price_original)}
               </span>
@@ -100,7 +100,7 @@ export default function FinishBooking() {
               }}
             />
             <p className="is-size-5">
-              <span className="font-weight-bold"> Schedule at: </span>
+              <span className="font-weight-bold"> Lịch hẹn: </span>
               <span>
               {moment(bookingDetails.timeUse).format("DD/MM/YYYY - HH:mm")}
               </span>
@@ -115,7 +115,7 @@ export default function FinishBooking() {
               }}
             />
             <p className="is-size-5">
-              <span className="font-weight-bold">Stylist: </span>
+              <span className="font-weight-bold">Barber: </span>
               {bookingDetails.nameStaff}
             </p>
             <hr
@@ -128,9 +128,9 @@ export default function FinishBooking() {
               }}
             />
             <p className="is-size-4">
-              <span className="font-weight-bold">Payment method: </span>
+              <span className="font-weight-bold">Phương thức thanh toán: </span>
             </p>
-            <p className="is-size-5">Cash</p>
+            <p className="is-size-5">Tiền mặt</p>
           </div>
 
           {/* -- LEFT CARD -- */}
@@ -143,15 +143,15 @@ export default function FinishBooking() {
                 {message}
               </h2>
               <p className="is-size-4">
-                Thanks{" "}
+                Cảm ơn{" "}
                 <span className="font-weight-bold">
                   {bookingDetails.nameCustomer}
                 </span>{" "}
-                for using our service!
+                đã sử dụng dịch vụ của chúng tôi!
               </p>
               <Link to="/">
                 <p className="font-weight-bold has-text-link is-size-5">
-                  <u>Return to homepage</u>
+                  <u>Quay lại trang chủ</u>
                 </p>
               </Link>
             </div>

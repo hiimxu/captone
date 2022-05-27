@@ -142,14 +142,14 @@ export default function Staff() {
                       {salon.nameSalon}
                     </h2>
                     <p className="is-size-4" style={{ color: "white" }}>
-                      Open:{" "}
+                      Mở cửa:{" "}
                       <span className="text-danger">
-                        Mon-Sun {salon.timeOpen} - {salon.timeClose}
+                        T2-CN {salon.timeOpen} - {salon.timeClose}
                       </span>
                     </p>
                     <p className="is-size-4 " style={{ color: "white" }}>
                       <span>
-                        Phone number:{" "}
+                        SĐT:{" "}
                         <span className="has-text-weight-thin">
                           {" "}
                           <span className="has-text-info is-underlined">
@@ -165,8 +165,7 @@ export default function Staff() {
                       </span>
                     </p>
                   </div>
-                  <br></br>
-                  <p className="has-text-danger"> {selectedServiceId}</p>
+                  <br></br>                  
                 </div>
               ))}
             </div>
@@ -174,7 +173,7 @@ export default function Staff() {
               <div className="step-item is-completed is-link">
                 <div className="step-marker">1</div>
                 <div className="step-details">
-                  <p className="step-title">Choose date</p>
+                  <p className="step-title">Chọn ngày</p>
                   <br></br>
                   <Calendar
                     className="rounded"
@@ -190,7 +189,7 @@ export default function Staff() {
               <div className="step-item  is-completed is-link">
                 <div className="step-marker">2</div>
                 <div className="step-details">
-                  <p className="step-title">Choose staff</p>
+                  <p className="step-title">Chọn barber</p>
                   <br></br>
                   <select
                     className="form-select form-select-lg mb-3 "
@@ -211,7 +210,7 @@ export default function Staff() {
                       backgroundColor: "white",
                     }}
                   >
-                    <option defaultValue={""}>Choose a staff...</option>
+                    <option defaultValue={""}>Chọn barber...</option>
                     {staffList?.map((staff) => (
                       <option key={staff.staffId} value={staff.staffId}>
                         {staff.name}
@@ -264,10 +263,10 @@ export default function Staff() {
               <div className="step-item is-completed is-link">
                 <div className="step-marker">3</div>
                 <div className="step-details">
-                  <p className="step-title">Choose slot</p>
+                  <p className="step-title">Chọn giờ</p>
                   <br></br>
                   <div className="form-check">
-                    {calendar?.calendar.map((slot) => (
+                    {calendar ? calendar?.calendar.map((slot) => (
                       <div
                         className="form-check form-check-inline mr-4"
                         key={slot.toString()}
@@ -282,7 +281,7 @@ export default function Staff() {
                         ></input>
                         <label>{slot}</label>
                       </div>
-                    ))}
+                    )):<div className="rounded" style={{backgroundColor:"#f3f4f6"}}>Dịch vụ chưa sẵn sàng. Vui lòng chọn lại ngày hoặc barber khác.</div>}
                   </div>
                 </div>
               </div>
@@ -296,7 +295,7 @@ export default function Staff() {
                 className="button is-rounded is-danger mr-3 has-text-weight-semibold"
                 to={cancelBook}
               >
-                Cancel
+                Hủy
               </Link>
               <button
                 style={{ width: "40%" }}
@@ -304,7 +303,7 @@ export default function Staff() {
                 onClick={handleSubmit}
                 disabled={!staff || !time || !dateFormated}
               >
-                Submit
+                Đặt trước
               </button>
             </div>
           </div>

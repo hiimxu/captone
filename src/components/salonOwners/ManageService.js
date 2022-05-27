@@ -162,10 +162,22 @@ export default function ManageService() {
     if (price <= 0) {
       setPiceError(true);
       pass = false;
+      return;
     }
     if (promotion < 0) {
       setPromotionError(true);
       pass = false;
+      return;
+    }
+    if (price > 10000000) {
+      setPiceError(true);
+      pass = false;
+      return;
+    }
+    if (promotion > 100) {
+      setPromotionError(true);
+      pass = false;
+      return;
     }
     if (pass) {
       console.log(newService);
@@ -293,14 +305,24 @@ export default function ManageService() {
       !description ||
       !image
     ) {
-      setEditError("Please enter all the fields!");
+      setEditError("Vui lòng điền đầy đủ thông tin của dịch vụ");
       return;
     }
     if (price <= 0) {
-      setEditError("Price is a number greater than 0.");
+      setEditError("Giá dịch vụ phải lớn hơn 0");
+      return;
+    }
+    if (price > 10000000) {
+      setEditError("Giá dịch vụ không thể lớn cao hơn 10 triệu!");
+      return;
     }
     if (promotion < 0) {
-      setEditError("Promotion is a number greater than or equal to 0..");
+      setEditError("Khuyên mại phải lớn hơn hoặc bằng 0");
+      return;
+    }
+    if (promotion > 100) {
+      setEditError("Khuyến mại không thể lớn hơn 100%");
+      return;
     }
     setEditError(null);
     const submitServiceObject = {
@@ -473,14 +495,14 @@ export default function ManageService() {
                           </h2>
 
                           <p className="is-size-5 font-weight-bold">
-                            Open:{" "}
+                            Mở cửa:{" "}
                             <span className="text-danger">
-                              Mon-Sun {salon.timeOpen} - {salon.timeClose}
+                              T2-CN {salon.timeOpen} - {salon.timeClose}
                             </span>
                           </p>
                           <p>
                             <span className="is-size-5 font-weight-bold">
-                              Phone number:{" "}
+                              SĐT:{" "}
                             </span>
                             <span
                               className="is-size-5 is-underlined"
@@ -508,7 +530,7 @@ export default function ManageService() {
                             className="button is-info is-rounded"
                             onClick={handleOpenSalon}
                           >
-                            Edit
+                            Chỉnh sửa
                           </button>
                         </div>
                       </div>
@@ -529,7 +551,7 @@ export default function ManageService() {
                         <div className="input-group">
                           <div className="input-group-prepend">
                             <span className="input-group-text" id="">
-                              Salon's name
+                              Tên salon
                             </span>
                           </div>
                           <input
@@ -551,7 +573,7 @@ export default function ManageService() {
                         <div className="input-group">
                           <div className="input-group-prepend">
                             <span className="input-group-text" id="">
-                              Phone
+                              SĐT
                             </span>
                           </div>
                           <input
@@ -568,7 +590,9 @@ export default function ManageService() {
                           />
                         </div>
                         {phoneErr && (
-                          <p className="text-danger">Your phone is invalid!</p>
+                          <p className="text-danger">
+                            Số điện thoại không hợp lệ!
+                          </p>
                         )}
                       </div>
 
@@ -579,7 +603,7 @@ export default function ManageService() {
                               className="input-group-text"
                               htmlFor="inputGroupSelect01"
                             >
-                              District
+                              Quận
                             </label>
                           </div>
                           <select
@@ -609,7 +633,7 @@ export default function ManageService() {
                               className="input-group-text"
                               htmlFor="inputGroupSelect02"
                             >
-                              City
+                              Thành phố
                             </label>
                           </div>
                           <select
@@ -627,7 +651,7 @@ export default function ManageService() {
                         <div className="input-group">
                           <div className="input-group-prepend">
                             <span className="input-group-text" id="">
-                              Address
+                              Địa chỉ cụ thể
                             </span>
                           </div>
                           <input
@@ -651,7 +675,7 @@ export default function ManageService() {
                               className="input-group-text"
                               htmlFor="inputGroupSelect03"
                             >
-                              Open
+                              Mở cửa
                             </label>
                           </div>
                           <select
@@ -678,7 +702,7 @@ export default function ManageService() {
                               className="input-group-text"
                               htmlFor="inputGroupSelect04"
                             >
-                              Close
+                              Đóng cửa
                             </label>
                           </div>
                           <select
@@ -706,7 +730,7 @@ export default function ManageService() {
                         <div className="input-group">
                           <div className="input-group-prepend">
                             <span className="input-group-text" id="">
-                              Salon's image
+                              Ảnh đại diện
                             </span>
                           </div>
                           <input
@@ -726,7 +750,7 @@ export default function ManageService() {
                       <div className="">
                         <div className="form-group">
                           <label className="font-weight-bold">
-                            Description:
+                            Mô tả về salon của bạn:
                           </label>
                           <textarea
                             value={businessInfo?.description}
@@ -748,7 +772,7 @@ export default function ManageService() {
                       <div className="text-center">
                         {successMessage && (
                           <p className="text-success">
-                            Edit salon info successfully
+                            Chỉnh sửa thông tin salon thành công!
                           </p>
                         )}
                         {errMessage && (
@@ -756,7 +780,7 @@ export default function ManageService() {
                         )}
                         {emptyError && (
                           <p className="text-danger">
-                            Please enter all the fields
+                            Vui lòng điền đầy đủ thông tin!
                           </p>
                         )}
                       </div>
@@ -767,14 +791,14 @@ export default function ManageService() {
                           onClick={handleCloseSalon}
                         >
                           {" "}
-                          Cancel
+                          Hủy
                         </button>
                         <button
                           className="button is-rounded is-primary ml-4"
                           onClick={handleEditSalonInfo}
                         >
                           {" "}
-                          Edit
+                          Chỉnh sửa
                         </button>
                       </div>
                     </form>
@@ -795,8 +819,8 @@ export default function ManageService() {
                       onChange={handleChange}
                       aria-label="disabled tabs example"
                     >
-                      <Tab label="Services" value="1" />
-                      <Tab label="Review" value="2" />
+                      <Tab label="Dịch vụ" value="1" />
+                      <Tab label="Đánh giá" value="2" />
                     </TabList>
                   </Box>
                   <TabPanel value="1">
@@ -805,7 +829,7 @@ export default function ManageService() {
                         className="button is-info is-rounded"
                         onClick={handleOpenService}
                       >
-                        Add a service
+                        Thêm dịch vụ
                       </button>
                     </div>
                     <div style={{ overflowY: "scroll", height: "700px" }}>
@@ -843,7 +867,7 @@ export default function ManageService() {
                                   {service.name}
                                 </h4>
                                 <p className="has-text-dark is-size-5">
-                                  {service.service_time} minutes
+                                  {service.service_time} phút
                                 </p>
 
                                 {service.promotion === 0 && (
@@ -859,13 +883,11 @@ export default function ManageService() {
                                   <p className="has-text-grey-light has-text-weight-semibold">
                                     <del>
                                       {" "}
-                                      {currencyFormatter.format(
-                                        service.price
-                                      )}{" "}
+                                      {currencyFormatter.format(service.price)}
                                     </del>
 
                                     <span className="has-text-danger-dark has-text-weight-semibold">
-                                      {" "}
+                                      {" -> "}
                                       {currencyFormatter.format(
                                         service.price -
                                           (service.price / 100) *
@@ -918,7 +940,7 @@ export default function ManageService() {
                         <div>
                           <form>
                             <div>
-                              <label>Service's Name:</label>
+                              <label>Tên dịch vụ*:</label>
                             </div>
                             <div className="form-outline mb-4">
                               <input
@@ -929,11 +951,11 @@ export default function ManageService() {
                                 onChange={(event) => {
                                   setServiceName(event.target.value);
                                 }}
-                                placeholder="Service's name*"
+                                placeholder="Tên dịch vụ*"
                               />
                             </div>
                             <div>
-                              <label>Service's Time:</label>
+                              <label>Thời gian*:</label>
                             </div>
                             <div className="input-group form-outline mb-4">
                               <input
@@ -944,14 +966,14 @@ export default function ManageService() {
                                 onChange={(event) => {
                                   setServiceTime(event.target.value);
                                 }}
-                                placeholder="Service's time"
+                                placeholder="Thời gian"
                               />
                               <div className="input-group-append">
                                 <span
                                   className="input-group-text rounded-right"
                                   id="basic-addon1"
                                 >
-                                  Minute
+                                  Phút
                                 </span>
                               </div>
                               <div className="mt-1">
@@ -974,8 +996,8 @@ export default function ManageService() {
                               </div>
                             </div>
                             <div className="row">
-                              <label className="col-6">Price:</label>
-                              <label className="col-6">Promotion:</label>
+                              <label className="col-6">Giá*:</label>
+                              <label className="col-6">Khuyến mại*:</label>
                             </div>
                             <div className="row">
                               <div className="col-6 input-group form-outline mb-4">
@@ -987,7 +1009,7 @@ export default function ManageService() {
                                   onChange={(event) => {
                                     setPrice(event.target.value);
                                   }}
-                                  placeholder="Price*"
+                                  placeholder="Giá"
                                 />
                                 <div className="input-group-append">
                                   <span
@@ -1007,7 +1029,7 @@ export default function ManageService() {
                                   onChange={(event) => {
                                     setPromotion(event.target.value);
                                   }}
-                                  placeholder="Promotion*"
+                                  placeholder="Khuyên mại"
                                 />
                                 <div className="input-group-append">
                                   <span
@@ -1023,21 +1045,20 @@ export default function ManageService() {
                               <div className="col-6">
                                 {priceError && (
                                   <p className="text-danger">
-                                    Price is a number greater than 0.
+                                    Giá dịch vụ phải lớn hơn 0 và nhỏ hơn 10 triệu!
                                   </p>
                                 )}
                               </div>
                               <div className="col-6">
                                 {promotioError && (
                                   <p className="text-danger">
-                                    Promotion is a number greater than or equal
-                                    to 0
+                                    Khuyến mại phải lớn hơn 0% và không vượt quá 100%
                                   </p>
                                 )}
                               </div>
                             </div>
                             <div>
-                              <label>Content:</label>
+                              <label>Dịch vụ đi kèm*:</label>
                             </div>
                             <div className="form-outline mb-4">
                               <input
@@ -1048,11 +1069,11 @@ export default function ManageService() {
                                 onChange={(event) => {
                                   setContent(event.target.value);
                                 }}
-                                placeholder="Content*"
+                                placeholder="Dịch vụ đi kèm"
                               />
                             </div>
                             <div>
-                              <label>Image:</label>
+                              <label>Ảnh:</label>
                             </div>
                             <div className="form-outline mb-4">
                               <input
@@ -1063,7 +1084,7 @@ export default function ManageService() {
                                 onChange={(event) => {
                                   setImageService(event.target.value);
                                 }}
-                                placeholder="Image*"
+                                placeholder="Ảnh"
                               />
                             </div>
                             <div>
@@ -1075,7 +1096,7 @@ export default function ManageService() {
                               )} */}
                             </div>
                             <div>
-                              <label>Description:</label>
+                              <label>Mô tả về dịch vụ*:</label>
                             </div>
                             <div className="form-outline mb-4">
                               <textarea
@@ -1088,13 +1109,13 @@ export default function ManageService() {
                                 onChange={(event) => {
                                   setDescription(event.target.value);
                                 }}
-                                placeholder="Description"
+                                placeholder="Mô tả "
                               />
                             </div>
                             <div>
                               {error && (
                                 <p className="text-danger">
-                                  Please enter all the fields!
+                                  Vui lòng điền đầy đủ thông tin!
                                 </p>
                               )}
                             </div>
@@ -1105,14 +1126,14 @@ export default function ManageService() {
                                 onClick={handleCloseService}
                               >
                                 {" "}
-                                Cancel
+                                Hủy
                               </button>
                               <button
                                 className="button is-rounded is-primary ml-4"
                                 onClick={handleAddService}
                               >
                                 {" "}
-                                Add
+                                Xác nhận
                               </button>
                             </div>
                           </form>
@@ -1129,7 +1150,7 @@ export default function ManageService() {
                         <div>
                           <form>
                             <div>
-                              <label>Service's Name:</label>
+                              <label>Tên dịch vụ*:</label>
                             </div>
                             <div className="form-outline mb-4">
                               <input
@@ -1143,11 +1164,11 @@ export default function ManageService() {
                                     name: event.target.value,
                                   });
                                 }}
-                                placeholder="Service's name*"
+                                placeholder="Tên dịch vụ"
                               />
                             </div>
                             <div>
-                              <label>Service's Time:</label>
+                              <label>Thời gian*:</label>
                             </div>
                             <div className="input-group form-outline mb-4">
                               <input
@@ -1161,14 +1182,14 @@ export default function ManageService() {
                                     service_time: event.target.value,
                                   });
                                 }}
-                                placeholder="Service's time"
+                                placeholder="Thời gian"
                               />
                               <div className="input-group-append">
                                 <span
                                   className="input-group-text rounded-right"
                                   id="basic-addon1"
                                 >
-                                  Minute
+                                  Phút
                                 </span>
                               </div>
                               <div className="mt-1">
@@ -1191,15 +1212,15 @@ export default function ManageService() {
                               </div>
                             </div>
                             <div className="row">
-                              <label className="col-6">Price:</label>
-                              <label className="col-6">Promotion:</label>
+                              <label className="col-6">Giá*:</label>
+                              <label className="col-6">Khuyến mại*:</label>
                             </div>
                             <div className="row">
                               <div className="col-6 input-group form-outline mb-4">
                                 <input
                                   type="number"
                                   className="form-control form-control-lg"
-                                  min="0"                                  
+                                  min="0"
                                   value={serviceInfo?.price}
                                   onChange={(event) => {
                                     setServiceInfo({
@@ -1207,7 +1228,7 @@ export default function ManageService() {
                                       price: event.target.value,
                                     });
                                   }}
-                                  placeholder="Price*"
+                                  placeholder="Giá"
                                 />
                                 <div className="input-group-append">
                                   <span
@@ -1230,7 +1251,7 @@ export default function ManageService() {
                                       promotion: event.target.value,
                                     });
                                   }}
-                                  placeholder="Promotion*"
+                                  placeholder="Khuyến mại"
                                 />
                                 <div className="input-group-append">
                                   <span
@@ -1244,7 +1265,7 @@ export default function ManageService() {
                             </div>
 
                             <div>
-                              <label>Content:</label>
+                              <label>Dịch vụ đi kèm*:</label>
                             </div>
                             <div className="form-outline mb-4">
                               <input
@@ -1258,11 +1279,11 @@ export default function ManageService() {
                                     content: event.target.value,
                                   });
                                 }}
-                                placeholder="Content*"
+                                placeholder="Dịch vụ đi kèm"
                               />
                             </div>
                             <div>
-                              <label>Image:</label>
+                              <label>Ảnh*:</label>
                             </div>
                             <div className="form-outline mb-4">
                               <input
@@ -1276,11 +1297,11 @@ export default function ManageService() {
                                     image: event.target.value,
                                   });
                                 }}
-                                placeholder="Image*"
+                                placeholder="Ảnh"
                               />
                             </div>
                             <div>
-                              <label>Description:</label>
+                              <label>Mô tả dịch vụ*:</label>
                             </div>
                             <div className="form-outline mb-4">
                               <textarea
@@ -1296,7 +1317,7 @@ export default function ManageService() {
                                     description: event.target.value,
                                   });
                                 }}
-                                placeholder="Description"
+                                placeholder="Môt tả"
                               />
                             </div>
                             <div>
@@ -1338,9 +1359,8 @@ export default function ManageService() {
                         <div className="has-text-centered">
                           <h1 className="is-size-4 has-text-weight-semibold">
                             {" "}
-                            Do you want to{" "}
-                            <span className="has-text-danger">delete</span> this
-                            service ?
+                            Bạn có thật sự muốn {" "}
+                            <span className="has-text-danger">xóa</span> dịch vụ này?
                           </h1>
                           <br></br>{" "}
                           <button
@@ -1348,14 +1368,14 @@ export default function ManageService() {
                             className="button is-rounded is-danger mr-5"
                             style={{ width: "150px" }}
                           >
-                            Cancel
+                            Hủy
                           </button>
                           <button
                             className="button is-rounded is-info ml-5"
                             style={{ width: "150px" }}
                             onClick={hanldeDeleteService}
                           >
-                            Delete
+                            Xác nhận
                           </button>
                         </div>
                       </Box>
@@ -1370,7 +1390,7 @@ export default function ManageService() {
                           <p className="has-text-info">
                             {" "}
                             <span className="is-size-4 has-text-weight-semibold">
-                              {profileSalon[0]?.AverangeVote}
+                              {profileSalon[0]?.AverangeVote}/5
                             </span>
                             <br></br>
                             <Rating
@@ -1380,8 +1400,7 @@ export default function ManageService() {
                               readOnly
                             />
                             <br></br>
-                            out of 5 <br></br>
-                            {profileSalon[0]?.TotalVote} reviews
+                            {profileSalon[0]?.TotalVote} bình luận và đánh giá
                           </p>
                         </div>
                       ) : (
@@ -1389,11 +1408,11 @@ export default function ManageService() {
                       )}
                       <div className="col-6"></div>
                       <div
-                        className="column is-3 has-text-centered mt-3"
+                        className="col-6 has-text-centered mt-3"
                         style={{ display: "inline-block" }}
                       >
-                        <div className="col-1 font-weight-bold pr-0 pl-5 text-center">
-                          <label>Rating</label>
+                        <div className="col-3 font-weight-bold pr-0 pl-5 text-center">
+                          <label>Đánh giá:</label>
                         </div>
                         <div className="col-3 pl-2">
                           <Rating
@@ -1457,7 +1476,8 @@ export default function ManageService() {
                               className="rounded p-4"
                               style={{ backgroundColor: "#f3f4f6" }}
                             >
-                              <div>
+                              <div className="pl-1">
+                                <span className="font-weight-bold">Đánh giá:</span>
                                 <Rating
                                   name="half-rating-read"
                                   value={review.rate / 2}
@@ -1469,7 +1489,7 @@ export default function ManageService() {
                               <div className="pl-1">
                                 <p>
                                   <span className="font-weight-bold">
-                                    Review:{" "}
+                                    Bình luận:{" "}
                                   </span>{" "}
                                   {review.content}
                                 </p>
@@ -1482,7 +1502,7 @@ export default function ManageService() {
                           className="text-center pt-5 font-weight-bold"
                           style={{ fontSize: "1.5rem" }}
                         >
-                          There are no reviews!
+                          Không có bình luận và đánh giá nào!
                         </div>
                       )}
                     </div>

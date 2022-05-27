@@ -49,7 +49,7 @@ export default function SalonDashboard() {
               {/* <Tooltip title="Order" placement="right"> */}
               <p>
                 {" "}
-                <i className="fa-solid fa-clipboard-list"></i> Orders
+                <i className="fa-solid fa-clipboard-list"></i> Lịch hẹn
               </p>
               {/* </Tooltip> */}
             </Link>
@@ -67,7 +67,7 @@ export default function SalonDashboard() {
             >
               <p>
                 {" "}
-                <i className="fa-solid fa-shop"></i> Salon
+                <i className="fa-solid fa-shop"></i> Dịch vụ
               </p>
             </Link>
           </li>
@@ -84,7 +84,7 @@ export default function SalonDashboard() {
             >
               <p>
                 {" "}
-                <i className="fa-solid fa-book-open-reader"></i> Booking{" "}
+                <i className="fa-solid fa-book-open-reader"></i> Đặt lịch{" "}
               </p>
             </Link>
           </li>
@@ -103,7 +103,7 @@ export default function SalonDashboard() {
             >
               <p>
                 {" "}
-                <i className="fa-solid fa-users"></i> Employees{" "}
+                <i className="fa-solid fa-users"></i> Nhân viên{" "}
               </p>
             </Link>
           </li>
@@ -125,7 +125,7 @@ export default function SalonDashboard() {
             >
               <p>
                 {" "}
-                <i className="fa-solid fa-gear"></i> Information
+                <i className="fa-solid fa-gear"></i> Hồ sơ
               </p>
             </Link>
           </li>
@@ -148,7 +148,7 @@ export default function SalonDashboard() {
             >
               <p>
                 {" "}
-                <i className="fa-solid fa-right-from-bracket"></i> Log out{" "}
+                <i className="fa-solid fa-right-from-bracket"></i> Đăng xuất{" "}
               </p>
             </Link>
           </li>

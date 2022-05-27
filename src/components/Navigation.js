@@ -11,7 +11,7 @@ export default function Navigation() {
   const [menu, setMenu] = useState({
     fontSize: "1.2rem",
     color: "white",
-    margin:"auto"
+    margin: "auto",
   });
   const [sign, setSign] = useState({
     color: "white",
@@ -41,7 +41,7 @@ export default function Navigation() {
         setMenu({
           fontSize: "1rem",
           color: "white",
-          margin:"auto"
+          margin: "auto",
         });
         setSign({
           color: "#ffd933",
@@ -58,7 +58,7 @@ export default function Navigation() {
         setMenu({
           fontSize: "1.2rem",
           color: "white",
-          margin:"auto"
+          margin: "auto",
         });
         setSign({
           color: "white",
@@ -75,13 +75,13 @@ export default function Navigation() {
         style={navbar}
       >
         <div className="justify-content-center navbar-collapse text row">
-          <div className="col-1"></div>
-          <div className="col-8">
-            <div style={{ display:"flex" }}>
+          
+          <div className="col-8" style={{paddingLeft:"5%"}}>
+            <div style={{ display: "flex" }}>
               <ul className="menu navbar-nav " style={menu}>
                 <li className="nav-item p-4 pt-5">
                   <Link className="text-reset" to="/">
-                    Home
+                    Trang chủ
                   </Link>
                 </li>
 
@@ -93,7 +93,7 @@ export default function Navigation() {
 
                 <li className="text-reset nav-item p-4 pt-5">
                   <Link className="text-reset" to="/profile">
-                    Profile
+                    Hồ sơ
                   </Link>
                 </li>
               </ul>
@@ -108,7 +108,7 @@ export default function Navigation() {
                       className="button is-dark is-outlined is-inverted"
                       onClick={handleLogout}
                     >
-                      Logout
+                      Đăng xuất
                     </button>
                   </Link>
                 </li>
@@ -117,7 +117,7 @@ export default function Navigation() {
               <ul className="menu navbar-nav fixed-right" style={sign}>
                 <li className="nav-item p-1">
                   <Link className="text-reset" to="/register">
-                    <button className="button is-dark">Sign up</button>
+                    <button className="button is-dark">Đăng ký</button>
                   </Link>
                 </li>
                 <li className="nav-item p-1">
@@ -132,7 +132,7 @@ export default function Navigation() {
                 <li className="nav-item p-1">
                   <Link className="text-reset" to="/login">
                     <button className="button is-dark is-outlined is-inverted">
-                      Log in
+                      Đăng nhập
                     </button>
                   </Link>
                 </li>

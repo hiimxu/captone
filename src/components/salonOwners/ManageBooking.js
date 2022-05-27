@@ -53,7 +53,7 @@ const FieldLabel = styled(Box)({
 });
 const FormWrapper = styled(Box)({
   minWidth: 800,
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   padding: 30,
   display: "flex",
   flexDirection: "column",
@@ -61,7 +61,7 @@ const FormWrapper = styled(Box)({
   alignItems: "center",
 });
 const ButtonWrapper = styled(Box)({
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
@@ -121,7 +121,7 @@ export default function Staff() {
     (state) => state.loginAccount.account
   );
   const { listCalendar } = useSelector((state) => state.listCalendar);
-  const { errMess} = useSelector((state) => state.salonBooking);
+  const { errMess } = useSelector((state) => state.salonBooking);
 
   //GET LIST SERVICE OF SALON
   useEffect(() => {
@@ -142,7 +142,7 @@ export default function Staff() {
   //GET CALENDAR
   useEffect(() => {
     if (!serviceInfo) {
-      setError("Please choose one service!");
+      setError("Vui lòng chọn một dịch vụ.");
 
       return;
     }
@@ -200,6 +200,9 @@ export default function Staff() {
       <div className="columns">
         <div className="column is-1"></div>
         <div className="">
+          <div className="mt-5 pt-5 text-center">
+            <h2 style={{fontSize:"2rem", fontWeight:"bold"}}>Chọn dịch vụ</h2>
+          </div>
           <div
             className="row pb-5"
             style={{
@@ -235,7 +238,7 @@ export default function Staff() {
                         {service.content}
                       </span>
                       <p className="is-size-5 has-text-dark">
-                        {service.service_time} minutes
+                        {service.service_time} phút
                       </p>
                       {service.promotion === 0 && (
                         <p className="has-text-danger has-text-weight-semibold">
@@ -275,14 +278,14 @@ export default function Staff() {
             style={{
               background: "url(" + patterbg + ")",
               boxShadow: "1px 1px 20px black",
-              minWidth:"1412px"
+              minWidth: "1412px",
             }}
           >
             <div className="steps ml-5" id="stepsDemo">
               <div className="step-item is-completed is-link">
                 <div className="step-marker">1</div>
                 <div className="step-details">
-                  <p className="step-title">Choose date</p>
+                  <p className="step-title">Chọn ngày</p>
                   <br></br>
                   <Calendar
                     className="rounded"
@@ -296,7 +299,7 @@ export default function Staff() {
               <div className="step-item  is-completed is-link">
                 <div className="step-marker">2</div>
                 <div className="step-details">
-                  <p className="step-title">Choose staff/slot</p>
+                  <p className="step-title">Chọn barber/Khung giờ</p>
                   <br></br>
                   <select
                     className="form-select form-select-lg mb-3 "
@@ -309,7 +312,7 @@ export default function Staff() {
                       backgroundColor: "white",
                     }}
                   >
-                    <option value="">Choose a staff...</option>
+                    <option value="">Chọn barber...</option>
                     {listStaff?.map((staff) => (
                       <option key={staff.staffId} value={staff.staffId}>
                         {staff.name}
@@ -318,7 +321,7 @@ export default function Staff() {
                   </select>
                   <br></br>
                   <div className="form-check">
-                    {listCalendar?.map((slot) => (
+                    {listCalendar ? listCalendar?.map((slot) => (
                       <div
                         className="form-check form-check-inline mr-4"
                         key={slot.toString()}
@@ -333,7 +336,9 @@ export default function Staff() {
                         ></input>
                         <label>{slot}</label>
                       </div>
-                    ))}
+                    )):<div className="rounded" style={{backgroundColor:"#f0f0f0"}}>
+                      <p>Dịch vụ chưa sẵn sàng. Vui lòng chọn lại ngày hoặc barber khác.</p>
+                      </div>}
                   </div>
                 </div>
               </div>
@@ -342,12 +347,12 @@ export default function Staff() {
                 <div className="step-marker">3</div>
 
                 <div className="step-details">
-                  <p className="step-title">Note:</p>
+                  <p className="step-title">Ghi chú</p>
                   <br></br>
                   <div className="">
                     <textarea
                       className="pl-1"
-                      placeholder=" Customer's name / phone number"
+                      placeholder=" Vui lòng nhập thông tin khách hàng."
                       rows="10"
                       cols="35"
                       maxLength={40}
@@ -374,7 +379,7 @@ export default function Staff() {
                   !staff || !time || !dateFormated || !serviceInfo || !note
                 }
               >
-                Submit
+                Đặt lịch
               </button>
             </div>
           </div>
@@ -382,16 +387,16 @@ export default function Staff() {
         <Dialog open={dialogOpen} maxWidth="lg">
           <FormWrapper style={{ minHeight: "6rem" }}>
             <SuccessText>
-              <i className="fa-solid fa-circle-check"></i>
+              <i className="fa-solid fa-circle-check" style={{fontSize:"4rem"}}></i>
             </SuccessText>
-            <SuccessText>Booking successfully!</SuccessText>
+            <SuccessText>Đặt lịch thành công</SuccessText>
           </FormWrapper>
           <ButtonWrapper>
             <button
               className="button is-info has-text-white is-rounded"
               onClick={handleClose}
             >
-              Close
+              Đóng
             </button>
           </ButtonWrapper>
         </Dialog>

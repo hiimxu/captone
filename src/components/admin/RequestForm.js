@@ -50,7 +50,7 @@ const FieldLabel = styled(Box)({
 });
 const FormWrapper = styled(Box)({
   minWidth: 800,
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   padding: 30,
   display: "flex",
   flexDirection: "column",
@@ -58,7 +58,7 @@ const FormWrapper = styled(Box)({
   alignItems: "center",
 });
 const ButtonWrapper = styled(Box)({
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
@@ -197,15 +197,15 @@ export default function ManageService() {
                         {salonBusinessInfo.nameSalon}
                       </h2>
                       <p className="is-size-5 font-weight-bold">
-                        Open:{" "}
+                        Mở cửa:{" "}
                         <span className="text-danger">
-                          Mon-Sun {salonBusinessInfo.timeOpen} -{" "}
+                          T2-CN {salonBusinessInfo.timeOpen} -{" "}
                           {salonBusinessInfo.timeClose}
                         </span>
                       </p>
                       <p>
                         <span className="is-size-5 font-weight-bold">
-                          Phone number:{" "}
+                          SĐT:{" "}
                         </span>
                         <span
                           className="is-size-5 is-underlined"
@@ -249,7 +249,7 @@ export default function ManageService() {
               aria-label="disabled tabs example"
             >
               <Tab label="Thông tin" value="1" />
-              <Tab label="Dịch vụ" value="2" />              
+              <Tab label="Dịch vụ" value="2" />
             </TabList>
           </Box>
           <div
@@ -264,19 +264,19 @@ export default function ManageService() {
                   <div className="mb-5">
                     <div className="has-text-centered">
                       <div>
-                        <h1 className="is-size-1 pt-5 mb-5">
-                          Salon Business Information
-                        </h1>
+                        <h2 className="is-size-1 pt-5 mb-5">
+                          Hồ sơ kinh doanh
+                        </h2>
                         <div className="columns">
                           <div className="column is-6 has-text-right">
                             <p className="is-size-4">Salon Id : </p>
-                            <p className="is-size-4">Salon owner : </p>
-                            <p className="is-size-4">Tax code : </p>
-                            <p className="is-size-4">Phone number : </p>
-                            <p className="is-size-4">Time open : </p>
-                            <p className="is-size-4">Time close : </p>
-                            <p className="is-size-4">District : </p>
-                            <p className="is-size-4">City : </p>
+                            <p className="is-size-4">Chủ salon : </p>
+                            <p className="is-size-4">Mã số thuế : </p>
+                            <p className="is-size-4">SĐT : </p>
+                            <p className="is-size-4">Giờ mở cửa : </p>
+                            <p className="is-size-4">Giờ đóng cửa : </p>
+                            <p className="is-size-4">Quận : </p>
+                            <p className="is-size-4">Thành phố : </p>
                             <p className="is-size-4">Email : </p>
                           </div>
                           <div className="column is-6 has-text-left">
@@ -357,7 +357,7 @@ export default function ManageService() {
                             </h4>
 
                             <p className="is-size-5 has-text-dark">
-                              {service.service_time} minutes
+                              {service.service_time} phút
                             </p>
                             {service.promotion === 0 && (
                               <p className="has-text-danger has-text-weight-semibold">
@@ -405,26 +405,26 @@ export default function ManageService() {
                 </div>
               )}
             </TabPanel>
-            
+
             <div className="text-center">
               <div className="pb-5">
                 <Link
                   to="/ManageSalon"
                   className="button is-info mr-5 is-rounded"
                 >
-                  Back
+                  Quay lại
                 </Link>
                 <button
                   className="button mr-5 is-success has-text-white is-rounded"
                   onClick={() => setDialogActiveOpen(true)}
                 >
-                  Active
+                  Kích hoạt
                 </button>
                 <button
                   className="button is-danger has-text-white is-rounded"
                   onClick={() => setDialogRejectOpen(true)}
                 >
-                  Reject
+                  Từ chối
                 </button>
                 {/* DIALOG ACTIVE */}
                 <Dialog
@@ -433,7 +433,7 @@ export default function ManageService() {
                   maxWidth="lg"
                 >
                   <FormWrapper style={{ minHeight: "6rem" }}>
-                    <FieldLabel>Are you sure active this salon?</FieldLabel>
+                    <FieldLabel>Bạn có muốn kích hoạt salon này?</FieldLabel>
                   </FormWrapper>
                   <ButtonWrapper>
                     {activeSuccessMess && (
@@ -442,16 +442,16 @@ export default function ManageService() {
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <button
-                      className="button is-info mr-5 has-text-white is-rounded"
+                      className="button is-danger mr-5 has-text-white is-rounded"
                       onClick={() => setDialogActiveOpen(false)}
                     >
-                      Close
+                      Hủy
                     </button>
                     <button
                       className="button is-success has-text-white is-rounded"
                       onClick={handleActive}
                     >
-                      Active
+                      Xác nhận
                     </button>
                   </ButtonWrapper>
                 </Dialog>
@@ -462,7 +462,7 @@ export default function ManageService() {
                   maxWidth="lg"
                 >
                   <FormWrapper style={{ minHeight: "6rem" }}>
-                    <FieldLabel>Are you sure reject this salon?</FieldLabel>
+                    <FieldLabel>Bạn có muốn từ chối đơn của salon này?</FieldLabel>
                   </FormWrapper>
                   <ButtonWrapper>
                     {rejectSuccessMess && (
@@ -471,16 +471,16 @@ export default function ManageService() {
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <button
-                      className="button is-info mr-5 has-text-white is-rounded"
+                      className="button is-danger mr-5 has-text-white is-rounded"
                       onClick={() => setDialogRejectOpen(false)}
                     >
-                      Close
+                      Hủy
                     </button>
                     <button
-                      className="button is-danger has-text-white is-rounded"
+                      className="button is-success has-text-white is-rounded"
                       onClick={handleReject}
                     >
-                      Reject
+                      Xác nhận
                     </button>
                   </ButtonWrapper>
                 </Dialog>

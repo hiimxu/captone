@@ -87,8 +87,8 @@ export default function ForgotPassword() {
                     style={{ borderRadius: "15px", border: "none" }}
                   >
                     <div className="card-body p-5">
-                      <h2 className="text-center mb-5"style={{fontSize:"2rem",fontWeight:"bold"}}>
-                        Recover your account
+                      <h2 className="text-center mb-5 pb-5"style={{fontSize:"2rem",fontWeight:"bold"}}>
+                        Tìm tài khoản của bạn
                       </h2>
                       
                       <form>
@@ -96,7 +96,7 @@ export default function ForgotPassword() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Username
+                                Tên đăng nhập*
                               </span>
                             </div>
                             <input
@@ -112,7 +112,7 @@ export default function ForgotPassword() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Email
+                                Email*
                               </span>
                             </div>
                             <input
@@ -125,7 +125,7 @@ export default function ForgotPassword() {
                           </div>
                           {emailErr && (
                             <p className="text-danger">
-                              Your email is invalid!
+                              Địa chỉ email của bạn không chính xác!
                             </p>
                           )}
                         </div>
@@ -134,7 +134,7 @@ export default function ForgotPassword() {
                           {error && (
                             <div className="error">
                               <p className="text-danger">
-                                Please enter all the fields
+                                Vui lòng điến đủ thồng tin!
                               </p>
                             </div>
                           )}
@@ -145,7 +145,7 @@ export default function ForgotPassword() {
                           )}
                           {successMessage && (
                             <div className="success">
-                              <p className="text-success">New password has been sent to your email</p>
+                              <p className="text-success">Mật khẩu mới đã được gửi tới email của bạn.</p>
                             </div>
                           )}
                         </div>
@@ -156,16 +156,10 @@ export default function ForgotPassword() {
                             style={btnSubmit}
                             onClick={handleSubmit}
                           >
-                            Submit
+                            Xác nhận
                           </button>
                         </div>
-
-                        <p className="text-center text-muted mt-5 mb-0">
-                          Have already an account?{" "}
-                          <Link to="/login" className="fw-bold text-body">
-                            <u>Login here</u>
-                          </Link>
-                        </p>
+                        
                       </form>
                     </div>
                   </div>

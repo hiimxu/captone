@@ -156,7 +156,7 @@ export default function HomePage() {
                         <br />
                         <i className="fa-solid fa-calendar-check"></i>{" "}
                         <span className="has-text-danger-dark has-text-weight-bold">
-                          Mon - Fri {salon.timeOpen} - {salon.timeClose}
+                          T2 - CN {salon.timeOpen} - {salon.timeClose}
                           <br />
                         </span>
                         <hr style={{ margin: "5px" }}></hr>
@@ -178,7 +178,7 @@ export default function HomePage() {
                           <p>
                             <span className="is-size-5">
                               {" "}
-                              Visit{" "}
+                              Đặt lịch{" "}
                               <i className="fa-solid fa-right-to-bracket"></i>{" "}
                             </span>
                           </p>

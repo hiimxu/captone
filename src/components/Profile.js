@@ -261,14 +261,14 @@ export default function Profile() {
               <>
                 <UsernameText>{info?.nameCustomer}</UsernameText>
                 <UserInfoText>
-                  <b>Birthday:</b>{" "}
+                  <b>Ngày sinh:</b>{" "}
                   {convertISOStringToLocaleDateString(info?.birthday)}
                 </UserInfoText>
                 <UserInfoText>
-                  <b>Phone number:</b> {info?.phone}
+                  <b>Số điện thoại:</b> {info?.phone}
                 </UserInfoText>
                 <UserInfoText>
-                  <b>Address:</b> {info?.address}
+                  <b>Địa chỉ:</b> {info?.address}
                 </UserInfoText>
                 <ButtonWrapper>
                   <ActionButton
@@ -276,7 +276,7 @@ export default function Profile() {
                     variant="contained"
                     onClick={() => setDialogOpen(true)}
                   >
-                    Edit
+                    Chỉnh sửa
                   </ActionButton>
                 </ButtonWrapper>
                 <ButtonWrapper>
@@ -285,7 +285,7 @@ export default function Profile() {
                     variant="outlined"
                     onClick={() => setDialogChangepassOpen(true)}
                   >
-                    Change password
+                    Đổi mật khẩu
                   </Button>
                 </ButtonWrapper>
               </>
@@ -302,12 +302,12 @@ export default function Profile() {
                   selected={selectedTab === 0}
                   onClick={handleReservationTab}
                 >
-                  Reservation
+                  Đặt chỗ
                 </Tab>
               </Grid>
               <Grid item xs={6}>
                 <Tab selected={selectedTab === 1} onClick={handleHistoryTab}>
-                  History
+                  Lịch sử
                 </Tab>
               </Grid>
             </Tabs>
@@ -321,7 +321,7 @@ export default function Profile() {
                 </>
               ) : (
                 <UserInfoText className="text-center">
-                  You don't have any reservation
+                  Bạn chưa có cuộc hẹn nào
                 </UserInfoText>
               ))}
             {selectedTab === 1 &&
@@ -342,7 +342,7 @@ export default function Profile() {
           <FieldLabel style={{ fontSize: "2rem" }}>Thông tin</FieldLabel>
           <FieldWrapper container spacing={2}>
             <Grid item xs={4}>
-              <FieldLabel>Name</FieldLabel>
+              <FieldLabel>Họ và tên</FieldLabel>
             </Grid>
             <Grid item xs={8}>
               <TextInput
@@ -361,7 +361,7 @@ export default function Profile() {
           </FieldWrapper>
           <FieldWrapper container spacing={2}>
             <Grid item xs={4}>
-              <FieldLabel>Birthday</FieldLabel>
+              <FieldLabel>Ngày sinh</FieldLabel>
             </Grid>
             <Grid item xs={8}>
               <DatePicker
@@ -375,7 +375,7 @@ export default function Profile() {
           </FieldWrapper>
           <FieldWrapper container spacing={2}>
             <Grid item xs={4}>
-              <FieldLabel>Phone number</FieldLabel>
+              <FieldLabel>Số điện thoại</FieldLabel>
             </Grid>
             <Grid item xs={8}>
               <TextInput
@@ -395,7 +395,7 @@ export default function Profile() {
           </FieldWrapper>
           <FieldWrapper container spacing={2}>
             <Grid item xs={4}>
-              <FieldLabel>Address</FieldLabel>
+              <FieldLabel>Địa chỉ</FieldLabel>
             </Grid>
             <Grid item xs={8}>
               <TextInput
@@ -428,7 +428,7 @@ export default function Profile() {
                 setValidationErr(null);
               }}
             >
-              Cancel
+              Hủy
             </SecondaryActionButton>
             <ActionButton
               variant="contained"
@@ -456,7 +456,7 @@ export default function Profile() {
                 dispatch(updateCustomerProfile(submitObject, token, callback));
               }}
             >
-              Done
+              Xong
             </ActionButton>
           </ButtonWrapper>
         </FormWrapper>

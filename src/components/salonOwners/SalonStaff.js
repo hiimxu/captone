@@ -201,16 +201,16 @@ export default function SalonDashboard() {
               marginBottom: "30px",
             }}
           >
-            <h1 className="is-size-1 has-text-centered mt-5 mb-5">
-              Employee table
-            </h1>
+            <h2 className="is-size-1 has-text-centered mt-5 mb-5">
+              Quản lý nhân viên
+            </h2>
             <div className="has-text-right mb-5 mr-5">
               <button
                 className="button is-info is-rounded"
                 onClick={handleOpenAdd}
               >
                 {" "}
-                Add Employee
+                Thêm nhân viên
               </button>
             </div>
             <table className="table">
@@ -220,16 +220,19 @@ export default function SalonDashboard() {
                     <p title="stt">#</p>
                   </th>
                   <th>
-                    <p title="EmployeeName">Employee's Name</p>
+                    <p title="EmployeeName">Tên</p>
                   </th>
                   <th>
-                    <p title="EmployeeTitle">Employee's Title</p>
+                    <p title="EmployeeTitle">Địa chỉ</p>
                   </th>
                   <th>
-                    <p title="Phone">Phone</p>
+                    <p title="Phone">SĐT</p>
+                  </th>
+                  <th>
+                    <p title="Phone">Mô tả</p>
                   </th>
                   <th className="has-text-centered">
-                    <p title="Actions">Actions</p>
+                    <p title="Actions"></p>
                   </th>
                 </tr>
               </thead>
@@ -238,8 +241,9 @@ export default function SalonDashboard() {
                   <tr key={element.staffId}>
                     <th scope="row">{listStaff.indexOf(element) + 1}</th>
                     <td>{element.name}</td>
-                    <td>{element.title}</td>
+                    <td>{element.address}</td>
                     <td>{element.phone}</td>
+                    <td>{element.title}</td>
 
                     <td className="has-text-centered">
                       <button
@@ -274,12 +278,12 @@ export default function SalonDashboard() {
         <Box sx={modalcss}>
           <div>
             <div className="has-text-centered">
-              <h1 className="is-size-3 mb-5">Add employee</h1>
+              <h1 className="is-size-3 mb-5">Thêm nhân viên</h1>
               {phoneError && (
-                <p className="text-danger">Your phone number is not correct.</p>
+                <p className="text-danger">Số điện thoại không hợp lệ.</p>
               )}
               {error && (
-                <p className="text-danger mb-3">Please enter all the fields!</p>
+                <p className="text-danger mb-3">Vui lòng điền đầy đủ thông tin!</p>
               )}
             </div>
             <form action="" method="post" className="addEmployee">
@@ -288,7 +292,7 @@ export default function SalonDashboard() {
                   className="has-text-right"
                   style={{ marginRight: "100px" }}
                 >
-                  <label>Employee's name:</label>
+                  <label>Họ và tên*:</label>
                   <input
                     id="Name"
                     className="input w-50 ml-5"
@@ -303,7 +307,7 @@ export default function SalonDashboard() {
                   />
                   
                   <br></br>
-                  <label className="mt-5">Employee's phone:</label>
+                  <label className="mt-5">SĐT*:</label>
                   <input
                     id="Phone"
                     className="input w-50 mt-5 ml-5"
@@ -317,7 +321,7 @@ export default function SalonDashboard() {
                     }}
                   />{" "}
                   <br></br>
-                  <label className="mt-5">Employee's address:</label>
+                  <label className="mt-5">Địa chỉ*:</label>
                   <input
                     id="Address"
                     className="input w-50 mt-5 ml-5"
@@ -331,7 +335,7 @@ export default function SalonDashboard() {
                     }}
                   />{" "}
                   <br></br>
-                  <label className="mt-5">Employee's description:</label>
+                  <label className="mt-5">Mô tả*:</label>
                   <textarea
                     id="Title"
                     rows="4"
@@ -340,7 +344,7 @@ export default function SalonDashboard() {
                     style={{ minHeight: "8rem" }}
                     type="text"
                     placeholder="Description"
-                    maxLength={40}
+                    maxLength={100}
                     value={staffTitle}
                     onChange={(event) => {
                       setStaffTitle(event.target.value);
@@ -355,14 +359,14 @@ export default function SalonDashboard() {
                     onClick={handleCloseAdd}
                   >
                     {" "}
-                    Close
+                    Đóng
                   </button>
                   <button
                     className="button is-rounded is-primary ml-3"
                     onClick={handleAddStaff}
                   >
                     {" "}
-                    Add
+                    Xác nhận
                   </button>
                 </div>
               </fieldset>
@@ -381,7 +385,7 @@ export default function SalonDashboard() {
         <Box sx={modalcss}>
           <div>
             <div className="has-text-centered">
-              <h1 className="is-size-3 mb-5">Edit employee</h1>
+              <h1 className="is-size-3 mb-5">Chỉnh sửa thông tin nhân viên</h1>
             </div>
             <form action="" method="post" className="editEmployee">
               <fieldset>
@@ -389,7 +393,7 @@ export default function SalonDashboard() {
                   className="has-text-right"
                   style={{ marginRight: "100px" }}
                 >
-                  <label>Employee's name:</label>
+                  <label>Họ và tên*:</label>
                   <input
                     id="Name"
                     className="input w-50 ml-5"
@@ -408,7 +412,7 @@ export default function SalonDashboard() {
                   
                   <br></br>
                   <label className="mt-5" htmlfor="Phone">
-                    Employee's phone:
+                    SĐT*:
                   </label>
                   <input
                     id="Phone"
@@ -427,7 +431,7 @@ export default function SalonDashboard() {
                   />{" "}
                   <br></br>
                   <label className="mt-5" htmlfor="Address">
-                    Employee's address:
+                    Địa chỉ*:
                   </label>
                   <input
                     id="Address"
@@ -445,13 +449,13 @@ export default function SalonDashboard() {
                     }}
                   />{" "}
                   <br></br>
-                  <label className="mt-5">Employee's description:</label>
+                  <label className="mt-5">Mô tả*:</label>
                   <textarea
                     id="Title"
                     className="input mt-5 w-50 ml-5"
                     style={{ minHeight: "8rem" }}
                     type="text"
-                    maxLength={40}
+                    maxLength={100}
                     placeholder="Description"
                     value={newStaffInfo?.title}
                     onChange={(e) => {
@@ -471,14 +475,14 @@ export default function SalonDashboard() {
                     onClick={handleCloseEdit}
                   >
                     {" "}
-                    Cancel
+                    Hủy
                   </button>
                   <button
                     className="button is-rounded is-primary ml-3"
                     onClick={(e) => handleEditStaff(e)}
                   >
                     {" "}
-                    Edit
+                    Xác nhận
                   </button>
                 </div>
               </fieldset>
@@ -497,10 +501,10 @@ export default function SalonDashboard() {
           <div className="has-text-centered">
             <h1 className="is-size-4 has-text-weight-semibold">
               {" "}
-              Do you want to <span className="has-text-danger">
-                delete
+              Bạn có muốn <span className="has-text-danger">
+                xóa
               </span>{" "}
-              this employee ?
+              nhân viên này ?
             </h1>
             <br></br>{" "}
             <button
@@ -508,14 +512,14 @@ export default function SalonDashboard() {
               className="button is-rounded is-danger mr-5"
               style={{ width: "150px" }}
             >
-              Cancel
+              Hủy
             </button>
             <button
               className="button is-rounded is-info ml-5"
               style={{ width: "150px" }}
               onClick={handleDeleteStaff}
             >
-              Delete
+              Xác nhận
             </button>
           </div>
         </Box>

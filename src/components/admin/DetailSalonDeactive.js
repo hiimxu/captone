@@ -32,9 +32,8 @@ import {
 } from "../../utils";
 import imageUnavailable from "../../assets/image-unavailable.png";
 
-
 //CSS
-const root = {  
+const root = {
   backgroundRepeat: "repeat-y",
   backgroundSize: "100%",
 };
@@ -48,7 +47,7 @@ const FieldLabel = styled(Box)({
 });
 const FormWrapper = styled(Box)({
   minWidth: 800,
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   padding: 30,
   display: "flex",
   flexDirection: "column",
@@ -56,7 +55,7 @@ const FormWrapper = styled(Box)({
   alignItems: "center",
 });
 const ButtonWrapper = styled(Box)({
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
@@ -95,7 +94,6 @@ export default function DetailSalonDeactive() {
 
   const { salonId } = useParams();
 
-  
   //STATE
   const [tabValue, setTabValue] = useState("1");
   const [rate, setRate] = useState(null);
@@ -161,7 +159,11 @@ export default function DetailSalonDeactive() {
                   <div className="column is-6" style={{ paddingTop: "0px" }}>
                     <img
                       style={{ height: "100%", width: "auto" }}
-                      src={salonBusinessInfo.image ? salonBusinessInfo.image:imageUnavailable}
+                      src={
+                        salonBusinessInfo.image
+                          ? salonBusinessInfo.image
+                          : imageUnavailable
+                      }
                       alt="..."
                     />
                   </div>
@@ -174,15 +176,15 @@ export default function DetailSalonDeactive() {
                         {salonBusinessInfo.nameSalon}
                       </h2>
                       <p className="is-size-5 font-weight-bold">
-                        Open:{" "}
+                        Mở cửa:{" "}
                         <span className="text-danger">
-                          Mon-Sun {salonBusinessInfo.timeOpen} -{" "}
+                          T2-CN {salonBusinessInfo.timeOpen} -{" "}
                           {salonBusinessInfo.timeClose}
                         </span>
                       </p>
                       <p>
                         <span className="is-size-5 font-weight-bold">
-                          Phone number:{" "}
+                          SĐT:{" "}
                         </span>
                         <span
                           className="is-size-5 is-underlined"
@@ -233,7 +235,7 @@ export default function DetailSalonDeactive() {
           <div
             style={{
               background: "url(" + paperbg + ")",
-              minHeight:"30rem",
+              minHeight: "30rem",
             }}
           >
             <TabPanel value="1" className="p-0">
@@ -242,19 +244,19 @@ export default function DetailSalonDeactive() {
                   <div className="mb-5">
                     <div className="has-text-centered">
                       <div>
-                        <h1 className="is-size-1 pt-5 mb-5">
-                          Salon Business Information
-                        </h1>
+                        <h2 className="is-size-1 pt-5 mb-5">
+                          Hồ sơ kinh doanh
+                        </h2>
                         <div className="columns">
                           <div className="column is-6 has-text-right">
                             <p className="is-size-4">Salon Id : </p>
-                            <p className="is-size-4">Salon owner : </p>
-                            <p className="is-size-4">Tax code : </p>
-                            <p className="is-size-4">Phone number : </p>
-                            <p className="is-size-4">Time open : </p>
-                            <p className="is-size-4">Time close : </p>
-                            <p className="is-size-4">District : </p>
-                            <p className="is-size-4">City : </p>
+                            <p className="is-size-4">Chủ salon : </p>
+                            <p className="is-size-4">Mã số thuế : </p>
+                            <p className="is-size-4">SĐT : </p>
+                            <p className="is-size-4">Giờ mở cửa : </p>
+                            <p className="is-size-4">Giờ đóng cửa : </p>
+                            <p className="is-size-4">Quận : </p>
+                            <p className="is-size-4">Thành phố : </p>
                             <p className="is-size-4">Email : </p>
                           </div>
                           <div className="column is-6 has-text-left">
@@ -335,7 +337,7 @@ export default function DetailSalonDeactive() {
                             </h4>
 
                             <p className="is-size-5 has-text-dark">
-                              {service.service_time} minutes
+                              {service.service_time} phút
                             </p>
                             {service.promotion === 0 && (
                               <p className="has-text-danger has-text-weight-semibold">
@@ -379,7 +381,7 @@ export default function DetailSalonDeactive() {
                     fontSize: "2rem",
                   }}
                 >
-                  <h2>Salon này chưa có dịch vụ nào</h2>
+                  <h2>Salon này chưa có dịch vụ nào.</h2>
                 </div>
               )}
             </TabPanel>
@@ -395,11 +397,12 @@ export default function DetailSalonDeactive() {
                             <>
                               <span>
                                 {salonBusinessInfo?.AverangeVote.toFixed(1)}
+                                {"/5"}
                               </span>
                             </>
                           ) : (
                             <>
-                              <span>0</span>
+                              <span>0/5</span>
                             </>
                           )}
                         </span>
@@ -411,8 +414,12 @@ export default function DetailSalonDeactive() {
                           readOnly
                         />
                         <br></br>
-                        out of 5 <br></br>
-                        {salonBusinessInfo.TotalVote} reviews
+                        <p className="text-dark">
+                          <span className="font-weight-bold ">
+                            {salonBusinessInfo.TotalVote}{" "}
+                          </span>
+                          đánh giá {"&"} bình luận
+                        </p>
                       </p>
                     </div>
                     <div className="col-6"></div>
@@ -420,8 +427,8 @@ export default function DetailSalonDeactive() {
                       className="column is-3 has-text-centered mt-3"
                       style={{ display: "inline-block" }}
                     >
-                      <div className="col-1 font-weight-bold pr-0 pl-5 text-center">
-                        <label>Rating</label>
+                      <div className="col-4 font-weight-bold pr-0 pl-5 text-center">
+                        <label>Đánh giá:</label>
                       </div>
                       <div className="col-3 pl-2">
                         <Rating
@@ -497,7 +504,7 @@ export default function DetailSalonDeactive() {
                             <div className="pl-1">
                               <p>
                                 <span className="font-weight-bold">
-                                  Review:{" "}
+                                  Bình luận:{" "}
                                 </span>{" "}
                                 {review.content}
                               </p>
@@ -510,7 +517,7 @@ export default function DetailSalonDeactive() {
                         className="text-center pt-5 font-weight-bold"
                         style={{ fontSize: "1.5rem" }}
                       >
-                        There are no reviews!
+                        Chưa có bình luận {"&"} đánh giá nào.
                       </div>
                     )}
                   </div>
@@ -525,17 +532,17 @@ export default function DetailSalonDeactive() {
                   to="/ManageSalon"
                   className="button is-info has-text-white mr-5 is-rounded"
                 >
-                  Back
+                  Quay lại
                 </Link>
                 <button
                   className="button is-success has-text-white is-rounded"
                   onClick={() => setDialogOpen(true)}
                 >
-                  Active
+                  Kich hoạt
                 </button>
                 <Dialog onClose={handleClose} open={dialogOpen} maxWidth="lg">
                   <FormWrapper style={{ minHeight: "6rem" }}>
-                    <FieldLabel>Are you sure activate this salon?</FieldLabel>
+                    <FieldLabel>Bạn có muốn kích hoạt salon này?</FieldLabel>
                   </FormWrapper>
                   <ButtonWrapper>
                     {activeSuccessMess && (
@@ -545,16 +552,16 @@ export default function DetailSalonDeactive() {
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <button
-                      className="button is-info mr-5 has-text-white is-rounded"
+                      className="button is-danger mr-5 has-text-white is-rounded"
                       onClick={() => setDialogOpen(false)}
                     >
-                      Close
+                      Hủy
                     </button>
                     <button
-                      className="button is-danger has-text-white is-rounded"
+                      className="button is-success has-text-white is-rounded"
                       onClick={handleActive}
                     >
-                      Active
+                      Xác nhận
                     </button>
                   </ButtonWrapper>
                 </Dialog>

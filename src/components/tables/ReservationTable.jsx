@@ -104,19 +104,19 @@ const ReservationTable = ({ data, historyTable }) => {
                 <HeaderText>#</HeaderText>
               </TableCell>
               <TableCell sx={{ width: "40%" }}>
-                <HeaderText>Service</HeaderText>
+                <HeaderText>Dịch vụ</HeaderText>
               </TableCell>
               <TableCell>
-                <HeaderText>Time</HeaderText>
+                <HeaderText>Thời gian</HeaderText>
               </TableCell>
               <TableCell>
-                <HeaderText>Status</HeaderText>
+                <HeaderText>Trạng thái</HeaderText>
               </TableCell>
               <TableCell>
-                <HeaderText>Stylist</HeaderText>
+                <HeaderText>Barber</HeaderText>
               </TableCell>
               <TableCell>
-                <HeaderText>Action</HeaderText>
+                <HeaderText></HeaderText>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -136,7 +136,7 @@ const ReservationTable = ({ data, historyTable }) => {
                       <ServicePriceText>{currencyFormatter.format(row.price_original)}</ServicePriceText>
                     </Box>
                     <Box display="flex" flexDirection="row">
-                      <TimeUseText>{`${row.service_time} minutes`}</TimeUseText>
+                      <TimeUseText>{`${row.service_time} phút`}</TimeUseText>
                     </Box>
                   </Box>
                 </TableCell>

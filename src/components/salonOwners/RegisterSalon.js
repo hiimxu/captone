@@ -170,18 +170,22 @@ export default function RegisterSalon() {
     if (!validPassword.test(password)) {
       setPwdErr(true);
       pass = false;
+      
     }
     if (confirmPwd !== password) {
       setConfirmPwdError(true);
       pass = false;
+      
     }
     if (!validEmail.test(email)) {
       setEmailErr(true);
       pass = false;
+      
     }
     if (!validPhone.test(phone)) {
       setPhoneErr(true);
       pass = false;
+      
     }
     if (pass) {
       dispatch(registerSalon(newSalon));
@@ -207,14 +211,17 @@ export default function RegisterSalon() {
                     style={{ borderRadius: "15px", border: "none" }}
                   >
                     <div className="card-body p-5">
-                      <h2 className="text-center mb-5">
-                        Become a partner of our program
+                      <h2
+                        className="text-center mb-5 pt-5 pb-5"
+                        style={{ fontSize: "1.7rem", fontWeight: "bold" }}
+                      >
+                        Đăng ký trở thành salon đối tác
                       </h2>
                       <div className="messages">
                         {error && (
                           <div className="error">
                             <p className="text-danger">
-                              Please enter all the fields
+                              Vui lòng điến đầy đủ thông tin!
                             </p>
                           </div>
                         )}
@@ -236,7 +243,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Username
+                                Tên đăng nhập*
                               </span>
                             </div>
                             <input
@@ -252,7 +259,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Password
+                                Mật khẩu*
                               </span>
                             </div>
                             <input
@@ -265,8 +272,9 @@ export default function RegisterSalon() {
                           </div>
                           {pwdErr && (
                             <p className="text-danger">
-                              Your password must be 8-40 characters long and
-                              contain numbers, lowercase and uppercase letters.
+                              Mật khẩu phải từ 8 đến 40 ký tự, trong đó có chứa
+                              ít nhất 1 chữ cái viết hoa, một chữ cái viết
+                              thướng và 1 số.
                             </p>
                           )}
                         </div>
@@ -275,7 +283,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Confirm Password
+                                Nhập lại mật khẩu*
                               </span>
                             </div>
                             <input
@@ -288,7 +296,7 @@ export default function RegisterSalon() {
                           </div>
                           {confirmPwdError && (
                             <p className="text-danger">
-                              The entered passwords do not match. Try again.
+                              Mật khẩu không trùng khớp, vui lòng kiểm tra lại!
                             </p>
                           )}
                         </div>
@@ -296,7 +304,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Salon's name
+                                Tên salon*
                               </span>
                             </div>
                             <input
@@ -312,7 +320,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Owner's name
+                                Tên chủ salon*
                               </span>
                             </div>
                             <input
@@ -328,7 +336,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Email
+                                Email*
                               </span>
                             </div>
                             <input
@@ -341,7 +349,7 @@ export default function RegisterSalon() {
                           </div>
                           {emailErr && (
                             <p className="text-danger">
-                              Your email is invalid!
+                              Địa chỉ email của bạn không chính xác!
                             </p>
                           )}
                         </div>
@@ -350,7 +358,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Phone
+                                SĐT*
                               </span>
                             </div>
                             <input
@@ -363,7 +371,7 @@ export default function RegisterSalon() {
                           </div>
                           {phoneErr && (
                             <p className="text-danger">
-                              Your phone is invalid!
+                              Số điện thoại không hợp lệ.
                             </p>
                           )}
                         </div>
@@ -372,7 +380,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                TaxCode
+                                Mã số thuế*
                               </span>
                             </div>
 
@@ -393,7 +401,7 @@ export default function RegisterSalon() {
                                 className="input-group-text"
                                 htmlFor="inputGroupSelect01"
                               >
-                                District
+                                Quận*
                               </label>
                             </div>
                             <select
@@ -402,7 +410,7 @@ export default function RegisterSalon() {
                               value={district}
                               onChange={handleDistrict}
                             >
-                              <option defaultValue={""}>Choose...</option>
+                              <option defaultValue={""}>Chọn Quận/Huyện</option>
                               {districts.map((district) => (
                                 <option
                                   key={district.toString()}
@@ -417,7 +425,7 @@ export default function RegisterSalon() {
                                 className="input-group-text"
                                 htmlFor="inputGroupSelect02"
                               >
-                                City
+                                Thành phố*
                               </label>
                             </div>
                             <select
@@ -435,7 +443,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Address
+                                Địa chỉ cụ thể*
                               </span>
                             </div>
                             <input
@@ -454,7 +462,7 @@ export default function RegisterSalon() {
                                 className="input-group-text"
                                 htmlFor="inputGroupSelect03"
                               >
-                                Open
+                                Mở cửa*
                               </label>
                             </div>
                             <select
@@ -463,7 +471,7 @@ export default function RegisterSalon() {
                               value={timeOpen}
                               onChange={handleTimeOpen}
                             >
-                              <option defaultValue={""}>Choose...</option>
+                              <option defaultValue={""}>Chọn giờ mở cửa...</option>
                               {times.map((time) => (
                                 <option key={time.toString()} value={time}>
                                   {time}
@@ -475,7 +483,7 @@ export default function RegisterSalon() {
                                 className="input-group-text"
                                 htmlFor="inputGroupSelect04"
                               >
-                                Close
+                                Đóng cửa*
                               </label>
                             </div>
                             <select
@@ -484,7 +492,7 @@ export default function RegisterSalon() {
                               value={timeClose}
                               onChange={handleTimeClose}
                             >
-                              <option value={""}>Choose...</option>
+                              <option value={""}>Chọn giờ đóng cửa...</option>
                               {times.map((time) => (
                                 <option key={time.toString()} value={time}>
                                   {time}
@@ -497,7 +505,7 @@ export default function RegisterSalon() {
                           <div className="input-group">
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="">
-                                Salon's image
+                                Ảnh đại diện của salon*
                               </span>
                             </div>
                             <input
@@ -510,15 +518,16 @@ export default function RegisterSalon() {
                           </div>
                         </div>
                         <div className="">
-                          <div className="form-group">
+                          <div className="form-group text-left">
+                            <label className="pl-2">Mô tả về salon của bạn*:</label>
                             <textarea
                               value={salonDescription}
                               type="text"
                               className="form-control"
                               maxLength={2000}
                               onChange={handleSalonDescription}
-                              placeholder="Description for your salon"
-                              style={{minHeight:"10rem"}}
+                              placeholder="Nhập mô tả tại đây"
+                              style={{ minHeight: "10rem" }}
                             />
                           </div>
                         </div>
@@ -529,14 +538,14 @@ export default function RegisterSalon() {
                             style={btnSubmit}
                             onClick={handleSubmit}
                           >
-                            Register
+                            Đăng ký
                           </button>
                         </div>
 
                         <p className="text-center text-muted mt-5 mb-0">
-                          Have already an account?{" "}
+                          Bạn đã có tài khoản?{" "}
                           <Link to="/login" className="fw-bold text-body">
-                            <u>Login here</u>
+                            <u>Đăng nhập tại đây</u>
                           </Link>
                         </p>
                       </form>

@@ -10,9 +10,8 @@ import {
 import { Modal, Box, Tooltip } from "@mui/material";
 import { logout } from "../../redux/actions/creators/auth";
 import { districts, times } from "../../assets/data/data.js";
-import { validEmail, validPhone,validPassword } from "../../validations/regex";
+import { validEmail, validPhone, validPassword } from "../../validations/regex";
 import {
-  
   Button as MuiButton,
   Dialog,
   Grid,
@@ -20,10 +19,10 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import{ changePassword, resetMessage} from "../../redux/actions/creators/profile"
-
-
-
+import {
+  changePassword,
+  resetMessage,
+} from "../../redux/actions/creators/profile";
 
 const ErrorText = styled(Typography)({
   color: "#ED4337",
@@ -39,10 +38,6 @@ const SuccessText = styled(Typography)({
   lineHeight: 1.75,
 });
 
-
-
-
-
 const ButtonWrapper = styled(Box)({
   display: "flex",
   flexDirection: "row",
@@ -56,7 +51,7 @@ const Button = styled(MuiButton)(({ width }) => ({
   fontSize: 16,
   borderRadius: 12,
   lineHeight: "40px",
-  width,
+  minWidth: 110,
   height: 40,
 }));
 
@@ -69,10 +64,6 @@ const SecondaryActionButton = styled(ActionButton)({
   backgroundColor: "#ff6060",
   marginRight: 30,
 });
-
-
-
-
 
 const FormWrapper = styled(Box)({
   minWidth: 800,
@@ -100,13 +91,10 @@ const FieldLabel = styled(Box)({
   justifyContent: "flex-end",
 });
 
-
 const InputPassword = styled(TextField)({
   height: 30,
   width: 300,
 });
-
-
 
 // CSS
 
@@ -149,7 +137,6 @@ export default function SalonDashboard() {
   };
   const handleClose = () => {
     setOpen(false);
-    
   };
 
   //LOAD REDUX EDIT BUSINESS INFO
@@ -243,7 +230,7 @@ export default function SalonDashboard() {
     setDialogChangepassOpen(false);
   };
 
-  const { errMess, successMess } = useSelector((state) => state.profile)
+  const { errMess, successMess } = useSelector((state) => state.profile);
   const handleChangePassword = () => {
     if (!oldPassword || !newPassword || !reNewPassword) {
       setValidationErr("Please enter all the fields");
@@ -264,10 +251,10 @@ export default function SalonDashboard() {
     };
     const callback = () => {
       setDialogChangepassOpen(false);
-      setOldPassword("")
-      setNewPassword("")
-      setReNewPassword("")
-      dispatch(resetMessage())
+      setOldPassword("");
+      setNewPassword("");
+      setReNewPassword("");
+      dispatch(resetMessage());
     };
     dispatch(changePassword(token, submitObject, callback));
   };
@@ -293,24 +280,22 @@ export default function SalonDashboard() {
               marginBottom: "30px",
             }}
           >
-            <h1 className="is-size-1 mt-5 mb-5">Salon Business Information</h1>
+            <h2 className="is-size-1 mt-5 mb-5 font-weight-bold">Hồ sơ</h2>
             <div className="columns">
               <div className="column is-6 has-text-right">
-                <p className="is-size-4">Salon Id : </p>
-                <p className="is-size-4">Salon name : </p>
-                <p className="is-size-4">Salon owner : </p>
-                <p className="is-size-4">Tax code : </p>
-                <p className="is-size-4">Phone number : </p>
-                <p className="is-size-4">Time open : </p>
-                <p className="is-size-4">Time close : </p>
-                <p className="is-size-4">District : </p>
-                <p className="is-size-4">City : </p>
-                <p className="is-size-4">Detail address : </p>
+                <p className="is-size-4">Tên salon : </p>
+                <p className="is-size-4">Tên chủ salon : </p>
+                <p className="is-size-4">Mã số thuế : </p>
+                <p className="is-size-4">SĐT : </p>
+                <p className="is-size-4">Giờ mở cửa : </p>
+                <p className="is-size-4">Giờ đóng cửa : </p>
+                <p className="is-size-4">Quận : </p>
+                <p className="is-size-4">Thành phố : </p>
+                <p className="is-size-4">Địa chỉ cụ thể : </p>
                 <p className="is-size-4">Email : </p>
-                <p className="is-size-4">Salon image : </p>
+                <p className="is-size-4">Ảnh đại diện : </p>
               </div>
               <div className="column is-6 has-text-left">
-                <p className="is-size-4">{profileSalon[0].salonId}</p>
                 <p className="is-size-4">{profileSalon[0].nameSalon}</p>
                 <p className="is-size-4"> {profileSalon[0].nameOwner}</p>
                 <p className="is-size-4 has-text-primary has-text-weight-bold">
@@ -356,7 +341,9 @@ export default function SalonDashboard() {
               <button
                 className="button is-info ml-5 is-rounded"
                 style={{ width: "200px" }}
-                onClick={()=>{setDialogChangepassOpen(true)}}
+                onClick={() => {
+                  setDialogChangepassOpen(true);
+                }}
               >
                 Đổi mật khẩu
               </button>
@@ -442,14 +429,14 @@ export default function SalonDashboard() {
                 setValidationErr(null);
               }}
             >
-              Cancel
+              Hủy
             </SecondaryActionButton>
             <ActionButton
               variant="contained"
               width={110}
               onClick={handleChangePassword}
             >
-              Done
+              Xác nhận
             </ActionButton>
           </ButtonWrapper>
         </FormWrapper>
@@ -481,7 +468,7 @@ export default function SalonDashboard() {
                 <div className="input-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text" id="">
-                      Salon's name
+                      Tên salon*
                     </span>
                   </div>
                   <input
@@ -502,7 +489,7 @@ export default function SalonDashboard() {
                 <div className="input-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text" id="">
-                      Owner's name
+                      Tên chủ salon*
                     </span>
                   </div>
                   <input
@@ -540,7 +527,7 @@ export default function SalonDashboard() {
                   />
                 </div>
                 {emailErr && (
-                  <p className="text-danger">Your email is invalid!</p>
+                  <p className="text-danger">Địa chỉ email không hợp lệ.</p>
                 )}
               </div>
 
@@ -548,7 +535,7 @@ export default function SalonDashboard() {
                 <div className="input-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text" id="">
-                      Phone
+                      SĐT*
                     </span>
                   </div>
                   <input
@@ -565,7 +552,7 @@ export default function SalonDashboard() {
                   />
                 </div>
                 {phoneErr && (
-                  <p className="text-danger">Your phone is invalid!</p>
+                  <p className="text-danger">Số điện thoại không hợp lệ.</p>
                 )}
               </div>
 
@@ -573,7 +560,7 @@ export default function SalonDashboard() {
                 <div className="input-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text" id="">
-                      TaxCode
+                      Mã số thuế*
                     </span>
                   </div>
                   <input
@@ -598,7 +585,7 @@ export default function SalonDashboard() {
                       className="input-group-text"
                       htmlFor="inputGroupSelect01"
                     >
-                      District
+                      Quận*
                     </label>
                   </div>
                   <select
@@ -625,7 +612,7 @@ export default function SalonDashboard() {
                       className="input-group-text"
                       htmlFor="inputGroupSelect02"
                     >
-                      City
+                      Thành phố
                     </label>
                   </div>
                   <select className="custom-select" id="inputGroupSelect02">
@@ -640,7 +627,7 @@ export default function SalonDashboard() {
                 <div className="input-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text" id="">
-                      Address
+                      Địa chỉ cụ thể*
                     </span>
                   </div>
                   <input
@@ -664,7 +651,7 @@ export default function SalonDashboard() {
                       className="input-group-text"
                       htmlFor="inputGroupSelect03"
                     >
-                      Open
+                      Mở cửa
                     </label>
                   </div>
                   <select
@@ -691,7 +678,7 @@ export default function SalonDashboard() {
                       className="input-group-text"
                       htmlFor="inputGroupSelect04"
                     >
-                      Close
+                      Đóng cửa
                     </label>
                   </div>
                   <select
@@ -719,7 +706,7 @@ export default function SalonDashboard() {
                 <div className="input-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text" id="">
-                      Salon's image
+                      Ảnh đại diện
                     </span>
                   </div>
                   <input
@@ -737,10 +724,12 @@ export default function SalonDashboard() {
                 </div>
               </div>
               <div>
-                {infoSuccessMess && <p className="text-success">{infoSuccessMess}</p>}
+                {infoSuccessMess && (
+                  <p className="text-success">{infoSuccessMess}</p>
+                )}
                 {infoErrMess && <p className="text-danger">{infoErrMess}</p>}
                 {emptyError && (
-                  <p className="text-danger">Please enter all the fields</p>
+                  <p className="text-danger">Vui lòng điền đầy đủ thông tin!</p>
                 )}
               </div>
 
@@ -750,14 +739,14 @@ export default function SalonDashboard() {
                   onClick={handleClose}
                 >
                   {" "}
-                  Cancel
+                  Hủy
                 </button>
                 <button
                   className="button is-rounded is-primary ml-4"
                   onClick={handleEditBusinessInfo}
                 >
                   {" "}
-                  Edit
+                  Xác nhận
                 </button>
               </div>
             </form>

@@ -251,12 +251,12 @@ export default function Schedule() {
                 aria-label="disabled tabs example"
               >
                 <Tab
-                  label="Current Order"
+                  label="Lịch hẹn"
                   value="1"
                   onClick={handleLoadCurrentData}
                 />
                 <Tab
-                  label="History"
+                  label="Lịch sử"
                   value="2"
                   onClick={handleLoadHistoryData}
                 />
@@ -299,22 +299,25 @@ export default function Schedule() {
                       <p title="stt">#</p>
                     </th>{" "}
                     <th>
-                      <p title="CustomerName">Customer</p>
+                      <p title="CustomerName">Khách hàng</p>
                     </th>
                     <th>
-                      <p title="Order">Order</p>
+                      <p title="Order">Dịch vụ</p>
                     </th>
                     <th>
-                      <p title="Time">Time</p>
+                      <p title="Time">Thời gian</p>
                     </th>
                     <th>
-                      <p title="Stylist">Stylist</p>
+                      <p title="Time">Giá</p>
                     </th>
                     <th>
-                      <p title="Status">Status</p>
+                      <p title="Stylist">Barber</p>
+                    </th>
+                    <th>
+                      <p title="Status">Trạng thái</p>
                     </th>
                     <th className="has-text-centered">
-                      <p title="Actions">Actions</p>
+                      <p title="Actions"></p>
                     </th>
                   </tr>
                 </thead>
@@ -330,8 +333,9 @@ export default function Schedule() {
                         </span>
                         <p> {element.phone ? element.phone : "Salon booked"}</p>
                       </td>
-                      <td className="has-text-weight-bold">
-                        {element.nameService}
+                      <td>
+                        <p className="has-text-weight-bold">{element.nameService}</p>
+                        <p>{element.service_time} phút</p>
                       </td>
                       <td>
                         {" "}
@@ -339,6 +343,7 @@ export default function Schedule() {
                           element.timeUse
                         ).slice(0, -3)}
                       </td>
+                      <td className="text-danger">{currencyFormatter.format(element.price_original)}</td>
                       <td>{element.nameStaff}</td>
                       <td className="has-text-link has-text-weight-bold">
                         {element.nameStatus}
@@ -371,8 +376,8 @@ export default function Schedule() {
                   <div className="has-text-centered">
                     <h1 className="is-size-4 has-text-weight-semibold">
                       {" "}
-                      Do you want to{" "}
-                      <span className="has-text-info">finish</span> order of{" "}
+                      Bạn có muốn{" "}
+                      <span className="has-text-info">hoàn thành</span> lịch hẹn của{" "}
                       <span className="text-success">
                         {orderIdSelected.nameCustomer}
                         {console.log(orderIdSelected)}
@@ -385,14 +390,14 @@ export default function Schedule() {
                       className="button is-rounded is-success mr-5"
                       style={{ width: "150px" }}
                     >
-                      Finish order
+                      Xác nhận
                     </button>
                     <button
                       onClick={handleCloseFinish}
-                      className="button is-rounded is-info ml-5"
+                      className="button is-rounded is-danger ml-5"
                       style={{ width: "150px" }}
                     >
-                      Cancel
+                      Hủy
                     </button>
                   </div>
                 </Box>
@@ -406,8 +411,8 @@ export default function Schedule() {
                   <div className="has-text-centered">
                     <h1 className="is-size-4 has-text-weight-semibold">
                       {" "}
-                      Do you want to{" "}
-                      <span className="has-text-danger">cancel</span> this order
+                      Bạn có muốn {" "}
+                      <span className="has-text-danger">hủy</span> lịch hẹn này
                       ?
                     </h1>
                     <br></br>
@@ -416,14 +421,14 @@ export default function Schedule() {
                       className="button is-rounded is-success mr-5"
                       style={{ width: "150px" }}
                     >
-                      Confirmed
+                      Xác nhận
                     </button>
                     <button
                       onClick={handleCloseCancel}
-                      className="button is-rounded is-info ml-5"
+                      className="button is-rounded is-danger ml-5"
                       style={{ width: "150px" }}
                     >
-                      Close
+                      Đóng
                     </button>
                   </div>
                 </Box>
@@ -464,25 +469,25 @@ export default function Schedule() {
                       <p title="stt">#</p>
                     </th>
                     <th>
-                      <p title="CustomerName">Customer</p>
+                      <p title="CustomerName">Khách hàng</p>
                     </th>
                     <th>
-                      <p title="Order">Order</p>
+                      <p title="Order">Dịch vụ</p>
                     </th>
                     <th>
-                      <p title="Order">Price</p>
+                      <p title="Order">Giá</p>
                     </th>
                     <th>
-                      <p title="Date">Date</p>
+                      <p title="Date">Thời gian</p>
                     </th>
                     <th>
-                      <p title="Stylist">Stylist</p>
+                      <p title="Stylist">Barber</p>
                     </th>
                     <th className=" has-text-centered">
-                      <p title="Status">Status</p>
+                      <p title="Status">Trạng thái</p>
                     </th>
                     <th>
-                      <p title="Note">Note</p>
+                      <p title="Note">Ghi chú</p>
                     </th>
                   </tr>
                 </thead>
@@ -501,7 +506,7 @@ export default function Schedule() {
                           {" "}
                           {element.nameService}
                         </span>
-                        <p>{element.service_time} minutes</p>
+                        <p>{element.service_time} phút</p>
                       </td>{" "}
                       <td>
                         <span className="has-text-danger">

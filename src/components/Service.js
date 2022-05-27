@@ -188,14 +188,14 @@ export default function Service() {
                           emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                         /></div>
                         <p className="is-size-5 font-weight-bold">
-                          Open:{" "}
+                          Mở cửa:{" "}
                           <span className="text-danger">
-                            Mon-Sun {salon.timeOpen} - {salon.timeClose}
+                            T2-CN {salon.timeOpen} - {salon.timeClose}
                           </span>
                         </p>
                         <p>
                           <span className="is-size-5 font-weight-bold">
-                            Phone number:{" "}
+                            SĐT:{" "}
                           </span>
                           <span
                             className="is-size-5 is-underlined"
@@ -233,6 +233,7 @@ export default function Service() {
                     bgcolor: "white",
                     borderBottom: 1,
                     borderColor: "divider",
+                    
                   }}
                 >
                   <TabList
@@ -242,12 +243,12 @@ export default function Service() {
                   >
                     <Tab
                       className="font-weight-bold"
-                      label="Services"
+                      label="Dịch vụ"
                       value="1"
                     />
                     <Tab
                       className="font-weight-bold"
-                      label="Review"
+                      label="Đánh giá"
                       value="2"
                     />
                   </TabList>
@@ -290,7 +291,7 @@ export default function Service() {
                               </h4>
 
                               <p className="is-size-5 has-text-dark">
-                                {service.service_time} minutes
+                                {service.service_time} phút
                               </p>
                               {service.promotion === 0 && (
                                 <p className="has-text-danger has-text-weight-semibold">
@@ -335,7 +336,7 @@ export default function Service() {
                                 dispatch(updateSelectedService(service))
                               }
                             >
-                              Book
+                              Đặt chỗ
                             </Link>
                           </div>
                         </div>
@@ -367,7 +368,7 @@ export default function Service() {
                             <div>
                               <p className="">
                                 {data?.TotalVote ? (<span className="font-weight-bold">{data.TotalVote} </span>):(<span className="font-weight-bold">0 </span>)}
-                                reviews
+                                bình luận {"&"} đánh giá
                               </p>
                             </div>
                           </div>
@@ -380,11 +381,11 @@ export default function Service() {
                           className="button is-info is-rounded"
                           onClick={handleOpenReview}
                         >
-                          Write review
+                          Bình luận
                         </button>
                       </div>
                       <div className="col-6 font-weight-bold pr-0 pl-5 has-text-right pt-5">
-                        <label>Rating:</label>
+                        <label>Đánh giá:</label>
                       </div>
                       <div className="col-6 pl-2 has-text-right pr-5 pt-5">
                         <Rating
@@ -449,6 +450,7 @@ export default function Service() {
                             style={{ backgroundColor: "#f3f4f6" }}
                           >
                             <div>
+                              <span className="font-weight-bold pl-1">Đánh giá:</span>
                               <Rating
                                 name="half-rating-read"
                                 value={review.rate / 2}
@@ -461,7 +463,7 @@ export default function Service() {
                             <div className="pl-1">
                               <p>
                                 <span className="font-weight-bold">
-                                  Review:{" "}
+                                  Bình luận:{" "}
                                 </span>{" "}
                                 {review.content}
                               </p>
@@ -491,7 +493,7 @@ export default function Service() {
                             <div style={{ marginRight: "100px" }}>
                               <div className="row pt-5">
                                 <div className="col-6 has-text-right font-weight-bold">
-                                  How do you feel?
+                                  Bạn cảm thấy dịch vụ như thế nào?
                                 </div>
                                 <div className="col-6">
                                   <Rating
@@ -505,7 +507,7 @@ export default function Service() {
                               </div>
                               <div className="row pt-5">
                                 <div className="col-6 has-text-right font-weight-bold">
-                                  Share your feelings about the salon:
+                                  Chia sẻ một số cảm nhận về dịch vụ
                                 </div>
                                 <div className="col-6">
                                   <textarea
@@ -539,13 +541,13 @@ export default function Service() {
                                 onClick={handleCloseReview}
                               >
                                 {" "}
-                                Close
+                                Đóng
                               </button>
                               <button
                                 className="button is-rounded is-success ml-5"
                                 onClick={handleAddNewReview}
                               >
-                                Add
+                                Xác nhận
                               </button>
                             </div>
                           </fieldset>
