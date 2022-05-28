@@ -85,7 +85,7 @@ const Button = styled(MuiButton)(({ width }) => ({
   fontSize: 16,
   borderRadius: 12,
   lineHeight: "40px",
-  width,
+  minWidth:110,
   height: 40,
 }));
 
@@ -302,7 +302,7 @@ export default function Profile() {
                   selected={selectedTab === 0}
                   onClick={handleReservationTab}
                 >
-                  Đặt chỗ
+                  Lịch hẹn
                 </Tab>
               </Grid>
               <Grid item xs={6}>
@@ -539,14 +539,14 @@ export default function Profile() {
                 setValidationErr(null);
               }}
             >
-              Cancel
+              Hủy
             </SecondaryActionButton>
             <ActionButton
               variant="contained"
               width={110}
               onClick={handleChangePassword}
             >
-              Done
+              Xác nhận
             </ActionButton>
           </ButtonWrapper>
         </FormWrapper>

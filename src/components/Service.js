@@ -23,9 +23,11 @@ import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import { Modal } from "@mui/material";
 import Rating from "@mui/material/Rating";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
 import {
   addReview,
+  deleteReview,
+  editReview,
   getListReviewForCustomer,
   resetReviewListForCustomer,
 } from "../redux/actions/creators/review";
@@ -63,7 +65,6 @@ export default function Service() {
 
   // API DATA
   const [type, setType] = useState("Services");
-  console.log(type);
   const { serviceList } = useSelector((state) => state.service);
   const { salonId } = useParams();
   const dispatch = useDispatch();
@@ -81,21 +82,25 @@ export default function Service() {
   };
 
   //FILL BY RATING
-  const [rate, setRate] = useState(null);
+  const [rateFill, setRateFill] = useState(null);
 
   //CALL API REVIEW
   useEffect(() => {
-    if (!rate) {
-      setRate("");
+    if (!rateFill) {
+      setRateFill("");
     }
-    dispatch(getListReviewForCustomer({ salonId: salonId, star: rate }));
+    dispatch(
+      getListReviewForCustomer({ salonId: salonId, star: rateFill }, token)
+    );
     return () => {
       dispatch(resetReviewListForCustomer());
     };
-  }, [dispatch, salonId, rate]);
+  }, [dispatch, salonId, rateFill, token]);
 
   //CALL LIST REVIEW FROM REDUX
-  const { listReview } = useSelector((state) => state.listReviewForCustomer);
+  const { listReview, myReview } = useSelector(
+    (state) => state.listReviewForCustomer
+  );
 
   // -- MODAL REVIEW --
   const [openReview, setOpenReview] = useState(false);
@@ -119,11 +124,11 @@ export default function Service() {
   const handleAddNewReview = (e) => {
     e.preventDefault();
     if (!reviewRating) {
-      setErrEmpty("Please choose a rating star!");
+      setErrEmpty("Vui lòng đánh giá về chât lượng dịch vụ.");
       return;
     }
     if (!reviewContent) {
-      setErrEmpty("Please write review for salon!");
+      setErrEmpty("Vui lòng viết bình luận về salon.");
       return;
     }
     setErrEmpty(null);
@@ -133,7 +138,9 @@ export default function Service() {
       setReviewContent("");
       setReviewRating(0);
       setOpenReview(false);
-      dispatch(getListReviewForCustomer({ salonId: salonId, star: rate }));
+      dispatch(
+        getListReviewForCustomer({ salonId: salonId, star: rateFill }, token)
+      );
     };
     dispatch(
       addReview(
@@ -142,6 +149,80 @@ export default function Service() {
         callback
       )
     );
+  };
+
+  //STATE EDIT REVIEW
+  const [reviewInfo, setReviewInfo] = useState(null);
+
+  //CALL MESSAGE EDIT REVIEW FROM REDUX
+  const { successMessage: editSuccess, errMess: editErr } = useSelector(
+    (state) => state.editReviewForCustomer
+  );
+
+  //DIALOG EDIT REVIEW
+  const [openEdit, setOpenEdit] = useState(false);
+  const handleOpenEdit = (reviewSelected) => {
+    setOpenEdit(true);
+    setErrEmpty(null);
+    setReviewInfo(reviewSelected);
+  };
+
+  //EDIT REVIEW
+  const handleEditReview = (e) => {
+    e.preventDefault();
+    const { feedBackId, content, rate } = reviewInfo;
+    if (!content || !rate) {
+      setErrEmpty("Vui lòng điền đầy đủ thông tin.");
+      return;
+    }
+    setErrEmpty(null);
+    const submitObject = {
+      content,
+      rate,
+    };
+    const callback = () => {
+      dispatch(resetReviewListForCustomer());
+      setErrEmpty(null);
+      setOpenEdit(false);
+      dispatch(
+        getListReviewForCustomer({ salonId: salonId, star: rateFill }, token)
+      );
+    };
+    dispatch(editReview(token, submitObject, callback, feedBackId));
+  };
+
+  //STATE DELETE REVIEW
+  const [reviewIdSelected, setReviewIdSelected] = useState(null);
+
+  //CALL MESSAGE DELETE REVIEW FROM REDUX
+  const { successMessage: deleteSuccess, errMess: deleteErr } = useSelector(
+    (state) => state.deleteReviewForCustomer
+  );
+
+  //DIALOG DELETE REVIEW
+  const [openDelete, setOpenDelete] = useState(false);
+  const handleOpenDelete = (reviewSelected) => {
+    setOpenDelete(true);
+    setReviewIdSelected(reviewSelected.feedBackId);
+  };
+
+  //DELETE REVIEW
+  const handleDeleteReview = (e) => {
+    e.preventDefault();
+    console.log(reviewIdSelected);
+    if (!reviewIdSelected) {
+      console.log("0 review selected");
+      return;
+    }
+    const callback = () => {
+      dispatch(resetReviewListForCustomer());
+      setErrEmpty(null);
+      setOpenDelete(false);
+      dispatch(
+        getListReviewForCustomer({ salonId: salonId, star: rateFill }, token)
+      );
+    };
+    dispatch(deleteReview(token, callback, reviewIdSelected));
   };
 
   return (
@@ -181,12 +262,18 @@ export default function Service() {
                           {salon.nameSalon}
                         </h2>{" "}
                         <div className="pt-2">
-                        <Rating
-                          name="simple-controlled"
-                          value={salon.AverangeVote}
-                          readOnly
-                          emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                        /></div>
+                          <Rating
+                            name="simple-controlled"
+                            value={salon.AverangeVote}
+                            readOnly
+                            emptyIcon={
+                              <StarIcon
+                                style={{ opacity: 0.55 }}
+                                fontSize="inherit"
+                              />
+                            }
+                          />
+                        </div>
                         <p className="is-size-5 font-weight-bold">
                           Mở cửa:{" "}
                           <span className="text-danger">
@@ -233,7 +320,6 @@ export default function Service() {
                     bgcolor: "white",
                     borderBottom: 1,
                     borderColor: "divider",
-                    
                   }}
                 >
                   <TabList
@@ -354,8 +440,11 @@ export default function Service() {
                               className="font-weight-bold text-info"
                               style={{ fontSize: "1.5rem" }}
                             >
-                              {data?.AverangeVote ? (<label>{data.AverangeVote.toFixed(1)}/5</label>):(<label>0/5</label>)}
-                              
+                              {data?.AverangeVote ? (
+                                <label>{data.AverangeVote.toFixed(1)}/5</label>
+                              ) : (
+                                <label>0/5</label>
+                              )}
                             </div>
                             <div>
                               <Rating
@@ -367,7 +456,13 @@ export default function Service() {
                             </div>
                             <div>
                               <p className="">
-                                {data?.TotalVote ? (<span className="font-weight-bold">{data.TotalVote} </span>):(<span className="font-weight-bold">0 </span>)}
+                                {data?.TotalVote ? (
+                                  <span className="font-weight-bold">
+                                    {data.TotalVote}{" "}
+                                  </span>
+                                ) : (
+                                  <span className="font-weight-bold">0 </span>
+                                )}
                                 bình luận {"&"} đánh giá
                               </p>
                             </div>
@@ -390,14 +485,15 @@ export default function Service() {
                       <div className="col-6 pl-2 has-text-right pr-5 pt-5">
                         <Rating
                           name="simple-controlled"
-                          value={rate}
+                          value={rateFill}
                           onChange={(event, newValue) => {
-                            setRate(newValue);
+                            setRateFill(newValue);
                           }}
                         />
                       </div>
                     </div>
                   </div>
+
                   <div
                     style={{
                       overflowY: "scroll",
@@ -406,6 +502,97 @@ export default function Service() {
                     }}
                     className="rounded"
                   >
+                    {myReview ? (
+                      myReview?.map((data) => (
+                        <div
+                          className="m-4 pl-3 pr-3 pt-5 pb-5 mb-5 "
+                          style={{
+                            backgroundColor: "white",
+                            height: "12rem",
+                            borderRadius: "25px",
+                          }}
+                        >
+                          <div className="row pt-3 pb-3">
+                            <div className="col-6">
+                              <h2 className="is-size-5 row">
+                                <div
+                                  className="is-size-5 ml-4 mt-5 mr-2 has-text-weight-semibold rounded p-2 text-center"
+                                  style={{
+                                    backgroundColor: "#dddddd",
+                                    width: "35px",
+                                    height: "35px",
+                                  }}
+                                >
+                                  {data.nameCustomer.charAt(0)}
+                                </div>
+                                <span className="is-size-5 p-2 mt-5 has-text-weight-semibold">
+                                  {data.nameCustomer}
+                                </span>
+                              </h2>
+                            </div>
+                            <div className="col-6 has-text-right mt-5 pt-2">
+                              <p className=" font-weight-bold">
+                                <span>
+                                  <i className="fa-regular fa-clock mr-1"></i>
+                                </span>
+                                {convertISOStringToLocaleDateString(
+                                  data.dateCreate
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                          <div
+                            className="rounded p-4"
+                            style={{ backgroundColor: "#f3f4f6" }}
+                          >
+                            <div>
+                              <Rating
+                                name="half-rating-read"
+                                value={data.rate / 2}
+                                precision={0.5}
+                                readOnly
+                                emptyIcon={
+                                  <StarIcon
+                                    style={{ opacity: 0.55 }}
+                                    fontSize="inherit"
+                                  />
+                                }
+                              />
+                            </div>
+
+                            <div className="pl-1">
+                              <p>
+                                <span className="font-weight-bold">
+                                  Bình luận:{" "}
+                                </span>{" "}
+                                {data.content}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="row pt-1">
+                            <div className="col-9"></div>
+                            <p
+                              style={{ cursor: "pointer" }}
+                              className="col-2 text-primary border-0 bg-transparent has-text-right"
+                              onClick={() => handleOpenEdit(data)}
+                            >
+                              Chỉnh sửa
+                            </p>
+                            <p
+                              style={{ cursor: "pointer" }}
+                              className="col-1 text-danger border-0 bg-transparent"
+                              onClick={() => {
+                                handleOpenDelete(data);
+                              }}
+                            >
+                              Xóa
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div></div>
+                    )}
                     {listReview ? (
                       listReview.map((review) => (
                         <div
@@ -450,13 +637,17 @@ export default function Service() {
                             style={{ backgroundColor: "#f3f4f6" }}
                           >
                             <div>
-                              <span className="font-weight-bold pl-1">Đánh giá:</span>
                               <Rating
                                 name="half-rating-read"
                                 value={review.rate / 2}
                                 precision={0.5}
                                 readOnly
-                                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                emptyIcon={
+                                  <StarIcon
+                                    style={{ opacity: 0.55 }}
+                                    fontSize="inherit"
+                                  />
+                                }
                               />
                             </div>
 
@@ -488,6 +679,14 @@ export default function Service() {
                   >
                     <Box sx={modalcss}>
                       <div>
+                        <div
+                          className="text-center"
+                          style={{ fontSize: "1.5rem" }}
+                        >
+                          <h2 className="font-weight-bold">
+                            Viết bình luận của bạn
+                          </h2>
+                        </div>
                         <form action="" method="post" className="writeReview">
                           <fieldset>
                             <div style={{ marginRight: "100px" }}>
@@ -546,6 +745,145 @@ export default function Service() {
                               <button
                                 className="button is-rounded is-success ml-5"
                                 onClick={handleAddNewReview}
+                              >
+                                Xác nhận
+                              </button>
+                            </div>
+                          </fieldset>
+                        </form>
+                      </div>
+                    </Box>
+                  </Modal>
+                  {/* Modal edit review */}
+                  <Modal
+                    open={openEdit}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={modalcss}>
+                      <div
+                        className="text-center"
+                        style={{ fontSize: "1.5rem" }}
+                      >
+                        <h2 className="font-weight-bold">
+                          Chỉnh sửa bình luận của bạn
+                        </h2>
+                      </div>
+                      <div>
+                        <form action="" method="post" className="writeReview">
+                          <fieldset>
+                            <div style={{ marginRight: "100px" }}>
+                              <div className="row pt-5">
+                                <div className="col-6 has-text-right font-weight-bold">
+                                  Bạn cảm thấy dịch vụ như thế nào?
+                                </div>
+                                <div className="col-6">
+                                  <Rating
+                                    name="simple-controlled"
+                                    value={reviewInfo?.rate / 2}
+                                    onChange={(event, newValue) => {
+                                      setReviewInfo({
+                                        ...reviewInfo,
+                                        rate: newValue * 2,
+                                      });
+                                    }}
+                                  />{" "}
+                                </div>
+                              </div>
+                              <div className="row pt-5">
+                                <div className="col-6 has-text-right font-weight-bold">
+                                  Chia sẻ một số cảm nhận về dịch vụ
+                                </div>
+                                <div className="col-6">
+                                  <textarea
+                                    id="content"
+                                    style={{ resize: "none", width: "100%" }}
+                                    className="p-2 border border-dark"
+                                    rows="6"
+                                    maxLength={200}
+                                    value={reviewInfo?.content}
+                                    onChange={(e) => {
+                                      setReviewInfo({
+                                        ...reviewInfo,
+                                        content: e.target.value,
+                                      });
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                            </div>{" "}
+                            <div className="text-center">
+                              {editSuccess && (
+                                <p className="text-success">{editSuccess}</p>
+                              )}
+                              {editErr && (
+                                <p className="text-danger">{editErr}</p>
+                              )}
+                              {errEmpty && (
+                                <p className="text-danger">{errEmpty}</p>
+                              )}
+                            </div>
+                            <div className="has-text-right">
+                              <button
+                                className="button is-rounded is-info"
+                                onClick={() => {
+                                  setOpenEdit(false);
+                                }}
+                              >
+                                {" "}
+                                Đóng
+                              </button>
+                              <button
+                                className="button is-rounded is-success ml-5"
+                                onClick={handleEditReview}
+                              >
+                                Xác nhận
+                              </button>
+                            </div>
+                          </fieldset>
+                        </form>
+                      </div>
+                    </Box>
+                  </Modal>
+                  {/* dialog delete review */}
+                  <Modal
+                    open={openDelete}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={modalcss}>
+                      <div>
+                        <div
+                          className="text-center pt-5 pb-5 mb-5"
+                          style={{ fontSize: "1.5rem" }}
+                        >
+                          <h2 className="font-weight-bold">
+                            Bạn muốn xóa bình luận của mình?
+                          </h2>
+                        </div>
+                        <form action="" method="post" className="writeReview">
+                          <fieldset>
+                            <div className="text-center">
+                              {deleteSuccess && (
+                                <p className="text-success">{deleteSuccess}</p>
+                              )}
+                              {deleteErr && (
+                                <p className="text-danger">{deleteErr}</p>
+                              )}
+                            </div>
+                            <div className="has-text-right">
+                              <button
+                                className="button is-rounded is-danger"
+                                onClick={() => {
+                                  setOpenDelete(false);
+                                }}
+                              >
+                                {" "}
+                                Hủy
+                              </button>
+                              <button
+                                className="button is-rounded is-success ml-5"
+                                onClick={handleDeleteReview}
                               >
                                 Xác nhận
                               </button>

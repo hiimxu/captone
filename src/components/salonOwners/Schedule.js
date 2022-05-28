@@ -343,7 +343,7 @@ export default function Schedule() {
                           element.timeUse
                         ).slice(0, -3)}
                       </td>
-                      <td className="text-danger">{currencyFormatter.format(element.price_original)}</td>
+                      <td className="text-danger">{currencyFormatter.format(element.price_original-(element.price_original*(element.promotion/100)))}</td>
                       <td>{element.nameStaff}</td>
                       <td className="has-text-link has-text-weight-bold">
                         {element.nameStatus}
@@ -511,7 +511,7 @@ export default function Schedule() {
                       <td>
                         <span className="has-text-danger">
                           {" "}
-                          {currencyFormatter.format(element.price_original)}
+                          {currencyFormatter.format(element.price_original-(element.price_original*(element.promotion/100)))}
                         </span>
                       </td>
                       <td>

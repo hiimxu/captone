@@ -943,6 +943,7 @@ export default function ManageService() {
                               <label>Tên dịch vụ*:</label>
                             </div>
                             <div className="form-outline mb-4">
+                              ông Duyông Duy
                               <input
                                 type="text"
                                 maxLength={40}
@@ -1045,14 +1046,16 @@ export default function ManageService() {
                               <div className="col-6">
                                 {priceError && (
                                   <p className="text-danger">
-                                    Giá dịch vụ phải lớn hơn 0 và nhỏ hơn 10 triệu!
+                                    Giá dịch vụ phải lớn hơn 0 và nhỏ hơn 10
+                                    triệu!
                                   </p>
                                 )}
                               </div>
                               <div className="col-6">
                                 {promotioError && (
                                   <p className="text-danger">
-                                    Khuyến mại phải lớn hơn 0% và không vượt quá 100%
+                                    Khuyến mại phải lớn hơn 0% và không vượt quá
+                                    100%
                                   </p>
                                 )}
                               </div>
@@ -1359,8 +1362,9 @@ export default function ManageService() {
                         <div className="has-text-centered">
                           <h1 className="is-size-4 has-text-weight-semibold">
                             {" "}
-                            Bạn có thật sự muốn {" "}
-                            <span className="has-text-danger">xóa</span> dịch vụ này?
+                            Bạn có thật sự muốn{" "}
+                            <span className="has-text-danger">xóa</span> dịch vụ
+                            này?
                           </h1>
                           <br></br>{" "}
                           <button
@@ -1389,10 +1393,15 @@ export default function ManageService() {
                         <div className="column is-3 has-text-centered">
                           <p className="has-text-info">
                             {" "}
-                            <span className="is-size-4 has-text-weight-semibold">
-                              {profileSalon[0]?.AverangeVote}/5
-                            </span>
-                            <br></br>
+                            <div className="font-weight-bold" style={{ fontSize: "1.5rem" }}>
+                              {profileSalon[0]?.AverangeVote ? (
+                                <label>
+                                  {profileSalon[0]?.AverangeVote.toFixed(1)}/5
+                                </label>
+                              ) : (
+                                <label>0/5</label>
+                              )}
+                            </div>
                             <Rating
                               name="half-rating-read"
                               defaultValue={profileSalon[0]?.AverangeVote}
@@ -1400,7 +1409,7 @@ export default function ManageService() {
                               readOnly
                             />
                             <br></br>
-                            {profileSalon[0]?.TotalVote} bình luận và đánh giá
+                            <span className="text-dark font-weight-bold">{profileSalon[0]?.TotalVote}</span> bình luận {"&"} đánh giá
                           </p>
                         </div>
                       ) : (
@@ -1477,7 +1486,9 @@ export default function ManageService() {
                               style={{ backgroundColor: "#f3f4f6" }}
                             >
                               <div className="pl-1">
-                                <span className="font-weight-bold">Đánh giá:</span>
+                                <span className="font-weight-bold">
+                                  Đánh giá:
+                                </span>
                                 <Rating
                                   name="half-rating-read"
                                   value={review.rate / 2}

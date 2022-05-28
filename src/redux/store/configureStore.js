@@ -37,12 +37,15 @@ import {
   ActiveSalon,
   DeactiveSalon,
   RejectSalon,
-  SalonInfo,SalonReviewList
+  SalonInfo,
+  SalonReviewList,
 } from "../reducers/admin";
 import {
   ListReviewForCustomer,
   AddReviewForCustomer,
-  ListReviewForSalon
+  ListReviewForSalon,
+  EditReviewForCustomer,
+  DeleteReviewForCustomer
 } from "../reducers/review";
 
 import { Profile } from "../reducers/profile";
@@ -93,13 +96,15 @@ const rootReducer = combineReducers({
   activeSalon: ActiveSalon,
   deactiveSalon: DeactiveSalon,
   rejectSalon: RejectSalon,
-  salonInfo:SalonInfo,
-  salonReviewList:SalonReviewList,
+  salonInfo: SalonInfo,
+  salonReviewList: SalonReviewList,
 
   //review
   listReviewForCustomer: ListReviewForCustomer,
   addReviewForCustomer: AddReviewForCustomer,
-  listReviewForSalon:ListReviewForSalon
+  listReviewForSalon: ListReviewForSalon,
+  editReviewForCustomer: EditReviewForCustomer,
+  deleteReviewForCustomer :DeleteReviewForCustomer
 });
 
 export const ConfigureStore = () => {

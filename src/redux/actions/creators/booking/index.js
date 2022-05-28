@@ -418,10 +418,10 @@ export const bookService = (bookingInfo, token, callback) => (dispatch) => {
       }
     )
     .then((response) => {
-      if (response.data?.length && response.message) {
+      if (response.data && response.message) {
         dispatch(
           bookServiceSuccessfully({
-            bookingDetails: response.data[0],
+            bookingDetails: response.data,
             successMessage: response.message,
           })
         );

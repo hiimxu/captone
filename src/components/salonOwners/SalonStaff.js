@@ -87,11 +87,11 @@ export default function SalonDashboard() {
     event.preventDefault();
     const { name, address, title, phone } = newStaffInfo;
     if (!name || !phone || !address || !title) {
-      setError("Please enter all the fields!");
+      setError("Vui lòng điền đầy đủ thông tin.");
       return;
     }
     if (!validPhone.test(phone)) {
-      setError("Phone number is invalid!");
+      setError("Số điện thoại không hợp lệ.");
       return;
     }
     setError(null);

@@ -27,6 +27,8 @@ export default function FinishBooking() {
     backgroundImage: `url(${introbg})`,
     backgroundRepeat: "repeat-y",
     backgroundSize: "100%",
+    minHeight:"60rem",
+    
   };
   const rightReceipt = {
     height: 400 + "px",
@@ -87,7 +89,7 @@ export default function FinishBooking() {
             <p className="is-size-5">
               {bookingDetails.service_time} phút{" "}
               <span className="font-weight-bold text-danger is-size-5">
-                - {currencyFormatter.format(bookingDetails.price_original)}
+                - {currencyFormatter.format(bookingDetails.price_original-(bookingDetails.price_original*(bookingDetails.promotion/100)))}
               </span>
             </p>
             <hr

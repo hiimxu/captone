@@ -59,7 +59,7 @@ const FieldLabel = styled(Box)({
 });
 const FormWrapper = styled(Box)({
   minWidth: 800,
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   padding: 30,
   display: "flex",
   flexDirection: "column",
@@ -67,7 +67,7 @@ const FormWrapper = styled(Box)({
   alignItems: "center",
 });
 const ButtonWrapper = styled(Box)({
-  backgroundColor: "#f8e0be",
+  backgroundColor: "white",
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",

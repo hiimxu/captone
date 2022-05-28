@@ -133,7 +133,7 @@ const ReservationTable = ({ data, historyTable }) => {
                     </Box>
                     <Box display="flex" flexDirection="row">
                       <PrimaryText>{row.nameService}</PrimaryText>
-                      <ServicePriceText>{currencyFormatter.format(row.price_original)}</ServicePriceText>
+                      <ServicePriceText>{currencyFormatter.format(row.price_original-(row.price_original*(row.promotion/100)))}</ServicePriceText>
                     </Box>
                     <Box display="flex" flexDirection="row">
                       <TimeUseText>{`${row.service_time} phút`}</TimeUseText>
@@ -164,13 +164,13 @@ const ReservationTable = ({ data, historyTable }) => {
                 <TableCell>
                   <Box display="flex" justifyContent="center">
                     {historyTable ? (
-                      <Tooltip title="Make another reservation">
+                      <Tooltip title="Đặt lại">
                         <IconButton onClick={() => handleClickNewReservation(row)}>
                           <ReplayCircleFilledIcon fontSize="large" />
                         </IconButton>
                       </Tooltip>
                     ) : (
-                      <Tooltip title="Cancel reservation">
+                      <Tooltip title="Hủy lịch">
                         <IconButton onClick={() => handleClickOpen(row)}>
                           <CancelIcon fontSize="large" />
                         </IconButton>
@@ -184,14 +184,14 @@ const ReservationTable = ({ data, historyTable }) => {
         </Table>
       </TableContainer>
       <Dialog open={alertOpen} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">Confirm service cancellation</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Xác nhận hủy dịch vụ</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Are you sure you want to cancel this reservation?</DialogContentText>
+          <DialogContentText id="alert-dialog-description">Bạn có chắc chắn muốn hủy đặt chỗ này không?</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel}>Yes</Button>
+          <Button onClick={handleCancel}>Xác nhận</Button>
           <Button onClick={handleClose} color="error">
-            No
+            Hủy
           </Button>
         </DialogActions>
       </Dialog>
