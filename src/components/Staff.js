@@ -79,13 +79,12 @@ export default function Staff() {
 
   useEffect(() => {
     if (staffInfo) {
-      dispatch(getStaffCalendar(staffInfo));
-      console.log(staffDetail);
+      dispatch(getStaffCalendar(staffInfo));      
     }
     return () => {
       dispatch(resetStaffCalender());
     };
-  }, [dispatch, staffInfo, staffDetail]);
+  }, [dispatch, staffInfo]);
 
   function convertDate(date) {
     var newdate = new Date(date),
