@@ -942,8 +942,7 @@ export default function ManageService() {
                             <div>
                               <label>Tên dịch vụ*:</label>
                             </div>
-                            <div className="form-outline mb-4">
-                              ông Duyông Duy
+                            <div className="form-outline mb-4">                              
                               <input
                                 type="text"
                                 maxLength={40}
