@@ -231,7 +231,7 @@ export default function SalonDashboard() {
                   <th>
                     <p title="Phone">Mô tả</p>
                   </th>
-                  <th className="has-text-centered">
+                  <th className="has-text-centered" style={{minWidth: "15rem"}}>
                     <p title="Actions"></p>
                   </th>
                 </tr>

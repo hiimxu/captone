@@ -17,7 +17,13 @@ import ReplayCircleFilledIcon from "@mui/icons-material/ReplayCircleFilled";
 import { currencyFormatter } from "../../utils";
 import { Box, Tooltip, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { cancelReservation, getReservation, resetReservationList, updateSelectedService, updateSelectedSalonId } from "../../redux/actions/creators/booking";
+import {
+  cancelReservation,
+  getReservation,
+  resetReservationList,
+  updateSelectedService,
+  updateSelectedSalonId,
+} from "../../redux/actions/creators/booking";
 import { useNavigate } from "react-router";
 import moment from "moment";
 
@@ -84,7 +90,13 @@ const ReservationTable = ({ data, historyTable }) => {
       handleClose();
       dispatch(getReservation(token));
     };
-    dispatch(cancelReservation({ registerServiceId, service_time }, token, successCallback));
+    dispatch(
+      cancelReservation(
+        { registerServiceId, service_time },
+        token,
+        successCallback
+      )
+    );
   };
 
   const handleClickNewReservation = (item) => {
@@ -122,7 +134,10 @@ const ReservationTable = ({ data, historyTable }) => {
           </TableHead>
           <TableBody>
             {data.map((row, index) => (
-              <TableRow key={row.registerServiceId} sx={{ "&:last-child td, &:last-child th": { borderBottom: 0 } }}>
+              <TableRow
+                key={row.registerServiceId}
+                sx={{ "&:last-child td, &:last-child th": { borderBottom: 0 } }}
+              >
                 <TableCell align="right">
                   <PrimaryText>{index + 1}</PrimaryText>
                 </TableCell>
@@ -131,9 +146,47 @@ const ReservationTable = ({ data, historyTable }) => {
                     <Box display="flex" flexDirection="row">
                       <PrimaryText>{row.nameSalon}</PrimaryText>
                     </Box>
-                    <Box display="flex" flexDirection="row">
-                      <PrimaryText>{row.nameService}</PrimaryText>
-                      <ServicePriceText>{currencyFormatter.format(row.price_original-(row.price_original*(row.promotion/100)))}</ServicePriceText>
+                    <Box>
+                      <PrimaryText style={{fontWeight:"bold"}}>{row.nameService}</PrimaryText>
+                      <br></br>
+                      {/* <ServicePriceText>{currencyFormatter.format(row.price_original-(row.price_original*(row.promotion/100)))}</ServicePriceText> */}
+                      <p>
+                        <span className="font-weight-bold text-danger is-size-5">
+                          {row.promotion === 0 && (
+                            <p className="has-text-danger has-text-weight-semibold">
+                              {" "}
+                              {currencyFormatter.format(
+                                row.price_original
+                              )}{" "}
+                            </p>
+                          )}
+
+                          {row.promotion !== 0 && (
+                            <p className="has-text-grey-light has-text-weight-semibold">
+                              <del>
+                                {" "}
+                                {currencyFormatter.format(
+                                  row.price_original
+                                )}{" "}
+                              </del>
+
+                              <span className="has-text-danger-dark has-text-weight-semibold">
+                                {" "}
+                                {"-> "}
+                                {currencyFormatter.format(
+                                  row.price_original -
+                                    (row.price_original / 100) *
+                                    row.promotion
+                                )}{" "}
+                              </span>
+                              <span className="tag is-danger has-text-weight-semibold">
+                                {" "}
+                                {row.promotion} %
+                              </span>
+                            </p>
+                          )}
+                        </span>
+                      </p>
                     </Box>
                     <Box display="flex" flexDirection="row">
                       <TimeUseText>{`${row.service_time} phút`}</TimeUseText>
@@ -141,7 +194,9 @@ const ReservationTable = ({ data, historyTable }) => {
                   </Box>
                 </TableCell>
                 <TableCell>
-                  <PrimaryText>{moment(row.timeUse).format("DD/MM/YYYY HH:mm")}</PrimaryText>
+                  <PrimaryText>
+                    {moment(row.timeUse).format("DD/MM/YYYY HH:mm")}
+                  </PrimaryText>
                 </TableCell>
                 <TableCell>
                   <StatusText
@@ -165,7 +220,9 @@ const ReservationTable = ({ data, historyTable }) => {
                   <Box display="flex" justifyContent="center">
                     {historyTable ? (
                       <Tooltip title="Đặt lại">
-                        <IconButton onClick={() => handleClickNewReservation(row)}>
+                        <IconButton
+                          onClick={() => handleClickNewReservation(row)}
+                        >
                           <ReplayCircleFilledIcon fontSize="large" />
                         </IconButton>
                       </Tooltip>
@@ -183,10 +240,17 @@ const ReservationTable = ({ data, historyTable }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog open={alertOpen} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+      <Dialog
+        open={alertOpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
         <DialogTitle id="alert-dialog-title">Xác nhận hủy dịch vụ</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Bạn có chắc chắn muốn hủy đặt chỗ này không?</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Bạn có chắc chắn muốn hủy đặt chỗ này không?
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>Xác nhận</Button>

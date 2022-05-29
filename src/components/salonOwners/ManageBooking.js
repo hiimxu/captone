@@ -229,7 +229,7 @@ export default function Staff() {
                       className="rounded mr-1 mb-2 bg-white"
                     ></input>
                   </div>
-                  <div className="column is-10">
+                  <div className="column is-9">
                     <div>
                       <h4 className="has-text-info-dark is-size-4 has-text-weight-bold">
                         {service.name}

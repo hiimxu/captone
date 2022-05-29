@@ -124,7 +124,7 @@ export default function Profile() {
                         <th>
                           <p title="staffName"> Staff</p>
                         </th>
-                        <th className="has-text-centered">
+                        <th className="has-text-centered"  style={{minWidth: "15rem"}}>
                           <p title="Actions">Actions</p>
                         </th>
                       </tr>
@@ -175,7 +175,7 @@ export default function Profile() {
                         <th>
                           <p title="staffName"> Staff</p>
                         </th>
-                        <th className="has-text-centered">
+                        <th className="has-text-centered"  style={{minWidth: "15rem"}}>
                           <p title="Actions">Actions</p>
                         </th>
                       </tr>

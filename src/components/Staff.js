@@ -280,7 +280,7 @@ export default function Staff() {
                         ></input>
                         <label>{slot}</label>
                       </div>
-                    )):<div className="rounded" style={{backgroundColor:"#f3f4f6"}}>Dịch vụ chưa sẵn sàng. Vui lòng chọn lại ngày hoặc barber khác.</div>}
+                    )):<div className="rounded" style={{backgroundColor:"#f3f4f6"}}>Dịch vụ chưa sẵn sàng. Vui lòng chọn 5 ngày gần nhất hoặc barber khác.</div>}
                   </div>
                 </div>
               </div>

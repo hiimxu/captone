@@ -17,7 +17,7 @@ import {
   changePassword,
   getCustomerProfile,
   updateCustomerProfile,
-  resetMessage
+  resetMessage,
 } from "../redux/actions/creators/profile";
 import {
   getHistoryBooking,
@@ -33,7 +33,7 @@ import videobg from "../assets/videobg.jpg";
 import patterbg from "../assets/patterbg.svg";
 
 const PageWrapper = styled(Grid)({
-  backgroundColor: "#cfc787",
+  backgroundImage: `url(${bgImg})`,
   minHeight: "100vh",
   padding: 40,
 });
@@ -43,7 +43,9 @@ const UserInfo = styled(Box)({
   backgroundColor: "white",
   display: "flex",
   flexDirection: "column",
-  minHeight: 550,
+  minHeight: "25rem",
+  boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+  borderRadius: 10,
 });
 
 const ErrorText = styled(Typography)({
@@ -85,7 +87,7 @@ const Button = styled(MuiButton)(({ width }) => ({
   fontSize: 16,
   borderRadius: 12,
   lineHeight: "40px",
-  minWidth:110,
+  minWidth: 110,
   height: 40,
 }));
 
@@ -104,22 +106,27 @@ const ReservationHistory = styled(Box)({
   display: "flex",
   flexDirection: "column",
   minHeight: 550,
+  boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+  borderRadius: 10,
 });
 
 const Tabs = styled(Grid)({
-  height: 70,
+  height: 50,
+  
 });
 
 const Tab = styled(Box)(({ selected }) => ({
-  backgroundColor: selected ? "white" : "#dfc8a5",
+  backgroundColor: "white",
   display: "flex",
-  color: "#305470",
-  fontSize: 28,
-  fontFamily: "Segoe UI",
+  color: selected ? "#1e6296" : "#4a4a4a",
+  fontSize: 25,
+  fontFamily: "Roboto",
   lineHeight: 1.75,
   alignItems: "center",
   justifyContent: "center",
   cursor: "pointer",
+  borderBottom: selected ? "solid 2px #1e6296" : "",
+  
 }));
 
 const FormWrapper = styled(Box)({
@@ -245,10 +252,10 @@ export default function Profile() {
     };
     const callback = () => {
       setDialogChangepassOpen(false);
-      setOldPassword("")
-      setNewPassword("")
-      setReNewPassword("")
-      dispatch(resetMessage())
+      setOldPassword("");
+      setNewPassword("");
+      setReNewPassword("");
+      dispatch(resetMessage());
     };
     dispatch(changePassword(token, submitObject, callback));
   };
@@ -313,12 +320,12 @@ export default function Profile() {
             </Tabs>
             {selectedTab === 0 &&
               (reservationList?.length > 0 ? (
-                <>
+                <div style={{ overflowY: "scroll", height: "35rem" }}>
                   <ReservationTable data={reservationList} />
                   {reservationErrMess && (
                     <ErrorText>{reservationErrMess}</ErrorText>
                   )}
-                </>
+                </div>
               ) : (
                 <UserInfoText className="text-center">
                   Bạn chưa có cuộc hẹn nào
@@ -326,10 +333,10 @@ export default function Profile() {
               ))}
             {selectedTab === 1 &&
               (historyList?.length > 0 ? (
-                <>
+                <div style={{ overflowY: "scroll", height: "35rem" }}>
                   <ReservationTable historyTable data={historyList} />
                   {historyErrMess && <ErrorText>{historyErrMess}</ErrorText>}
-                </>
+                </div>
               ) : (
                 <Loading />
               ))}

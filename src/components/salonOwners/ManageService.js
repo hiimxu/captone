@@ -906,7 +906,7 @@ export default function ManageService() {
                               </div>
                             </div>
                             <div className="column is-2 has-text-right">
-                              <Tooltip title="Delete" placement="right">
+                              <Tooltip title="Xóa" placement="right">
                                 <button
                                   onClick={() =>
                                     handleOpenDeleteService(service)
@@ -917,7 +917,7 @@ export default function ManageService() {
                                 </button>
                               </Tooltip>
                               <br></br>
-                              <Tooltip title="Edit" placement="right">
+                              <Tooltip title="Sửa" placement="right">
                                 <button
                                   onClick={() => handleOpenEditService(service)}
                                   className="button mr-3 is-primary is-rounded  mt-3 is-small"

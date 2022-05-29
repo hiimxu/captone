@@ -290,7 +290,10 @@ export default function ManageService() {
                             Đánh giá
                           </p>
                         </th>
-                        <th className="has-text-centered">
+                        <th
+                          className="has-text-centered"
+                          style={{ minWidth: "15rem" }}
+                        >
                           <p title="Actions"></p>
                         </th>
                       </tr>
@@ -334,14 +337,15 @@ export default function ManageService() {
                               <i className="fa-solid fa-circle-info"></i>
                             </Link>{" "}
                             <button
-                              className="button is-rounded is-warning has-text-white"
+                              style={{ backgroundColor: "#f7e202" }}
+                              className="button is-rounded  has-text-white"
                               onClick={() => {
                                 setSalonDeactive(element);
                                 setDialogOpen(true);
                               }}
                             >
                               <i className="fa-solid fa-stop"></i>
-                            </button>
+                            </button>{" "}
                           </td>
                         </tr>
                       ))}
@@ -383,13 +387,16 @@ export default function ManageService() {
                         </th>
                         <th>
                           <p title="SalonAddress">Địa chỉ</p>
-                        </th>                        
+                        </th>
                         <th>
                           <p title="Rating" className="has-text-centered">
                             Đánh giá
                           </p>
                         </th>
-                        <th className="has-text-centered">
+                        <th
+                          className="has-text-centered"
+                          style={{ minWidth: "15rem" }}
+                        >
                           <p title="Actions"></p>
                         </th>
                       </tr>
@@ -404,7 +411,7 @@ export default function ManageService() {
                           <td style={{ maxWidth: "20rem" }}>
                             {element.detailAddress}
                           </td>
-                          
+
                           <td className="has-text-centered">
                             {" "}
                             <Rating
@@ -486,7 +493,10 @@ export default function ManageService() {
                         <th>
                           <p title="Rating">Email</p>
                         </th>
-                        <th className="has-text-centered">
+                        <th
+                          className="has-text-centered"
+                          style={{ minWidth: "20rem" }}
+                        >
                           <p title="Actions"></p>
                         </th>
                       </tr>
@@ -585,7 +595,9 @@ export default function ManageService() {
             maxWidth="lg"
           >
             <FormWrapper style={{ minHeight: "6rem" }}>
-              <FieldLabel>Bạn muốn từ chối đơn đăng ký của salon này?</FieldLabel>
+              <FieldLabel>
+                Bạn muốn từ chối đơn đăng ký của salon này?
+              </FieldLabel>
             </FormWrapper>
             <ButtonWrapper>
               {rejectSuccessMess && (
