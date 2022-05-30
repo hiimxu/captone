@@ -432,34 +432,42 @@ const getProfileOfSalonFailed = (errMess) => {
 
 // //ADD NEW SERVICE
 export const addService =
-  (token, serviceData, successCallback) => (dispatch) => {
-    const data = new URLSearchParams({ ...serviceData });
-    return fetch(`${api}api/salonowner/create/service`, {
+(token, serviceData, successCallback, errCallback) => (dispatch) => {
+  const data = new FormData();
+  data.append("name", serviceData.name);
+  data.append("price", serviceData.price);
+  data.append("promotion", serviceData.promotion);
+  data.append("content",serviceData.content);
+  data.append("description",serviceData.description);
+  data.append('image', serviceData.image);
+  data.append("service_time",serviceData.service_time)
+    return fetch(`${api}api/salonowner/createServiceByFirebase`, {
       method: "POST",
       body: data,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      
         "x-access-token": `${token}`,
       },
     })
-      .then(
-        async (response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            var error = new Error(
-              "Error " + response.status + ": " + response.statusText
-            );
-            const errMess = (await response.json()).message;
-            dispatch(addNewServiceFailed(errMess));
-            throw error;
-          }
-        },
-        (error) => {
-          var errMess = new Error(error);
-          throw errMess;
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(addNewServiceFailed(errMess));
+          errCallback(errMess)
+          throw error;
         }
-      )
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
       .then((response) => {
         if (response.data && response.message) {
           dispatch(
@@ -468,9 +476,10 @@ export const addService =
               successMessage: response.message,
             })
           );
-          successCallback();
+          successCallback(response.message);
         } else {
           dispatch(addNewServiceFailed(response.message));
+          errCallback(response.message)
         }
       })
       .catch((error) => {

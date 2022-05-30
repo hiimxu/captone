@@ -71,6 +71,7 @@ export default function ManageService() {
   const [description, setDescription] = useState("");
   // const [imageService, setImageService] = useState(null);
   const [imageService, setImageService] = useState("");
+  const [messageAddService,setMessageAddService]= useState("")
 
   //create state for error
   const [error, setError] = useState(false);
@@ -152,8 +153,7 @@ export default function ManageService() {
       serviceTime === "" ||
       promotion === "" ||
       content === "" ||
-      description === "" ||
-      !imageService
+      description === ""
     ) {
       setError(true);
       pass = false;
@@ -181,15 +181,29 @@ export default function ManageService() {
     }
     if (pass) {
       console.log(newService);
-      resetAddServiceForm();
+      
       const successCallback = () => {
+        resetAddServiceForm();
+        setMessageAddService('tạo dịch vụ thành công')
         console.log("success callback");
         dispatch(resetListServiceOfSalon());
-        handleCloseService();
         dispatch(getListServiceForSalon(token));
+        setTimeout(handleCloseService(), 1000)
       };
-      dispatch(addService(token, newService, successCallback));
-      console.log(newService);
+      const errCallback = (mess) => {
+        if (mess=="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
+          setMessageAddService("chọn ảnh để tạo service")
+        } else if(mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
+          setMessageAddService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
+        }else{
+          setMessageAddService(mess)
+        }
+
+
+        console.log("err callback");
+      };
+      dispatch(addService(token, newService, successCallback, errCallback));
+     
     }
   };
 
@@ -228,6 +242,7 @@ export default function ManageService() {
   const handleOpenService = () => {
     setOpenSerive(true);
     setError(false);
+    setMessageAddService("");
   };
   const handleCloseService = () => {
     setOpenSerive(false);
@@ -1075,10 +1090,10 @@ export default function ManageService() {
                               />
                             </div>
                             <div>
-                              <label>Ảnh:</label>
+                              <label>Ảnh:.png, .jpg .jpeg max 2M</label>
                             </div>
                             <div className="form-outline mb-4">
-                              <input
+                              {/* <input
                                 type="text"
                                 maxLength={2000}
                                 className="form-control form-control-lg"
@@ -1087,8 +1102,10 @@ export default function ManageService() {
                                   setImageService(event.target.value);
                                 }}
                                 placeholder="Ảnh"
-                              />
+                              /> */}
+                              <input type="file" accept=".png, .jpg, .jpeg" onChange={(e) => { setImageService(e.target.files[0]) }} />
                             </div>
+                            
                             <div>
                               {/* {imageService &&(
                                 <div>
@@ -1114,6 +1131,7 @@ export default function ManageService() {
                                 placeholder="Mô tả "
                               />
                             </div>
+                            <p className="text-success">{messageAddService}</p>
                             <div>
                               {error && (
                                 <p className="text-danger">
