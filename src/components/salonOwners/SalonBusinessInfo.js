@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getProfileOfSalon,
   editSalonBusinessInfo,
+  editSalonBusinessInfoFirebase,
 } from "../../redux/actions/creators/salon";
 import { Modal, Box, Tooltip } from "@mui/material";
 import { logout } from "../../redux/actions/creators/auth";
@@ -124,6 +125,13 @@ export default function SalonDashboard() {
     dispatch(getProfileOfSalon(token));
   }, [dispatch, token]);
 
+  //EDIT INFO
+  const handleEditInfor =(e)=>{
+    handleOpen();
+    console.log(e)
+    
+  }
+
   // -- MODAL --
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -145,11 +153,14 @@ export default function SalonDashboard() {
   );
   //STATE EDIT BUSINESS INFO
   const [businessInfo, setBusinessInfo] = useState(null);
+  const [checkImage, setCheckImage] = useState('');
+  const [message,setMessage] = useState('');
 
   //LOAD BUSINESS INFO
   useEffect(() => {
     if (profileSalon) {
       setBusinessInfo(profileSalon[0]);
+      setCheckImage(profileSalon[0].image)
     }
   }, [profileSalon]);
 
@@ -188,8 +199,7 @@ export default function SalonDashboard() {
       !city ||
       !detailAddress ||
       !timeOpen ||
-      !timeClose ||
-      !image
+      !timeClose
     ) {
       setEmptyError(true);
       return;
@@ -218,12 +228,29 @@ export default function SalonDashboard() {
       timeClose,
       image,
     };
-
+    if (!image) {
+      submitOjb.image=checkImage;
+    }
     const successCallback = () => {
       handleClose();
       dispatch(getProfileOfSalon(token));
     };
-    dispatch(editSalonBusinessInfo(token, submitOjb, successCallback));
+    const errorCallback =(mess) =>{
+      if (mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
+        setMessage('chọn ảnh .png .jpg .jpeg')
+      }
+      else if (mess=='File size cannot be larger than 2MB!') {
+        setMessage('chọn ảnh có dung lượng lớn nhất là 2M')
+      }else{
+        setMessage(mess)
+      }
+
+    }
+    if (typeof submitOjb.image == 'string') {
+      dispatch(editSalonBusinessInfo(token, submitOjb, successCallback,errorCallback));
+    } else {
+      dispatch(editSalonBusinessInfoFirebase(token, submitOjb, successCallback,errorCallback));
+    }
   };
 
   const handleChangePassClose = () => {
@@ -334,7 +361,11 @@ export default function SalonDashboard() {
               <button
                 className="button is-info is-rounded"
                 style={{ width: "200px" }}
-                onClick={handleOpen}
+                onClick={(e)=>{
+                  setCheckImage(profileSalon[0].image);
+                  console.log(profileSalon[0].image);
+                  handleOpen();
+                }}
               >
                 Chỉnh sửa hồ sơ
               </button>
@@ -633,7 +664,7 @@ export default function SalonDashboard() {
                   <input
                     type="text"
                     className="form-control"
-                    maxLength={40}
+                    maxLength={100}
                     value={businessInfo?.detailAddress}
                     onChange={(e) => {
                       setBusinessInfo({
@@ -709,7 +740,7 @@ export default function SalonDashboard() {
                       Ảnh đại diện
                     </span>
                   </div>
-                  <input
+                  {/* <input
                     type="text"
                     className="form-control"
                     maxLength={2000}
@@ -720,10 +751,15 @@ export default function SalonDashboard() {
                         image: e.target.value,
                       });
                     }}
-                  />
+                  /> */}
+                  <input type="file" accept=".png, .jpg, .jpeg" onChange={(e) => {setBusinessInfo({
+                                    ...businessInfo,
+                                    image: e.target.files[0],
+                                  }); }} />
                 </div>
               </div>
-              <div>
+              <p className="text-success">{message}</p>
+              {/* <div>
                 {infoSuccessMess && (
                   <p className="text-success">{infoSuccessMess}</p>
                 )}
@@ -731,7 +767,7 @@ export default function SalonDashboard() {
                 {emptyError && (
                   <p className="text-danger">Vui lòng điền đầy đủ thông tin!</p>
                 )}
-              </div>
+              </div> */}
 
               <div className="has-text-right">
                 <button

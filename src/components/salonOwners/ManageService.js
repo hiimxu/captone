@@ -198,7 +198,11 @@ export default function ManageService() {
           setMessageAddService("chọn ảnh để tạo service")
         } else if(mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
           setMessageAddService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
-        }else{
+        } else if(mess=="File size cannot be larger than 2MB!"){
+          setMessageAddService("chọn ảnh có dung lượng lớn nhất là 2M")
+        }
+        
+        else{
           setMessageAddService(mess)
         }
 
@@ -367,7 +371,10 @@ export default function ManageService() {
         setMessageEditService("chọn ảnh để tạo service")
       } else if(mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
         setMessageEditService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
-      }else{
+      }else if(mess=="File size cannot be larger than 2MB!"){
+        setMessageAddService("chọn ảnh có dung lượng lớn nhất là 2M")
+      }
+      else{
         setMessageEditService(mess)
       }
 

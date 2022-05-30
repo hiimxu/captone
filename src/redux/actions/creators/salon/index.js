@@ -846,7 +846,7 @@ export const editService =
           if (successCallback) {
             setTimeout(() => {
               successCallback();
-            }, 1500);
+            }, 1000);
           }
         } else {
           dispatch(editServiceFailed(response.message));
@@ -920,7 +920,7 @@ export const editServiceFirebase =
           if (successCallback) {
             setTimeout(() => {
               successCallback();
-            }, 1500);
+            }, 1000);
           }
         } else {
           dispatch(editServiceFirebaseFailed(response.message));
@@ -946,7 +946,7 @@ const editServiceFirebaseSuccessfully = (payload) => {
 
 // EDIT SALON BUSINESS INFO
 export const editSalonBusinessInfo =
-  (token, infoData, successCallback) => (dispatch) => {
+(token, infoData, successCallback, errorCallback) => (dispatch) => {
     const data = new URLSearchParams({ ...infoData });
     return fetch(`${api}api/salonowner/update/salonBusinessInformation/`, {
       method: "PUT",
@@ -966,6 +966,7 @@ export const editSalonBusinessInfo =
             );
             const errMess = (await response.json()).message;
             dispatch(editBusinessInfoFailed(errMess));
+            errorCallback(errMess)
             throw error;
           }
         },
@@ -984,8 +985,8 @@ export const editSalonBusinessInfo =
           );
           if (successCallback) {
             setTimeout(() => {
-              successCallback();
-            }, 1500);
+              successCallback(response.message);
+            }, 1000);
           }
         } else {
           dispatch(editBusinessInfoFailed(response.message));
@@ -1007,6 +1008,83 @@ const editBusinessInfoSuccessfully = (payload) => {
     payload,
   };
 };
+
+// EDIT SALON BUSINESS INFO
+export const editSalonBusinessInfoFirebase =
+  (token, infoData, successCallback, errorCallback) => (dispatch) => {
+    const data = new FormData();
+    data.append("nameSalon",infoData.nameSalon);
+    data.append("nameOwner",infoData.nameOwner);
+    data.append("email",infoData.email);
+    data.append("phone",infoData.phone);
+    data.append("taxCode",infoData.taxCode);
+    data.append("district",infoData.district);
+    data.append("city",infoData.city);
+    data.append("detailAddress",infoData.detailAddress);
+    data.append("timeOpen",infoData.timeOpen);
+    data.append("timeClose",infoData.timeClose);
+    data.append("image",infoData.image);
+    return fetch(`${api}api/salonowner/update/salonBusinessInformationByFireBase/`, {
+      method: "PUT",
+      body: data,
+      headers: {
+
+        "x-access-token": `${token}`,
+      },
+    })
+      .then(
+        async (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            const errMess = (await response.json()).message;
+            dispatch(editSalonBusinessInfoFirebaseFailed(errMess));
+            errorCallback(errMess)
+            throw error;
+          }
+        },
+        (error) => {
+          var errMess = new Error(error);
+          throw errMess;
+        }
+      )
+      .then((response) => {
+        if (response.data && response.message) {
+          dispatch(
+            editSalonBusinessInfoFirebaseSuccessfully({
+              businessInfoEdited: response.data,
+              successMess: response.message,
+            })
+          );
+          if (successCallback) {
+            setTimeout(() => {
+              successCallback(response.message);
+            }, 1500);
+          }
+        } else {
+          dispatch(editSalonBusinessInfoFirebaseFailed(response.message));
+        }
+      })
+      .catch((error) => {
+        console.log("Edit business info failed", error);
+      });
+  };
+const editSalonBusinessInfoFirebaseFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.EDIT_SALON_BUSINESS_INFO_FAILED,
+    payload: errMess,
+  };
+};
+const editSalonBusinessInfoFirebaseSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.EDIT_SALON_BUSINESS_INFO_SUCCESSFULLY,
+    payload,
+  };
+};
+
 
 // EDIT SALON INFO
 export const editSalonInfo =
