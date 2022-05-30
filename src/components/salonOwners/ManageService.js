@@ -16,6 +16,7 @@ import {
   deleteService,
   editService,
   editSalonInfo,
+  editServiceFirebase,
 } from "../../redux/actions/creators/salon";
 import {
   currencyFormatter,
@@ -80,6 +81,8 @@ export default function ManageService() {
 
   //STATE EDIT SERVICE
   const [serviceInfo, setServiceInfo] = useState(undefined);
+  const [messageEditService,setMessageEditService]= useState("");
+  const [checkImage,setCheckImage]= useState("")
 
   //setServiceTime,
   const addTime = () => {
@@ -253,7 +256,10 @@ export default function ManageService() {
   const handleOpenEditService = (serviceInfo) => {
     setEditError(null);
     setOpenEditService(true);
+    setMessageEditService('');
     setServiceInfo(serviceInfo);
+    setCheckImage(serviceInfo.image)
+    console.log(serviceInfo.image)
   };
   const handleCloseEditService = () => {
     setOpenEditService(false);
@@ -317,8 +323,7 @@ export default function ManageService() {
       !price ||
       !service_time ||
       !content ||
-      !description ||
-      !image
+      !description
     ) {
       setEditError("Vui lòng điền đầy đủ thông tin của dịch vụ");
       return;
@@ -349,19 +354,43 @@ export default function ManageService() {
       description,
       image,
     };
+    if (!image) {
+      submitServiceObject.image=checkImage;
+    }
     const successCallback = () => {
       handleCloseEditService();
       dispatch(resetListServiceOfSalon());
       dispatch(getListServiceForSalon(token));
     };
-    dispatch(
-      editService(
-        token,
-        submitServiceObject,
-        successCallback,
-        serviceInfo.serviceId
-      )
-    );
+    const errorCallback = (mess) =>{
+      if (mess=="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
+        setMessageEditService("chọn ảnh để tạo service")
+      } else if(mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
+        setMessageEditService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
+      }else{
+        setMessageEditService(mess)
+      }
+
+    }
+    if (typeof submitServiceObject.image == 'string') {
+      dispatch(
+        editService(
+          token,
+          submitServiceObject,
+          successCallback,
+          serviceInfo.serviceId,errorCallback,
+        )
+      );
+    } else {
+      dispatch(
+        editServiceFirebase(
+          token,
+          submitServiceObject,
+          successCallback,
+          serviceInfo.serviceId,errorCallback,
+        )
+      );
+    }
   };
 
   // -- MODAL EDIT PROFILE SALON --
@@ -1306,7 +1335,7 @@ export default function ManageService() {
                               <label>Ảnh*:</label>
                             </div>
                             <div className="form-outline mb-4">
-                              <input
+                              {/* <input
                                 type="text"
                                 maxLength={2000}
                                 className="form-control form-control-lg"
@@ -1318,7 +1347,10 @@ export default function ManageService() {
                                   });
                                 }}
                                 placeholder="Ảnh"
-                              />
+                              /> */}
+                              <input type="file" accept=".png, .jpg, .jpeg" onChange={(e) => {
+                                setServiceInfo({...serviceInfo,image: e.target.files[0],})
+                              }}/>
                             </div>
                             <div>
                               <label>Mô tả dịch vụ*:</label>
@@ -1340,14 +1372,15 @@ export default function ManageService() {
                                 placeholder="Môt tả"
                               />
                             </div>
-                            <div>
+                            <div><p className="text-success">{messageEditService}</p></div>
+                            {/* <div>
                               {successMess && (
                                 <p className="text-success">{successMess}</p>
                               )}
                               {editError && (
                                 <p className="text-danger">{editError}</p>
                               )}
-                            </div>
+                            </div> */}
 
                             <div className="has-text-right">
                               <button

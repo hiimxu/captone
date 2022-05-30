@@ -28,6 +28,7 @@ import {
   EditSalonInfo,
   ListCalendar,
   SalonBooking,
+  EditServiceFirebase,
 } from "../reducers/salon";
 import {
   ListSalonActive,
@@ -39,6 +40,7 @@ import {
   RejectSalon,
   SalonInfo,
   SalonReviewList,
+  
 } from "../reducers/admin";
 import {
   ListReviewForCustomer,
@@ -88,6 +90,9 @@ const rootReducer = combineReducers({
   editSalonInfo: EditSalonInfo,
   listCalendar: ListCalendar,
   salonBooking: SalonBooking,
+  editServiceFirebase: EditServiceFirebase,
+
+
   //admin
   litSalonActivated: ListSalonActive,
   listSalonDeactive: ListSalonDeactive,
