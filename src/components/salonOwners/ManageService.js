@@ -16,6 +16,7 @@ import {
   deleteService,
   editService,
   editSalonInfo,
+  editServiceFirebase,
 } from "../../redux/actions/creators/salon";
 import {
   currencyFormatter,
@@ -71,6 +72,7 @@ export default function ManageService() {
   const [description, setDescription] = useState("");
   // const [imageService, setImageService] = useState(null);
   const [imageService, setImageService] = useState("");
+  const [messageAddService,setMessageAddService]= useState("")
 
   //create state for error
   const [error, setError] = useState(false);
@@ -79,6 +81,8 @@ export default function ManageService() {
 
   //STATE EDIT SERVICE
   const [serviceInfo, setServiceInfo] = useState(undefined);
+  const [messageEditService,setMessageEditService]= useState("");
+  const [checkImage,setCheckImage]= useState("")
 
   //setServiceTime,
   const addTime = () => {
@@ -152,8 +156,7 @@ export default function ManageService() {
       serviceTime === "" ||
       promotion === "" ||
       content === "" ||
-      description === "" ||
-      !imageService
+      description === ""
     ) {
       setError(true);
       pass = false;
@@ -181,15 +184,33 @@ export default function ManageService() {
     }
     if (pass) {
       console.log(newService);
-      resetAddServiceForm();
+      
       const successCallback = () => {
+        resetAddServiceForm();
+        setMessageAddService('tạo dịch vụ thành công')
         console.log("success callback");
         dispatch(resetListServiceOfSalon());
-        handleCloseService();
         dispatch(getListServiceForSalon(token));
+        setTimeout(handleCloseService(), 1000)
       };
-      dispatch(addService(token, newService, successCallback));
-      console.log(newService);
+      const errCallback = (mess) => {
+        if (mess=="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
+          setMessageAddService("chọn ảnh để tạo service")
+        } else if(mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
+          setMessageAddService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
+        } else if(mess=="File size cannot be larger than 2MB!"){
+          setMessageAddService("chọn ảnh có dung lượng lớn nhất là 2M")
+        }
+        
+        else{
+          setMessageAddService(mess)
+        }
+
+
+        console.log("err callback");
+      };
+      dispatch(addService(token, newService, successCallback, errCallback));
+     
     }
   };
 
@@ -228,6 +249,7 @@ export default function ManageService() {
   const handleOpenService = () => {
     setOpenSerive(true);
     setError(false);
+    setMessageAddService("");
   };
   const handleCloseService = () => {
     setOpenSerive(false);
@@ -238,7 +260,10 @@ export default function ManageService() {
   const handleOpenEditService = (serviceInfo) => {
     setEditError(null);
     setOpenEditService(true);
+    setMessageEditService('');
     setServiceInfo(serviceInfo);
+    setCheckImage(serviceInfo.image)
+    console.log(serviceInfo.image)
   };
   const handleCloseEditService = () => {
     setOpenEditService(false);
@@ -302,8 +327,7 @@ export default function ManageService() {
       !price ||
       !service_time ||
       !content ||
-      !description ||
-      !image
+      !description
     ) {
       setEditError("Vui lòng điền đầy đủ thông tin của dịch vụ");
       return;
@@ -334,19 +358,46 @@ export default function ManageService() {
       description,
       image,
     };
+    if (!image) {
+      submitServiceObject.image=checkImage;
+    }
     const successCallback = () => {
       handleCloseEditService();
       dispatch(resetListServiceOfSalon());
       dispatch(getListServiceForSalon(token));
     };
-    dispatch(
-      editService(
-        token,
-        submitServiceObject,
-        successCallback,
-        serviceInfo.serviceId
-      )
-    );
+    const errorCallback = (mess) =>{
+      if (mess=="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
+        setMessageEditService("chọn ảnh để tạo service")
+      } else if(mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
+        setMessageEditService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
+      }else if(mess=="File size cannot be larger than 2MB!"){
+        setMessageAddService("chọn ảnh có dung lượng lớn nhất là 2M")
+      }
+      else{
+        setMessageEditService(mess)
+      }
+
+    }
+    if (typeof submitServiceObject.image == 'string') {
+      dispatch(
+        editService(
+          token,
+          submitServiceObject,
+          successCallback,
+          serviceInfo.serviceId,errorCallback,
+        )
+      );
+    } else {
+      dispatch(
+        editServiceFirebase(
+          token,
+          submitServiceObject,
+          successCallback,
+          serviceInfo.serviceId,errorCallback,
+        )
+      );
+    }
   };
 
   // -- MODAL EDIT PROFILE SALON --
@@ -942,8 +993,7 @@ export default function ManageService() {
                             <div>
                               <label>Tên dịch vụ*:</label>
                             </div>
-                            <div className="form-outline mb-4">
-                              ông Duyông Duy
+                            <div className="form-outline mb-4">                              
                               <input
                                 type="text"
                                 maxLength={40}
@@ -1076,10 +1126,10 @@ export default function ManageService() {
                               />
                             </div>
                             <div>
-                              <label>Ảnh:</label>
+                              <label>Ảnh:.png, .jpg .jpeg max 2M</label>
                             </div>
                             <div className="form-outline mb-4">
-                              <input
+                              {/* <input
                                 type="text"
                                 maxLength={2000}
                                 className="form-control form-control-lg"
@@ -1088,8 +1138,10 @@ export default function ManageService() {
                                   setImageService(event.target.value);
                                 }}
                                 placeholder="Ảnh"
-                              />
+                              /> */}
+                              <input type="file" accept=".png, .jpg, .jpeg" onChange={(e) => { setImageService(e.target.files[0]) }} />
                             </div>
+                            
                             <div>
                               {/* {imageService &&(
                                 <div>
@@ -1115,6 +1167,7 @@ export default function ManageService() {
                                 placeholder="Mô tả "
                               />
                             </div>
+                            <p className="text-success">{messageAddService}</p>
                             <div>
                               {error && (
                                 <p className="text-danger">
@@ -1289,7 +1342,7 @@ export default function ManageService() {
                               <label>Ảnh*:</label>
                             </div>
                             <div className="form-outline mb-4">
-                              <input
+                              {/* <input
                                 type="text"
                                 maxLength={2000}
                                 className="form-control form-control-lg"
@@ -1301,7 +1354,10 @@ export default function ManageService() {
                                   });
                                 }}
                                 placeholder="Ảnh"
-                              />
+                              /> */}
+                              <input type="file" accept=".png, .jpg, .jpeg" onChange={(e) => {
+                                setServiceInfo({...serviceInfo,image: e.target.files[0],})
+                              }}/>
                             </div>
                             <div>
                               <label>Mô tả dịch vụ*:</label>
@@ -1323,14 +1379,15 @@ export default function ManageService() {
                                 placeholder="Môt tả"
                               />
                             </div>
-                            <div>
+                            <div><p className="text-success">{messageEditService}</p></div>
+                            {/* <div>
                               {successMess && (
                                 <p className="text-success">{successMess}</p>
                               )}
                               {editError && (
                                 <p className="text-danger">{editError}</p>
                               )}
-                            </div>
+                            </div> */}
 
                             <div className="has-text-right">
                               <button

@@ -432,34 +432,42 @@ const getProfileOfSalonFailed = (errMess) => {
 
 // //ADD NEW SERVICE
 export const addService =
-  (token, serviceData, successCallback) => (dispatch) => {
-    const data = new URLSearchParams({ ...serviceData });
-    return fetch(`${api}api/salonowner/create/service`, {
+(token, serviceData, successCallback, errCallback) => (dispatch) => {
+  const data = new FormData();
+  data.append("name", serviceData.name);
+  data.append("price", serviceData.price);
+  data.append("promotion", serviceData.promotion);
+  data.append("content",serviceData.content);
+  data.append("description",serviceData.description);
+  data.append('image', serviceData.image);
+  data.append("service_time",serviceData.service_time)
+    return fetch(`${api}api/salonowner/createServiceByFirebase`, {
       method: "POST",
       body: data,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      
         "x-access-token": `${token}`,
       },
     })
-      .then(
-        async (response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            var error = new Error(
-              "Error " + response.status + ": " + response.statusText
-            );
-            const errMess = (await response.json()).message;
-            dispatch(addNewServiceFailed(errMess));
-            throw error;
-          }
-        },
-        (error) => {
-          var errMess = new Error(error);
-          throw errMess;
+    .then(
+      async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          const errMess = (await response.json()).message;
+          dispatch(addNewServiceFailed(errMess));
+          errCallback(errMess)
+          throw error;
         }
-      )
+      },
+      (error) => {
+        var errMess = new Error(error);
+        throw errMess;
+      }
+    )
       .then((response) => {
         if (response.data && response.message) {
           dispatch(
@@ -468,9 +476,10 @@ export const addService =
               successMessage: response.message,
             })
           );
-          successCallback();
+          successCallback(response.message);
         } else {
           dispatch(addNewServiceFailed(response.message));
+          errCallback(response.message)
         }
       })
       .catch((error) => {
@@ -797,7 +806,7 @@ const deleteServiceSuccessfully = (payload) => {
 
 // EDIT SERVICE
 export const editService =
-  (token, serviceData, successCallback, serviceId) => (dispatch) => {
+(token, serviceData, successCallback, serviceId, errorCallback) => (dispatch) => {
     const data = new URLSearchParams({ ...serviceData });
     return fetch(`${api}api/salonowner/update/Service/${serviceId}`, {
       method: "PUT",
@@ -817,6 +826,7 @@ export const editService =
             );
             const errMess = (await response.json()).message;
             dispatch(editServiceFailed(errMess));
+            errorCallback(errMess);
             throw error;
           }
         },
@@ -836,7 +846,7 @@ export const editService =
           if (successCallback) {
             setTimeout(() => {
               successCallback();
-            }, 1500);
+            }, 1000);
           }
         } else {
           dispatch(editServiceFailed(response.message));
@@ -859,9 +869,84 @@ const editServiceSuccessfully = (payload) => {
   };
 };
 
+// EDIT SERVICE FIREBASE
+export const editServiceFirebase =
+  (token, serviceData, successCallback, serviceId, errorCallback) => (dispatch) => {
+    const data = new FormData();
+
+    data.append("name", serviceData.name);
+    data.append("price", serviceData.price);
+    data.append("promotion", serviceData.promotion);
+    data.append("content",serviceData.content);
+    data.append("description",serviceData.description);
+    data.append('image', serviceData.image);
+    data.append("service_time",serviceData.service_time)
+    return fetch(`${api}api/salonowner/editServiceByFirebase/${serviceId}`, {
+      method: "PUT",
+      body: data,
+      headers: {
+
+        "x-access-token": `${token}`,
+      },
+    })
+      .then(
+        async (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            const errMess = (await response.json()).message;
+            dispatch(editServiceFirebaseFailed(errMess));
+            console.log('error',errMess)
+            errorCallback(errMess);
+            throw error;
+          }
+        },
+        (error) => {
+          var errMess = new Error(error);
+          throw errMess;
+        }
+      )
+      .then((response) => {
+        if (response.data && response.message) {
+          dispatch(
+            editServiceFirebaseSuccessfully({
+              editServiceFirebase: response.data,
+              successMess: response.message,
+            })
+          );
+          if (successCallback) {
+            setTimeout(() => {
+              successCallback();
+            }, 1000);
+          }
+        } else {
+          dispatch(editServiceFirebaseFailed(response.message));
+        }
+      })
+      .catch((error) => {
+        console.log("Edit service failed", error);
+      });
+  };
+const editServiceFirebaseFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.EDIT_SERVICE_FIREBASE_FAILED,
+    payload: errMess,
+  };
+};
+const editServiceFirebaseSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.EDIT_SERVICE_FIREBASE_SUCCESSFULLY,
+    payload,
+  };
+};
+
+
 // EDIT SALON BUSINESS INFO
 export const editSalonBusinessInfo =
-  (token, infoData, successCallback) => (dispatch) => {
+(token, infoData, successCallback, errorCallback) => (dispatch) => {
     const data = new URLSearchParams({ ...infoData });
     return fetch(`${api}api/salonowner/update/salonBusinessInformation/`, {
       method: "PUT",
@@ -881,6 +966,7 @@ export const editSalonBusinessInfo =
             );
             const errMess = (await response.json()).message;
             dispatch(editBusinessInfoFailed(errMess));
+            errorCallback(errMess)
             throw error;
           }
         },
@@ -899,8 +985,8 @@ export const editSalonBusinessInfo =
           );
           if (successCallback) {
             setTimeout(() => {
-              successCallback();
-            }, 1500);
+              successCallback(response.message);
+            }, 1000);
           }
         } else {
           dispatch(editBusinessInfoFailed(response.message));
@@ -922,6 +1008,83 @@ const editBusinessInfoSuccessfully = (payload) => {
     payload,
   };
 };
+
+// EDIT SALON BUSINESS INFO
+export const editSalonBusinessInfoFirebase =
+  (token, infoData, successCallback, errorCallback) => (dispatch) => {
+    const data = new FormData();
+    data.append("nameSalon",infoData.nameSalon);
+    data.append("nameOwner",infoData.nameOwner);
+    data.append("email",infoData.email);
+    data.append("phone",infoData.phone);
+    data.append("taxCode",infoData.taxCode);
+    data.append("district",infoData.district);
+    data.append("city",infoData.city);
+    data.append("detailAddress",infoData.detailAddress);
+    data.append("timeOpen",infoData.timeOpen);
+    data.append("timeClose",infoData.timeClose);
+    data.append("image",infoData.image);
+    return fetch(`${api}api/salonowner/update/salonBusinessInformationByFireBase/`, {
+      method: "PUT",
+      body: data,
+      headers: {
+
+        "x-access-token": `${token}`,
+      },
+    })
+      .then(
+        async (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            const errMess = (await response.json()).message;
+            dispatch(editSalonBusinessInfoFirebaseFailed(errMess));
+            errorCallback(errMess)
+            throw error;
+          }
+        },
+        (error) => {
+          var errMess = new Error(error);
+          throw errMess;
+        }
+      )
+      .then((response) => {
+        if (response.data && response.message) {
+          dispatch(
+            editSalonBusinessInfoFirebaseSuccessfully({
+              businessInfoEdited: response.data,
+              successMess: response.message,
+            })
+          );
+          if (successCallback) {
+            setTimeout(() => {
+              successCallback(response.message);
+            }, 1500);
+          }
+        } else {
+          dispatch(editSalonBusinessInfoFirebaseFailed(response.message));
+        }
+      })
+      .catch((error) => {
+        console.log("Edit business info failed", error);
+      });
+  };
+const editSalonBusinessInfoFirebaseFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.EDIT_SALON_BUSINESS_INFO_FAILED,
+    payload: errMess,
+  };
+};
+const editSalonBusinessInfoFirebaseSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.EDIT_SALON_BUSINESS_INFO_SUCCESSFULLY,
+    payload,
+  };
+};
+
 
 // EDIT SALON INFO
 export const editSalonInfo =
