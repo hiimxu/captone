@@ -120,9 +120,7 @@ export default function Schedule() {
 
   //call redux store
   const { listStaff } = useSelector((state) => state.listStaffSalon);
-  const { currentSchedule } = useSelector(
-    (state) => state.scheduleCurent
-  );
+  const { currentSchedule } = useSelector((state) => state.scheduleCurent);
   const { token, account_name: username } = useSelector(
     (state) => state.loginAccount.account
   );
@@ -215,8 +213,6 @@ export default function Schedule() {
       getSalonBookingHistory(token, { day: dateHistory, staffId: staffId })
     );
   };
-
- 
 
   return (
     <div className="p-5" style={root}>
@@ -328,13 +324,22 @@ export default function Schedule() {
 
                       <td>
                         {" "}
-                        <span className="is-size-5 has-text-weight-semibold has-text-info-dark">
-                          {element.nameCustomer}
-                        </span>
-                        <p> {element.phone ? element.phone : "Salon booked"}</p>
+                        {element?.nameCustomer === "Bookingforcustomer" ? (
+                          <span className="is-size-5 has-text-weight-semibold text-success">
+                            Đặt hộ khách hàng
+                          </span>
+                        ) : (
+                          <span className="is-size-5 has-text-weight-semibold has-text-info-dark">
+                            {element.nameCustomer}
+                          </span>
+                        )}
+                        
+                        <p> {element.phone ? (<span>{element.phone}</span>):(<span>{element.note}</span>)}</p>
                       </td>
                       <td>
-                        <p className="has-text-weight-bold">{element.nameService}</p>
+                        <p className="has-text-weight-bold">
+                          {element.nameService}
+                        </p>
                         <p>{element.service_time} phút</p>
                       </td>
                       <td>
@@ -343,7 +348,12 @@ export default function Schedule() {
                           element.timeUse
                         ).slice(0, -3)}
                       </td>
-                      <td className="text-danger">{currencyFormatter.format(element.price_original-(element.price_original*(element.promotion/100)))}</td>
+                      <td className="text-danger">
+                        {currencyFormatter.format(
+                          element.price_original -
+                            element.price_original * (element.promotion / 100)
+                        )}
+                      </td>
                       <td>{element.nameStaff}</td>
                       <td className="has-text-link has-text-weight-bold">
                         {element.nameStatus}
@@ -377,7 +387,8 @@ export default function Schedule() {
                     <h1 className="is-size-4 has-text-weight-semibold">
                       {" "}
                       Bạn có muốn{" "}
-                      <span className="has-text-info">hoàn thành</span> lịch hẹn của{" "}
+                      <span className="has-text-info">hoàn thành</span> lịch hẹn
+                      của{" "}
                       <span className="text-success">
                         {orderIdSelected.nameCustomer}
                         {console.log(orderIdSelected)}
@@ -411,9 +422,10 @@ export default function Schedule() {
                   <div className="has-text-centered">
                     <h1 className="is-size-4 has-text-weight-semibold">
                       {" "}
-                      Bạn có muốn {" "}
-                      <span className="has-text-danger">hủy</span> lịch hẹn này
-                      ?
+                      Bạn có muốn <span className="has-text-danger">
+                        hủy
+                      </span>{" "}
+                      lịch hẹn này ?
                     </h1>
                     <br></br>
                     <button
@@ -511,7 +523,10 @@ export default function Schedule() {
                       <td>
                         <span className="has-text-danger">
                           {" "}
-                          {currencyFormatter.format(element.price_original-(element.price_original*(element.promotion/100)))}
+                          {currencyFormatter.format(
+                            element.price_original -
+                              element.price_original * (element.promotion / 100)
+                          )}
                         </span>
                       </td>
                       <td>

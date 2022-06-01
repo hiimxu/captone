@@ -194,11 +194,11 @@ export default function ManageService() {
         setTimeout(handleCloseService(), 1000)
       };
       const errCallback = (mess) => {
-        if (mess=="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
+        if (mess==="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
           setMessageAddService("chọn ảnh để tạo service")
-        } else if(mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
+        } else if(mess==='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
           setMessageAddService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
-        } else if(mess=="File size cannot be larger than 2MB!"){
+        } else if(mess==="File size cannot be larger than 2MB!"){
           setMessageAddService("chọn ảnh có dung lượng lớn nhất là 2M")
         }
         
@@ -367,11 +367,11 @@ export default function ManageService() {
       dispatch(getListServiceForSalon(token));
     };
     const errorCallback = (mess) =>{
-      if (mess=="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
+      if (mess==="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
         setMessageEditService("chọn ảnh để tạo service")
-      } else if(mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
+      } else if(mess==='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
         setMessageEditService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
-      }else if(mess=="File size cannot be larger than 2MB!"){
+      }else if(mess==="File size cannot be larger than 2MB!"){
         setMessageAddService("chọn ảnh có dung lượng lớn nhất là 2M")
       }
       else{
@@ -502,7 +502,7 @@ export default function ManageService() {
     return () => {
       dispatch(resetReviewListForSalon());
     };
-  }, [dispatch, rate]);
+  }, [dispatch, rate, token]);
 
   return (
     <div>

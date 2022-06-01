@@ -126,11 +126,10 @@ export default function SalonDashboard() {
   }, [dispatch, token]);
 
   //EDIT INFO
-  const handleEditInfor =(e)=>{
+  const handleEditInfor = (e) => {
     handleOpen();
-    console.log(e)
-    
-  }
+    console.log(e);
+  };
 
   // -- MODAL --
   const [open, setOpen] = useState(false);
@@ -153,14 +152,14 @@ export default function SalonDashboard() {
   );
   //STATE EDIT BUSINESS INFO
   const [businessInfo, setBusinessInfo] = useState(null);
-  const [checkImage, setCheckImage] = useState('');
-  const [message,setMessage] = useState('');
+  const [checkImage, setCheckImage] = useState("");
+  const [message, setMessage] = useState("");
 
   //LOAD BUSINESS INFO
   useEffect(() => {
     if (profileSalon) {
       setBusinessInfo(profileSalon[0]);
-      setCheckImage(profileSalon[0].image)
+      setCheckImage(profileSalon[0].image);
     }
   }, [profileSalon]);
 
@@ -229,27 +228,37 @@ export default function SalonDashboard() {
       image,
     };
     if (!image) {
-      submitOjb.image=checkImage;
+      submitOjb.image = checkImage;
     }
     const successCallback = () => {
       handleClose();
       dispatch(getProfileOfSalon(token));
     };
-    const errorCallback =(mess) =>{
-      if (mess=='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
-        setMessage('chọn ảnh .png .jpg .jpeg')
+    const errorCallback = (mess) => {
+      if (
+        mess ==
+        "Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!"
+      ) {
+        setMessage("chọn ảnh .png .jpg .jpeg");
+      } else if (mess == "File size cannot be larger than 2MB!") {
+        setMessage("chọn ảnh có dung lượng lớn nhất là 2M");
+      } else {
+        setMessage(mess);
       }
-      else if (mess=='File size cannot be larger than 2MB!') {
-        setMessage('chọn ảnh có dung lượng lớn nhất là 2M')
-      }else{
-        setMessage(mess)
-      }
-
-    }
-    if (typeof submitOjb.image == 'string') {
-      dispatch(editSalonBusinessInfo(token, submitOjb, successCallback,errorCallback));
+    };
+    if (typeof submitOjb.image == "string") {
+      dispatch(
+        editSalonBusinessInfo(token, submitOjb, successCallback, errorCallback)
+      );
     } else {
-      dispatch(editSalonBusinessInfoFirebase(token, submitOjb, successCallback,errorCallback));
+      dispatch(
+        editSalonBusinessInfoFirebase(
+          token,
+          submitOjb,
+          successCallback,
+          errorCallback
+        )
+      );
     }
   };
 
@@ -361,7 +370,7 @@ export default function SalonDashboard() {
               <button
                 className="button is-info is-rounded"
                 style={{ width: "200px" }}
-                onClick={(e)=>{
+                onClick={(e) => {
                   setCheckImage(profileSalon[0].image);
                   console.log(profileSalon[0].image);
                   handleOpen();
@@ -752,14 +761,21 @@ export default function SalonDashboard() {
                       });
                     }}
                   /> */}
-                  <input type="file" accept=".png, .jpg, .jpeg" onChange={(e) => {setBusinessInfo({
-                                    ...businessInfo,
-                                    image: e.target.files[0],
-                                  }); }} />
+                  <input
+                    type="file"
+                    accept=".png, .jpg, .jpeg"
+                    onChange={(e) => {
+                      setBusinessInfo({
+                        ...businessInfo,
+                        image: e.target.files[0],
+                      });
+                    }}
+                  />
+                  {!businessInfo?.image ?(<></>):(<>{typeof businessInfo?.image==='string' ? (<img alt="" width={"150px"} src={businessInfo?.image}></img>):(<img alt="" width={"150px"} src={URL.createObjectURL(businessInfo?.image)}/>)}</>) }
                 </div>
               </div>
               <p className="text-success">{message}</p>
-              {/* <div>
+              {/* <div> 
                 {infoSuccessMess && (
                   <p className="text-success">{infoSuccessMess}</p>
                 )}
