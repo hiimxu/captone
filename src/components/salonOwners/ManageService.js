@@ -816,7 +816,9 @@ export default function ManageService() {
                                 ...businessInfo,
                                 image: e.target.files[0],
                               }); }} />
+
                         </div>
+                        {!businessInfo?.image ?(<></>):(<>{typeof businessInfo?.image==='string' ? (<img alt="" width={"150px"} src={businessInfo?.image}></img>):(<img alt="" width={"150px"} src={URL.createObjectURL(businessInfo?.image)}/>)}</>) }
                       </div>
                       <div className="">
                         <div className="form-group">
@@ -1161,6 +1163,7 @@ export default function ManageService() {
                               /> */}
                               <input type="file" accept=".png, .jpg, .jpeg" onChange={(e) => { setImageService(e.target.files[0]) }} />
                             </div>
+                            {!imageService ?(<></>):(<>{typeof imageService==='string' ? (<img alt="" width={"150px"} src={imageService}></img>):(<img alt="" width={"150px"} src={URL.createObjectURL(imageService)}/>)}</>) }
                             
                             <div>
                               {/* {imageService &&(
@@ -1379,6 +1382,7 @@ export default function ManageService() {
                                 setServiceInfo({...serviceInfo,image: e.target.files[0],})
                               }}/>
                             </div>
+                            {!serviceInfo?.image ?(<></>):(<>{typeof serviceInfo?.image==='string' ? (<img alt="" width={"150px"} src={serviceInfo?.image}></img>):(<img alt="" width={"150px"} src={URL.createObjectURL(serviceInfo?.image)}/>)}</>) }
                             <div>
                               <label>Mô tả dịch vụ*:</label>
                             </div>
