@@ -31,7 +31,7 @@ export const getListReviewForCustomer = (rate, token) => (dispatch) => {
       }
     )
     .then((response) => {
-      if (response.data?.length && response.message) {
+      if (response.dataAccount?.length && response.message) {
         dispatch(
           getListReviewForCustomerSuccessfully({
             listReview: response.data,
