@@ -30,6 +30,7 @@ import {
   SalonBooking,
   EditServiceFirebase,
   EditSalonBusinessInfoFirebase,
+  EditSalonInfoFirebase,
 } from "../reducers/salon";
 import {
   ListSalonActive,
@@ -93,6 +94,7 @@ const rootReducer = combineReducers({
   salonBooking: SalonBooking,
   editServiceFirebase: EditServiceFirebase,
   editSalonBusinessInfoFirebase:EditSalonBusinessInfoFirebase,
+  editSalonInfoFirebase:EditSalonInfoFirebase,
 
 
   //admin

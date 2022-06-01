@@ -1150,6 +1150,80 @@ const editSalonInfoSuccessfully = (payload) => {
   };
 };
 
+// EDIT SALON INFO FIREBASE
+export const editSalonInfoFirebase =
+  (token, infoData, successCallback) => (dispatch) => {
+    const data = new FormData();
+    data.append("nameSalon",infoData.nameSalon);
+    data.append("phone",infoData.phone);
+    data.append("timeOpen",infoData.timeOpen);
+    data.append("timeClose",infoData.timeClose);
+    data.append("city",infoData.city);
+    data.append("district",infoData.district);
+    data.append("detailAddress",infoData.detailAddress);
+    data.append("description",infoData.description);
+    data.append("image",infoData.image);
+
+    return fetch(`${api}api/salonowner/update/salonInformationFirebase/`, {
+      method: "PUT",
+      body: data,
+      headers: {
+       
+        "x-access-token": `${token}`,
+      },
+    })
+      .then(
+        async (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
+            const errMess = (await response.json()).message;
+            dispatch(editSalonInfoFailed(errMess));
+            throw error;
+          }
+        },
+        (error) => {
+          var errMess = new Error(error);
+          throw errMess;
+        }
+      )
+      .then((response) => {
+        if (response.data && response.message) {
+          dispatch(
+            editSalonInfoFirebaseSuccessfully({
+              salonInfoEdited: response.data,
+              successMessage: response.message,
+            })
+          );
+          if (successCallback) {
+            setTimeout(() => {
+              successCallback();
+            }, 1500);
+          }
+        } else {
+          dispatch(editSalonInfoFirebaseFailed(response.message));
+        }
+      })
+      .catch((error) => {
+        console.log("Edit business info failed", error);
+      });
+  };
+const editSalonInfoFirebaseFailed = (errMess) => {
+  return {
+    type: SalonActionTypes.EDIT_SALON_INFO_FAILED,
+    payload: errMess,
+  };
+};
+const editSalonInfoFirebaseSuccessfully = (payload) => {
+  return {
+    type: SalonActionTypes.EDIT_SALON_INFO_SUCCESSFULLY,
+    payload,
+  };
+};
+
 //GET CALENDAR
 export const getCalendar = (token, info) => (dispatch) => {
   const data = new URLSearchParams({ ...info });

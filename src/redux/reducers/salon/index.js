@@ -361,6 +361,41 @@ export const EditSalonInfo = (
   }
 };
 
+export const EditSalonInfoFirebase = (
+  state = {
+    salonInfoEdited: null,
+    successMessage: null,
+    errMessage: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case SalonActionTypes.EDIT_SALON_INFO_FAILED:
+      return {
+        ...state,
+        salonInfoEdited: null,
+        successMessage: null,
+        errMessage: action.payload,
+      };
+    case SalonActionTypes.EDIT_SALON_INFO_SUCCESSFULLY:
+      return {
+        ...state,
+        salonInfoEdited: action.payload.salonInfoEdited,
+        successMessage: action.payload.successMessage,
+        errMessage: null,
+      };
+    case SalonActionTypes.GET_PROFILE_FOR_SALON_SUCCESSFULLY:
+      return {
+        ...state,
+        salonInfoEdited: null,
+        successMessage: null,
+        errMessage: null,
+      };
+    default:
+      return state;
+  }
+};
+
 export const ListCalendar = (
   state = {
     listCalendar: null,

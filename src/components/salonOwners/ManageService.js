@@ -17,6 +17,8 @@ import {
   editService,
   editSalonInfo,
   editServiceFirebase,
+  editSalonInfoFirebase,
+  
 } from "../../redux/actions/creators/salon";
 import {
   currencyFormatter,
@@ -83,6 +85,9 @@ export default function ManageService() {
   const [serviceInfo, setServiceInfo] = useState(undefined);
   const [messageEditService,setMessageEditService]= useState("");
   const [checkImage,setCheckImage]= useState("")
+
+  //STATE EDIT SALON INFOR
+  const [checkImageSalon,setCheckImageSalon]= useState("")
 
   //setServiceTime,
   const addTime = () => {
@@ -367,12 +372,14 @@ export default function ManageService() {
       dispatch(getListServiceForSalon(token));
     };
     const errorCallback = (mess) =>{
+      console.log(mess)
+      setMessageEditService(mess)
       if (mess==="Could not upload the file: undefined. TypeError: Cannot read properties of undefined (reading 'originalname')") {
         setMessageEditService("chọn ảnh để tạo service")
       } else if(mess==='Could not upload the file: undefined. Error: Only .png, .jpg and .jpeg format allowed!') {
         setMessageEditService("chọn file ảnh .png, .jpg and .jpeg để tạo service")
       }else if(mess==="File size cannot be larger than 2MB!"){
-        setMessageAddService("chọn ảnh có dung lượng lớn nhất là 2M")
+        setMessageEditService("chọn ảnh có dung lượng lớn nhất là 2M")
       }
       else{
         setMessageEditService(mess)
@@ -405,6 +412,8 @@ export default function ManageService() {
   const handleOpenSalon = () => {
     if (profileSalon) {
       setBusinessInfo(profileSalon[0]);
+      setCheckImageSalon(profileSalon[0].image)
+      console.log(profileSalon[0].image)
     }
     setEmptyError(false);
     setPhoneErr(false);
@@ -456,8 +465,8 @@ export default function ManageService() {
       !city ||
       !detailAddress ||
       !timeOpen ||
-      !timeClose ||
-      !image
+      !timeClose
+     
     ) {
       setEmptyError(true);
       return;
@@ -479,12 +488,19 @@ export default function ManageService() {
       image,
       description,
     };
+    if (!image) {
+      submitOjb.image=checkImageSalon;
+    }
     console.log(submitOjb);
     const callback = () => {
       handleCloseSalon();
       dispatch(getProfileOfSalon(token));
     };
-    dispatch(editSalonInfo(token, submitOjb, callback));
+    if (typeof submitOjb.image == 'string') {dispatch(editSalonInfo(token, submitOjb, callback));}
+    else{
+      dispatch(editSalonInfoFirebase(token, submitOjb, callback));
+    }
+    
   };
 
   //STATE REVIEW
@@ -784,7 +800,7 @@ export default function ManageService() {
                               Ảnh đại diện
                             </span>
                           </div>
-                          <input
+                          {/* <input
                             type="text"
                             className="form-control"
                             maxLength={2000}
@@ -795,7 +811,11 @@ export default function ManageService() {
                                 image: e.target.value,
                               });
                             }}
-                          />
+                          /> */}
+                          <input type="file" accept=".png, .jpg, .jpeg" onChange={(e) => {setBusinessInfo({
+                                ...businessInfo,
+                                image: e.target.files[0],
+                              }); }} />
                         </div>
                       </div>
                       <div className="">
